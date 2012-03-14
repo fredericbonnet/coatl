@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Public Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{a170faa2-2538-465a-b593-6085e61a5863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation\Internal">
+      <UniqueIdentifier>{260151a4-4375-4d1b-9eee-3ed980908a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Documentation\Public">
+      <UniqueIdentifier>{6540348a-ac5b-44f1-ba8f-9b6b77436a68}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InternalDocs\Topics.txt">
+      <Filter>Documentation\Internal</Filter>
+    </None>
+    <None Include="InternalDocs\Languages.txt">
+      <Filter>Documentation\Internal</Filter>
+    </None>
+    <None Include="InternalDocs\Menu.txt">
+      <Filter>Documentation\Internal</Filter>
+    </None>
+    <None Include="PublicDocs\Menu.txt">
+      <Filter>Documentation\Public</Filter>
+    </None>
+    <None Include="PublicDocs\Topics.txt">
+      <Filter>Documentation\Public</Filter>
+    </None>
+    <None Include="PublicDocs\Languages.txt">
+      <Filter>Documentation\Public</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="coatl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlRegexp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlUnicode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlUcd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="coatl.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlRegexp.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlUnicode.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlUcdProperties.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlUcd.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
