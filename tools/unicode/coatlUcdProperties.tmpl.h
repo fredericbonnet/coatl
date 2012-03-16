@@ -13,8 +13,7 @@ header
 }
 
 footer 
-{
-#endif /* _COATL_UCDPROPERTIES */}
+{#endif /* _COATL_UCDPROPERTIES */}
 
 ucdPropertiesGroup 
 {

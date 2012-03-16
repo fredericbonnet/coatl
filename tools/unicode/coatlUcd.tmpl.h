@@ -14,7 +14,6 @@ header
 
 footer 
 {
-
 #endif /* _COATL_UCD */}
 
 ucdPropertyAccessorsGroup 
