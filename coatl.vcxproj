@@ -83,7 +83,7 @@ if exist $(OutDir) rmdir /S /Q $(OutDir)</NMakeCleanCommandLine>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)\colibri;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\colibri\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -108,7 +108,7 @@ if exist $(OutDir) rmdir /S /Q $(OutDir)</NMakeCleanCommandLine>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)\colibri;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\colibri\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -134,11 +134,17 @@ if exist $(OutDir) rmdir /S /Q $(OutDir)</NMakeCleanCommandLine>
     <ClCompile Include="coatlUnicode.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="coatl.h" />
-    <ClInclude Include="coatlRegexp.h" />
-    <ClInclude Include="coatlUcd.h" />
-    <ClInclude Include="coatlUcdProperties.h" />
-    <ClInclude Include="coatlUnicode.h" />
+    <ClInclude Include="coatlInternal.h" />
+    <ClInclude Include="include\coatl.h" />
+    <ClInclude Include="include\coatlRegexp.h" />
+    <ClInclude Include="include\coatlUcd.h" />
+    <ClInclude Include="include\coatlUcdProperties.h" />
+    <ClInclude Include="include\coatlUnicode.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\colibri\colibri.vcxproj">
+      <Project>{dca97c1e-cff6-45aa-a7dc-cfce046ab78a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
