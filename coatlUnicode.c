@@ -7,7 +7,10 @@
  *	<coatlUnicode.h>
  */
 
-#include "coatl.h"
+#include "include/coatl.h"
+#include "coatlInternal.h"
+
+#include <limits.h>
 
 
 /****************************************************************************
@@ -36,7 +39,136 @@ int
 Coatl_CharIsTitlecase(
     Col_Char c)
 {
-    return (Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) != c);
+    return (Coatl_GetUcdProperty_Cased(c) 
+	    && Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) == c);
+}
+
+/*---------------------------------------------------------------------------
+ * Internal Function: MapRope
+ *
+ *	Transform rope using a one-to-one character mapping function.
+ *
+ * Argument:
+ *	r	- The rope to transform.
+ *	mapProc	- The mapping function.
+ *
+ * Result:
+ *	The transformed rope.
+ *---------------------------------------------------------------------------*/
+
+static Col_Word
+MapRope(
+    Col_Word r,
+    Col_Char (*mapProc)(Col_Char))
+{
+    Col_RopeIterator it;
+    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
+    size_t last = SIZE_MAX;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	Col_Char mc = mapProc(c);
+	if (mc == c) {
+	    /*
+	     * Identity, remember position.
+	     */
+
+	    if (last == SIZE_MAX) last = Col_RopeIterIndex(&it);
+	    continue;
+	}
+	if (last != SIZE_MAX) {
+	    /*
+	     * Append unchanged character sequence.
+	     */
+
+	    Col_StringBufferAppendRope(strbuf, Col_Subrope(r, last, 
+		    Col_RopeIterIndex(&it)-1));
+	    last = SIZE_MAX;
+	}
+
+	/*
+	 * Append mapped character.
+	 */
+
+	Col_StringBufferAppendChar(strbuf, mc);
+    }
+    if (last != SIZE_MAX) {
+	/*
+	 * Append unchanged character sequence.
+	 */
+
+	Col_StringBufferAppendRope(strbuf, Col_Subrope(r, last, SIZE_MAX));
+    }
+    return Col_StringBufferFreeze(strbuf);
+}
+
+/*---------------------------------------------------------------------------
+ * Internal Function: TransformRope
+ *
+ *	Transform rope using a one-to-many character mapping function.
+ *
+ * Argument:
+ *	r	- The rope to transform.
+ *	mapProc	- The mapping function.
+ *
+ * Result:
+ *	The transformed rope.
+ *---------------------------------------------------------------------------*/
+
+static Col_Word
+TransformRope(
+    Col_Word r,
+    const int * (*mapProc)(Col_Char, size_t *))
+{
+    Col_RopeIterator it;
+    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
+    size_t last = SIZE_MAX;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	size_t length;
+	const int *lc = mapProc(c, &length);
+	if (length == 0 || (length == 1 && *lc == 0)) {
+	    /*
+	     * Identity, remember position.
+	     */
+
+	    if (last == SIZE_MAX) last = Col_RopeIterIndex(&it);
+	    continue;
+	} 
+	if (last != SIZE_MAX) {
+	    /*
+	     * Append unchanged character sequence.
+	     */
+
+	    Col_StringBufferAppendRope(strbuf, Col_Subrope(r, last, 
+		    Col_RopeIterIndex(&it)-1));
+	    last = SIZE_MAX;
+	}
+	if (length == 1) {
+	    /*
+	     * Offset, append mapped character.
+	     */
+
+	    ASSERT(*lc != 0);
+	    Col_StringBufferAppendChar(strbuf, c + *lc);
+	} else {
+	    /*
+	     * Sequence, append mapped characters.
+	     */
+
+	    while (length--) Col_StringBufferAppendChar(strbuf, 
+		    (Col_Char) *lc++);
+	}
+    }
+    if (last != SIZE_MAX) {
+	/*
+	 * Append unchanged character sequence.
+	 */
+
+	Col_StringBufferAppendRope(strbuf, Col_Subrope(r, last, SIZE_MAX));
+    }
+    return Col_StringBufferFreeze(strbuf);
 }
 
 
@@ -45,47 +177,91 @@ Coatl_RopeToLowercase(
     Col_Word r,
     int full)
 {
+    return full ? TransformRope(r, Coatl_GetUcdProperty_Lc)
+	    : MapRope(r, Coatl_GetUcdProperty_Slc);
 }
 Col_Word
 Coatl_RopeToUppercase(
     Col_Word r,
     int full)
 {
+    return full ? TransformRope(r, Coatl_GetUcdProperty_Uc)
+	    : MapRope(r, Coatl_GetUcdProperty_Suc);
 }
 Col_Word
 Coatl_RopeToTitlecase(
     Col_Word r,
     int full)
 {
+    return full ? TransformRope(r, Coatl_GetUcdProperty_Tc)
+	    : MapRope(r, Coatl_GetUcdProperty_Stc);
 }
 Col_Word
 Coatl_RopeToCasefold(
     Col_Word r,
     int full)
 {
+    return full ? TransformRope(r, Coatl_GetUcdProperty_Cf)
+	    : MapRope(r, Coatl_GetUcdProperty_Scf);
 }
+
 int
 Coatl_RopeIsLowercase(
     Col_Word r)
 {
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	if (Coatl_CharIsCased(c) && !Coatl_CharIsLowercase(c)) return 0;
+    }
+    return 1;
 }
 int
 Coatl_RopeIsUppercase(
     Col_Word r)
 {
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	if (Coatl_CharIsCased(c) && !Coatl_CharIsUppercase(c)) return 0;
+    }
+    return 1;
 }
 int
 Coatl_RopeIsTitlecase(
     Col_Word r)
 {
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	if (Coatl_CharIsCased(c) && !Coatl_CharIsTitlecase(c)) return 0;
+    }
+    return 1;
 }
 int
 Coatl_RopeIsCasefolded(
     Col_Word r)
 {
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+//TODO	if (Coatl_CharIsCased(c) && !Coatl_CharIsCasefolded(c)) return 0;
+    }
+    return 1;
 }
 int
 Coatl_RopeIsCased(
     Col_Word r)
 {
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
+	Col_Char c = Col_RopeIterAt(&it);
+	if (Coatl_CharIsCased(c)) return 1;
+    }
+    return 0;
 }
