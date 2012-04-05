@@ -48,19 +48,19 @@ Group: Public Headers  {
    Group: General  {
 
       Text: Including <coatl.h> will include all other files.
-      File: coatl.h  (coatl.h)
+      File: coatl.h  (include\coatl.h)
       }  # Group: General
 
    Group: Unicode  {
 
-      File: coatlUcdProperties.h  (coatlUcdProperties.h)
-      File: coatlUcd.h  (coatlUcd.h)
-      File: coatlUnicode.h  (coatlUnicode.h)
+      File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
+      File: coatlUcd.h  (include\coatlUcd.h)
+      File: coatlUnicode.h  (include\coatlUnicode.h)
       }  # Group: Unicode
 
    Group: Regular Expressions  {
 
-      File: coatlRegexp.h  (coatlRegexp.h)
+      File: coatlRegexp.h  (include\coatlRegexp.h)
       }  # Group: Regular Expressions
 
    }  # Group: Public Headers

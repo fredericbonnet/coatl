@@ -115,7 +115,8 @@ Format: 1.51
 
 Alter Language: C/C++
 
-   Ignore Prefixes in Index: Coatl_ COATL_
+   Ignore Prefixes in Index: Coatl Coatl_ COATL_
+   Ignore File Prefix in Index: coatl
    Type Prototype Ender: ;
    Constant Prototype Ender: \n
    Enumeration Prototype Ender: ;

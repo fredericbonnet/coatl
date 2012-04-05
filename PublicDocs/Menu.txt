@@ -43,31 +43,26 @@ Footer: Copyright (C) 2012 Frédéric Bonnet
 # --------------------------------------------------------------------------
 
 
-Group: Programming Guide  {
-
-   File: Test Manual Pages  (man\testman.txt)
-   }  # Group: Programming Guide
-
 Group: API Reference  {
 
    Group: General  {
 
-      File: coatl.h  (coatl.h)
+      File: coatl.h  (include\coatl.h)
       File: coatl.c  (coatl.c)
       }  # Group: General
 
    Group: Unicode  {
 
-      File: coatlUcdProperties.h  (coatlUcdProperties.h)
-      File: coatlUcd.h  (coatlUcd.h)
+      File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
+      File: coatlUcd.h  (include\coatlUcd.h)
       File: coatlUcd.c  (coatlUcd.c)
-      File: coatlUnicode.h  (coatlUnicode.h)
+      File: coatlUnicode.h  (include\coatlUnicode.h)
       File: coatlUnicode.c  (coatlUnicode.c)
       }  # Group: Unicode
 
    Group: Regular Expressions  {
 
-      File: coatlRegexp.h  (coatlRegexp.h)
+      File: coatlRegexp.h  (include\coatlRegexp.h)
       File: coatlRegexp.c  (coatlRegexp.c)
       }  # Group: Regular Expressions
 
@@ -81,7 +76,6 @@ Group: Index  {
    Constant Index: Constants
    Function Index: Functions
    Macro Index: Macros
-   Manual Page Index: Manual Pages
    }  # Group: Index
 
 Link: Built with Natural Docs  (http://www.naturaldocs.org)
