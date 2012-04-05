@@ -18,6 +18,9 @@
     <Filter Include="Documentation\Public">
       <UniqueIdentifier>{6540348a-ac5b-44f1-ba8f-9b6b77436a68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal Header Files">
+      <UniqueIdentifier>{beb2e641-1be4-4f01-9329-4c9c3b8bb43a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="InternalDocs\Topics.txt">
@@ -54,20 +57,23 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="coatl.h">
+    <ClInclude Include="include\coatl.h">
       <Filter>Public Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coatlRegexp.h">
+    <ClInclude Include="include\coatlRegexp.h">
       <Filter>Public Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coatlUnicode.h">
+    <ClInclude Include="include\coatlUnicode.h">
       <Filter>Public Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coatlUcdProperties.h">
+    <ClInclude Include="include\coatlUcdProperties.h">
       <Filter>Public Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="coatlUcd.h">
+    <ClInclude Include="include\coatlUcd.h">
       <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlInternal.h">
+      <Filter>Internal Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

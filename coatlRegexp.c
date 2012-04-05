@@ -9,4 +9,4 @@
  *	<coatlRegex.h>
  */
 
-#include "coatl.h"
+#include "include/coatl.h"

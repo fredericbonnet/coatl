@@ -7,7 +7,7 @@
  *	using the file *coatlUcd.tcl*; Do not modify.
  */
 
-#include "coatl.h"
+#include "include/coatl.h"
 
 #include <limits.h>
 
