@@ -21,6 +21,9 @@
     <Filter Include="Internal Header Files">
       <UniqueIdentifier>{beb2e641-1be4-4f01-9329-4c9c3b8bb43a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RegExp">
+      <UniqueIdentifier>{df0387ab-510f-43aa-8c16-03d45200d5d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="InternalDocs\Topics.txt">
@@ -55,6 +58,39 @@
     <ClCompile Include="coatlUcd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="re\regc_color.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regc_cvec.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regc_lex.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regc_locale.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regc_nfa.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regcomp.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\rege_dfa.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regerror.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regexec.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\regfree.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
+    <ClCompile Include="re\tclRegexp.c">
+      <Filter>RegExp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\coatl.h">
@@ -74,6 +110,21 @@
     </ClInclude>
     <ClInclude Include="coatlInternal.h">
       <Filter>Internal Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="re\regcustom.h">
+      <Filter>RegExp</Filter>
+    </ClInclude>
+    <ClInclude Include="re\regerrs.h">
+      <Filter>RegExp</Filter>
+    </ClInclude>
+    <ClInclude Include="re\regex.h">
+      <Filter>RegExp</Filter>
+    </ClInclude>
+    <ClInclude Include="re\regguts.h">
+      <Filter>RegExp</Filter>
+    </ClInclude>
+    <ClInclude Include="re\tclRegexp.h">
+      <Filter>RegExp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
