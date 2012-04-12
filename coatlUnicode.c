@@ -61,10 +61,10 @@ MapRope(
     Col_Word r,
     Col_Char (*mapProc)(Col_Char))
 {
-    Col_RopeIterator it, firstUnchanged;
+    Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
     Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
-    for (Col_RopeIterFirst(r, &it), Col_RopeIterSetEnd(&firstUnchanged);
-	    !Col_RopeIterEnd(&it); Col_RopeIterNext(&it)) {
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
 	Col_Char c = Col_RopeIterAt(&it);
 	Col_Char mc = mapProc(c);
 	if (mc == c) {
@@ -72,16 +72,16 @@ MapRope(
 	     * Identity, remember position.
 	     */
 
-	    if (Col_RopeIterEnd(&firstUnchanged)) firstUnchanged = it;
+	    if (Col_RopeIterNull(&firstUnchanged)) firstUnchanged = it;
 	    continue;
 	}
-	if (!Col_RopeIterEnd(&firstUnchanged)) {
+	if (!Col_RopeIterNull(&firstUnchanged)) {
 	    /*
 	     * Append unchanged character sequence.
 	     */
 
 	    Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
-	    Col_RopeIterSetEnd(&firstUnchanged);
+	    firstUnchanged = COL_ROPEITER_NULL;
 	}
 
 	/*
@@ -90,7 +90,7 @@ MapRope(
 
 	Col_StringBufferAppendChar(strbuf, mc);
     }
-    if (!Col_RopeIterEnd(&firstUnchanged)) {
+    if (!Col_RopeIterNull(&firstUnchanged)) {
 	/*
 	 * Append unchanged character sequence.
 	 */
@@ -119,10 +119,10 @@ TransformRope(
     Col_Word r,
     const int * (*mapProc)(Col_Char, size_t *))
 {
-    Col_RopeIterator it, firstUnchanged;
+    Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
     Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
-    for (Col_RopeIterFirst(r, &it), Col_RopeIterSetEnd(&firstUnchanged);
-	    !Col_RopeIterEnd(&it); Col_RopeIterNext(&it)) {
+    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
+	    Col_RopeIterNext(&it)) {
 	Col_Char c = Col_RopeIterAt(&it);
 	size_t length;
 	const int *lc = mapProc(c, &length);
@@ -131,16 +131,16 @@ TransformRope(
 	     * Identity, remember position.
 	     */
 
-	    if (Col_RopeIterEnd(&firstUnchanged)) firstUnchanged = it;
+	    if (Col_RopeIterNull(&firstUnchanged)) firstUnchanged = it;
 	    continue;
 	} 
-	if (!Col_RopeIterEnd(&firstUnchanged)) {
+	if (!Col_RopeIterNull(&firstUnchanged)) {
 	    /*
 	     * Append unchanged character sequence.
 	     */
 
 	    Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
-	    Col_RopeIterSetEnd(&firstUnchanged);
+	    firstUnchanged = COL_ROPEITER_NULL;
 	}
 	if (length == 1) {
 	    /*
@@ -158,7 +158,7 @@ TransformRope(
 		    (Col_Char) *lc++);
 	}
     }
-    if (!Col_RopeIterEnd(&firstUnchanged)) {
+    if (!Col_RopeIterNull(&firstUnchanged)) {
 	/*
 	 * Append unchanged character sequence.
 	 */
