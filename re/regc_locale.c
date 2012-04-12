@@ -709,33 +709,36 @@ static const chr printCharTable[] = {
 
 #define	CH	NOCELT
 
-static int streq(const char *name, const chr *startp, const chr *endp) {
-    const char *n=name; const chr *c=startp; 
-    while (c < endp) {if (*n++ != *c++) return 0;}
-    return 1;
+static int streq(const char *name, const rchr start, const rchr end) {
+    const char *n=name; rchr c=start; 
+    while (RCHR_CMP(c, end) < 0) {
+	if (*n == 0 || *n != RCHR_CHR(c)) return 0;
+	n++; RCHR_FWD(c,1);
+    }
+    return (*n==0);
 }
-
+
 /*
  - element - map collating-element name to celt
- ^ static celt element(struct vars *, const chr *, const chr *);
+ ^ static celt element(struct vars *, const rchr, const rchr);
  */
 static celt
 element(
     struct vars *v,		/* context */
-    const chr *startp,		/* points to start of name */
-    const chr *endp)		/* points just past end of name */
+    const rchr startp,		/* points to start of name */
+    const rchr endp)		/* points just past end of name */
 {
     const struct cname *cn;
-    size_t len;
+    rchr tmp;
 
     /*
      * Generic: one-chr names stand for themselves.
      */
 
-    assert(startp < endp);
-    len = endp - startp;
-    if (len == 1) {
-	return *startp;
+    assert(RCHR_CMP(startp, endp) < 0);
+    if (!ATEOS() && 
+	    (tmp = v->now, RCHR_FWD(tmp,1), RCHR_CMP(tmp, v->stop) >= 0)) {
+	return RCHR_CHR(startp);
     }
 
     NOTE(REG_ULOCALE);
@@ -745,7 +748,7 @@ element(
      */
 
     for (cn=cnames; cn->name!=NULL; cn++) {
-	if (strlen(cn->name)==len && streq(cn->name, startp, endp)) {
+	if (streq(cn->name, startp, endp)) {
 	    break;			/* NOTE BREAK OUT */
 	}
     }
@@ -877,16 +880,15 @@ eclass(
 /*
  - cclass - supply cvec for a character class
  * Must include case counterparts on request.
- ^ static struct cvec *cclass(struct vars *, const chr *, const chr *, int);
+ ^ static struct cvec *cclass(struct vars *, const rchr, const rchr, int);
  */
 static struct cvec *
 cclass(
     struct vars *v,		/* context */
-    const chr *startp,		/* where the name starts */
-    const chr *endp,		/* just past the end of the name */
+    const rchr startp,	/* where the name starts */
+    const rchr endp,		/* just past the end of the name */
     int cases)			/* case-independent? */
 {
-    size_t len;
     struct cvec *cv = NULL;
     const char *const *namePtr;
     int i, index;
@@ -907,18 +909,12 @@ cclass(
 
 
     /*
-     * Extract the class name
-     */
-
-    len = endp - startp;
-
-    /*
      * Map the name to the corresponding enumerated value.
      */
 
     index = -1;
     for (namePtr=classNames,i=0 ; *namePtr!=NULL ; namePtr++,i++) {
-	if ((strlen(*namePtr) == len) && (streq(*namePtr, startp, endp))) {
+	if (streq(*namePtr, startp, endp)) {
 	    index = i;
 	    break;
 	}
@@ -1128,14 +1124,21 @@ allcases(
  * Note that it does not need to report anything except equal/unequal.
  * Note also that the length is exact, and the comparison should not
  * stop at embedded NULs!
- ^ static int cmp(const chr *, const chr *, size_t);
+ ^ static int cmp(rchr, rchr, size_t);
  */
 static int			/* 0 for equal, nonzero for unequal */
 cmp(
-    const chr *x, const chr *y,	/* strings to compare */
+    const rchr x, const rchr y,		/* strings to compare */
     size_t len)			/* exact length of comparison */
 {
-    return memcmp(VS(x), VS(y), len*sizeof(chr));
+    rchr x2 = x, y2 = y;
+    for (; len > 0; len--, RCHR_FWD(x2,1), RCHR_FWD(y2,1)) {
+	chr cx = RCHR_CHR(x2), cy = RCHR_CHR(y2);
+	if (cx!=cy) {
+	    return 1;
+	}
+    }
+    return 0;
 }
 
 /*
@@ -1144,15 +1147,17 @@ cmp(
  * Note that it does not need to report anything except equal/unequal.
  * Note also that the length is exact, and the comparison should not
  * stop at embedded NULs!
- ^ static int casecmp(const chr *, const chr *, size_t);
+ ^ static int casecmp(rchr, rchr, size_t);
  */
 static int			/* 0 for equal, nonzero for unequal */
 casecmp(
-    const chr *x, const chr *y,	/* strings to compare */
+    const rchr x, const rchr y,		/* strings to compare */
     size_t len)			/* exact length of comparison */
 {
-    for (; len > 0; len--, x++, y++) {
-	if ((*x!=*y) && (Coatl_CharToLowercase(*x) != Coatl_CharToLowercase(*y))) {
+    rchr x2 = x, y2 = y;
+    for (; len > 0; len--, RCHR_FWD(x2,1), RCHR_FWD(y2,1)) {
+	chr cx = RCHR_CHR(x2), cy = RCHR_CHR(y2);
+	if ((cx!=cy) && (Coatl_CharToLowercase(cx) != Coatl_CharToLowercase(cy))) {
 	    return 1;
 	}
     }

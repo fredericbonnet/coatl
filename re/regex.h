@@ -87,6 +87,9 @@ extern "C" {
 #ifdef __REG_WIDE_T
 #undef __REG_WIDE_T
 #endif
+#ifdef __REG_RWIDE_T
+#undef __REG_RWIDE_T
+#endif
 #ifdef __REG_WIDE_COMPILE
 #undef __REG_WIDE_COMPILE
 #endif
@@ -109,7 +112,12 @@ extern "C" {
 #undef __REG_NOCHAR
 #endif
 /* interface types */
-#define	__REG_WIDE_T	Col_Char
+#define __REG_WIDE_T	Col_Char4
+#if 1
+#define __REG_RWIDE_T	Col_RopeIterator
+#else
+#define __REG_RWIDE_T	const Col_Char4 *
+#endif
 #define	__REG_REGOFF_T	intptr_t	/* Not really right, but good enough... */
 #define	__REG_VOID_T	void
 #define	__REG_CONST	const
@@ -207,7 +215,7 @@ typedef struct {
  ^ int regcomp(regex_t *, __REG_CONST char *, int);
  ^ #endif
  ^ #ifdef __REG_WIDE_T
- ^ int __REG_WIDE_COMPILE(regex_t *, __REG_CONST __REG_WIDE_T *, size_t, int);
+ ^ int __REG_WIDE_COMPILE(regex_t *, __REG_CONST __REG_RWIDE_T, size_t, int);
  ^ #endif
  */
 #define	REG_BASIC	000000	/* BREs (convenience) */
@@ -239,7 +247,7 @@ typedef struct {
  ^ int regexec(regex_t *, __REG_CONST char *, size_t, regmatch_t [], int);
  ^ #endif
  ^ #ifdef __REG_WIDE_T
- ^ int __REG_WIDE_EXEC(regex_t *, __REG_CONST __REG_WIDE_T *, size_t,
+ ^ int __REG_WIDE_EXEC(regex_t *, __REG_CONST __REG_RWIDE_T, size_t,
  ^				rm_detail_t *, size_t, regmatch_t [], int);
  ^ #endif
  */
@@ -302,7 +310,7 @@ int re_comp(regex_t *, __REG_CONST char *, size_t, int);
 int regcomp(regex_t *, __REG_CONST char *, int);
 #endif
 #ifdef __REG_WIDE_T
-EXTERN int __REG_WIDE_COMPILE(regex_t *, __REG_CONST __REG_WIDE_T *, size_t, int);
+EXTERN int __REG_WIDE_COMPILE(regex_t *, __REG_RWIDE_T, size_t, int);
 #endif
 #ifndef __REG_NOCHAR
 int re_exec(regex_t *, __REG_CONST char *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
@@ -311,7 +319,7 @@ int re_exec(regex_t *, __REG_CONST char *, size_t, rm_detail_t *, size_t, regmat
 int regexec(regex_t *, __REG_CONST char *, size_t, regmatch_t [], int);
 #endif
 #ifdef __REG_WIDE_T
-EXTERN int __REG_WIDE_EXEC(regex_t *, __REG_CONST __REG_WIDE_T *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
+EXTERN int __REG_WIDE_EXEC(regex_t *, __REG_RWIDE_T, size_t, rm_detail_t *, size_t, regmatch_t [], int);
 #endif
 EXTERN re_void regfree(regex_t *);
 EXTERN size_t regerror(int, __REG_CONST regex_t *, char *, size_t);

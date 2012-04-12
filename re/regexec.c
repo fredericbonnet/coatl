@@ -51,7 +51,7 @@ struct sset {			/* state set */
 #define	LOCKED		04	/* locked in cache */
 #define	NOPROGRESS	010	/* zero-progress state set */
     struct arcp ins;		/* chain of inarcs pointing here */
-    chr *lastseen;		/* last entered on arrival here */
+    rchr lastseen;		/* last entered on arrival here */
     struct sset **outs;		/* outarc vector indexed by color */
     struct arcp *inchain;	/* chain-pointer vector for outarcs */
 };
@@ -69,8 +69,8 @@ struct dfa {
     struct arcp *incarea;	/* inchain storage */
     struct cnfa *cnfa;
     struct colormap *cm;
-    chr *lastpost;		/* location of last cache-flushed success */
-    chr *lastnopr;		/* location of last cache-flushed NOPROGRESS */
+    rchr lastpost;		/* location of last cache-flushed success */
+    rchr lastnopr;		/* location of last cache-flushed NOPROGRESS */
     struct sset *search;	/* replacement-search-pointer memory */
     int cptsmalloced;		/* were the areas individually malloced? */
     char *mallocarea;		/* self, or master malloced area, or NULL */
@@ -104,8 +104,8 @@ struct vars {
     size_t nmatch;
     regmatch_t *pmatch;
     rm_detail_t *details;
-    chr *start;			/* start of string */
-    chr *stop;			/* just past end of string */
+    rchr start;		/* start of string */
+    rchr stop;		/* just past end of string */
     int err;			/* error code if any (0 none) */
     regoff_t *mem;		/* memory vector for backtracking */
     struct smalldfa dfa1;
@@ -116,7 +116,7 @@ struct vars {
 #define	VERR(vv,e) (((vv)->err) ? (vv)->err : ((vv)->err = (e)))
 #define	ERR(e)	VERR(v, e)	/* record an error */
 #define	NOERR()	{if (ISERR()) return v->err;}	/* if error seen, return it */
-#define	OFF(p)	((p) - v->start)
+#define	OFF(p)	RCHR_INDEX(p,v->start)
 #define	LOFF(p)	((long)OFF(p))
 
 /*
@@ -125,46 +125,46 @@ struct vars {
 /* =====^!^===== begin forwards =====^!^===== */
 /* automatically gathered by fwd; do not hand-edit */
 /* === regexec.c === */
-int exec(regex_t *, const chr *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
+int exec(regex_t *, rchr, size_t, rm_detail_t *, size_t, regmatch_t [], int);
 static int simpleFind(struct vars *const, struct cnfa *const, struct colormap *const);
 static int complicatedFind(struct vars *const, struct cnfa *const, struct colormap *const);
-static int complicatedFindLoop(struct vars *const, struct cnfa *const, struct colormap *const, struct dfa *const, struct dfa *const, chr **const);
+static int complicatedFindLoop(struct vars *const, struct cnfa *const, struct colormap *const, struct dfa *const, struct dfa *const, rchr *);
 static void zapSubexpressions(regmatch_t *const, const size_t);
 static void zapSubtree(struct vars *const, struct subre *const);
-static void subset(struct vars *const, struct subre *const, chr *const, chr *const);
-static int dissect(struct vars *const, struct subre *, chr *const, chr *const);
-static int concatenationDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int alternationDissect(struct vars *const, struct subre *, chr *const, chr *const);
-static int complicatedDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int complicatedCapturingDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int complicatedConcatenationDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int complicatedReversedDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int complicatedBackrefDissect(struct vars *const, struct subre *const, chr *const, chr *const);
-static int complicatedAlternationDissect(struct vars *const, struct subre *, chr *const, chr *const);
+static void subset(struct vars *const, struct subre *const, const rchr, const rchr);
+static int dissect(struct vars *const, struct subre *, const rchr, const rchr);
+static int concatenationDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int alternationDissect(struct vars *const, struct subre *, const rchr, const rchr);
+static int complicatedDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int complicatedCapturingDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int complicatedConcatenationDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int complicatedReversedDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int complicatedBackrefDissect(struct vars *const, struct subre *const, const rchr, const rchr);
+static int complicatedAlternationDissect(struct vars *const, struct subre *, const rchr, const rchr);
 /* === rege_dfa.c === */
-static chr *longest(struct vars *const, struct dfa *const, chr *const, chr *const, int *const);
-static chr *shortest(struct vars *const, struct dfa *const, chr *const, chr *const, chr *const, chr **const, int *const);
-static chr *lastCold(struct vars *const, struct dfa *const);
+static rchr longest(struct vars *const, struct dfa *const, const rchr, const rchr, int *const);
+static rchr shortest(struct vars *const, struct dfa *const, const rchr, const rchr, const rchr, rchr *, int *const);
+static rchr lastCold(struct vars *const, struct dfa *const);
 static struct dfa *newDFA(struct vars *const, struct cnfa *const, struct colormap *const, struct smalldfa *);
 static void freeDFA(struct dfa *const);
 static unsigned hash(unsigned *const, const int);
-static struct sset *initialize(struct vars *const, struct dfa *const, chr *const);
-static struct sset *miss(struct vars *const, struct dfa *const, struct sset *const, const pcolor, chr *const, chr *const);
-static int checkLAConstraint(struct vars *const, struct cnfa *const, chr *const, const pcolor);
-static struct sset *getVacantSS(struct vars *const, struct dfa *const, chr *const, chr *const);
-static struct sset *pickNextSS(struct vars *const, struct dfa *const, chr *const, chr *const);
+static struct sset *initialize(struct vars *const, struct dfa *const, const rchr);
+static struct sset *miss(struct vars *const, struct dfa *const, struct sset *const, const pcolor, const rchr, const rchr);
+static int checkLAConstraint(struct vars *const, struct cnfa *const, const rchr, const pcolor);
+static struct sset *getVacantSS(struct vars *const, struct dfa *const, const rchr, const rchr);
+static struct sset *pickNextSS(struct vars *const, struct dfa *const, const rchr, const rchr);
 /* automatically gathered by fwd; do not hand-edit */
 /* =====^!^===== end forwards =====^!^===== */
 
 /*
  - exec - match regular expression
- ^ int exec(regex_t *, const chr *, size_t, rm_detail_t *,
+ ^ int exec(regex_t *, const __REG_WIDE_T *, size_t, rm_detail_t *,
  ^					size_t, regmatch_t [], int);
  */
 int
 exec(
     regex_t *re,
-    const chr *string,
+    rchr string,
     size_t len,
     rm_detail_t *details,
     size_t nmatch,
@@ -183,7 +183,7 @@ exec(
      * Sanity checks.
      */
 
-    if (re == NULL || string == NULL || re->re_magic != REMAGIC) {
+    if (re == NULL || RCHR_ISNULL(string) || re->re_magic != REMAGIC) {
 	FreeVars(v);
 	return REG_INVARG;
     }
@@ -232,8 +232,8 @@ exec(
 	v->pmatch = pmatch;
     }
     v->details = details;
-    v->start = (chr *)string;
-    v->stop = (chr *)string + len;
+    v->start = string;
+    v->stop = string; RCHR_FWD(v->stop, len);
     v->err = 0;
     if (backref) {
 	/*
@@ -304,9 +304,9 @@ simpleFind(
     struct colormap *const cm)
 {
     struct dfa *s, *d;
-    chr *begin, *end = NULL;
-    chr *cold;
-    chr *open, *close;		/* Open and close of range of possible
+    rchr begin, end = RCHR_NULL;
+    rchr cold;
+    rchr open, close;		/* Open and close of range of possible
 				 * starts */
     int hitend;
     int shorter = (v->g->tree->flags&SHORTER) ? 1 : 0;
@@ -319,20 +319,20 @@ simpleFind(
     assert(!(ISERR() && s != NULL));
     NOERR();
     MDEBUG(("\nsearch at %ld\n", LOFF(v->start)));
-    cold = NULL;
+    cold = RCHR_NULL;
     close = shortest(v, s, v->start, v->start, v->stop, &cold, NULL);
     freeDFA(s);
     NOERR();
     if (v->g->cflags&REG_EXPECT) {
 	assert(v->details != NULL);
-	if (cold != NULL) {
+	if (!RCHR_ISNULL(cold)) {
 	    v->details->rm_extend.rm_so = OFF(cold);
 	} else {
 	    v->details->rm_extend.rm_so = OFF(v->stop);
 	}
 	v->details->rm_extend.rm_eo = OFF(v->stop);	/* unknown */
     }
-    if (close == NULL) {	/* not found */
+    if (RCHR_ISNULL(close)) {	/* not found */
 	return REG_NOMATCH;
     }
     if (v->nmatch == 0) {	/* found, don't need exact location */
@@ -343,14 +343,14 @@ simpleFind(
      * Find starting point and match.
      */
 
-    assert(cold != NULL);
+    assert(!RCHR_ISNULL(cold));
     open = cold;
-    cold = NULL;
+    cold = RCHR_NULL;
     MDEBUG(("between %ld and %ld\n", LOFF(open), LOFF(close)));
     d = newDFA(v, cnfa, cm, &v->dfa1);
     assert(!(ISERR() && d != NULL));
     NOERR();
-    for (begin = open; begin <= close; begin++) {
+    for (begin = open; RCHR_CMP(begin, close) <= 0; RCHR_FWD(begin,1)) {
 	MDEBUG(("\nfind trying at %ld\n", LOFF(begin)));
 	if (shorter) {
 	    end = shortest(v, d, begin, begin, v->stop, NULL, &hitend);
@@ -358,14 +358,14 @@ simpleFind(
 	    end = longest(v, d, begin, v->stop, &hitend);
 	}
 	NOERR();
-	if (hitend && cold == NULL) {
+	if (hitend && RCHR_ISNULL(cold)) {
 	    cold = begin;
 	}
-	if (end != NULL) {
+	if (!RCHR_ISNULL(end)) {
 	    break;		/* NOTE BREAK OUT */
 	}
     }
-    assert(end != NULL);	/* search RE succeeded so loop should */
+    assert(!RCHR_ISNULL(end));	/* search RE succeeded so loop should */
     freeDFA(d);
 
     /*
@@ -376,7 +376,7 @@ simpleFind(
     v->pmatch[0].rm_so = OFF(begin);
     v->pmatch[0].rm_eo = OFF(end);
     if (v->g->cflags&REG_EXPECT) {
-	if (cold != NULL) {
+	if (!RCHR_ISNULL(cold)) {
 	    v->details->rm_extend.rm_so = OFF(cold);
 	} else {
 	    v->details->rm_extend.rm_so = OFF(v->stop);
@@ -406,7 +406,7 @@ complicatedFind(
     struct colormap *const cm)
 {
     struct dfa *s, *d;
-    chr *cold = NULL; /* silence gcc 4 warning */
+    rchr cold = RCHR_NULL;
     int ret;
 
     s = newDFA(v, &v->g->search, cm, &v->dfa1);
@@ -425,7 +425,7 @@ complicatedFind(
     NOERR();
     if (v->g->cflags&REG_EXPECT) {
 	assert(v->details != NULL);
-	if (cold != NULL) {
+	if (!RCHR_ISNULL(cold)) {
 	    v->details->rm_extend.rm_so = OFF(cold);
 	} else {
 	    v->details->rm_extend.rm_so = OFF(v->stop);
@@ -438,7 +438,7 @@ complicatedFind(
 /*
  - complicatedFindLoop - the heart of complicatedFind
  ^ static int complicatedFindLoop(struct vars *, struct cnfa *, struct colormap *,
- ^	struct dfa *, struct dfa *, chr **);
+ ^	struct dfa *, struct dfa *, rchr *);
  */
 static int
 complicatedFindLoop(
@@ -447,30 +447,30 @@ complicatedFindLoop(
     struct colormap *const cm,
     struct dfa *const d,
     struct dfa *const s,
-    chr **const coldp)		/* where to put coldstart pointer */
+    rchr *coldp)		/* where to put coldstart pointer */
 {
-    chr *begin, *end;
-    chr *cold;
-    chr *open, *close;		/* Open and close of range of possible
+    rchr begin, end;
+    rchr cold;
+    rchr open, close;		/* Open and close of range of possible
 				 * starts */
-    chr *estart, *estop;
+    rchr estart, estop;
     int er, hitend;
     int shorter = v->g->tree->flags&SHORTER;
 
     assert(d != NULL && s != NULL);
-    cold = NULL;
+    cold = RCHR_NULL;
     close = v->start;
     do {
 	MDEBUG(("\ncsearch at %ld\n", LOFF(close)));
 	close = shortest(v, s, close, close, v->stop, &cold, NULL);
-	if (close == NULL) {
+	if (RCHR_ISNULL(close)) {
 	    break;		/* NOTE BREAK */
 	}
-	assert(cold != NULL);
+	assert(!RCHR_ISNULL(cold));
 	open = cold;
-	cold = NULL;
+	cold = RCHR_NULL;
 	MDEBUG(("cbetween %ld and %ld\n", LOFF(open), LOFF(close)));
-	for (begin = open; begin <= close; begin++) {
+	for (begin = open; RCHR_CMP(begin,close) <= 0; RCHR_FWD(begin,1)) {
 	    MDEBUG(("\ncomplicatedFind trying at %ld\n", LOFF(begin)));
 	    estart = begin;
 	    estop = v->stop;
@@ -480,10 +480,10 @@ complicatedFindLoop(
 		} else {
 		    end = longest(v, d, begin, estop, &hitend);
 		}
-		if (hitend && cold == NULL) {
+		if (hitend && RCHR_ISNULL(cold)) {
 		    cold = begin;
 		}
-		if (end == NULL) {
+		if (RCHR_ISNULL(end)) {
 		    break;	/* NOTE BREAK OUT */
 		}
 
@@ -503,7 +503,7 @@ complicatedFindLoop(
 		    ERR(er);
 		    return er;
 		}
-		if ((shorter) ? end == estop : end == begin) {
+		if ((shorter) ? RCHR_CMP(end, estop) == 0 : RCHR_CMP(end, begin) == 0) {
 		    /*
 		     * No point in trying again.
 		     */
@@ -517,13 +517,13 @@ complicatedFindLoop(
 		 */
 
 		if (shorter) {
-		    estart = end + 1;
+		    estart = end; RCHR_FWD(estart,1);
 		} else {
-		    estop = end - 1;
+		    estop = end; RCHR_BWD(estop,1);
 		}
 	    }
 	}
-    } while (close < v->stop);
+    } while (RCHR_CMP(close, v->stop) < 0);
 
     *coldp = cold;
     return REG_NOMATCH;
@@ -577,14 +577,14 @@ zapSubtree(
 
 /*
  - subset - set any subexpression relevant to a successful subre
- ^ static void subset(struct vars *, struct subre *, chr *, chr *);
+ ^ static void subset(struct vars *, struct subre *, const rchr, const rchr);
  */
 static void
 subset(
     struct vars *const v,
     struct subre *const sub,
-    chr *const begin,
-    chr *const end)
+    const rchr begin,
+    const rchr end)
 {
     int n = sub->subno;
 
@@ -600,14 +600,14 @@ subset(
 
 /*
  - dissect - determine subexpression matches (uncomplicated case)
- ^ static int dissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int dissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 dissect(
     struct vars *const v,
     struct subre *t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
 #ifndef COMPILER_DOES_TAILCALL_OPTIMIZATION
   restart:
@@ -645,20 +645,21 @@ dissect(
 /*
  - concatenationDissect - determine concatenation subexpression matches
  - (uncomplicated)
- ^ static int concatenationDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int concatenationDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 concatenationDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     struct dfa *d, *d2;
-    chr *mid;
+    rchr mid;
     int i;
     int shorter = (t->left->flags&SHORTER) ? 1 : 0;
-    chr *stop = (shorter) ? end : begin;
+    rchr stop = (shorter) ? end : begin;
+    rchr tmp;
 
     assert(t->op == '.');
     assert(t->left != NULL && t->left->cnfa.nstates > 0);
@@ -682,7 +683,7 @@ concatenationDissect(
     } else {
 	mid = longest(v, d, begin, end, NULL);
     }
-    if (mid == NULL) {
+    if (RCHR_ISNULL(mid)) {
 	freeDFA(d);
 	freeDFA(d2);
 	return REG_ASSERT;
@@ -693,12 +694,12 @@ concatenationDissect(
      * Iterate until satisfaction or failure.
      */
 
-    while (longest(v, d2, mid, end, NULL) != end) {
+    while (tmp = longest(v, d2, mid, end, NULL), RCHR_CMP(tmp, end) != 0) {
 	/*
 	 * That midpoint didn't work, find a new one.
 	 */
 
-	if (mid == stop) {
+	if (RCHR_CMP(mid, stop) == 0) {
 	    /*
 	     * All possibilities exhausted!
 	     */
@@ -709,11 +710,13 @@ concatenationDissect(
 	    return REG_ASSERT;
 	}
 	if (shorter) {
-	    mid = shortest(v, d, begin, mid+1, end, NULL, NULL);
+	    RCHR_FWD(mid,1);
+	    mid = shortest(v, d, begin, mid, end, NULL, NULL);
 	} else {
-	    mid = longest(v, d, begin, mid-1, NULL);
+	    RCHR_BWD(mid,1);
+	    mid = longest(v, d, begin, mid, NULL);
 	}
-	if (mid == NULL) {
+	if (RCHR_ISNULL(mid)) {
 	    /*
 	     * Failed to find a new one!
 	     */
@@ -742,16 +745,17 @@ concatenationDissect(
 
 /*
  - alternationDissect - determine alternative subexpression matches (uncomplicated)
- ^ static int alternationDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int alternationDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 alternationDissect(
     struct vars *const v,
     struct subre *t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     int i;
+    rchr tmp;
 
     assert(t != NULL);
     assert(t->op == '|');
@@ -765,7 +769,7 @@ alternationDissect(
 	if (ISERR()) {
 	    return v->err;
 	}
-	if (longest(v, d, begin, end, NULL) == end) {
+	if (tmp = longest(v, d, begin, end, NULL), RCHR_CMP(tmp, end) == 0) {
 	    MDEBUG(("success\n"));
 	    freeDFA(d);
 	    return dissect(v, t->left, begin, end);
@@ -779,14 +783,14 @@ alternationDissect(
  - complicatedDissect - determine subexpression matches (with complications)
  * The retry memory stores the offset of the trial midpoint from begin, plus 1
  * so that 0 uniquely means "clean slate".
- ^ static int complicatedDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int complicatedDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int		/* regexec return code */
 complicatedDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     assert(t != NULL);
     MDEBUG(("complicatedDissect %ld-%ld %c\n", LOFF(begin), LOFF(end), t->op));
@@ -817,8 +821,8 @@ static int			/* regexec return code */
 complicatedCapturingDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     int er = complicatedDissect(v, t->left, begin, end);
 
@@ -832,17 +836,18 @@ complicatedCapturingDissect(
  - complicatedConcatenationDissect - concatenation subexpression matches (with complications)
  * The retry memory stores the offset of the trial midpoint from begin, plus 1
  * so that 0 uniquely means "clean slate".
- ^ static int complicatedConcatenationDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int complicatedConcatenationDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 complicatedConcatenationDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     struct dfa *d, *d2;
-    chr *mid;
+    rchr mid;
+    rchr tmp;
 
     assert(t->op == '.');
     assert(t->left != NULL && t->left->cnfa.nstates > 0);
@@ -869,15 +874,15 @@ complicatedConcatenationDissect(
 
     if (v->mem[t->retry] == 0) {
 	mid = longest(v, d, begin, end, NULL);
-	if (mid == NULL) {
+	if (RCHR_ISNULL(mid)) {
 	    freeDFA(d);
 	    freeDFA(d2);
 	    return REG_NOMATCH;
 	}
 	MDEBUG(("tentative midpoint %ld\n", LOFF(mid)));
-	v->mem[t->retry] = (mid - begin) + 1;
+	v->mem[t->retry] = LOFF(mid) - LOFF(begin) + 1;//FIXME? (mid - begin) + 1;
     } else {
-	mid = begin + (v->mem[t->retry] - 1);
+	mid = begin; RCHR_FWD(mid, (v->mem[t->retry] - 1));
 	MDEBUG(("working midpoint %ld\n", LOFF(mid)));
     }
 
@@ -890,7 +895,7 @@ complicatedConcatenationDissect(
 	 * Try this midpoint on for size.
 	 */
 
-	if (longest(v, d2, mid, end, NULL) == end) {
+	if (tmp = longest(v, d2, mid, end, NULL), RCHR_CMP(tmp, end) == 0) {
 	    int er = complicatedDissect(v, t->left, begin, mid);
 
 	    if (er == REG_OKAY) {
@@ -917,7 +922,7 @@ complicatedConcatenationDissect(
 	 * That midpoint didn't work, find a new one.
 	 */
 
-	if (mid == begin) {
+	if (RCHR_CMP(mid, begin) == 0) {
 	    /*
 	     * All possibilities exhausted.
 	     */
@@ -927,8 +932,9 @@ complicatedConcatenationDissect(
 	    freeDFA(d2);
 	    return REG_NOMATCH;
 	}
-	mid = longest(v, d, begin, mid-1, NULL);
-	if (mid == NULL) {
+	RCHR_BWD(mid,1);
+	mid = longest(v, d, begin, mid, NULL);
+	if (RCHR_ISNULL(mid)) {
 	    /*
 	     * Failed to find a new one.
 	     */
@@ -939,7 +945,7 @@ complicatedConcatenationDissect(
 	    return REG_NOMATCH;
 	}
 	MDEBUG(("%d: new midpoint %ld\n", t->retry, LOFF(mid)));
-	v->mem[t->retry] = (mid - begin) + 1;
+	v->mem[t->retry] = (LOFF(mid) - LOFF(begin)) + 1;//FIXME?(mid - begin) + 1;
 	zapSubtree(v, t->left);
 	zapSubtree(v, t->right);
     }
@@ -950,17 +956,18 @@ complicatedConcatenationDissect(
  - matches
  * The retry memory stores the offset of the trial midpoint from begin, plus 1
  * so that 0 uniquely means "clean slate".
- ^ static int complicatedReversedDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int complicatedReversedDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 complicatedReversedDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     struct dfa *d, *d2;
-    chr *mid;
+    rchr mid;
+    rchr tmp;
 
     assert(t->op == '.');
     assert(t->left != NULL && t->left->cnfa.nstates > 0);
@@ -988,15 +995,15 @@ complicatedReversedDissect(
 
     if (v->mem[t->retry] == 0) {
 	mid = shortest(v, d, begin, begin, end, NULL, NULL);
-	if (mid == NULL) {
+	if (RCHR_ISNULL(mid)) {
 	    freeDFA(d);
 	    freeDFA(d2);
 	    return REG_NOMATCH;
 	}
 	MDEBUG(("tentative midpoint %ld\n", LOFF(mid)));
-	v->mem[t->retry] = (mid - begin) + 1;
+	v->mem[t->retry] = (LOFF(mid) - LOFF(begin)) + 1;//FIXME?(mid - begin) + 1;
     } else {
-	mid = begin + (v->mem[t->retry] - 1);
+	mid = begin; RCHR_FWD(mid, (v->mem[t->retry] - 1));
 	MDEBUG(("working midpoint %ld\n", LOFF(mid)));
     }
 
@@ -1009,7 +1016,7 @@ complicatedReversedDissect(
 	 * Try this midpoint on for size.
 	 */
 
-	if (longest(v, d2, mid, end, NULL) == end) {
+	if (tmp = longest(v, d2, mid, end, NULL), RCHR_CMP(tmp, end) == 0) {
 	    int er = complicatedDissect(v, t->left, begin, mid);
 
 	    if (er == REG_OKAY) {
@@ -1036,7 +1043,7 @@ complicatedReversedDissect(
 	 * That midpoint didn't work, find a new one.
 	 */
 
-	if (mid == end) {
+	if (RCHR_CMP(mid, end) == 0) {
 	    /*
 	     * All possibilities exhausted.
 	     */
@@ -1046,8 +1053,9 @@ complicatedReversedDissect(
 	    freeDFA(d2);
 	    return REG_NOMATCH;
 	}
-	mid = shortest(v, d, begin, mid+1, end, NULL, NULL);
-	if (mid == NULL) {
+	RCHR_FWD(mid,1);
+	mid = shortest(v, d, begin, mid, end, NULL, NULL);
+	if (RCHR_ISNULL(mid)) {
 	    /*
 	     * Failed to find a new one.
 	     */
@@ -1058,7 +1066,7 @@ complicatedReversedDissect(
 	    return REG_NOMATCH;
 	}
 	MDEBUG(("%d: new midpoint %ld\n", t->retry, LOFF(mid)));
-	v->mem[t->retry] = (mid - begin) + 1;
+	v->mem[t->retry] = (LOFF(mid) - LOFF(begin)) + 1;//FIXME?(mid - begin) + 1;
 	zapSubtree(v, t->left);
 	zapSubtree(v, t->right);
     }
@@ -1066,17 +1074,17 @@ complicatedReversedDissect(
 
 /*
  - complicatedBackrefDissect - determine backref subexpression matches
- ^ static int complicatedBackrefDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int complicatedBackrefDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 complicatedBackrefDissect(
     struct vars *const v,
     struct subre *const t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     int i, n = t->subno, min = t->min, max = t->max;
-    chr *paren, *p, *stop;
+    rchr paren, p, stop;
     size_t len;
 
     assert(t != NULL);
@@ -1089,7 +1097,7 @@ complicatedBackrefDissect(
     if (v->pmatch[n].rm_so == -1) {
 	return REG_NOMATCH;
     }
-    paren = v->start + v->pmatch[n].rm_so;
+    paren = v->start; RCHR_FWD(paren, v->pmatch[n].rm_so);
     len = v->pmatch[n].rm_eo - v->pmatch[n].rm_so;
 
     /*
@@ -1106,7 +1114,7 @@ complicatedBackrefDissect(
      */
 
     if (len == 0) {
-	if (begin == end) {
+	if (RCHR_CMP(begin, end)) {
 	    return REG_OKAY;
 	}
 	return REG_NOMATCH;
@@ -1116,18 +1124,18 @@ complicatedBackrefDissect(
      * And too-short string.
      */
 
-    assert(end >= begin);
-    if ((size_t)(end - begin) < len) {
+    assert(RCHR_CMP(end, begin) >= 0);
+    if ((size_t)(LOFF(end) - LOFF(begin)) < len) {//FIXME?(end - begin) < len) {
 	return REG_NOMATCH;
     }
-    stop = end - len;
+    stop = end; RCHR_BWD(stop, len);
 
     /*
      * Count occurrences.
      */
 
     i = 0;
-    for (p = begin; p <= stop && (i < max || max == INFINITY); p += len) {
+    for (p = begin; RCHR_CMP(p, stop) <= 0 && (i < max || max == INFINITY); RCHR_FWD(p, len)) {
 	if (v->g->compare(paren, p, len) != 0) {
 	    break;
 	}
@@ -1139,7 +1147,7 @@ complicatedBackrefDissect(
      * And sort it out.
      */
 
-    if (p != end) {		/* didn't consume all of it */
+    if (RCHR_CMP(p, end) != 0) {		/* didn't consume all of it */
 	return REG_NOMATCH;
     }
     if (min <= i && (i <= max || max == INFINITY)) {
@@ -1151,16 +1159,18 @@ complicatedBackrefDissect(
 /*
  - complicatedAlternationDissect - determine alternative subexpression matches (w.
  - complications)
- ^ static int complicatedAlternationDissect(struct vars *, struct subre *, chr *, chr *);
+ ^ static int complicatedAlternationDissect(struct vars *, struct subre *, const rchr, const rchr);
  */
 static int			/* regexec return code */
 complicatedAlternationDissect(
     struct vars *const v,
     struct subre *t,
-    chr *const begin,		/* beginning of relevant substring */
-    chr *const end)		/* end of same */
+    const rchr begin,		/* beginning of relevant substring */
+    const rchr end)		/* end of same */
 {
     int er;
+    rchr tmp;
+
 #define	UNTRIED	0		/* not yet tried at all */
 #define	TRYING	1		/* top matched, trying submatches */
 #define	TRIED	2		/* top didn't match or submatches exhausted */
@@ -1188,7 +1198,7 @@ complicatedAlternationDissect(
 	if (ISERR()) {
 	    return v->err;
 	}
-	if (longest(v, d, begin, end, NULL) != end) {
+	if (tmp = longest(v, d, begin, end, NULL), RCHR_CMP(tmp, end) != 0) {
 	    freeDFA(d);
 	    v->mem[t->retry] = TRIED;
 	    goto doRight;

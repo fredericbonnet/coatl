@@ -32,23 +32,27 @@
 
 /*
  - longest - longest-preferred matching engine
- ^ static chr *longest(struct vars *, struct dfa *, chr *, chr *, int *);
+ ^ static rchr longest(struct vars *, struct dfa *, const rchr, const rchr, int *);
  */
-static chr *			/* endpoint, or NULL */
+static rchr			/* endpoint, or RCHR_ISNULL */
 longest(
     struct vars *const v,	/* used only for debug and exec flags */
     struct dfa *const d,
-    chr *const start,		/* where the match should start */
-    chr *const stop,		/* match must end at or before here */
+    const rchr start,		/* where the match should start */
+    const rchr stop,		/* match must end at or before here */
     int *const hitstopp)	/* record whether hit v->stop, if non-NULL */
 {
-    chr *cp;
-    chr *realstop = (stop == v->stop) ? stop : stop + 1;
+    rchr cp;
+    rchr realstop;
     color co;
     struct sset *css, *ss;
-    chr *post;
+    rchr post;
     int i;
     struct colormap *cm = d->cm;
+    chr c;
+    rchr tmp;
+
+    realstop = stop; if (RCHR_CMP(stop, v->stop) != 0) RCHR_FWD(realstop, 1);
 
     /*
      * Initialize.
@@ -65,16 +69,18 @@ longest(
      */
 
     FDEBUG(("+++ startup +++\n"));
-    if (cp == v->start) {
+    if (RCHR_CMP(cp, v->start) == 0) {
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
-	co = GETCOLOR(cm, *(cp - 1));
-	FDEBUG(("char %c, color %ld\n", (char)*(cp-1), (long)co));
+	tmp = cp; RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
+	co = GETCOLOR(cm, c);
+	FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
     }
     css = miss(v, d, css, co, cp, start);
     if (css == NULL) {
-	return NULL;
+	cp = RCHR_NULL;
+	return cp;
     }
     css->lastseen = cp;
 
@@ -83,32 +89,36 @@ longest(
      */
 
     if (v->eflags&REG_FTRACE) {
-	while (cp < realstop) {
+	while (RCHR_CMP(cp, realstop) < 0) {
 	    FDEBUG(("+++ at c%d +++\n", css - d->ssets));
-	    co = GETCOLOR(cm, *cp);
-	    FDEBUG(("char %c, color %ld\n", (char)*cp, (long)co));
+	    c = RCHR_CHR(cp);
+	    co = GETCOLOR(cm, c);
+	    FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		ss = miss(v, d, css, co, cp+1, start);
+		tmp = cp; RCHR_FWD(tmp,1);
+		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
-	    cp++;
+	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
 	}
     } else {
-	while (cp < realstop) {
-	    co = GETCOLOR(cm, *cp);
+	while (RCHR_CMP(cp, realstop) < 0) {
+	    c = RCHR_CHR(cp);
+	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		ss = miss(v, d, css, co, cp+1, start);
+		tmp = cp; RCHR_FWD(tmp,1);
+		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
-	    cp++;
+	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
 	}
@@ -119,7 +129,7 @@ longest(
      */
 
     FDEBUG(("+++ shutdown at c%d +++\n", css - d->ssets));
-    if (cp == v->stop && stop == v->stop) {
+    if (RCHR_CMP(cp, v->stop) == 0 && RCHR_CMP(stop, v->stop) == 0) {
 	if (hitstopp != NULL) {
 	    *hitstopp = 1;
 	}
@@ -144,39 +154,46 @@ longest(
 
     post = d->lastpost;
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
-	if ((ss->flags&POSTSTATE) && (post != ss->lastseen) &&
-		(post == NULL || post < ss->lastseen)) {
+	if ((ss->flags&POSTSTATE) && (RCHR_CMP(post, ss->lastseen) != 0) &&
+		(RCHR_ISNULL(post) || RCHR_CMP(post, ss->lastseen) < 0)) {
 	    post = ss->lastseen;
 	}
     }
-    if (post != NULL) {		/* found one */
-	return post - 1;
+    if (!RCHR_ISNULL(post)) {		/* found one */
+	RCHR_BWD(post,1);
+	return post;
     }
 
-    return NULL;
+    cp = RCHR_NULL;
+    return cp;
 }
 
 /*
  - shortest - shortest-preferred matching engine
- ^ static chr *shortest(struct vars *, struct dfa *, chr *, chr *, chr *,
- ^ 	chr **, int *);
+ ^ static rchr shortest(struct vars *, struct dfa *, const rchr, const rchr, const rchr,
+ ^ 	rchr *, int *);
  */
-static chr *			/* endpoint, or NULL */
+static rchr			/* endpoint, or RCHR_ISNULL */
 shortest(
     struct vars *const v,
     struct dfa *const d,
-    chr *const start,		/* where the match should start */
-    chr *const min,		/* match must end at or after here */
-    chr *const max,		/* match must end at or before here */
-    chr **const coldp,		/* store coldstart pointer here, if nonNULL */
+    const rchr start,		/* where the match should start */
+    const rchr min,		/* match must end at or after here */
+    const rchr max,		/* match must end at or before here */
+    rchr * coldp,		/* store coldstart pointer here, if nonNULL */
     int *const hitstopp)	/* record whether hit v->stop, if non-NULL */
 {
-    chr *cp;
-    chr *realmin = (min == v->stop) ? min : min + 1;
-    chr *realmax = (max == v->stop) ? max : max + 1;
+    rchr cp;
+    rchr realmin;
+    rchr realmax;
     color co;
     struct sset *css, *ss;
     struct colormap *cm = d->cm;
+    chr c;
+    rchr tmp;
+
+    realmin = min; if (RCHR_CMP(min, v->stop) != 0) RCHR_FWD(realmin,1);
+    realmax = max; if (RCHR_CMP(max, v->stop) != 0) RCHR_FWD(realmax,1);
 
     /*
      * Initialize.
@@ -193,16 +210,18 @@ shortest(
      */
 
     FDEBUG(("--- startup ---\n"));
-    if (cp == v->start) {
+    if (RCHR_CMP(cp, v->start) == 0) {
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
-	co = GETCOLOR(cm, *(cp - 1));
-	FDEBUG(("char %c, color %ld\n", (char)*(cp-1), (long)co));
+	tmp = cp; RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
+	co = GETCOLOR(cm, c);
+	FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
     }
     css = miss(v, d, css, co, cp, start);
     if (css == NULL) {
-	return NULL;
+	cp = RCHR_NULL;
+	return cp;
     }
     css->lastseen = cp;
     ss = css;
@@ -212,55 +231,60 @@ shortest(
      */
 
     if (v->eflags&REG_FTRACE) {
-	while (cp < realmax) {
+	while (RCHR_CMP(cp, realmax) < 0) {
 	    FDEBUG(("--- at c%d ---\n", css - d->ssets));
-	    co = GETCOLOR(cm, *cp);
-	    FDEBUG(("char %c, color %ld\n", (char)*cp, (long)co));
+	    c = RCHR_CHR(cp);
+	    co = GETCOLOR(cm, c);
+	    FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		ss = miss(v, d, css, co, cp+1, start);
+		tmp = cp; RCHR_FWD(tmp,1);
+		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
-	    cp++;
+	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
-	    if ((ss->flags&POSTSTATE) && cp >= realmin) {
+	    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, realmin) >= 0) {
 		break;		/* NOTE BREAK OUT */
 	    }
 	}
     } else {
-	while (cp < realmax) {
-	    co = GETCOLOR(cm, *cp);
+	while (RCHR_CMP(cp, realmax) < 0) {
+	    c = RCHR_CHR(cp);
+	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		ss = miss(v, d, css, co, cp+1, start);
+		tmp = cp; RCHR_FWD(tmp,1);
+		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
-	    cp++;
+	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
-	    if ((ss->flags&POSTSTATE) && cp >= realmin) {
+	    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, realmin) >= 0) {
 		break;		/* NOTE BREAK OUT */
 	    }
 	}
     }
 
     if (ss == NULL) {
-	return NULL;
+	cp = RCHR_NULL;
+	return cp;
     }
 
     if (coldp != NULL) {	/* report last no-progress state set, if any */
 	*coldp = lastCold(v, d);
     }
 
-    if ((ss->flags&POSTSTATE) && cp > min) {
-	assert(cp >= realmin);
-	cp--;
-    } else if (cp == v->stop && max == v->stop) {
+    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, min) > 0) {
+	assert(RCHR_CMP(cp, realmin) >= 0);
+	RCHR_BWD(cp,1);
+    } else if (RCHR_CMP(cp, v->stop) == 0 && RCHR_CMP(max, v->stop) == 0) {
 	co = d->cnfa->eos[(v->eflags&REG_NOTEOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
 	ss = miss(v, d, css, co, cp, start);
@@ -275,7 +299,8 @@ shortest(
     }
 
     if (ss == NULL || !(ss->flags&POSTSTATE)) {
-	return NULL;
+	cp = RCHR_NULL;
+	return cp;
     }
 
     return cp;
@@ -283,22 +308,22 @@ shortest(
 
 /*
  - lastCold - determine last point at which no progress had been made
- ^ static chr *lastCold(struct vars *, struct dfa *);
+ ^ static rchr lastCold(struct vars *, struct dfa *);
  */
-static chr *			/* endpoint, or NULL */
+static rchr			/* endpoint, or RCHR_ISNULL */
 lastCold(
     struct vars *const v,
     struct dfa *const d)
 {
     struct sset *ss;
-    chr *nopr = d->lastnopr;
+    rchr nopr = d->lastnopr;
     int i;
 
-    if (nopr == NULL) {
+    if (RCHR_ISNULL(nopr)) {
 	nopr = v->start;
     }
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
-	if ((ss->flags&NOPROGRESS) && nopr < ss->lastseen) {
+	if ((ss->flags&NOPROGRESS) && RCHR_CMP(nopr, ss->lastseen) < 0) {
 	    nopr = ss->lastseen;
 	}
     }
@@ -372,8 +397,8 @@ newDFA(
     d->wordsper = wordsper;
     d->cnfa = cnfa;
     d->cm = cm;
-    d->lastpost = NULL;
-    d->lastnopr = NULL;
+    d->lastpost = RCHR_NULL;
+    d->lastnopr = RCHR_NULL;
     d->search = d->ssets;
 
     /*
@@ -433,13 +458,13 @@ hash(
 
 /*
  - initialize - hand-craft a cache entry for startup, otherwise get ready
- ^ static struct sset *initialize(struct vars *, struct dfa *, chr *);
+ ^ static struct sset *initialize(struct vars *, struct dfa *, const rchr);
  */
 static struct sset *
 initialize(
     struct vars *const v,	/* used only for debug flags */
     struct dfa *const d,
-    chr *const start)
+    const rchr start)
 {
     struct sset *ss;
     int i;
@@ -466,18 +491,18 @@ initialize(
     }
 
     for (i = 0; i < d->nssused; i++) {
-	d->ssets[i].lastseen = NULL;
+	d->ssets[i].lastseen = RCHR_NULL;
     }
     ss->lastseen = start;	/* maybe untrue, but harmless */
-    d->lastpost = NULL;
-    d->lastnopr = NULL;
+    d->lastpost = RCHR_NULL;
+    d->lastnopr = RCHR_NULL;
     return ss;
 }
 
 /*
  - miss - handle a cache miss
  ^ static struct sset *miss(struct vars *, struct dfa *, struct sset *,
- ^ 	pcolor, chr *, chr *);
+ ^ 	pcolor, const rchr, const rchr);
  */
 static struct sset *		/* NULL if goes to empty set */
 miss(
@@ -485,8 +510,8 @@ miss(
     struct dfa *const d,
     struct sset *const css,
     const pcolor co,
-    chr *const cp,		/* next chr */
-    chr *const start)		/* where the attempt got started */
+    const rchr cp,		/* next chr */
+    const rchr start)		/* where the attempt got started */
 {
     struct cnfa *cnfa = d->cnfa;
     unsigned h;
@@ -605,20 +630,20 @@ miss(
 
 /*
  - checkLAConstraint - lookahead-constraint checker for miss()
- ^ static int checkLAConstraint(struct vars *, struct cnfa *, chr *, pcolor);
+ ^ static int checkLAConstraint(struct vars *, struct cnfa *, const rchr, pcolor);
  */
 static int			/* predicate:  constraint satisfied? */
 checkLAConstraint(
     struct vars *const v,
     struct cnfa *const pcnfa,	/* parent cnfa */
-    chr *const cp,
+    const rchr cp,
     const pcolor co)		/* "color" of the lookahead constraint */
 {
     int n;
     struct subre *sub;
     struct dfa *d;
     struct smalldfa sd;
-    chr *end;
+    rchr end;
 
     n = co - pcnfa->ncolors;
     assert(n < v->g->nlacons && v->g->lacons != NULL);
@@ -631,22 +656,22 @@ checkLAConstraint(
     }
     end = longest(v, d, cp, v->stop, NULL);
     freeDFA(d);
-    FDEBUG(("=== lacon %d match %d\n", n, (end != NULL)));
-    return (sub->subno) ? (end != NULL) : (end == NULL);
+    FDEBUG(("=== lacon %d match %d\n", n, !RCHR_ISNULL(end)));
+    return (sub->subno) ? !RCHR_ISNULL(end) : RCHR_ISNULL(end);
 }
 
 /*
  - getVacantSS - get a vacant state set
  * This routine clears out the inarcs and outarcs, but does not otherwise
  * clear the innards of the state set -- that's up to the caller.
- ^ static struct sset *getVacantSS(struct vars *, struct dfa *, chr *, chr *);
+ ^ static struct sset *getVacantSS(struct vars *, struct dfa *, const rchr, const rchr);
  */
 static struct sset *
 getVacantSS(
     struct vars *const v,	/* used only for debug flags */
     struct dfa *const d,
-    chr *const cp,
-    chr *const start)
+    const rchr cp,
+    const rchr start)
 {
     int i;
     struct sset *ss, *p;
@@ -700,8 +725,8 @@ getVacantSS(
      * If ss was a success state, may need to remember location.
      */
 
-    if ((ss->flags&POSTSTATE) && ss->lastseen != d->lastpost &&
-	    (d->lastpost == NULL || d->lastpost < ss->lastseen)) {
+    if ((ss->flags&POSTSTATE) && RCHR_CMP(ss->lastseen, d->lastpost) != 0 &&
+	    (RCHR_ISNULL(d->lastpost) || RCHR_CMP(d->lastpost, ss->lastseen) < 0)) {
 	d->lastpost = ss->lastseen;
     }
 
@@ -709,8 +734,8 @@ getVacantSS(
      * Likewise for a no-progress state.
      */
 
-    if ((ss->flags&NOPROGRESS) && ss->lastseen != d->lastnopr &&
-	    (d->lastnopr == NULL || d->lastnopr < ss->lastseen)) {
+    if ((ss->flags&NOPROGRESS) && RCHR_CMP(ss->lastseen, d->lastnopr) != 0 &&
+	    (RCHR_ISNULL(d->lastnopr) || RCHR_CMP(d->lastnopr, ss->lastseen) < 0)) {
 	d->lastnopr = ss->lastseen;
     }
 
@@ -719,18 +744,18 @@ getVacantSS(
 
 /*
  - pickNextSS - pick the next stateset to be used
- ^ static struct sset *pickNextSS(struct vars *, struct dfa *, chr *, chr *);
+ ^ static struct sset *pickNextSS(struct vars *, struct dfa *, const rchr, const rchr);
  */
 static struct sset *
 pickNextSS(
     struct vars *const v,	/* used only for debug flags */
     struct dfa *const d,
-    chr *const cp,
-    chr *const start)
+    const rchr cp,
+    const rchr start)
 {
     int i;
     struct sset *ss, *end;
-    chr *ancient;
+    rchr ancient;
 
     /*
      * Shortcut for cases where cache isn't full.
@@ -763,13 +788,13 @@ pickNextSS(
      * Look for oldest, or old enough anyway.
      */
 
-    if (cp - start > d->nssets*2/3) {	/* oldest 33% are expendable */
-	ancient = cp - d->nssets*2/3;
+    if (LOFF(cp)-LOFF(start)/*FIXME?cp - start*/ > d->nssets*2/3) {	/* oldest 33% are expendable */
+	ancient = cp; RCHR_BWD(ancient, d->nssets*2/3);
     } else {
 	ancient = start;
     }
     for (ss = d->search, end = &d->ssets[d->nssets]; ss < end; ss++) {
-	if ((ss->lastseen == NULL || ss->lastseen < ancient)
+	if ((RCHR_ISNULL(ss->lastseen) || RCHR_CMP(ss->lastseen, ancient) < 0)
 		&& !(ss->flags&LOCKED)) {
 	    d->search = ss + 1;
 	    FDEBUG(("replacing c%d\n", ss - d->ssets));
@@ -777,7 +802,7 @@ pickNextSS(
 	}
     }
     for (ss = d->ssets, end = d->search; ss < end; ss++) {
-	if ((ss->lastseen == NULL || ss->lastseen < ancient)
+	if ((RCHR_ISNULL(ss->lastseen) || RCHR_CMP(ss->lastseen, ancient) < 0)
 		&& !(ss->flags&LOCKED)) {
 	    d->search = ss + 1;
 	    FDEBUG(("replacing c%d\n", ss - d->ssets));

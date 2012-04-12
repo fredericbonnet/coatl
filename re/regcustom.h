@@ -51,6 +51,9 @@
 #ifdef __REG_WIDE_T
 #undef __REG_WIDE_T
 #endif
+#ifdef __REG_RWIDE_T
+#undef __REG_RWIDE_T
+#endif
 #ifdef __REG_WIDE_COMPILE
 #undef __REG_WIDE_COMPILE
 #endif
@@ -73,7 +76,12 @@
 #undef __REG_NOCHAR
 #endif
 /* Interface types */
-#define	__REG_WIDE_T	Col_Char
+#define __REG_WIDE_T	Col_Char4
+#if 1
+#define __REG_RWIDE_T	Col_RopeIterator
+#else
+#define __REG_RWIDE_T	const Col_Char4 *
+#endif
 #define	__REG_REGOFF_T	intptr_t	/* Not really right, but good enough... */
 #define	__REG_VOID_T	void
 #define	__REG_CONST	const
@@ -90,10 +98,32 @@
  * Internal character type and related.
  */
 
-typedef Col_Char chr;		/* The type itself. */
+typedef Col_Char4 chr;		/* The type itself. */
 typedef int pchr;		/* What it promotes to. */
 typedef unsigned uchr;		/* Unsigned type that will hold a chr. */
 typedef int celt;		/* Type to hold chr, or NOCELT */
+#if 1
+typedef Col_RopeIterator rchr;	/* Reference to chr. */
+#define	RCHR_INDEX(p,start)	Col_RopeIterIndex(&(p))
+#define RCHR_FWD(p,o)	Col_RopeIterForward(&(p),(o))
+#define RCHR_BWD(p,o)	Col_RopeIterBackward(&(p),(o))
+#define RCHR_CHR(p)	Col_RopeIterAt(&(p))
+#define RCHR_CMP(p1,p2)	Col_RopeIterCompare(&(p1),&(p2))
+#define RCHR_INIT(begin,end,data,len) \
+    (Col_RopeIterString(COL_UCS4, (data), (len), &(begin)), (end) = (begin), Col_RopeIterForward(&(end), (len)))
+#define RCHR_ISNULL(p)	Col_RopeIterNull(&(p))
+#define RCHR_NULL	COL_ROPEITER_NULL
+#else
+typedef const chr *rchr;	/* Reference to chr. */
+#define	RCHR_INDEX(p,start)	((p)-(start))
+#define RCHR_FWD(p,o)	((p) += (o))
+#define RCHR_BWD(p,o)	((p) -= (o))
+#define RCHR_CHR(p)	(*(p))
+#define RCHR_CMP(p1,p2)	(!(p1)?!(p2)?0:1:!(p2)?-1:(p1)<(p2)?-1:(p1)==(p2)?0:1)
+#define RCHR_INIT(begin,end,data,len) ((begin) = (data), (end) = (begin)+(len))
+#define RCHR_ISNULL(p)	((p)==NULL)
+#define RCHR_NULL	NULL
+#endif
 #define	NOCELT (-1)		/* Celt value which is not valid chr */
 #define	CHR(c) ((Col_Char)(c))	/* Turn char literal into chr literal */
 #define	DIGITVAL(c) ((c)-'0')	/* Turn chr digit into its value */
@@ -123,7 +153,7 @@ int Tcl_UniCharIsSpace(int ch);
 & Enable/disable debugging code (by whether REG_DEBUG is defined or not).
 */
 
-#if 0				/* No debug unless requested by makefile. */
+#if 1//0 FIXME				/* No debug unless requested by makefile. */
 #define	REG_DEBUG	/* */
 #endif
 

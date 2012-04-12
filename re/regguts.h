@@ -383,7 +383,7 @@ struct guts {
     struct cnfa search;		/* for fast preliminary search */
     int ntree;
     struct colormap cmap;
-    int FUNCPTR(compare, (const chr *, const chr *, size_t));
+    int FUNCPTR(compare, (rchr, rchr, size_t));
     struct subre *lacons;	/* lookahead-constraint vector */
     int nlacons;		/* size of lacons */
 };

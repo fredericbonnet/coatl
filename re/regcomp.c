@@ -38,7 +38,7 @@
 /* =====^!^===== begin forwards =====^!^===== */
 /* automatically gathered by fwd; do not hand-edit */
 /* === regcomp.c === */
-int compile(regex_t *, const chr *, size_t, int);
+int compile(regex_t *, rchr, size_t, int);
 static void moresubs(struct vars *, int);
 static int freev(struct vars *, int);
 static void makesearch(struct vars *, struct nfa *);
@@ -52,7 +52,7 @@ static void repeat(struct vars *, struct state *, struct state *, int, int);
 static void bracket(struct vars *, struct state *, struct state *);
 static void cbracket(struct vars *, struct state *, struct state *);
 static void brackpart(struct vars *, struct state *, struct state *);
-static const chr *scanplain(struct vars *);
+static rchr scanplain(struct vars *);
 static void onechr(struct vars *, pchr, struct state *, struct state *);
 static void dovec(struct vars *, struct cvec *, struct state *, struct state *);
 static void wordchrs(struct vars *);
@@ -84,7 +84,7 @@ static int brenext(struct vars *, pchr);
 static void skip(struct vars *);
 static chr newline(NOPARMS);
 #ifdef REG_DEBUG
-static const chr *ch(NOPARMS);
+static rchr ch(NOPARMS);
 #endif
 static chr chrnamed(struct vars *, const chr *, const chr *, pchr);
 /* === regc_color.c === */
@@ -171,24 +171,24 @@ static struct cvec *newcvec(int, int);
 static struct cvec *getcvec(struct vars *, int, int);
 static void freecvec(struct cvec *);
 /* === regc_locale.c === */
-static celt element(struct vars *, const chr *, const chr *);
+static celt element(struct vars *, const rchr, const rchr);
 static struct cvec *range(struct vars *, celt, celt, int);
 static int before(celt, celt);
 static struct cvec *eclass(struct vars *, celt, int);
-static struct cvec *cclass(struct vars *, const chr *, const chr *, int);
+static struct cvec *cclass(struct vars *, const rchr, const rchr, int);
 static struct cvec *allcases(struct vars *, pchr);
-static int cmp(const chr *, const chr *, size_t);
-static int casecmp(const chr *, const chr *, size_t);
+static int cmp(const rchr, const rchr, size_t);
+static int casecmp(const rchr, const rchr, size_t);
 /* automatically gathered by fwd; do not hand-edit */
 /* =====^!^===== end forwards =====^!^===== */
 
 /* internal variables, bundled for easy passing around */
 struct vars {
     regex_t *re;
-    const chr *now;		/* scan pointer into string */
-    const chr *stop;		/* end of string */
-    const chr *savenow;		/* saved now and stop for "subroutine call" */
-    const chr *savestop;
+    rchr now;			/* scan pointer into string */
+    rchr stop;			/* end of string */
+    rchr savenow;		/* saved now and stop for "subroutine call" */
+    rchr savestop;
     int err;			/* error code (0 if none) */
     int cflags;			/* copy of compile flags */
     int lasttype;		/* type of previous token */
@@ -260,12 +260,12 @@ static struct fns functions = {
 
 /*
  - compile - compile regular expression
- ^ int compile(regex_t *, const chr *, size_t, int);
+ ^ int compile(regex_t *, const rchr, size_t, int);
  */
 int
 compile(
     regex_t *re,
-    const chr *string,
+    rchr string,
     size_t len,
     int flags)
 {
@@ -280,7 +280,7 @@ compile(
      * Sanity checks.
      */
 
-    if (re == NULL || string == NULL) {
+    if (re == NULL || RCHR_ISNULL(string)) {
 	FreeVars(v);
 	return REG_INVARG;
     }
@@ -299,8 +299,8 @@ compile(
 
     v->re = re;
     v->now = string;
-    v->stop = v->now + len;
-    v->savenow = v->savestop = NULL;
+    v->stop = v->now; RCHR_FWD(v->stop, len);
+    v->savenow = RCHR_NULL; v->savestop = RCHR_NULL;
     v->err = 0;
     v->cflags = flags;
     v->nsubexp = 0;
@@ -1457,8 +1457,9 @@ brackpart(
 {
     celt startc, endc;
     struct cvec *cv;
-    const chr *startp, *endp;
+    rchr startp, endp;
     chr c;
+    rchr cs, ce;
 
     /*
      * Parse something, get rid of special cases, take shortcuts.
@@ -1481,13 +1482,14 @@ brackpart(
 	    onechr(v, c, lp, rp);
 	    return;
 	}
-	startc = element(v, &c, &c+1);
+	RCHR_INIT(cs, ce, &c, 1);
+	startc = element(v, cs, ce);
 	NOERR();
 	break;
     case COLLEL:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(startp < endp, REG_ECOLLATE);
+	INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
 	NOERR();
@@ -1495,7 +1497,7 @@ brackpart(
     case ECLASS:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(startp < endp, REG_ECOLLATE);
+	INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
 	NOERR();
@@ -1507,7 +1509,7 @@ brackpart(
     case CCLASS:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(startp < endp, REG_ECTYPE);
+	INSIST(RCHR_CMP(startp,endp)<0, REG_ECTYPE);
 	NOERR();
 	cv = cclass(v, startp, endp, (v->cflags&REG_ICASE));
 	NOERR();
@@ -1527,13 +1529,14 @@ brackpart(
 	case RANGE:
 	    c = v->nextvalue;
 	    NEXT();
-	    endc = element(v, &c, &c+1);
+	    RCHR_INIT(cs, ce, &c, 1);
+	    endc = element(v, cs, ce);
 	    NOERR();
 	    break;
 	case COLLEL:
 	    startp = v->now;
 	    endp = scanplain(v);
-	    INSIST(startp < endp, REG_ECOLLATE);
+	    INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
 	    NOERR();
 	    endc = element(v, startp, endp);
 	    NOERR();
@@ -1564,13 +1567,13 @@ brackpart(
  - scanplain - scan PLAIN contents of [. etc.
  * Certain bits of trickery in lex.c know that this code does not try to look
  * past the final bracket of the [. etc.
- ^ static const chr *scanplain(struct vars *);
+ ^ static rchr scanplain(struct vars *);
  */
-static const chr *		/* just after end of sequence */
+static rchr			/* just after end of sequence */
 scanplain(
     struct vars *v)
 {
-    const chr *endp;
+    rchr endp;
 
     assert(SEE(COLLEL) || SEE(ECLASS) || SEE(CCLASS));
     NEXT();
@@ -1672,9 +1675,9 @@ wordchrs(
 
     lexword(v);
     NEXT();
-    assert(v->savenow != NULL && SEE('['));
+    assert(!RCHR_ISNULL(v->savenow) && SEE('['));
     bracket(v, left, right);
-    assert((v->savenow != NULL && SEE(']')) || ISERR());
+    assert((!RCHR_ISNULL(v->savenow) && SEE(']')) || ISERR());
     NEXT();
     NOERR();
     v->wordchrs = left;

@@ -30,14 +30,18 @@
  */
 
 /* scanning macros (know about v) */
-#define	ATEOS()		(v->now >= v->stop)
-#define	HAVE(n)		(v->stop - v->now >= (n))
-#define	NEXT1(c)	(!ATEOS() && *v->now == CHR(c))
-#define	NEXT2(a,b)	(HAVE(2) && *v->now == CHR(a) && *(v->now+1) == CHR(b))
-#define	NEXT3(a,b,c) \
-	(HAVE(3) && *v->now == CHR(a) && \
-		*(v->now+1) == CHR(b) && \
-		*(v->now+2) == CHR(c))
+#define	ATEOS()		(RCHR_CMP(v->now,v->stop) >= 0)
+#define	NEXT1(c)	(!ATEOS() && RCHR_CHR(v->now) == CHR(c))
+static rchr strprefix(const char *prefix, rchr startp, const rchr end) {
+    const char *n=prefix; rchr c=startp; 
+    while (RCHR_CMP(c, end) < 0 && *n) {
+	if (*n != RCHR_CHR(c)) break;
+	n++; RCHR_FWD(c,1);
+    }
+    if (*n) c = RCHR_NULL;
+    return c;
+}
+#define NEXTN(s,p)	((p) = strprefix((s), v->now, v->stop), !RCHR_ISNULL(p))
 #define	SET(c)		(v->nexttype = (c))
 #define	SETV(c, n)	(v->nexttype = (c), v->nextvalue = (n))
 #define	RET(c)		return (SET(c), 1)
@@ -95,6 +99,8 @@ static void
 prefixes(
     struct vars *v)
 {
+    rchr tmp;
+
     /*
      * Literal string doesn't get any of this stuff.
      */
@@ -107,8 +113,8 @@ prefixes(
      * Initial "***" gets special things.
      */
 
-    if (HAVE(4) && NEXT3('*', '*', '*')) {
-	switch (*(v->now + 3)) {
+    if (NEXTN("***", tmp)) {
+	switch (RCHR_CHR(tmp)) {
 	case CHR('?'):		/* "***?" error, msg shows version */
 	    ERR(REG_BADPAT);
 	    return;		/* proceed no further */
@@ -117,13 +123,15 @@ prefixes(
 	    NOTE(REG_UNONPOSIX);
 	    v->cflags |= REG_QUOTE;
 	    v->cflags &= ~(REG_ADVANCED|REG_EXPANDED|REG_NEWLINE);
-	    v->now += 4;
+	    v->now = tmp;
+	    RCHR_FWD(v->now,1);
 	    return;		/* and there can be no more prefixes */
 	    break;
 	case CHR(':'):		/* "***:" shifts to AREs */
 	    NOTE(REG_UNONPOSIX);
 	    v->cflags |= REG_ADVANCED;
-	    v->now += 4;
+	    v->now = tmp;
+	    RCHR_FWD(v->now,1);
 	    break;
 	default:		/* otherwise *** is just an error */
 	    ERR(REG_BADRPT);
@@ -144,11 +152,11 @@ prefixes(
      * Embedded options (AREs only).
      */
 
-    if (HAVE(3) && NEXT2('(', '?') && iscalpha(*(v->now + 2))) {
+    if (NEXTN("(?", tmp) && iscalpha(RCHR_CHR(tmp))) {
 	NOTE(REG_UNONPOSIX);
-	v->now += 2;
-	for (; !ATEOS() && iscalpha(*v->now); v->now++) {
-	    switch (*v->now) {
+	v->now = tmp;
+	for (; !ATEOS() && iscalpha(RCHR_CHR(v->now)); RCHR_FWD(v->now,1)) {
+	    switch (RCHR_CHR(v->now)) {
 	    case CHR('b'):	/* BREs (but why???) */
 		v->cflags &= ~(REG_ADVANCED|REG_QUOTE);
 		break;
@@ -196,7 +204,7 @@ prefixes(
 	    ERR(REG_BADOPT);
 	    return;
 	}
-	v->now++;
+	RCHR_FWD(v->now,1);
 	if (v->cflags&REG_QUOTE) {
 	    v->cflags &= ~(REG_EXPANDED|REG_NEWLINE);
 	}
@@ -215,11 +223,10 @@ lexnest(
     const chr *beginp,		/* start of interpolation */
     const chr *endp)		/* one past end of interpolation */
 {
-    assert(v->savenow == NULL);	/* only one level of nesting */
+    assert(RCHR_ISNULL(v->savenow));	/* only one level of nesting */
     v->savenow = v->now;
     v->savestop = v->stop;
-    v->now = beginp;
-    v->stop = endp;
+    RCHR_INIT(v->now, v->stop, beginp, endp-beginp);
 }
 
 /*
@@ -292,7 +299,8 @@ static int			/* 1 normal, 0 failure */
 next(
     struct vars *v)
 {
-    chr c;
+    chr c, c2;
+    rchr tmp;
 
     /*
      * Errors yield an infinite sequence of failures.
@@ -321,10 +329,10 @@ next(
      * If we're nested and we've hit end, return to outer level.
      */
 
-    if (v->savenow != NULL && ATEOS()) {
+    if (!RCHR_ISNULL(v->savenow) && ATEOS()) {
 	v->now = v->savenow;
 	v->stop = v->savestop;
-	v->savenow = v->savestop = NULL;
+	v->savenow = RCHR_NULL; v->savestop = RCHR_NULL;
     }
 
     /*
@@ -371,7 +379,7 @@ next(
      * Okay, time to actually get a character.
      */
 
-    c = *v->now++;
+    c = RCHR_CHR(v->now); RCHR_FWD(v->now, 1);
 
     /*
      * Deal with the easy contexts, punt EREs to code below.
@@ -401,7 +409,7 @@ next(
 	    if (INCON(L_EBND)) {
 		INTOCON(L_ERE);
 		if ((v->cflags&REG_ADVF) && NEXT1('?')) {
-		    v->now++;
+		    RCHR_FWD(v->now,1);
 		    NOTE(REG_UNONPOSIX);
 		    RETV('}', 0);
 		}
@@ -412,7 +420,7 @@ next(
 	    break;
 	case CHR('\\'):		/* BRE bound ends with \} */
 	    if (INCON(L_BBND) && NEXT1('}')) {
-		v->now++;
+		RCHR_FWD(v->now,1);
 		INTOCON(L_BRE);
 		RET('}');
 	    } else {
@@ -491,7 +499,8 @@ next(
 	    if (ATEOS()) {
 		FAILW(REG_EBRACK);
 	    }
-	    switch (*v->now++) {
+	    c2 = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
+	    switch (c2) {
 	    case CHR('.'):
 		INTOCON(L_CEL);
 
@@ -512,7 +521,7 @@ next(
 		RET(CCLASS);
 		break;
 	    default:		/* oops */
-		v->now--;
+		RCHR_BWD(v->now,1);
 		RETV(PLAIN, c);
 		break;
 	    }
@@ -526,7 +535,7 @@ next(
 	break;
     case L_CEL:			/* collating elements are easy */
 	if (c == CHR('.') && NEXT1(']')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    INTOCON(L_BRACK);
 	    RETV(END, '.');
 	} else {
@@ -535,7 +544,7 @@ next(
 	break;
     case L_ECL:			/* ditto equivalence classes */
 	if (c == CHR('=') && NEXT1(']')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    INTOCON(L_BRACK);
 	    RETV(END, '=');
 	} else {
@@ -544,7 +553,7 @@ next(
 	break;
     case L_CCL:			/* ditto character classes */
 	if (c == CHR(':') && NEXT1(']')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    INTOCON(L_BRACK);
 	    RETV(END, ':');
 	} else {
@@ -572,7 +581,7 @@ next(
 	break;
     case CHR('*'):
 	if ((v->cflags&REG_ADVF) && NEXT1('?')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    NOTE(REG_UNONPOSIX);
 	    RETV('*', 0);
 	}
@@ -580,7 +589,7 @@ next(
 	break;
     case CHR('+'):
 	if ((v->cflags&REG_ADVF) && NEXT1('?')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    NOTE(REG_UNONPOSIX);
 	    RETV('+', 0);
 	}
@@ -588,7 +597,7 @@ next(
 	break;
     case CHR('?'):
 	if ((v->cflags&REG_ADVF) && NEXT1('?')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    NOTE(REG_UNONPOSIX);
 	    RETV('?', 0);
 	}
@@ -598,7 +607,7 @@ next(
 	if (v->cflags&REG_EXPANDED) {
 	    skip(v);
 	}
-	if (ATEOS() || !iscdigit(*v->now)) {
+	if (ATEOS() || !iscdigit(RCHR_CHR(v->now))) {
 	    NOTE(REG_UBRACES);
 	    NOTE(REG_UUNSPEC);
 	    RETV(PLAIN, c);
@@ -612,17 +621,18 @@ next(
     case CHR('('):		/* parenthesis, or advanced extension */
 	if ((v->cflags&REG_ADVF) && NEXT1('?')) {
 	    NOTE(REG_UNONPOSIX);
-	    v->now++;
-	    switch (*v->now++) {
+	    RCHR_FWD(v->now,1);
+	    c2 = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
+	    switch (c2) {
 	    case CHR(':'):	/* non-capturing paren */
 		RETV('(', 0);
 		break;
 	    case CHR('#'):	/* comment */
-		while (!ATEOS() && *v->now != CHR(')')) {
-		    v->now++;
+		while (!ATEOS() && RCHR_CHR(v->now) != CHR(')')) {
+		    RCHR_FWD(v->now,1);
 		}
 		if (!ATEOS()) {
-		    v->now++;
+		    RCHR_FWD(v->now,1);
 		}
 		assert(v->nexttype == v->lasttype);
 		return next(v);
@@ -654,20 +664,18 @@ next(
 	RETV(')', c);
 	break;
     case CHR('['):		/* easy except for [[:<:]] and [[:>:]] */
-	if (HAVE(6) &&	*(v->now+0) == CHR('[') &&
-		*(v->now+1) == CHR(':') &&
-		(*(v->now+2) == CHR('<') || *(v->now+2) == CHR('>')) &&
-		*(v->now+3) == CHR(':') &&
-		*(v->now+4) == CHR(']') &&
-		*(v->now+5) == CHR(']')) {
-	    c = *(v->now+2);
-	    v->now += 6;
+	if (NEXTN("[:<:]]",tmp)) {
+	    v->now = tmp;
 	    NOTE(REG_UNONPOSIX);
-	    RET((c == CHR('<')) ? '<' : '>');
+	    RET('<');
+	} else if (NEXTN("[:>:]]",tmp)) {
+	    v->now = tmp;
+	    NOTE(REG_UNONPOSIX);
+	    RET('>');
 	}
 	INTOCON(L_BRACK);
 	if (NEXT1('^')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    RETV('[', 0);
 	}
 	RETV('[', 1);
@@ -697,11 +705,12 @@ next(
 
     assert(!ATEOS());
     if (!(v->cflags&REG_ADVF)) {/* only AREs have non-trivial escapes */
-	if (iscalnum(*v->now)) {
+	if (iscalnum(RCHR_CHR(v->now))) {
 	    NOTE(REG_UBSALNUM);
 	    NOTE(REG_UUNSPEC);
 	}
-	RETV(PLAIN, *v->now++);
+	c = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
+	RETV(PLAIN, c);
     }
     (DISCARD)lexescape(v);
     if (ISERR()) {
@@ -748,12 +757,12 @@ lexescape(
     static const chr esc[] = {
 	CHR('E'), CHR('S'), CHR('C')
     };
-    const chr *save;
+    rchr save;
 
     assert(v->cflags&REG_ADVF);
 
     assert(!ATEOS());
-    c = *v->now++;
+    c = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
     if (!iscalnum(c)) {
 	RETV(PLAIN, c);
     }
@@ -777,7 +786,8 @@ lexescape(
 	if (ATEOS()) {
 	    FAILW(REG_EESCAPE);
 	}
-	RETV(PLAIN, (chr)(*v->now++ & 037));
+	c=RCHR_CHR(v->now); RCHR_FWD(v->now,1);
+	RETV(PLAIN, (chr)(c & 037));
 	break;
     case CHR('d'):
 	NOTE(REG_ULOCALE);
@@ -865,7 +875,7 @@ lexescape(
     case CHR('5'): case CHR('6'): case CHR('7'): case CHR('8'):
     case CHR('9'):
 	save = v->now;
-	v->now--;		/* put first digit back */
+	RCHR_BWD(v->now,1);		/* put first digit back */
 	c = lexdigits(v, 10, 1, 255);	/* REs >255 long outside spec */
 	if (ISERR()) {
 	    FAILW(REG_EESCAPE);
@@ -875,7 +885,7 @@ lexescape(
 	 * Ugly heuristic (first test is "exactly 1 digit?")
 	 */
 
-	if (v->now - save == 0 || ((int) c > 0 && (int)c <= v->nsubexp)) {
+	if (RCHR_CMP(v->now,save) == 0 || ((int) c > 0 && (int)c <= v->nsubexp)) {
 	    NOTE(REG_UBACKREF);
 	    RETV(BACKREF, (chr)c);
 	}
@@ -892,7 +902,7 @@ lexescape(
 
     case CHR('0'):
 	NOTE(REG_UUNPORT);
-	v->now--;		/* put first digit back */
+	RCHR_FWD(v->now,1);	/* put first digit back */
 	c = lexdigits(v, 8, 1, 3);
 	if (ISERR()) {
 	    FAILW(REG_EESCAPE);
@@ -926,7 +936,7 @@ lexdigits(
 
     n = 0;
     for (len = 0; len < maxlen && !ATEOS(); len++) {
-	c = *v->now++;
+	c = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
 	switch (c) {
 	case CHR('0'): case CHR('1'): case CHR('2'): case CHR('3'):
 	case CHR('4'): case CHR('5'): case CHR('6'): case CHR('7'):
@@ -940,13 +950,13 @@ lexdigits(
 	case CHR('e'): case CHR('E'): d = 14; break;
 	case CHR('f'): case CHR('F'): d = 15; break;
 	default:
-	    v->now--;		/* oops, not a digit at all */
+	    RCHR_BWD(v->now,1);	/* oops, not a digit at all */
 	    d = -1;
 	    break;
 	}
 
 	if (d >= base) {	/* not a plausible digit */
-	    v->now--;
+	    RCHR_BWD(v->now,-1);
 	    d = -1;
 	}
 	if (d < 0) {
@@ -973,6 +983,7 @@ brenext(
     pchr pc)
 {
     chr c = (chr)pc;
+    rchr tmp;
 
     switch (c) {
     case CHR('*'):
@@ -982,20 +993,18 @@ brenext(
 	RET('*');
 	break;
     case CHR('['):
-	if (HAVE(6) &&	*(v->now+0) == CHR('[') &&
-		*(v->now+1) == CHR(':') &&
-		(*(v->now+2) == CHR('<') || *(v->now+2) == CHR('>')) &&
-		*(v->now+3) == CHR(':') &&
-		*(v->now+4) == CHR(']') &&
-		*(v->now+5) == CHR(']')) {
-	    c = *(v->now+2);
-	    v->now += 6;
+	if (NEXTN("[:<:]]",tmp)) {
+	    v->now = tmp;
 	    NOTE(REG_UNONPOSIX);
-	    RET((c == CHR('<')) ? '<' : '>');
+	    RET('<');
+	} else if (NEXTN("[:>:]]",tmp)) {
+	    v->now = tmp;
+	    NOTE(REG_UNONPOSIX);
+	    RET('>');
 	}
 	INTOCON(L_BRACK);
 	if (NEXT1('^')) {
-	    v->now++;
+	    RCHR_FWD(v->now,1);
 	    RETV('[', 0);
 	}
 	RETV('[', 1);
@@ -1020,7 +1029,7 @@ brenext(
 	if (ATEOS()) {
 	    RET('$');
 	}
-	if (NEXT2('\\', ')')) {
+	if (NEXTN("\\)",tmp)) {
 	    NOTE(REG_UUNSPEC);
 	    RET('$');
 	}
@@ -1039,7 +1048,7 @@ brenext(
 	FAILW(REG_EESCAPE);
     }
 
-    c = *v->now++;
+    c = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
     switch (c) {
     case CHR('{'):
 	INTOCON(L_BBND);
@@ -1086,20 +1095,20 @@ static void
 skip(
     struct vars *v)
 {
-    const chr *start = v->now;
+    rchr start = v->now;
 
     assert(v->cflags&REG_EXPANDED);
 
     for (;;) {
-	while (!ATEOS() && iscspace(*v->now)) {
-	    v->now++;
+	while (!ATEOS() && iscspace(RCHR_CHR(v->now))) {
+	    RCHR_FWD(v->now,1);
 	}
-	if (ATEOS() || *v->now != CHR('#')) {
+	if (ATEOS() || RCHR_CHR(v->now) != CHR('#')) {
 	    break;		/* NOTE BREAK OUT */
 	}
 	assert(NEXT1('#'));
-	while (!ATEOS() && *v->now != CHR('\n')) {
-	    v->now++;
+	while (!ATEOS() && RCHR_CHR(v->now) != CHR('\n')) {
+	    RCHR_FWD(v->now,1);
 	}
 
 	/*
@@ -1107,7 +1116,7 @@ skip(
 	 */
     }
 
-    if (v->now != start) {
+    if (RCHR_CMP(v->now, start) !=  0) {
 	NOTE(REG_UNONPOSIX);
     }
 }
@@ -1128,16 +1137,18 @@ newline(void)
  * This helps confine use of CHR to this source file.  Beware that the caller
  * knows how long the sequence is.
  ^ #ifdef REG_DEBUG
- ^ static const chr *ch(NOPARMS);
+ ^ static rchr ch(NOPARMS);
  ^ #endif
  */
 #ifdef REG_DEBUG
-static const chr *
+static rchr
 ch(void)
 {
     static const chr chstr[] = { CHR('c'), CHR('h'), CHR('\0') };
-
-    return chstr;
+    
+    rchr b,e;
+    RCHR_INIT(b, e, chstr, 2);
+    return b;
 }
 #endif
 
@@ -1158,10 +1169,12 @@ chrnamed(
     int errsave;
     int e;
     struct cvec *cv;
+    rchr start, end;
 
     errsave = v->err;
     v->err = 0;
-    c = element(v, startp, endp);
+    RCHR_INIT(start, end, startp, endp-startp);
+    c = element(v, start, end);
     e = v->err;
     v->err = errsave;
 
