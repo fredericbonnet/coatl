@@ -17,11 +17,13 @@ footer
 
 ucdPropertiesGroup 
 {
-/****************************************************************************
- * Section: UCD Properties
- *
- *	Unicode Character Database (UCD) property types & values.
- ****************************************************************************/
+/*
+================================================================================
+Section: UCD Properties
+
+	Unicode Character Database (UCD) property types & values.
+================================================================================
+*/
 }
 
 propertiesEnum 

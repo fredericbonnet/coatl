@@ -11,29 +11,31 @@
 #include "coatlUcd.h"
 
 
-/****************************************************************************
- * Section: Case Mapping and Folding
- *
- *	Per-character and rope case mapping and folding following the Unicode
- *	standard. 
- *
- *	Per-character conversion routines use simple case mapping and folding,
- *	i.e. they only return single characters. 
- *
- *	Rope conversion routines can use either simple (single character) or 
- *	full (multiple character) mapping and folding. In the latter case the
- *	output string may be larger than the input.
- *
- *	Some routines are direct mapping to Unicode Character Database (UCD)
- *	property accessors.
- *
- * Declarations:
- *	<Coatl_CharIsTitlecase>, <Coatl_RopeToLowercase>,
- *	<Coatl_RopeToUppercase>, <Coatl_RopeToTitlecase>,
- *	<Coatl_RopeToCasefold>, <Coatl_RopeIsLowercase>,
- *	<Coatl_RopeIsUppercase>, <Coatl_RopeIsTitlecase>,
- *	<Coatl_RopeIsCasefolded>, <Coatl_RopeIsCased>,
- ****************************************************************************/
+/*
+================================================================================
+Section: Case Mapping and Folding
+
+	Per-character and rope case mapping and folding following the Unicode
+	standard. 
+
+	Per-character conversion routines use simple case mapping and folding,
+	i.e. they only return single characters. 
+
+	Rope conversion routines can use either simple (single character) or 
+	full (multiple character) mapping and folding. In the latter case the
+	output string may be larger than the input.
+
+	Some routines are direct mapping to Unicode Character Database (UCD)
+	property accessors.
+
+Declarations:
+	<Coatl_CharIsTitlecase>, <Coatl_RopeToLowercase>,
+	<Coatl_RopeToUppercase>, <Coatl_RopeToTitlecase>,
+	<Coatl_RopeToCasefold>, <Coatl_RopeIsLowercase>,
+	<Coatl_RopeIsUppercase>, <Coatl_RopeIsTitlecase>,
+	<Coatl_RopeIsCasefolded>, <Coatl_RopeIsCased>,
+================================================================================
+*/
 
 EXTERN int		Coatl_CharIsTitlecase(Col_Char c);
 EXTERN Col_Word		Coatl_RopeToLowercase(Col_Word r, int full);

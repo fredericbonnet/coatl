@@ -18,23 +18,25 @@ footer
 
 ucdPropertyAccessorsGroup 
 {
-/****************************************************************************
- * Section: UCD Property Accessors
- *
- * Declarations: ${declarations}
- ****************************************************************************/
+/*
+================================================================================
+Section: UCD Property Accessors
+
+Declarations: ${declarations}
+================================================================================
+*/
 }
 
 propertyAccessorDeclarationFirst
 {
- *	<Coatl_GetUcdProperty_${Property}>}
+	<Coatl_GetUcdProperty_${Property}>}
 
 propertyAccessorDeclarationNext
 {, <Coatl_GetUcdProperty_${Property}>}
 
 propertyAccessorDeclarationWrap
 {,
- *	<Coatl_GetUcdProperty_${Property}>}
+	<Coatl_GetUcdProperty_${Property}>}
 
  propertyAccessor_boolean
 {EXTERN int		Coatl_GetUcdProperty_${Property}(Col_Char c);}

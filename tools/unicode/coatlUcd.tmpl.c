@@ -8,7 +8,7 @@ header
  *	using the file *coatlUcd.tcl*; Do not modify.
  */
 
-#include "coatl.h"
+#include "include/coatl.h"
 
 #include <limits.h>
 
@@ -22,36 +22,38 @@ static size_t		GetRange(Col_Char c, const Col_Char *ranges,
 
 ucdCompiledDataGroup 
 {
-/****************************************************************************
- * Internal Section: Compiled UCD Data
- *
- *	Statically compiled Unicode Character Database (UCD).
- *
- * Description:
- *	The Unicode Character Database (UCD) defines a set of properties for
- *	every known codepoint in the standard. This represents a huge quantity
- *	of raw data for over one million codepoints. Storing this data as flat
- *	C arrays of high level structures is not realistic, as it would inflate
- *	the size of the compiled binary by tens of megabytes and would 
- *	overburden the client processes' memory.
- *
- *	To solve this problem we compile the UCD in the most compact way 
- *	possible using a combination of techniques:
- *
- *	- Don't store flat arrays of values, but contiguous ranges of values 
- *	that are binary-searched during lookup; as neighboring codepoints in the
- *	UCD often share the same properties, this technique is very efficient.
- *	- Use enums for all enumerated properties to minimize storage (values
- *	fit a single byte in most cases).
- *	- Boolean properties need only the first value since consecutive ranges 
- *	have alternate values.
- *	- Use atom tables for strings and complex datatypes to reuse storage. 
- * 
- *	That way, all but the name properties are statically defined in the
- *	library without too much overhead. By comparison the uncompressed 
- *	textual version of the UCD weighs around 15MB, and the grouped XML 
- *	version around 40MB.
- ****************************************************************************/
+/*
+================================================================================
+Internal Section: Compiled UCD Data
+
+	Statically compiled Unicode Character Database (UCD).
+
+Description:
+	The Unicode Character Database (UCD) defines a set of properties for
+	every known codepoint in the standard. This represents a huge quantity
+	of raw data for over one million codepoints. Storing this data as flat
+	C arrays of high level structures is not realistic, as it would inflate
+	the size of the compiled binary by tens of megabytes and would 
+	overburden the client processes' memory.
+
+	To solve this problem we compile the UCD in the most compact way 
+	possible using a combination of techniques:
+
+	- Don't store flat arrays of values, but contiguous ranges of values 
+	that are binary-searched during lookup; as neighboring codepoints in the
+	UCD often share the same properties, this technique is very efficient.
+	- Use enums for all enumerated properties to minimize storage (values
+	fit a single byte in most cases).
+	- Boolean properties need only the first value since consecutive ranges 
+	have alternate values.
+	- Use atom tables for strings and complex datatypes to reuse storage. 
+ 
+	That way, all but the name properties are statically defined in the
+	library without too much overhead. By comparison the uncompressed 
+	textual version of the UCD weighs around 15MB, and the grouped XML 
+	version around 40MB.
+================================================================================
+*/
 }
 
 rangeVar
@@ -207,9 +209,11 @@ atomEnumValue
 
 ucdPropertyAccessorsGroup 
 {
-/****************************************************************************
- * Section: UCD Property Accessors
- ****************************************************************************/
+/*
+================================================================================
+Section: UCD Property Accessors
+================================================================================
+*/
 
 /*---------------------------------------------------------------------------
  * Internal Function: GetRange

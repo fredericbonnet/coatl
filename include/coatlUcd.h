@@ -11,55 +11,57 @@
 #define _COATL_UCD
 
 
-/****************************************************************************
- * Section: UCD Property Accessors
- *
- * Declarations: 
- *	<Coatl_GetUcdProperty_Age>, <Coatl_GetUcdProperty_AHex>,
- *	<Coatl_GetUcdProperty_Alpha>, <Coatl_GetUcdProperty_Bc>,
- *	<Coatl_GetUcdProperty_Bidi_C>, <Coatl_GetUcdProperty_Bidi_M>,
- *	<Coatl_GetUcdProperty_Blk>, <Coatl_GetUcdProperty_Bmg>,
- *	<Coatl_GetUcdProperty_Cased>, <Coatl_GetUcdProperty_Ccc>,
- *	<Coatl_GetUcdProperty_CE>, <Coatl_GetUcdProperty_Cf>,
- *	<Coatl_GetUcdProperty_CI>, <Coatl_GetUcdProperty_Comp_Ex>,
- *	<Coatl_GetUcdProperty_CWCF>, <Coatl_GetUcdProperty_CWCM>,
- *	<Coatl_GetUcdProperty_CWKCF>, <Coatl_GetUcdProperty_CWL>,
- *	<Coatl_GetUcdProperty_CWT>, <Coatl_GetUcdProperty_CWU>,
- *	<Coatl_GetUcdProperty_Dash>, <Coatl_GetUcdProperty_Dep>,
- *	<Coatl_GetUcdProperty_DI>, <Coatl_GetUcdProperty_Dia>,
- *	<Coatl_GetUcdProperty_Dm>, <Coatl_GetUcdProperty_Dt>,
- *	<Coatl_GetUcdProperty_Ea>, <Coatl_GetUcdProperty_Ext>,
- *	<Coatl_GetUcdProperty_Gc>, <Coatl_GetUcdProperty_GCB>,
- *	<Coatl_GetUcdProperty_Gr_Base>, <Coatl_GetUcdProperty_Gr_Ext>,
- *	<Coatl_GetUcdProperty_Hex>, <Coatl_GetUcdProperty_Hst>,
- *	<Coatl_GetUcdProperty_IDC>, <Coatl_GetUcdProperty_Ideo>,
- *	<Coatl_GetUcdProperty_IDS>, <Coatl_GetUcdProperty_IDSB>,
- *	<Coatl_GetUcdProperty_IDST>, <Coatl_GetUcdProperty_InMC>,
- *	<Coatl_GetUcdProperty_InSC>, <Coatl_GetUcdProperty_Jg>,
- *	<Coatl_GetUcdProperty_Join_C>, <Coatl_GetUcdProperty_Jt>,
- *	<Coatl_GetUcdProperty_Lb>, <Coatl_GetUcdProperty_Lc>,
- *	<Coatl_GetUcdProperty_LOE>, <Coatl_GetUcdProperty_Lower>,
- *	<Coatl_GetUcdProperty_Math>, <Coatl_GetUcdProperty_NChar>,
- *	<Coatl_GetUcdProperty_NFC_QC>, <Coatl_GetUcdProperty_NFD_QC>,
- *	<Coatl_GetUcdProperty_NFKC_CF>, <Coatl_GetUcdProperty_NFKC_QC>,
- *	<Coatl_GetUcdProperty_NFKD_QC>, <Coatl_GetUcdProperty_Nt>,
- *	<Coatl_GetUcdProperty_Nv>, <Coatl_GetUcdProperty_OAlpha>,
- *	<Coatl_GetUcdProperty_ODI>, <Coatl_GetUcdProperty_OGr_Ext>,
- *	<Coatl_GetUcdProperty_OIDC>, <Coatl_GetUcdProperty_OIDS>,
- *	<Coatl_GetUcdProperty_OLower>, <Coatl_GetUcdProperty_OMath>,
- *	<Coatl_GetUcdProperty_OUpper>, <Coatl_GetUcdProperty_Pat_Syn>,
- *	<Coatl_GetUcdProperty_Pat_WS>, <Coatl_GetUcdProperty_QMark>,
- *	<Coatl_GetUcdProperty_Radical>, <Coatl_GetUcdProperty_SB>,
- *	<Coatl_GetUcdProperty_Sc>, <Coatl_GetUcdProperty_Scf>,
- *	<Coatl_GetUcdProperty_Scx>, <Coatl_GetUcdProperty_SD>,
- *	<Coatl_GetUcdProperty_Slc>, <Coatl_GetUcdProperty_Stc>,
- *	<Coatl_GetUcdProperty_STerm>, <Coatl_GetUcdProperty_Suc>,
- *	<Coatl_GetUcdProperty_Tc>, <Coatl_GetUcdProperty_Term>,
- *	<Coatl_GetUcdProperty_Uc>, <Coatl_GetUcdProperty_UIdeo>,
- *	<Coatl_GetUcdProperty_Upper>, <Coatl_GetUcdProperty_VS>,
- *	<Coatl_GetUcdProperty_WB>, <Coatl_GetUcdProperty_WSpace>,
- *	<Coatl_GetUcdProperty_XIDC>, <Coatl_GetUcdProperty_XIDS>
- ****************************************************************************/
+/*
+================================================================================
+Section: UCD Property Accessors
+
+Declarations: 
+	<Coatl_GetUcdProperty_Age>, <Coatl_GetUcdProperty_AHex>,
+	<Coatl_GetUcdProperty_Alpha>, <Coatl_GetUcdProperty_Bc>,
+	<Coatl_GetUcdProperty_Bidi_C>, <Coatl_GetUcdProperty_Bidi_M>,
+	<Coatl_GetUcdProperty_Blk>, <Coatl_GetUcdProperty_Bmg>,
+	<Coatl_GetUcdProperty_Cased>, <Coatl_GetUcdProperty_Ccc>,
+	<Coatl_GetUcdProperty_CE>, <Coatl_GetUcdProperty_Cf>,
+	<Coatl_GetUcdProperty_CI>, <Coatl_GetUcdProperty_Comp_Ex>,
+	<Coatl_GetUcdProperty_CWCF>, <Coatl_GetUcdProperty_CWCM>,
+	<Coatl_GetUcdProperty_CWKCF>, <Coatl_GetUcdProperty_CWL>,
+	<Coatl_GetUcdProperty_CWT>, <Coatl_GetUcdProperty_CWU>,
+	<Coatl_GetUcdProperty_Dash>, <Coatl_GetUcdProperty_Dep>,
+	<Coatl_GetUcdProperty_DI>, <Coatl_GetUcdProperty_Dia>,
+	<Coatl_GetUcdProperty_Dm>, <Coatl_GetUcdProperty_Dt>,
+	<Coatl_GetUcdProperty_Ea>, <Coatl_GetUcdProperty_Ext>,
+	<Coatl_GetUcdProperty_Gc>, <Coatl_GetUcdProperty_GCB>,
+	<Coatl_GetUcdProperty_Gr_Base>, <Coatl_GetUcdProperty_Gr_Ext>,
+	<Coatl_GetUcdProperty_Hex>, <Coatl_GetUcdProperty_Hst>,
+	<Coatl_GetUcdProperty_IDC>, <Coatl_GetUcdProperty_Ideo>,
+	<Coatl_GetUcdProperty_IDS>, <Coatl_GetUcdProperty_IDSB>,
+	<Coatl_GetUcdProperty_IDST>, <Coatl_GetUcdProperty_InMC>,
+	<Coatl_GetUcdProperty_InSC>, <Coatl_GetUcdProperty_Jg>,
+	<Coatl_GetUcdProperty_Join_C>, <Coatl_GetUcdProperty_Jt>,
+	<Coatl_GetUcdProperty_Lb>, <Coatl_GetUcdProperty_Lc>,
+	<Coatl_GetUcdProperty_LOE>, <Coatl_GetUcdProperty_Lower>,
+	<Coatl_GetUcdProperty_Math>, <Coatl_GetUcdProperty_NChar>,
+	<Coatl_GetUcdProperty_NFC_QC>, <Coatl_GetUcdProperty_NFD_QC>,
+	<Coatl_GetUcdProperty_NFKC_CF>, <Coatl_GetUcdProperty_NFKC_QC>,
+	<Coatl_GetUcdProperty_NFKD_QC>, <Coatl_GetUcdProperty_Nt>,
+	<Coatl_GetUcdProperty_Nv>, <Coatl_GetUcdProperty_OAlpha>,
+	<Coatl_GetUcdProperty_ODI>, <Coatl_GetUcdProperty_OGr_Ext>,
+	<Coatl_GetUcdProperty_OIDC>, <Coatl_GetUcdProperty_OIDS>,
+	<Coatl_GetUcdProperty_OLower>, <Coatl_GetUcdProperty_OMath>,
+	<Coatl_GetUcdProperty_OUpper>, <Coatl_GetUcdProperty_Pat_Syn>,
+	<Coatl_GetUcdProperty_Pat_WS>, <Coatl_GetUcdProperty_QMark>,
+	<Coatl_GetUcdProperty_Radical>, <Coatl_GetUcdProperty_SB>,
+	<Coatl_GetUcdProperty_Sc>, <Coatl_GetUcdProperty_Scf>,
+	<Coatl_GetUcdProperty_Scx>, <Coatl_GetUcdProperty_SD>,
+	<Coatl_GetUcdProperty_Slc>, <Coatl_GetUcdProperty_Stc>,
+	<Coatl_GetUcdProperty_STerm>, <Coatl_GetUcdProperty_Suc>,
+	<Coatl_GetUcdProperty_Tc>, <Coatl_GetUcdProperty_Term>,
+	<Coatl_GetUcdProperty_Uc>, <Coatl_GetUcdProperty_UIdeo>,
+	<Coatl_GetUcdProperty_Upper>, <Coatl_GetUcdProperty_VS>,
+	<Coatl_GetUcdProperty_WB>, <Coatl_GetUcdProperty_WSpace>,
+	<Coatl_GetUcdProperty_XIDC>, <Coatl_GetUcdProperty_XIDS>
+================================================================================
+*/
 
 EXTERN Coatl_Ucd_Age	Coatl_GetUcdProperty_Age(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_AHex(Col_Char c);

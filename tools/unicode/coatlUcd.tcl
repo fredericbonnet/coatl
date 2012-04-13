@@ -3,7 +3,8 @@ source coatlUcd_propertyTypes.tcl
 set doParse 0; # True for parsing UCD, false for reading pre-parsed result
 set doSave 1; # True for saving UCD parsing result
 
-set srcroot "../../include"
+set srcroot "../../"
+set includeroot "../../include"
 
 ###############################################################################
 #
@@ -15,7 +16,7 @@ set f [open coatlUcdProperties.tmpl.h]
 unset -nocomplain templates; array set templates [read $f]
 close $f
 
-set out [open [file join $srcroot coatlUcdProperties.h] w]
+set out [open [file join $includeroot coatlUcdProperties.h] w]
 fconfigure $out -buffering line
 
 puts $out [subst -nobackslashes -nocommands $templates(header)]
@@ -188,7 +189,7 @@ set f [open coatlUcd.tmpl.h]
 unset -nocomplain templates; array set templates [read $f]
 close $f
 
-set out [open [file join $srcroot coatlUcd.h] w]
+set out [open [file join $includeroot coatlUcd.h] w]
 fconfigure $out -buffering line
 
 puts $out [subst -nobackslashes -nocommands $templates(header)]
