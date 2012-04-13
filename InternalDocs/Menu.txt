@@ -68,6 +68,7 @@ Group: Public Headers  {
 Group: Source Files  {
 
    File: coatl.c  (coatl.c)
+   File: coatlInternal.h  (coatlInternal.h)
    File: coatlRegexp.c  (coatlRegexp.c)
    File: coatlUcd.c  (coatlUcd.c)
    File: coatlUnicode.c  (coatlUnicode.c)

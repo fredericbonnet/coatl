@@ -6,7 +6,7 @@
  *	The code is based on Henry Spencer's regexp library found in Tcl.
  *
  * See also:
- *	<coatlRegex.h>
+ *	<coatlRegexp.h>
  */
 
 #include "include/coatl.h"
