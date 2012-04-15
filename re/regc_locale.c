@@ -1857,7 +1857,7 @@ GetCvec_alnum(
 #endif
 #if NBRANGES_ALNUM > 0
     for (c=ranges_alnum; c < ranges_alnum+NBRANGES_ALNUM*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -1894,7 +1894,7 @@ GetCvec_alpha(
 #endif
 #if NBRANGES_ALPHA > 0
     for (c=ranges_alpha; c < ranges_alpha+NBRANGES_ALPHA*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -1931,7 +1931,7 @@ GetCvec_ascii(
 #endif
 #if NBRANGES_ASCII > 0
     for (c=ranges_ascii; c < ranges_ascii+NBRANGES_ASCII*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -1968,7 +1968,7 @@ GetCvec_blank(
 #endif
 #if NBRANGES_BLANK > 0
     for (c=ranges_blank; c < ranges_blank+NBRANGES_BLANK*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2005,7 +2005,7 @@ GetCvec_cased(
 #endif
 #if NBRANGES_CASED > 0
     for (c=ranges_cased; c < ranges_cased+NBRANGES_CASED*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2042,7 +2042,7 @@ GetCvec_cntrl(
 #endif
 #if NBRANGES_CNTRL > 0
     for (c=ranges_cntrl; c < ranges_cntrl+NBRANGES_CNTRL*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2079,7 +2079,7 @@ GetCvec_digit(
 #endif
 #if NBRANGES_DIGIT > 0
     for (c=ranges_digit; c < ranges_digit+NBRANGES_DIGIT*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2116,7 +2116,7 @@ GetCvec_graph(
 #endif
 #if NBRANGES_GRAPH > 0
     for (c=ranges_graph; c < ranges_graph+NBRANGES_GRAPH*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2153,7 +2153,7 @@ GetCvec_lower(
 #endif
 #if NBRANGES_LOWER > 0
     for (c=ranges_lower; c < ranges_lower+NBRANGES_LOWER*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2190,7 +2190,7 @@ GetCvec_print(
 #endif
 #if NBRANGES_PRINT > 0
     for (c=ranges_print; c < ranges_print+NBRANGES_PRINT*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2227,7 +2227,7 @@ GetCvec_punct(
 #endif
 #if NBRANGES_PUNCT > 0
     for (c=ranges_punct; c < ranges_punct+NBRANGES_PUNCT*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2264,7 +2264,7 @@ GetCvec_space(
 #endif
 #if NBRANGES_SPACE > 0
     for (c=ranges_space; c < ranges_space+NBRANGES_SPACE*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2301,7 +2301,7 @@ GetCvec_upper(
 #endif
 #if NBRANGES_UPPER > 0
     for (c=ranges_upper; c < ranges_upper+NBRANGES_UPPER*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2338,7 +2338,7 @@ GetCvec_word(
 #endif
 #if NBRANGES_WORD > 0
     for (c=ranges_word; c < ranges_word+NBRANGES_WORD*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2375,7 +2375,7 @@ GetCvec_xdigit(
 #endif
 #if NBRANGES_XDIGIT > 0
     for (c=ranges_xdigit; c < ranges_xdigit+NBRANGES_XDIGIT*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -2434,8 +2434,7 @@ element(
      */
 
     assert(RCHR_CMP(startp, endp) < 0);
-    if (!ATEOS() && 
-	    (tmp = v->now, RCHR_FWD(tmp,1), RCHR_CMP(tmp, v->stop) >= 0)) {
+    if ((tmp = startp, RCHR_FWD(tmp,1), RCHR_CMP(tmp, endp) >= 0)) {
 	return RCHR_CHR(startp);
     }
 

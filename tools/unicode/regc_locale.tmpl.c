@@ -116,7 +116,7 @@ GetCvec_${class}(
 #endif
 #if NBRANGES_${CLASS} > 0
     for (c=ranges_${class}; c < ranges_${class}+NBRANGES_${CLASS}*2; c+=2) {
-	addrange(cv, *c, *c+1);
+	addrange(cv, *c, *(c+1));
     }
 #endif
     return cv;
@@ -233,8 +233,7 @@ element(
      */
 
     assert(RCHR_CMP(startp, endp) < 0);
-    if (!ATEOS() && 
-	    (tmp = v->now, RCHR_FWD(tmp,1), RCHR_CMP(tmp, v->stop) >= 0)) {
+    if ((tmp = startp, RCHR_FWD(tmp,1), RCHR_CMP(tmp, endp) >= 0)) {
 	return RCHR_CHR(startp);
     }
 
