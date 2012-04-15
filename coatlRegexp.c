@@ -122,18 +122,19 @@ Coatl_RegexpCompile(
     int flags,
     Col_Word *rePtr)
 {
-    Col_RopeIterator it;
     int result;
     regex_t re;
     void *data;
 
-#if 1
+#ifdef REGEXP_USE_ITERATORS
+    {
+    Col_RopeIterator it;
     Col_RopeIterFirst(string, &it); 
     result = CoatlReCompile(&re, it, Col_RopeIterLength(&it), flags);
+    }
 #else
     {
     Col_WordData sdata;
-    const Col_Char4 *s;
 
     string = Col_NormalizeRope(string, COL_UCS4, 0, 1);
     Col_GetWordInfo(string, &sdata);
@@ -175,7 +176,6 @@ Coatl_RegexpExec(
 {
     Col_WordData data;
     regex_t *rePtr;
-    Col_RopeIterator it;
 
     Col_GetWordInfo(re, &data);
     if (data.custom.type != &regexpWordType) {
@@ -186,14 +186,16 @@ Coatl_RegexpExec(
     rePtr = (regex_t *) data.custom.data;
 
     //TODO ranges
-#if 1
+#ifdef REGEXP_USE_ITERATORS
+    {
+    Col_RopeIterator it;
     Col_RopeIterFirst(string, &it);
     return CoatlReExec(rePtr, it, Col_RopeIterLength(&it), NULL, 0, NULL, 
 	    flags);
+    }
 #else
     {
     Col_WordData sdata;
-    const Col_Char4 *s;
 
     string = Col_NormalizeRope(string, COL_UCS4, 0, 1);
     Col_GetWordInfo(string, &sdata);

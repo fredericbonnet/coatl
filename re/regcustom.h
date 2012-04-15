@@ -77,7 +77,7 @@
 #endif
 /* Interface types */
 #define __REG_WIDE_T	Col_Char4
-#if 1
+#ifdef REGEXP_USE_ITERATORS
 #define __REG_RWIDE_T	Col_RopeIterator
 #else
 #define __REG_RWIDE_T	const Col_Char4 *
@@ -102,7 +102,7 @@ typedef Col_Char4 chr;		/* The type itself. */
 typedef int pchr;		/* What it promotes to. */
 typedef unsigned uchr;		/* Unsigned type that will hold a chr. */
 typedef int celt;		/* Type to hold chr, or NOCELT */
-#if 1
+#ifdef REGEXP_USE_ITERATORS
 typedef Col_RopeIterator rchr;	/* Reference to chr. */
 #define	RCHR_INDEX(p,start)	Col_RopeIterIndex(&(p))
 #define RCHR_FWD(p,o)	Col_RopeIterForward(&(p),(o))
@@ -151,7 +151,7 @@ typedef const chr *rchr;	/* Reference to chr. */
 & Enable/disable debugging code (by whether REG_DEBUG is defined or not).
 */
 
-#if 1//0 FIXME				/* No debug unless requested by makefile. */
+#if 0				/* No debug unless requested by makefile. */
 #define	REG_DEBUG	/* */
 #endif
 

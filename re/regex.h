@@ -6,6 +6,7 @@
 #include <colibri.h>
 
 #include "../include/coatl.h"
+#include "../coatlInternal.h"
 
 /*
  * regular expressions
@@ -113,7 +114,7 @@ extern "C" {
 #endif
 /* interface types */
 #define __REG_WIDE_T	Col_Char4
-#if 1
+#ifdef REGEXP_USE_ITERATORS
 #define __REG_RWIDE_T	Col_RopeIterator
 #else
 #define __REG_RWIDE_T	const Col_Char4 *

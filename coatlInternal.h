@@ -14,4 +14,13 @@
 #   define ASSERT(x)
 #endif
 
+/*---------------------------------------------------------------------------
+ * Internal Constant: REGEXP_USE_ITERATORS
+ *
+ *	When defined, the regexp package uses iterators instead of character 
+ *	arrays.
+ *---------------------------------------------------------------------------*/
+
+#define REGEXP_USE_ITERATORS
+
 #endif /* _COATL_INTERNAL */
