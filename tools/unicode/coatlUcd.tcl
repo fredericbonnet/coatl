@@ -5,6 +5,7 @@ set doSave 1; # True for saving UCD parsing result
 
 set srcroot "../../"
 set includeroot "../../include"
+set reroot "../../re"
 
 ###############################################################################
 #
@@ -621,5 +622,147 @@ dict for {property info} $properties {
 }
 
 close $out
+
+
+###############################################################################
+#
+# Regexp locale.
+#
+###############################################################################
+
+source coatlUcd_regc_locale.tcl
+
+set f [open regc_locale.tmpl.c]
+
+unset -nocomplain templates; array set templates [read $f]
+close $f
+
+set out [open [file join $reroot regc_locale.c] w]
+fconfigure $out -buffering line
+
+puts $out [subst -nobackslashes -nocommands $templates(header)]
+
+dict for {class criteria} $classes {
+	puts $out [subst -nobackslashes -nocommands $templates(procDecl)]
+}
+
+set symbolInfos ""
+dict for {symbol char} $symbols {
+	scan $char %c c
+	if {$c < 0x20} {
+		set char [format "\\x%.2X" $c]
+	} else {
+		switch $char {
+			\\ -
+			' -
+			\" {set char \\$char}
+		}
+	}
+	append symbolInfos [subst -nobackslashes -nocommands $templates(symbolInfo)]
+}
+puts $out [subst -nobackslashes -nocommands $templates(symbols)]
+
+set classInfos ""
+dict for {class criteria} $classes {
+	set CLASS [string toupper $class]
+
+	if {[dict exists $classes_nocase $class]} {
+		set classNocase [dict get $classes_nocase $class]
+	} else {
+		set classNocase $class
+	}
+	append classInfos [subst -nobackslashes -nocommands $templates(classInfo)]
+}
+puts $out [subst -nobackslashes -nocommands $templates(classes)]
+
+dict for {class criteria} $classes {
+	set CLASS [string toupper $class]
+
+	set charValues [list]
+	set rangeValues [list]
+	foreach {type info} $criteria {
+		switch $type {
+			char {
+				scan $info %c c
+				lappend charValues [format "0x%.4X" $c]
+			}
+			range {
+				lassign $info b e
+				scan $b %c b
+				scan $e %c e
+				lappend rangeValues [format "0x%.4X" $b] [format "0x%.4X" $e]
+			}
+			property {
+				lassign $info property re
+				set match 0
+				set lastCp 0
+				dict for {cp value} $propertyValues($property) {
+					if {[regexp $re $value]} {
+						if {!$match} {
+							set lastCp $cp
+							set match 1
+						}
+					} elseif {$match && $cp != 0} {
+						if {$cp-$lastCp == 1} {
+							lappend charValues $lastCp
+						} else {
+							lappend rangeValues $lastCp [format "0x%.4X" [expr {$cp-1}]]
+						}
+						set match 0
+					}
+				}
+				if {$match} {
+					lappend rangeValues $lastCp COL_CHAR_MAX
+				}
+			}
+		}
+	}
+
+	set nbChars [llength $charValues]
+	if {$nbChars > 0} {
+		set chars ""
+		set nb 0
+		foreach cp $charValues {
+			if {($nb % 8) == 0} {
+				# Wrap line.
+				append chars "\n    "
+			}
+			append chars "$cp, "
+			incr nb
+		}
+		append chars \n
+		puts $out [subst -nobackslashes -nocommands $templates(charVar)]
+	}
+	puts $out [subst -nobackslashes -nocommands $templates(nbCharConstant)]
+	
+	set nbRanges [expr {[llength $rangeValues]/2}]
+	if {$nbRanges > 0} {
+		set ranges ""
+		set nb 0
+		foreach cp $rangeValues {
+			if {($nb % 8) == 0} {
+				# Wrap line.
+				append ranges "\n    "
+			}
+			append ranges "$cp, "
+			incr nb
+		}
+		append ranges \n
+		puts $out [subst -nobackslashes -nocommands $templates(rangeVar)]
+	}
+	puts $out [subst -nobackslashes -nocommands $templates(nbRangeConstant)]
+}
+
+dict for {class criteria} $classes {
+	set CLASS [string toupper $class]
+
+	puts $out [subst -nobackslashes -nocommands $templates(procDef)]
+}
+
+
+puts $out [subst -nobackslashes -nocommands $templates(footer)]
+
+close $out
+
 
 exit

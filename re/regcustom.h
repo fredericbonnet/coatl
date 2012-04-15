@@ -140,8 +140,6 @@ typedef const chr *rchr;	/* Reference to chr. */
 #define	iscdigit(x)	(Coatl_GetUcdProperty_Gc(x)==COATL_UCD_GC_DECIMAL_NUMBER)
 #define	iscspace(x)	Coatl_GetUcdProperty_WSpace(x)
 
-int Tcl_UniCharIsSpace(int ch);
-
 /*
  * Name the external functions.
  */
