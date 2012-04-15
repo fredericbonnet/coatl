@@ -705,11 +705,12 @@ next(
 
     assert(!ATEOS());
     if (!(v->cflags&REG_ADVF)) {/* only AREs have non-trivial escapes */
-	if (iscalnum(RCHR_CHR(v->now))) {
+	c = RCHR_CHR(v->now);
+	if (iscalnum(c)) {
 	    NOTE(REG_UBSALNUM);
 	    NOTE(REG_UUNSPEC);
 	}
-	c = RCHR_CHR(v->now); RCHR_FWD(v->now,1);
+	RCHR_FWD(v->now,1);
 	RETV(PLAIN, c);
     }
     (DISCARD)lexescape(v);
