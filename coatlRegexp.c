@@ -101,13 +101,15 @@ RegexpFreeProc(
  *
  * Arguments:
  *	string	- Regular expression to compile.
- *	flags	- Compilation flags (see <Regular Expression Flags>).
+ *	flags	- Compilation flags (see <Regular Expression Compilation 
+ *		  Flags>).
  *
  * Result:
- *	An error code (see <Regular Expression Error Codes>). Additionally:
+ *	An error code (see <Regular Expression Compilation Error Codes>). 
+ *	Additionally:
  *
  *	rePtr	- Regular expression word if compilation was successful (i.e.
- *		  result is <COATL_REGEXP_OKAY>).
+ *		  result is <COATL_RECOMP_OKAY>).
  *
  * Side effects:
  *	May allocate memory cells.
@@ -159,10 +161,10 @@ Coatl_RegexpCompile(
  * Arguments:
  *	re	- Compiled regular expression (result of <Coatl_RegexpCompile>).
  *	string	- String to match against regular expression.
- *	flags	- Execution flags (see <Regular Expression Flags>).
+ *	flags	- Execution flags (see <Regular Expression Execution Flags>).
  *
  * Result:
- *	An error code (see <Regular Expression Error Codes>).
+ *	An error code (see <Regular Expression Execution Error Codes>).
  *
  * See also:
  *	<Coatl_RegexpCompile>
