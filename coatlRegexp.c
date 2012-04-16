@@ -154,27 +154,24 @@ Coatl_RegexpCompile(
 }
 
 /*---------------------------------------------------------------------------
- * Function: Coatl_RegexpExec
+ * Function: Coatl_RegexpNbSubexpressions
  *
- *	Execute a previously compiled regular expression.
+ *	Return the number of subexpressions in a compiled regular expression.
+ *	I.e. the number of capturing sets of parentheses.
  *
- * Arguments:
+ * Argument:
  *	re	- Compiled regular expression (result of <Coatl_RegexpCompile>).
- *	string	- String to match against regular expression.
- *	flags	- Execution flags (see <Regular Expression Execution Flags>).
  *
  * Result:
- *	An error code (see <Regular Expression Execution Error Codes>).
+ *	The number of subexpressions.
  *
  * See also:
  *	<Coatl_RegexpCompile>
  *---------------------------------------------------------------------------*/
 
-int
-Coatl_RegexpExec(
-    Col_Word re,
-    Col_Word string,
-    int flags)
+size_t
+Coatl_RegexpNbSubexpressions(
+    Col_Word re)
 {
     Col_WordData data;
     regex_t *rePtr;
@@ -187,13 +184,99 @@ Coatl_RegexpExec(
 
     rePtr = (regex_t *) data.custom.data;
 
-    //TODO ranges
+    return rePtr->re_nsub;
+}
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_RegexpExec
+ *
+ *	Execute a previously compiled regular expression.
+ *
+ * Arguments:
+ *	re		- Compiled regular expression (result of 
+ *			  <Coatl_RegexpCompile>).
+ *	string		- String to match against regular expression.
+ *	flags		- Execution flags (see <Regular Expression Execution 
+ *			  Flags>).
+ *	matchesPtr	- If non-NULL, points to a word that will hold the 
+ *			  matching ranges of characters upon success. If this
+ *			  word is nil at call time, will allocates a new mutable
+ *			  vector sized to fit the total number of ranges.
+ *			  subexpressions. Else, must be a mutable vector whose
+ *			  size gives the maximum number of returned ranges.
+ *
+ * Result:
+ *	An error code (see <Regular Expression Execution Error Codes>).
+ *	Additionally:
+ *
+ *	matchesPtr	- Upon success and if non-NULL, a mutable vector holding
+ *			  the matching ranges of characters, in the form of 
+ *			  integer word pairs in even/odd order (first/last 
+ *			  inclusive character indices respectively), the first 
+ *			  pair being for the global match and the subsequent 
+ *			  pairs for the respective subexpressions. If either 
+ *			  index of a pair is -1, this means that the respective 
+ *			  subexpression didn't match.
+ *
+ * See also:
+ *	<Coatl_RegexpCompile>
+ *---------------------------------------------------------------------------*/
+
+int
+Coatl_RegexpExec(
+    Col_Word re,
+    Col_Word string,
+    int flags,
+    Col_Word *resultsPtr)
+{
+    Col_WordData data;
+    regex_t *rePtr;
+    size_t nbMatches = 0;
+    regmatch_t *matches = NULL;
+    int result;
+
+    Col_GetWordInfo(re, &data);
+    if (data.custom.type != &regexpWordType) {
+	Col_Error(COL_ERROR, "%x is not a regexp", re);
+	return 0;
+    }
+
+    rePtr = (regex_t *) data.custom.data;
+
+    if (resultsPtr != NULL) {
+	/*
+	 * Mutable vector holding results.
+	 */
+
+	if (!*resultsPtr) {
+	    /*
+	     * Allocate adequately sized mutable vector.
+	     */
+
+	    *resultsPtr = Col_NewMVector(0, (rePtr->re_nsub+1)*2, NULL);
+	}
+	if (Col_GetWordInfo(*resultsPtr, &data) != COL_MVECTOR) {
+	    Col_Error(COL_ERROR, "result vector %x is not a mutable vector", 
+		    *resultsPtr);
+	    return 0;
+	}
+
+	/*
+	 * Hack: cast the Col_Word-pair array to a regmatch_t array and convert
+	 * data later. This should work bar exotic alignment problems.
+	 */
+
+	ASSERT(sizeof(regmatch_t) == sizeof(Col_Word)*2);
+	nbMatches = data.mvector.length/2;
+	matches = (regmatch_t *) data.mvector.elements;
+    }
+
 #ifdef REGEXP_USE_ITERATORS
     {
     Col_RopeIterator it;
     Col_RopeIterFirst(string, &it);
-    return CoatlReExec(rePtr, it, Col_RopeIterLength(&it), NULL, 0, NULL, 
-	    flags);
+    result = CoatlReExec(rePtr, it, Col_RopeIterLength(&it), NULL, nbMatches, 
+	    matches, flags);
     }
 #else
     {
@@ -201,8 +284,24 @@ Coatl_RegexpExec(
 
     string = Col_NormalizeRope(string, COL_UCS4, 0, 1);
     Col_GetWordInfo(string, &sdata);
-    return CoatlReExec(rePtr, (const Col_Char4 *) sdata.string.data, 
-	    Col_RopeLength(string), NULL, 0, NULL, flags);
+    result = CoatlReExec(rePtr, (const Col_Char4 *) sdata.string.data, 
+	    Col_RopeLength(string), NULL, nbMatches, matches, flags);
     }
 #endif
+
+    if (matches && result == REG_OKAY) {
+	/*
+	 * Hack: convert regmatch_t/regoff_t to integer words.
+	 */
+
+	size_t i;
+	ASSERT(nbMatches > 0);
+	for (i = 0; i < nbMatches; i++) {
+	    matches[i].rm_so = (regoff_t) Col_NewIntWord(matches[i].rm_so);
+	    matches[i].rm_eo = (regoff_t) Col_NewIntWord(
+		    matches[i].rm_eo == -1 ? -1 : matches[i].rm_eo-1);
+	}
+    }
+
+    return result;
 }

@@ -11,6 +11,9 @@
 /*
 ================================================================================
 Section: Regular Expressions
+
+Declarations:
+    <Coatl_RegexpCompile>, <Coatl_RegexpNbSubexpressions>, <Coatl_RegexpExec>
 ================================================================================
 */
 
@@ -150,7 +153,8 @@ Section: Regular Expressions
 
 EXTERN int		Coatl_RegexpCompile(Col_Word string, int flags, 
 			    Col_Word *rePtr);
+EXTERN size_t		Coatl_RegexpNbSubexpressions(Col_Word re);
 EXTERN int		Coatl_RegexpExec(Col_Word re, Col_Word string, 
-			    int flags);
+			    int flags, Col_Word *matchesPtr);
 
 #endif /* _COATL_REGEXP */

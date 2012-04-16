@@ -37,8 +37,8 @@ static struct cvec * 	GetCvec_xdigit(struct vars *v);
 /*---------------------------------------------------------------------------
  * Internal Variable: symbols
  *
- *	POSIX+ASCII symbolic names, for use with the [.symbol.] syntax within 
- *	bracket expressions.
+ *	POSIX+ASCII symbolic names, for use with the '*[.symbol.]*' syntax 
+ *	within bracket expressions.
  *
  *	We use the compiled UCD data accordingly to generate character ranges 
  *	suitable for the regexp engine.
@@ -150,8 +150,8 @@ static const SymbolInfo symbols[] = {
 /*---------------------------------------------------------------------------
  * Internal Variable: classes
  *
- *	POSIX character classes, for use with the [:classname:] syntax within 
- *	bracket expressions.
+ *	POSIX character classes, for use with the '*[:classname:]*' syntax 
+ *	within bracket expressions.
  *
  *	We use the compiled UCD data accordingly to generate character ranges 
  *	suitable for the regexp engine.

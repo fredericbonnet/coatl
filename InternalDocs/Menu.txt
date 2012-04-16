@@ -72,6 +72,7 @@ Group: Source Files  {
    File: coatlRegexp.c  (coatlRegexp.c)
    File: coatlUcd.c  (coatlUcd.c)
    File: coatlUnicode.c  (coatlUnicode.c)
+   File: regc_locale.c  (re\regc_locale.c)
    }  # Group: Source Files
 
 Group: Index  {
