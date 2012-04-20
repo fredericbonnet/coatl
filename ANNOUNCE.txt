@@ -67,11 +67,11 @@ The CoATL source is part of the Colibri source distribution here:
 
     http://sourceforge.net/projects/tcl9/files/colibri/colibri0.14/colibri0.14.src.zip/download
     
-A pre-compiled Windows library is available here, it includes the command-line
-executable along with Colibri DLL and the original Picol scripts:
+Documentation and a pre-compiled Windows library are available here:
 
+    http://sourceforge.net/projects/tcl9/files/colibri/colibri0.14/coatl0.14.doc.zip/download
     http://sourceforge.net/projects/tcl9/files/colibri/colibri0.14/coatl0.1.win32.zip/download
-
+	
 
 LICENSE
 =======
