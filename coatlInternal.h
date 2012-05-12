@@ -9,8 +9,10 @@
 
 #ifdef _DEBUG
 #   define DO_TRACE
-#   define ASSERT(x) {if (!(x)) Col_Error(COL_FATAL, "%s(%d) : assertion failed! (%s)", __FILE__, __LINE__, #x);}
+#   define REQUIRE(x) {if (!(x)) Col_Error(COL_FATAL, "%s(%d) : assertion failed! (%s)", __FILE__, __LINE__, #x);}
+#   define ASSERT(x) REQUIRE(x)
 #else
+#   define REQUIRE(x) (x)
 #   define ASSERT(x)
 #endif
 
