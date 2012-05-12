@@ -88,8 +88,8 @@
     <ClCompile Include="re\regfree.c">
       <Filter>RegExp</Filter>
     </ClCompile>
-    <ClCompile Include="re\tclRegexp.c">
-      <Filter>RegExp</Filter>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclStringObj.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
       <Filter>RegExp</Filter>
     </ClInclude>
     <ClInclude Include="re\regguts.h">
-      <Filter>RegExp</Filter>
-    </ClInclude>
-    <ClInclude Include="re\tclRegexp.h">
       <Filter>RegExp</Filter>
     </ClInclude>
   </ItemGroup>
