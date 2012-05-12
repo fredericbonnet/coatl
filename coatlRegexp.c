@@ -24,6 +24,39 @@ static Col_CustomWordFreeProc RegexpFreeProc;
 
 /*
 ================================================================================
+Internal Section: Type Checking
+================================================================================
+*/
+
+/*---------------------------------------------------------------------------
+ * Internal Macro: TYPECHECK_REGEXP
+ *
+ *	Type checking macro for regular expressions.
+ *
+ * Argument:
+ *	word	- Checked word.
+ *
+ * Result:
+ *	rePtr	- Variable receiving address of regex_t structure.
+ *
+ * Side effects:
+ *	Generate <COL_TYPECHECK> error when *word* is not a regexp word.
+ *
+ * See also:
+ *	<Col_Error>
+ *---------------------------------------------------------------------------*/
+
+#define TYPECHECK_REGEXP(word, rePtr) \
+    if (!(Col_WordType(word) & COL_CUSTOM) || Col_CustomWordInfo((word), (void **) &(rePtr)) != &regexpWordType) { \
+	Col_Error(COL_TYPECHECK, "%x is not a regexp", (word)); \
+	goto COL_CONCATENATE(FAILED,__LINE__); \
+    } \
+    if (0) \
+COL_CONCATENATE(FAILED,__LINE__): 
+
+
+/*
+================================================================================
 Section: Regular Expressions
 ================================================================================
 */
@@ -35,7 +68,7 @@ Section: Regular Expressions
  *---------------------------------------------------------------------------*/
 
 static Col_CustomWordType regexpWordType = {
-    COL_CUSTOM,
+    0,
     "regexp",
     RegexpSizeProc,
     RegexpFreeProc,
@@ -84,12 +117,9 @@ static void
 RegexpFreeProc(
     Col_Word word)
 {
-    Col_WordData data;
     regex_t *re;
 
-    Col_GetWordInfo(word, &data);
-    ASSERT(data.custom.type == &regexpWordType);
-    re = (regex_t *) data.custom.data;
+    REQUIRE(Col_CustomWordInfo(word, (void **) &re) == &regexpWordType);
 
     CoatlReFree(re);
 }
@@ -125,28 +155,14 @@ Coatl_RegexpCompile(
     Col_Word *rePtr)
 {
     int result;
-    regex_t re;
-    void *data;
-
-#ifdef REGEXP_USE_ITERATORS
-    {
+    regex_t re, *data;
     Col_RopeIterator it;
+
     Col_RopeIterFirst(string, &it); 
     result = CoatlReCompile(&re, it, Col_RopeIterLength(&it), flags);
-    }
-#else
-    {
-    Col_WordData sdata;
-
-    string = Col_NormalizeRope(string, COL_UCS4, 0, 1);
-    Col_GetWordInfo(string, &sdata);
-    result = CoatlReCompile(&re, (const Col_Char4 *) sdata.string.data, 
-	    Col_RopeLength(string), flags);
-    }
-#endif
     if (result == REG_OKAY) {
-	*rePtr = Col_NewCustomWord(&regexpWordType, sizeof(re), &data);
-	*(regex_t *) data = re;
+	*rePtr = Col_NewCustomWord(&regexpWordType, sizeof(re), (void **) &data);
+	*data = re;
     } else {
 	*rePtr = WORD_NIL;
     }
@@ -162,6 +178,9 @@ Coatl_RegexpCompile(
  * Argument:
  *	re	- Compiled regular expression (result of <Coatl_RegexpCompile>).
  *
+ * Type checking:
+ *	*re* must be a valid regular expression word.
+ *
  * Result:
  *	The number of subexpressions.
  *
@@ -173,16 +192,13 @@ size_t
 Coatl_RegexpNbSubexpressions(
     Col_Word re)
 {
-    Col_WordData data;
     regex_t *rePtr;
 
-    Col_GetWordInfo(re, &data);
-    if (data.custom.type != &regexpWordType) {
-	Col_Error(COL_ERROR, "%x is not a regexp", re);
-	return 0;
-    }
+    /*
+     * Check preconditions.
+     */
 
-    rePtr = (regex_t *) data.custom.data;
+    TYPECHECK_REGEXP(re, rePtr) return 0;
 
     return rePtr->re_nsub;
 }
@@ -202,6 +218,9 @@ Coatl_RegexpNbSubexpressions(
  *			  including the global match.
  *	matches		- If nbMatches is > 0, array of matching ranges of 
  *			  characters upon success.
+ *
+ * Type checking:
+ *	*re* must be a valid regular expression word.
  *
  * Results:
  *	An error code (see <Regular Expression Execution Error Codes>).
@@ -228,17 +247,15 @@ Coatl_RegexpExec(
     size_t nbMatches,
     size_t *matches)
 {
-    Col_WordData data;
     regex_t *rePtr;
     int result;
+    Col_RopeIterator it;
 
-    Col_GetWordInfo(re, &data);
-    if (data.custom.type != &regexpWordType) {
-	Col_Error(COL_ERROR, "%x is not a regexp", re);
-	return 0;
-    }
+    /*
+     * Check preconditions.
+     */
 
-    rePtr = (regex_t *) data.custom.data;
+    TYPECHECK_REGEXP(re, rePtr) return 0;
 
     /*
      * Hack: Assume that regmatch_t, which is a struct holding a pair of 
@@ -255,24 +272,9 @@ Coatl_RegexpExec(
     ASSERT(sizeof(intptr_t) == sizeof(size_t));
     ASSERT(SIZE_MAX == (size_t) ((intptr_t)-1));
 
-#ifdef REGEXP_USE_ITERATORS
-    {
-    Col_RopeIterator it;
     Col_RopeIterFirst(string, &it);
     result = CoatlReExec(rePtr, it, Col_RopeIterLength(&it), NULL, nbMatches, 
 	    (regmatch_t *) matches, flags);
-    }
-#else
-    {
-    Col_WordData sdata;
-
-    string = Col_NormalizeRope(string, COL_UCS4, 0, 1);
-    Col_GetWordInfo(string, &sdata);
-    result = CoatlReExec(rePtr, (const Col_Char4 *) sdata.string.data, 
-	    Col_RopeLength(string), NULL, nbMatches, (regmatch_t *) , flags);
-    }
-#endif
-
     if (matches && result == REG_OKAY) {
 	/*
 	 * Offset range end indices by -1.
