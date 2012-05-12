@@ -1489,7 +1489,7 @@ brackpart(
     case COLLEL:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
+	INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
 	NOERR();
@@ -1497,7 +1497,7 @@ brackpart(
     case ECLASS:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
+	INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
 	NOERR();
@@ -1509,7 +1509,7 @@ brackpart(
     case CCLASS:
 	startp = v->now;
 	endp = scanplain(v);
-	INSIST(RCHR_CMP(startp,endp)<0, REG_ECTYPE);
+	INSIST(RCHR_LT(startp,endp), REG_ECTYPE);
 	NOERR();
 	cv = cclass(v, startp, endp, (v->cflags&REG_ICASE));
 	NOERR();
@@ -1536,7 +1536,7 @@ brackpart(
 	case COLLEL:
 	    startp = v->now;
 	    endp = scanplain(v);
-	    INSIST(RCHR_CMP(startp,endp)<0, REG_ECOLLATE);
+	    INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	    NOERR();
 	    endc = element(v, startp, endp);
 	    NOERR();

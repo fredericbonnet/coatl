@@ -30,11 +30,11 @@
  */
 
 /* scanning macros (know about v) */
-#define	ATEOS()		(RCHR_CMP(v->now,v->stop) >= 0)
+#define	ATEOS()		(!RCHR_LT(v->now,v->stop))
 #define	NEXT1(c)	(!ATEOS() && RCHR_CHR(v->now) == CHR(c))
 static rchr strprefix(const char *prefix, rchr startp, const rchr end) {
     const char *n=prefix; rchr c=startp; 
-    while (RCHR_CMP(c, end) < 0 && *n) {
+    while (RCHR_LT(c, end) && *n) {
 	if (*n != RCHR_CHR(c)) break;
 	n++; RCHR_FWD(c,1);
     }
@@ -886,7 +886,7 @@ lexescape(
 	 * Ugly heuristic (first test is "exactly 1 digit?")
 	 */
 
-	if (RCHR_CMP(v->now,save) == 0 || ((int) c > 0 && (int)c <= v->nsubexp)) {
+	if (RCHR_EQ(v->now,save) || ((int) c > 0 && (int)c <= v->nsubexp)) {
 	    NOTE(REG_UBACKREF);
 	    RETV(BACKREF, (chr)c);
 	}
@@ -1117,7 +1117,7 @@ skip(
 	 */
     }
 
-    if (RCHR_CMP(v->now, start) !=  0) {
+    if (!RCHR_EQ(v->now, start)) {
 	NOTE(REG_UNONPOSIX);
     }
 }

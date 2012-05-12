@@ -2402,7 +2402,7 @@ StrEq(
     const rchr endp)
 {
     const char *n=name; rchr c=startp; 
-    while (RCHR_CMP(c, endp) < 0) {
+    while (RCHR_LT(c, endp)) {
 	if (*n == 0 || *n != RCHR_CHR(c)) return 0;
 	n++; RCHR_FWD(c,1);
     }
@@ -2433,8 +2433,8 @@ element(
      * Generic: one-chr names stand for themselves.
      */
 
-    assert(RCHR_CMP(startp, endp) < 0);
-    if ((tmp = startp, RCHR_FWD(tmp,1), RCHR_CMP(tmp, endp) >= 0)) {
+    assert(RCHR_LT(startp, endp));
+    if ((tmp = startp, RCHR_FWD(tmp,1), !RCHR_LT(tmp, endp))) {
 	return RCHR_CHR(startp);
     }
 

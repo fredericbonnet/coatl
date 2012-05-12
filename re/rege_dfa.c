@@ -52,7 +52,7 @@ longest(
     chr c;
     rchr tmp;
 
-    realstop = stop; if (RCHR_CMP(stop, v->stop) != 0) RCHR_FWD(realstop, 1);
+    realstop = stop; if (!RCHR_EQ(stop, v->stop)) RCHR_FWD(realstop, 1);
 
     /*
      * Initialize.
@@ -69,7 +69,7 @@ longest(
      */
 
     FDEBUG(("+++ startup +++\n"));
-    if (RCHR_CMP(cp, v->start) == 0) {
+    if (RCHR_EQ(cp, v->start)) {
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
@@ -89,7 +89,7 @@ longest(
      */
 
     if (v->eflags&REG_FTRACE) {
-	while (RCHR_CMP(cp, realstop) < 0) {
+	while (RCHR_LT(cp, realstop)) {
 	    FDEBUG(("+++ at c%d +++\n", css - d->ssets));
 	    c = RCHR_CHR(cp);
 	    co = GETCOLOR(cm, c);
@@ -107,7 +107,7 @@ longest(
 	    css = ss;
 	}
     } else {
-	while (RCHR_CMP(cp, realstop) < 0) {
+	while (RCHR_LT(cp, realstop)) {
 	    c = RCHR_CHR(cp);
 	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
@@ -129,7 +129,7 @@ longest(
      */
 
     FDEBUG(("+++ shutdown at c%d +++\n", css - d->ssets));
-    if (RCHR_CMP(cp, v->stop) == 0 && RCHR_CMP(stop, v->stop) == 0) {
+    if (RCHR_EQ(cp, v->stop) && RCHR_EQ(stop, v->stop)) {
 	if (hitstopp != NULL) {
 	    *hitstopp = 1;
 	}
@@ -154,8 +154,8 @@ longest(
 
     post = d->lastpost;
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
-	if ((ss->flags&POSTSTATE) && (RCHR_CMP(post, ss->lastseen) != 0) &&
-		(RCHR_ISNULL(post) || RCHR_CMP(post, ss->lastseen) < 0)) {
+	if ((ss->flags&POSTSTATE) && (!RCHR_EQ(post, ss->lastseen)) &&
+		(RCHR_ISNULL(post) || RCHR_LT(post, ss->lastseen))) {
 	    post = ss->lastseen;
 	}
     }
@@ -192,8 +192,8 @@ shortest(
     chr c;
     rchr tmp;
 
-    realmin = min; if (RCHR_CMP(min, v->stop) != 0) RCHR_FWD(realmin,1);
-    realmax = max; if (RCHR_CMP(max, v->stop) != 0) RCHR_FWD(realmax,1);
+    realmin = min; if (!RCHR_EQ(min, v->stop)) RCHR_FWD(realmin,1);
+    realmax = max; if (!RCHR_EQ(max, v->stop)) RCHR_FWD(realmax,1);
 
     /*
      * Initialize.
@@ -210,7 +210,7 @@ shortest(
      */
 
     FDEBUG(("--- startup ---\n"));
-    if (RCHR_CMP(cp, v->start) == 0) {
+    if (RCHR_EQ(cp, v->start)) {
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
@@ -231,7 +231,7 @@ shortest(
      */
 
     if (v->eflags&REG_FTRACE) {
-	while (RCHR_CMP(cp, realmax) < 0) {
+	while (RCHR_LT(cp, realmax)) {
 	    FDEBUG(("--- at c%d ---\n", css - d->ssets));
 	    c = RCHR_CHR(cp);
 	    co = GETCOLOR(cm, c);
@@ -247,12 +247,12 @@ shortest(
 	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
-	    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, realmin) >= 0) {
+	    if ((ss->flags&POSTSTATE) && !RCHR_LT(cp, realmin)) {
 		break;		/* NOTE BREAK OUT */
 	    }
 	}
     } else {
-	while (RCHR_CMP(cp, realmax) < 0) {
+	while (RCHR_LT(cp, realmax)) {
 	    c = RCHR_CHR(cp);
 	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
@@ -266,7 +266,7 @@ shortest(
 	    RCHR_FWD(cp,1);
 	    ss->lastseen = cp;
 	    css = ss;
-	    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, realmin) >= 0) {
+	    if ((ss->flags&POSTSTATE) && !RCHR_LT(cp, realmin)) {
 		break;		/* NOTE BREAK OUT */
 	    }
 	}
@@ -281,10 +281,10 @@ shortest(
 	*coldp = lastCold(v, d);
     }
 
-    if ((ss->flags&POSTSTATE) && RCHR_CMP(cp, min) > 0) {
-	assert(RCHR_CMP(cp, realmin) >= 0);
+    if ((ss->flags&POSTSTATE) && RCHR_GT(cp, min)) {
+	assert(!RCHR_LT(cp, realmin));
 	RCHR_BWD(cp,1);
-    } else if (RCHR_CMP(cp, v->stop) == 0 && RCHR_CMP(max, v->stop) == 0) {
+    } else if (RCHR_EQ(cp, v->stop) && RCHR_EQ(max, v->stop)) {
 	co = d->cnfa->eos[(v->eflags&REG_NOTEOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
 	ss = miss(v, d, css, co, cp, start);
@@ -323,7 +323,7 @@ lastCold(
 	nopr = v->start;
     }
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
-	if ((ss->flags&NOPROGRESS) && RCHR_CMP(nopr, ss->lastseen) < 0) {
+	if ((ss->flags&NOPROGRESS) && RCHR_LT(nopr, ss->lastseen)) {
 	    nopr = ss->lastseen;
 	}
     }
@@ -725,8 +725,8 @@ getVacantSS(
      * If ss was a success state, may need to remember location.
      */
 
-    if ((ss->flags&POSTSTATE) && RCHR_CMP(ss->lastseen, d->lastpost) != 0 &&
-	    (RCHR_ISNULL(d->lastpost) || RCHR_CMP(d->lastpost, ss->lastseen) < 0)) {
+    if ((ss->flags&POSTSTATE) && !RCHR_EQ(ss->lastseen, d->lastpost) &&
+	    (RCHR_ISNULL(d->lastpost) || RCHR_LT(d->lastpost, ss->lastseen))) {
 	d->lastpost = ss->lastseen;
     }
 
@@ -734,8 +734,8 @@ getVacantSS(
      * Likewise for a no-progress state.
      */
 
-    if ((ss->flags&NOPROGRESS) && RCHR_CMP(ss->lastseen, d->lastnopr) != 0 &&
-	    (RCHR_ISNULL(d->lastnopr) || RCHR_CMP(d->lastnopr, ss->lastseen) < 0)) {
+    if ((ss->flags&NOPROGRESS) && !RCHR_EQ(ss->lastseen, d->lastnopr) &&
+	    (RCHR_ISNULL(d->lastnopr) || RCHR_LT(d->lastnopr, ss->lastseen))) {
 	d->lastnopr = ss->lastseen;
     }
 
@@ -794,7 +794,7 @@ pickNextSS(
 	ancient = start;
     }
     for (ss = d->search, end = &d->ssets[d->nssets]; ss < end; ss++) {
-	if ((RCHR_ISNULL(ss->lastseen) || RCHR_CMP(ss->lastseen, ancient) < 0)
+	if ((RCHR_ISNULL(ss->lastseen) || RCHR_LT(ss->lastseen, ancient))
 		&& !(ss->flags&LOCKED)) {
 	    d->search = ss + 1;
 	    FDEBUG(("replacing c%d\n", ss - d->ssets));
@@ -802,7 +802,7 @@ pickNextSS(
 	}
     }
     for (ss = d->ssets, end = d->search; ss < end; ss++) {
-	if ((RCHR_ISNULL(ss->lastseen) || RCHR_CMP(ss->lastseen, ancient) < 0)
+	if ((RCHR_ISNULL(ss->lastseen) || RCHR_LT(ss->lastseen, ancient))
 		&& !(ss->flags&LOCKED)) {
 	    d->search = ss + 1;
 	    FDEBUG(("replacing c%d\n", ss - d->ssets));

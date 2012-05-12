@@ -108,7 +108,9 @@ typedef Col_RopeIterator rchr;	/* Reference to chr. */
 #define RCHR_FWD(p,o)	Col_RopeIterForward(&(p),(o))
 #define RCHR_BWD(p,o)	Col_RopeIterBackward(&(p),(o))
 #define RCHR_CHR(p)	Col_RopeIterAt(&(p))
-#define RCHR_CMP(p1,p2)	Col_RopeIterCompare(&(p1),&(p2))
+#define RCHR_LT(p1,p2)	(RCHR_ISNULL(p2)?0:RCHR_ISNULL(p1)?1:(Col_RopeIterCompare(&(p1),&(p2))<0))
+#define RCHR_GT(p1,p2)	RCHR_LT((p2),(p1))
+#define RCHR_EQ(p1,p2)	(RCHR_ISNULL(p1)?RCHR_ISNULL(p2):RCHR_ISNULL(p2)?0:(Col_RopeIterCompare(&(p1),&(p2))==0))
 #define RCHR_INIT(begin,end,data,len) \
     (Col_RopeIterString(COL_UCS4, (data), (len), &(begin)), (end) = (begin), Col_RopeIterForward(&(end), (len)))
 #define RCHR_ISNULL(p)	Col_RopeIterNull(&(p))
@@ -119,7 +121,9 @@ typedef const chr *rchr;	/* Reference to chr. */
 #define RCHR_FWD(p,o)	((p) += (o))
 #define RCHR_BWD(p,o)	((p) -= (o))
 #define RCHR_CHR(p)	(*(p))
-#define RCHR_CMP(p1,p2)	(!(p1)?!(p2)?0:1:!(p2)?-1:(p1)<(p2)?-1:(p1)==(p2)?0:1)
+#define RCHR_LT(p1,p2)	((p1)<(p2))
+#define RCHR_GT(p1,p2)	((p1)>(p2))
+#define RCHR_EQ(p1,p2)	((p1)==(p2))
 #define RCHR_INIT(begin,end,data,len) ((begin) = (data), (end) = (begin)+(len))
 #define RCHR_ISNULL(p)	((p)==NULL)
 #define RCHR_NULL	NULL
