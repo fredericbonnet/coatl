@@ -64,26 +64,28 @@ MapRope(
     Col_Char (*mapProc)(Col_Char))
 {
     Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
-    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);//TODO optimize buffer length?
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	Col_Char mc = mapProc(c);
 	if (mc == c) {
 	    /*
 	     * Identity, remember position.
 	     */
 
-	    if (Col_RopeIterNull(&firstUnchanged)) firstUnchanged = it;
+	    if (Col_RopeIterNull(firstUnchanged)) {
+		Col_RopeIterSet(firstUnchanged, it);
+	    }
 	    continue;
 	}
-	if (!Col_RopeIterNull(&firstUnchanged)) {
+	if (!Col_RopeIterNull(firstUnchanged)) {
 	    /*
 	     * Append unchanged character sequence.
 	     */
 
-	    Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
-	    firstUnchanged = COL_ROPEITER_NULL;
+	    Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
+	    Col_RopeIterSetNull(firstUnchanged);
 	}
 
 	/*
@@ -92,13 +94,13 @@ MapRope(
 
 	Col_StringBufferAppendChar(strbuf, mc);
     }
-    if (!Col_RopeIterNull(&firstUnchanged)) {
+    if (!Col_RopeIterNull(firstUnchanged)) {
 	/*
 	 * Append unchanged character sequence.
 	 */
 
-	ASSERT(Col_RopeIterEnd(&it));
-	Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
+	ASSERT(Col_RopeIterEnd(it));
+	Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
     }
     return Col_StringBufferFreeze(strbuf);
 }
@@ -122,10 +124,10 @@ TransformRope(
     const int * (*mapProc)(Col_Char, size_t *))
 {
     Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
-    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);//TODO optimize buffer length?
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	size_t length;
 	const int *lc = mapProc(c, &length);
 	if (length == 0 || (length == 1 && *lc == 0)) {
@@ -133,16 +135,18 @@ TransformRope(
 	     * Identity, remember position.
 	     */
 
-	    if (Col_RopeIterNull(&firstUnchanged)) firstUnchanged = it;
+	    if (Col_RopeIterNull(firstUnchanged)) {
+		Col_RopeIterSet(firstUnchanged, it);
+	    }
 	    continue;
 	} 
-	if (!Col_RopeIterNull(&firstUnchanged)) {
+	if (!Col_RopeIterNull(firstUnchanged)) {
 	    /*
 	     * Append unchanged character sequence.
 	     */
 
-	    Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
-	    firstUnchanged = COL_ROPEITER_NULL;
+	    Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
+	    Col_RopeIterSetNull(firstUnchanged);
 	}
 	if (length == 1) {
 	    /*
@@ -160,13 +164,13 @@ TransformRope(
 		    (Col_Char) *lc++);
 	}
     }
-    if (!Col_RopeIterNull(&firstUnchanged)) {
+    if (!Col_RopeIterNull(firstUnchanged)) {
 	/*
 	 * Append unchanged character sequence.
 	 */
 
-	ASSERT(Col_RopeIterEnd(&it));
-	Col_StringBufferAppendSequence(strbuf, &firstUnchanged, &it);
+	ASSERT(Col_RopeIterEnd(it));
+	Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
     }
     return Col_StringBufferFreeze(strbuf);
 }
@@ -210,9 +214,9 @@ Coatl_RopeIsLowercase(
     Col_Word r)
 {
     Col_RopeIterator it;
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	if (Coatl_CharIsCased(c) && !Coatl_CharIsLowercase(c)) return 0;
     }
     return 1;
@@ -222,9 +226,9 @@ Coatl_RopeIsUppercase(
     Col_Word r)
 {
     Col_RopeIterator it;
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	if (Coatl_CharIsCased(c) && !Coatl_CharIsUppercase(c)) return 0;
     }
     return 1;
@@ -234,9 +238,9 @@ Coatl_RopeIsTitlecase(
     Col_Word r)
 {
     Col_RopeIterator it;
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	if (Coatl_CharIsCased(c) && !Coatl_CharIsTitlecase(c)) return 0;
     }
     return 1;
@@ -246,9 +250,9 @@ Coatl_RopeIsCasefolded(
     Col_Word r)
 {
     Col_RopeIterator it;
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 //TODO	if (Coatl_CharIsCased(c) && !Coatl_CharIsCasefolded(c)) return 0;
     }
     return 1;
@@ -258,9 +262,9 @@ Coatl_RopeIsCased(
     Col_Word r)
 {
     Col_RopeIterator it;
-    for (Col_RopeIterFirst(r, &it); !Col_RopeIterEnd(&it); 
-	    Col_RopeIterNext(&it)) {
-	Col_Char c = Col_RopeIterAt(&it);
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+	    Col_RopeIterNext(it)) {
+	Col_Char c = Col_RopeIterAt(it);
 	if (Coatl_CharIsCased(c)) return 1;
     }
     return 0;

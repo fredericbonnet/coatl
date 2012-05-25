@@ -142,9 +142,9 @@ static int complicatedReversedDissect(struct vars *const, struct subre *const, c
 static int complicatedBackrefDissect(struct vars *const, struct subre *const, const rchr, const rchr);
 static int complicatedAlternationDissect(struct vars *const, struct subre *, const rchr, const rchr);
 /* === rege_dfa.c === */
-static rchr longest(struct vars *const, struct dfa *const, const rchr, const rchr, int *const);
-static rchr shortest(struct vars *const, struct dfa *const, const rchr, const rchr, const rchr, rchr *, int *const);
-static rchr lastCold(struct vars *const, struct dfa *const);
+static void longest(struct vars *const, struct dfa *const, const rchr, const rchr, rchr *, int *const);
+static void shortest(struct vars *const, struct dfa *const, const rchr, const rchr, const rchr, rchr *, rchr *, int *const);
+static void lastCold(struct vars *const, struct dfa *const, rchr *);
 static struct dfa *newDFA(struct vars *const, struct cnfa *const, struct colormap *const, struct smalldfa *);
 static void freeDFA(struct dfa *const);
 static unsigned hash(unsigned *const, const int);
@@ -232,8 +232,8 @@ exec(
 	v->pmatch = pmatch;
     }
     v->details = details;
-    v->start = string;
-    v->stop = string; RCHR_FWD(v->stop, len);
+    RCHR_SET(v->start, string);
+    RCHR_SET(v->stop, string); RCHR_FWD(v->stop, len);
     v->err = 0;
     if (backref) {
 	/*
@@ -319,8 +319,8 @@ simpleFind(
     assert(!(ISERR() && s != NULL));
     NOERR();
     MDEBUG(("\nsearch at %ld\n", LOFF(v->start)));
-    cold = RCHR_NULL;
-    close = shortest(v, s, v->start, v->start, v->stop, &cold, NULL);
+    RCHR_SETNULL(cold);
+    shortest(v, s, v->start, v->start, v->stop, &close, &cold, NULL);
     freeDFA(s);
     NOERR();
     if (v->g->cflags&REG_EXPECT) {
@@ -344,22 +344,22 @@ simpleFind(
      */
 
     assert(!RCHR_ISNULL(cold));
-    open = cold;
-    cold = RCHR_NULL;
+    RCHR_SET(open, cold);
+    RCHR_SETNULL(cold);
     MDEBUG(("between %ld and %ld\n", LOFF(open), LOFF(close)));
     d = newDFA(v, cnfa, cm, &v->dfa1);
     assert(!(ISERR() && d != NULL));
     NOERR();
-    for (begin = open; !RCHR_GT(begin, close); RCHR_FWD(begin,1)) {
+    for (RCHR_SET(begin, open); !RCHR_GT(begin, close); RCHR_FWD(begin,1)) {
 	MDEBUG(("\nfind trying at %ld\n", LOFF(begin)));
 	if (shorter) {
-	    end = shortest(v, d, begin, begin, v->stop, NULL, &hitend);
+	    shortest(v, d, begin, begin, v->stop, &end, NULL, &hitend);
 	} else {
-	    end = longest(v, d, begin, v->stop, &hitend);
+	    longest(v, d, begin, v->stop, &end, &hitend);
 	}
 	NOERR();
 	if (hitend && RCHR_ISNULL(cold)) {
-	    cold = begin;
+	    RCHR_SET(cold, begin);
 	}
 	if (!RCHR_ISNULL(end)) {
 	    break;		/* NOTE BREAK OUT */
@@ -458,30 +458,30 @@ complicatedFindLoop(
     int shorter = v->g->tree->flags&SHORTER;
 
     assert(d != NULL && s != NULL);
-    cold = RCHR_NULL;
-    close = v->start;
+    RCHR_SETNULL(cold);
+    RCHR_SET(close, v->start);
     do {
 	MDEBUG(("\ncsearch at %ld\n", LOFF(close)));
-	close = shortest(v, s, close, close, v->stop, &cold, NULL);
+	shortest(v, s, close, close, v->stop, &close, &cold, NULL);
 	if (RCHR_ISNULL(close)) {
 	    break;		/* NOTE BREAK */
 	}
 	assert(!RCHR_ISNULL(cold));
-	open = cold;
-	cold = RCHR_NULL;
+	RCHR_SET(open, cold);
+	RCHR_SETNULL(cold);
 	MDEBUG(("cbetween %ld and %ld\n", LOFF(open), LOFF(close)));
-	for (begin = open; !RCHR_GT(begin,close); RCHR_FWD(begin,1)) {
+	for (RCHR_SET(begin, open); !RCHR_GT(begin,close); RCHR_FWD(begin,1)) {
 	    MDEBUG(("\ncomplicatedFind trying at %ld\n", LOFF(begin)));
-	    estart = begin;
-	    estop = v->stop;
+	    RCHR_SET(estart, begin);
+	    RCHR_SET(estop, v->stop);
 	    for (;;) {
 		if (shorter) {
-		    end = shortest(v, d, begin, estart, estop, NULL, &hitend);
+		    shortest(v, d, begin, estart, estop, &end, NULL, &hitend);
 		} else {
-		    end = longest(v, d, begin, estop, &hitend);
+		    longest(v, d, begin, estop, &end, &hitend);
 		}
 		if (hitend && RCHR_ISNULL(cold)) {
-		    cold = begin;
+		    RCHR_SET(cold, begin);
 		}
 		if (RCHR_ISNULL(end)) {
 		    break;	/* NOTE BREAK OUT */
@@ -496,7 +496,7 @@ complicatedFindLoop(
 			v->pmatch[0].rm_so = OFF(begin);
 			v->pmatch[0].rm_eo = OFF(end);
 		    }
-		    *coldp = cold;
+		    RCHR_SET(*coldp, cold);
 		    return REG_OKAY;
 		}
 		if (er != REG_NOMATCH) {
@@ -508,7 +508,7 @@ complicatedFindLoop(
 		     * No point in trying again.
 		     */
 
-		    *coldp = cold;
+		    RCHR_SET(*coldp, cold);
 		    return REG_NOMATCH;
 		}
 
@@ -517,15 +517,15 @@ complicatedFindLoop(
 		 */
 
 		if (shorter) {
-		    estart = end; RCHR_FWD(estart,1);
+		    RCHR_SET(estart, end); RCHR_FWD(estart,1);
 		} else {
-		    estop = end; RCHR_BWD(estop,1);
+		    RCHR_SET(estop, end); RCHR_BWD(estop,1);
 		}
 	    }
 	}
     } while (RCHR_LT(close, v->stop));
 
-    *coldp = cold;
+    RCHR_SET(*coldp, cold);
     return REG_NOMATCH;
 }
 
@@ -658,8 +658,9 @@ concatenationDissect(
     rchr mid;
     int i;
     int shorter = (t->left->flags&SHORTER) ? 1 : 0;
-    rchr stop = (shorter) ? end : begin;
-    rchr tmp;
+    rchr stop, tmp;
+
+    RCHR_SET(stop, (shorter) ? end : begin);
 
     assert(t->op == '.');
     assert(t->left != NULL && t->left->cnfa.nstates > 0);
@@ -679,9 +680,9 @@ concatenationDissect(
      */
 
     if (shorter) {
-	mid = shortest(v, d, begin, begin, end, NULL, NULL);
+	shortest(v, d, begin, begin, end, &mid, NULL, NULL);
     } else {
-	mid = longest(v, d, begin, end, NULL);
+	longest(v, d, begin, end, &mid, NULL);
     }
     if (RCHR_ISNULL(mid)) {
 	freeDFA(d);
@@ -694,7 +695,7 @@ concatenationDissect(
      * Iterate until satisfaction or failure.
      */
 
-    while (tmp = longest(v, d2, mid, end, NULL), !RCHR_EQ(tmp, end)) {
+    while (longest(v, d2, mid, end, &tmp, NULL), !RCHR_EQ(tmp, end)) {
 	/*
 	 * That midpoint didn't work, find a new one.
 	 */
@@ -711,10 +712,10 @@ concatenationDissect(
 	}
 	if (shorter) {
 	    RCHR_FWD(mid,1);
-	    mid = shortest(v, d, begin, mid, end, NULL, NULL);
+	    shortest(v, d, begin, mid, end, &mid, NULL, NULL);
 	} else {
 	    RCHR_BWD(mid,1);
-	    mid = longest(v, d, begin, mid, NULL);
+	    longest(v, d, begin, mid, &mid, NULL);
 	}
 	if (RCHR_ISNULL(mid)) {
 	    /*
@@ -769,7 +770,7 @@ alternationDissect(
 	if (ISERR()) {
 	    return v->err;
 	}
-	if (tmp = longest(v, d, begin, end, NULL), RCHR_EQ(tmp, end)) {
+	if (longest(v, d, begin, end, &tmp, NULL), RCHR_EQ(tmp, end)) {
 	    MDEBUG(("success\n"));
 	    freeDFA(d);
 	    return dissect(v, t->left, begin, end);
@@ -873,7 +874,7 @@ complicatedConcatenationDissect(
      */
 
     if (v->mem[t->retry] == 0) {
-	mid = longest(v, d, begin, end, NULL);
+	longest(v, d, begin, end, &mid, NULL);
 	if (RCHR_ISNULL(mid)) {
 	    freeDFA(d);
 	    freeDFA(d2);
@@ -882,7 +883,7 @@ complicatedConcatenationDissect(
 	MDEBUG(("tentative midpoint %ld\n", LOFF(mid)));
 	v->mem[t->retry] = LOFF(mid) - LOFF(begin) + 1;//FIXME? (mid - begin) + 1;
     } else {
-	mid = begin; RCHR_FWD(mid, (v->mem[t->retry] - 1));
+	RCHR_SET(mid, begin); RCHR_FWD(mid, (v->mem[t->retry] - 1));
 	MDEBUG(("working midpoint %ld\n", LOFF(mid)));
     }
 
@@ -895,7 +896,7 @@ complicatedConcatenationDissect(
 	 * Try this midpoint on for size.
 	 */
 
-	if (tmp = longest(v, d2, mid, end, NULL), RCHR_EQ(tmp, end)) {
+	if (longest(v, d2, mid, end, &tmp, NULL), RCHR_EQ(tmp, end)) {
 	    int er = complicatedDissect(v, t->left, begin, mid);
 
 	    if (er == REG_OKAY) {
@@ -933,7 +934,7 @@ complicatedConcatenationDissect(
 	    return REG_NOMATCH;
 	}
 	RCHR_BWD(mid,1);
-	mid = longest(v, d, begin, mid, NULL);
+	longest(v, d, begin, mid, &mid, NULL);
 	if (RCHR_ISNULL(mid)) {
 	    /*
 	     * Failed to find a new one.
@@ -994,7 +995,7 @@ complicatedReversedDissect(
      */
 
     if (v->mem[t->retry] == 0) {
-	mid = shortest(v, d, begin, begin, end, NULL, NULL);
+	shortest(v, d, begin, begin, end, &mid, NULL, NULL);
 	if (RCHR_ISNULL(mid)) {
 	    freeDFA(d);
 	    freeDFA(d2);
@@ -1003,7 +1004,7 @@ complicatedReversedDissect(
 	MDEBUG(("tentative midpoint %ld\n", LOFF(mid)));
 	v->mem[t->retry] = (LOFF(mid) - LOFF(begin)) + 1;//FIXME?(mid - begin) + 1;
     } else {
-	mid = begin; RCHR_FWD(mid, (v->mem[t->retry] - 1));
+	RCHR_SET(mid, begin); RCHR_FWD(mid, (v->mem[t->retry] - 1));
 	MDEBUG(("working midpoint %ld\n", LOFF(mid)));
     }
 
@@ -1016,7 +1017,7 @@ complicatedReversedDissect(
 	 * Try this midpoint on for size.
 	 */
 
-	if (tmp = longest(v, d2, mid, end, NULL), RCHR_EQ(tmp, end)) {
+	if (longest(v, d2, mid, end, &tmp, NULL), RCHR_EQ(tmp, end)) {
 	    int er = complicatedDissect(v, t->left, begin, mid);
 
 	    if (er == REG_OKAY) {
@@ -1054,7 +1055,7 @@ complicatedReversedDissect(
 	    return REG_NOMATCH;
 	}
 	RCHR_FWD(mid,1);
-	mid = shortest(v, d, begin, mid, end, NULL, NULL);
+	shortest(v, d, begin, mid, end, &mid, NULL, NULL);
 	if (RCHR_ISNULL(mid)) {
 	    /*
 	     * Failed to find a new one.
@@ -1097,7 +1098,7 @@ complicatedBackrefDissect(
     if (v->pmatch[n].rm_so == -1) {
 	return REG_NOMATCH;
     }
-    paren = v->start; RCHR_FWD(paren, v->pmatch[n].rm_so);
+    RCHR_SET(paren, v->start); RCHR_FWD(paren, v->pmatch[n].rm_so);
     len = v->pmatch[n].rm_eo - v->pmatch[n].rm_so;
 
     /*
@@ -1128,14 +1129,14 @@ complicatedBackrefDissect(
     if ((size_t)(LOFF(end) - LOFF(begin)) < len) {//FIXME?(end - begin) < len) {
 	return REG_NOMATCH;
     }
-    stop = end; RCHR_BWD(stop, len);
+    RCHR_SET(stop, end); RCHR_BWD(stop, len);
 
     /*
      * Count occurrences.
      */
 
     i = 0;
-    for (p = begin; !RCHR_GT(p, stop) && (i < max || max == INFINITY); RCHR_FWD(p, len)) {
+    for (RCHR_SET(p, begin); !RCHR_GT(p, stop) && (i < max || max == INFINITY); RCHR_FWD(p, len)) {
 	if (v->g->compare(paren, p, len) != 0) {
 	    break;
 	}
@@ -1198,7 +1199,7 @@ complicatedAlternationDissect(
 	if (ISERR()) {
 	    return v->err;
 	}
-	if (tmp = longest(v, d, begin, end, NULL), !RCHR_EQ(tmp, end)) {
+	if (longest(v, d, begin, end, &tmp, NULL), !RCHR_EQ(tmp, end)) {
 	    freeDFA(d);
 	    v->mem[t->retry] = TRIED;
 	    goto doRight;

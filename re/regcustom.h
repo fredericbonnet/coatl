@@ -104,16 +104,18 @@ typedef unsigned uchr;		/* Unsigned type that will hold a chr. */
 typedef int celt;		/* Type to hold chr, or NOCELT */
 #ifdef REGEXP_USE_ITERATORS
 typedef Col_RopeIterator rchr;	/* Reference to chr. */
-#define	RCHR_INDEX(p,start)	Col_RopeIterIndex(&(p))
-#define RCHR_FWD(p,o)	Col_RopeIterForward(&(p),(o))
-#define RCHR_BWD(p,o)	Col_RopeIterBackward(&(p),(o))
-#define RCHR_CHR(p)	Col_RopeIterAt(&(p))
-#define RCHR_LT(p1,p2)	(RCHR_ISNULL(p2)?0:RCHR_ISNULL(p1)?1:(Col_RopeIterCompare(&(p1),&(p2))<0))
+#define	RCHR_INDEX(p,start)	Col_RopeIterIndex(p)
+#define RCHR_FWD(p,o)	Col_RopeIterForward((p),(o))
+#define RCHR_BWD(p,o)	Col_RopeIterBackward((p),(o))
+#define RCHR_CHR(p)	Col_RopeIterAt((p))
+#define RCHR_LT(p1,p2)	(RCHR_ISNULL(p2)?0:RCHR_ISNULL(p1)?1:(Col_RopeIterCompare((p1),(p2))<0))
 #define RCHR_GT(p1,p2)	RCHR_LT((p2),(p1))
-#define RCHR_EQ(p1,p2)	(RCHR_ISNULL(p1)?RCHR_ISNULL(p2):RCHR_ISNULL(p2)?0:(Col_RopeIterCompare(&(p1),&(p2))==0))
+#define RCHR_EQ(p1,p2)	(RCHR_ISNULL(p1)?RCHR_ISNULL(p2):RCHR_ISNULL(p2)?0:(Col_RopeIterCompare((p1),(p2))==0))
 #define RCHR_INIT(begin,end,data,len) \
-    (Col_RopeIterString(COL_UCS4, (data), (len), &(begin)), (end) = (begin), Col_RopeIterForward(&(end), (len)))
-#define RCHR_ISNULL(p)	Col_RopeIterNull(&(p))
+    (Col_RopeIterString((begin),COL_UCS4,(data),(len)), Col_RopeIterSet((end),(begin)), Col_RopeIterForward((end),(len)))
+#define RCHR_SET(p1,p2) Col_RopeIterSet((p1), (p2))
+#define RCHR_ISNULL(p)	Col_RopeIterNull(p)
+#define RCHR_SETNULL(p) Col_RopeIterSetNull(p)
 #define RCHR_NULL	COL_ROPEITER_NULL
 #else
 typedef const chr *rchr;	/* Reference to chr. */
@@ -125,7 +127,9 @@ typedef const chr *rchr;	/* Reference to chr. */
 #define RCHR_GT(p1,p2)	((p1)>(p2))
 #define RCHR_EQ(p1,p2)	((p1)==(p2))
 #define RCHR_INIT(begin,end,data,len) ((begin) = (data), (end) = (begin)+(len))
+#define RCHR_SET(p1,p2) ((p1)=(p2))
 #define RCHR_ISNULL(p)	((p)==NULL)
+#define RCHR_SETNULL(p) ((p)=NULL)
 #define RCHR_NULL	NULL
 #endif
 #define	NOCELT (-1)		/* Celt value which is not valid chr */

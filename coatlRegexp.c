@@ -65,6 +65,9 @@ Section: Regular Expressions
  * Internal Variable: regexpWordType
  *
  *	Custom word type holding a regex_t structure.
+ *
+ * See also:
+ *	<RegexpSizeProc>, <RegexpFreeProc>
  *---------------------------------------------------------------------------*/
 
 static Col_CustomWordType regexpWordType = {
@@ -156,12 +159,12 @@ Coatl_RegexpCompile(
 {
     int result;
     regex_t re, *data;
-    Col_RopeIterator it;
+    Col_RopeIterator it = COL_ROPEITER_NULL;
 
-    Col_RopeIterFirst(string, &it); 
-    result = CoatlReCompile(&re, it, Col_RopeIterLength(&it), flags);
+    Col_RopeIterFirst(it, string); 
+    result = CoatlReCompile(&re, it, Col_RopeIterLength(it), flags);
     if (result == REG_OKAY) {
-	*rePtr = Col_NewCustomWord(&regexpWordType, sizeof(re), (void **) &data);
+	*rePtr = Col_NewCustomWord(&regexpWordType, sizeof(*data), (void **) &data);
 	*data = re;
     } else {
 	*rePtr = WORD_NIL;
@@ -249,7 +252,7 @@ Coatl_RegexpExec(
 {
     regex_t *rePtr;
     int result;
-    Col_RopeIterator it;
+    Col_RopeIterator it = COL_ROPEITER_NULL;
 
     /*
      * Check preconditions.
@@ -272,8 +275,8 @@ Coatl_RegexpExec(
     ASSERT(sizeof(intptr_t) == sizeof(size_t));
     ASSERT(SIZE_MAX == (size_t) ((intptr_t)-1));
 
-    Col_RopeIterFirst(string, &it);
-    result = CoatlReExec(rePtr, it, Col_RopeIterLength(&it), NULL, nbMatches, 
+    Col_RopeIterFirst(it, string);
+    result = CoatlReExec(rePtr, it, Col_RopeIterLength(it), NULL, nbMatches, 
 	    (regmatch_t *) matches, flags);
     if (matches && result == REG_OKAY) {
 	/*

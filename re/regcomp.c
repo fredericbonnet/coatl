@@ -52,7 +52,7 @@ static void repeat(struct vars *, struct state *, struct state *, int, int);
 static void bracket(struct vars *, struct state *, struct state *);
 static void cbracket(struct vars *, struct state *, struct state *);
 static void brackpart(struct vars *, struct state *, struct state *);
-static rchr scanplain(struct vars *);
+static void scanplain(struct vars *, rchr *);
 static void onechr(struct vars *, pchr, struct state *, struct state *);
 static void dovec(struct vars *, struct cvec *, struct state *, struct state *);
 static void wordchrs(struct vars *);
@@ -298,9 +298,9 @@ compile(
      */
 
     v->re = re;
-    v->now = string;
-    v->stop = v->now; RCHR_FWD(v->stop, len);
-    v->savenow = RCHR_NULL; v->savestop = RCHR_NULL;
+    RCHR_SET(v->now, string);
+    RCHR_SET(v->stop, v->now); RCHR_FWD(v->stop, len);
+    RCHR_SETNULL(v->savenow); RCHR_SETNULL(v->savestop);
     v->err = 0;
     v->cflags = flags;
     v->nsubexp = 0;
@@ -1487,16 +1487,16 @@ brackpart(
 	NOERR();
 	break;
     case COLLEL:
-	startp = v->now;
-	endp = scanplain(v);
+	RCHR_SET(startp, v->now);
+	scanplain(v, &endp);
 	INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
 	NOERR();
 	break;
     case ECLASS:
-	startp = v->now;
-	endp = scanplain(v);
+	RCHR_SET(startp, v->now);
+	scanplain(v, &endp);
 	INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	NOERR();
 	startc = element(v, startp, endp);
@@ -1507,8 +1507,8 @@ brackpart(
 	return;
 	break;
     case CCLASS:
-	startp = v->now;
-	endp = scanplain(v);
+	RCHR_SET(startp, v->now);
+	scanplain(v, &endp);
 	INSIST(RCHR_LT(startp,endp), REG_ECTYPE);
 	NOERR();
 	cv = cclass(v, startp, endp, (v->cflags&REG_ICASE));
@@ -1534,8 +1534,8 @@ brackpart(
 	    NOERR();
 	    break;
 	case COLLEL:
-	    startp = v->now;
-	    endp = scanplain(v);
+	    RCHR_SET(startp, v->now);
+	    scanplain(v, &endp);
 	    INSIST(RCHR_LT(startp,endp), REG_ECOLLATE);
 	    NOERR();
 	    endc = element(v, startp, endp);
@@ -1569,25 +1569,22 @@ brackpart(
  * past the final bracket of the [. etc.
  ^ static rchr scanplain(struct vars *);
  */
-static rchr			/* just after end of sequence */
+static void
 scanplain(
-    struct vars *v)
+    struct vars *v,
+    rchr *endp)			/* store just after end of sequence */
 {
-    rchr endp;
-
     assert(SEE(COLLEL) || SEE(ECLASS) || SEE(CCLASS));
     NEXT();
 
-    endp = v->now;
+    RCHR_SET(*endp, v->now);
     while (SEE(PLAIN)) {
-	endp = v->now;
+	RCHR_SET(*endp, v->now);
 	NEXT();
     }
 
     assert(SEE(END) || ISERR());
     NEXT();
-
-    return endp;
 }
 
 /*

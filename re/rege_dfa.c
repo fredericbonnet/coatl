@@ -34,12 +34,13 @@
  - longest - longest-preferred matching engine
  ^ static rchr longest(struct vars *, struct dfa *, const rchr, const rchr, int *);
  */
-static rchr			/* endpoint, or RCHR_ISNULL */
+static void
 longest(
     struct vars *const v,	/* used only for debug and exec flags */
     struct dfa *const d,
     const rchr start,		/* where the match should start */
     const rchr stop,		/* match must end at or before here */
+    rchr * endp,		/* store endpoint pointer here */
     int *const hitstopp)	/* record whether hit v->stop, if non-NULL */
 {
     rchr cp;
@@ -52,14 +53,14 @@ longest(
     chr c;
     rchr tmp;
 
-    realstop = stop; if (!RCHR_EQ(stop, v->stop)) RCHR_FWD(realstop, 1);
+    RCHR_SET(realstop, stop); if (!RCHR_EQ(stop, v->stop)) RCHR_FWD(realstop, 1);
 
     /*
      * Initialize.
      */
 
     css = initialize(v, d, start);
-    cp = start;
+    RCHR_SET(cp, start);
     if (hitstopp != NULL) {
 	*hitstopp = 0;
     }
@@ -73,16 +74,15 @@ longest(
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
-	tmp = cp; RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
+	RCHR_SET(tmp, cp); RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
 	co = GETCOLOR(cm, c);
 	FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
     }
     css = miss(v, d, css, co, cp, start);
     if (css == NULL) {
-	cp = RCHR_NULL;
-	return cp;
+	RCHR_SETNULL(*endp); return;
     }
-    css->lastseen = cp;
+    RCHR_SET(css->lastseen, cp);
 
     /*
      * Main loop.
@@ -96,14 +96,14 @@ longest(
 	    FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		tmp = cp; RCHR_FWD(tmp,1);
+		RCHR_SET(tmp, cp); RCHR_FWD(tmp,1);
 		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
 	    RCHR_FWD(cp,1);
-	    ss->lastseen = cp;
+	    RCHR_SET(ss->lastseen, cp);
 	    css = ss;
 	}
     } else {
@@ -112,14 +112,14 @@ longest(
 	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		tmp = cp; RCHR_FWD(tmp,1);
+		RCHR_SET(tmp, cp); RCHR_FWD(tmp,1);
 		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
 	    RCHR_FWD(cp,1);
-	    ss->lastseen = cp;
+	    RCHR_SET(ss->lastseen, cp);
 	    css = ss;
 	}
     }
@@ -142,9 +142,9 @@ longest(
 	 */
 
 	if (ss != NULL && (ss->flags&POSTSTATE)) {
-	    return cp;
+	    RCHR_SET(*endp, cp); return;
 	} else if (ss != NULL) {
-	    ss->lastseen = cp;	/* to be tidy */
+	    RCHR_SET(ss->lastseen, cp);	/* to be tidy */
 	}
     }
 
@@ -152,20 +152,19 @@ longest(
      * Find last match, if any.
      */
 
-    post = d->lastpost;
+    RCHR_SET(post, d->lastpost);
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
 	if ((ss->flags&POSTSTATE) && (!RCHR_EQ(post, ss->lastseen)) &&
 		(RCHR_ISNULL(post) || RCHR_LT(post, ss->lastseen))) {
-	    post = ss->lastseen;
+	    RCHR_SET(post, ss->lastseen);
 	}
     }
     if (!RCHR_ISNULL(post)) {		/* found one */
 	RCHR_BWD(post,1);
-	return post;
+	RCHR_SET(*endp, post); return;
     }
 
-    cp = RCHR_NULL;
-    return cp;
+    RCHR_SETNULL(*endp); return;
 }
 
 /*
@@ -173,13 +172,14 @@ longest(
  ^ static rchr shortest(struct vars *, struct dfa *, const rchr, const rchr, const rchr,
  ^ 	rchr *, int *);
  */
-static rchr			/* endpoint, or RCHR_ISNULL */
+static void
 shortest(
     struct vars *const v,
     struct dfa *const d,
     const rchr start,		/* where the match should start */
     const rchr min,		/* match must end at or after here */
     const rchr max,		/* match must end at or before here */
+    rchr * endp,		/* store endpoint pointer here */
     rchr * coldp,		/* store coldstart pointer here, if nonNULL */
     int *const hitstopp)	/* record whether hit v->stop, if non-NULL */
 {
@@ -192,15 +192,15 @@ shortest(
     chr c;
     rchr tmp;
 
-    realmin = min; if (!RCHR_EQ(min, v->stop)) RCHR_FWD(realmin,1);
-    realmax = max; if (!RCHR_EQ(max, v->stop)) RCHR_FWD(realmax,1);
+    RCHR_SET(realmin, min); if (!RCHR_EQ(min, v->stop)) RCHR_FWD(realmin,1);
+    RCHR_SET(realmax, max); if (!RCHR_EQ(max, v->stop)) RCHR_FWD(realmax,1);
 
     /*
      * Initialize.
      */
 
     css = initialize(v, d, start);
-    cp = start;
+    RCHR_SET(cp, start);
     if (hitstopp != NULL) {
 	*hitstopp = 0;
     }
@@ -214,16 +214,15 @@ shortest(
 	co = d->cnfa->bos[(v->eflags&REG_NOTBOL) ? 0 : 1];
 	FDEBUG(("color %ld\n", (long)co));
     } else {
-	tmp = cp; RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
+	RCHR_SET(tmp, cp); RCHR_BWD(tmp,1); c = RCHR_CHR(tmp);
 	co = GETCOLOR(cm, c);
 	FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
     }
     css = miss(v, d, css, co, cp, start);
     if (css == NULL) {
-	cp = RCHR_NULL;
-	return cp;
+	RCHR_SETNULL(*endp); return;
     }
-    css->lastseen = cp;
+    RCHR_SET(css->lastseen, cp);
     ss = css;
 
     /*
@@ -238,14 +237,14 @@ shortest(
 	    FDEBUG(("char %c, color %ld\n", (char)c, (long)co));
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		tmp = cp; RCHR_FWD(tmp,1);
+		RCHR_SET(tmp, cp); RCHR_FWD(tmp,1);
 		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
 	    RCHR_FWD(cp,1);
-	    ss->lastseen = cp;
+	    RCHR_SET(ss->lastseen, cp);
 	    css = ss;
 	    if ((ss->flags&POSTSTATE) && !RCHR_LT(cp, realmin)) {
 		break;		/* NOTE BREAK OUT */
@@ -257,14 +256,14 @@ shortest(
 	    co = GETCOLOR(cm, c);
 	    ss = css->outs[co];
 	    if (ss == NULL) {
-		tmp = cp; RCHR_FWD(tmp,1);
+		RCHR_SET(tmp, cp); RCHR_FWD(tmp,1);
 		ss = miss(v, d, css, co, tmp, start);
 		if (ss == NULL) {
 		    break;	/* NOTE BREAK OUT */
 		}
 	    }
 	    RCHR_FWD(cp,1);
-	    ss->lastseen = cp;
+	    RCHR_SET(ss->lastseen, cp);
 	    css = ss;
 	    if ((ss->flags&POSTSTATE) && !RCHR_LT(cp, realmin)) {
 		break;		/* NOTE BREAK OUT */
@@ -273,12 +272,11 @@ shortest(
     }
 
     if (ss == NULL) {
-	cp = RCHR_NULL;
-	return cp;
+	RCHR_SETNULL(*endp); return;
     }
 
     if (coldp != NULL) {	/* report last no-progress state set, if any */
-	*coldp = lastCold(v, d);
+	lastCold(v, d, coldp);
     }
 
     if ((ss->flags&POSTSTATE) && RCHR_GT(cp, min)) {
@@ -299,35 +297,36 @@ shortest(
     }
 
     if (ss == NULL || !(ss->flags&POSTSTATE)) {
-	cp = RCHR_NULL;
-	return cp;
+	RCHR_SETNULL(*endp); return;
     }
 
-    return cp;
+    RCHR_SET(*endp, cp); return;
 }
 
 /*
  - lastCold - determine last point at which no progress had been made
  ^ static rchr lastCold(struct vars *, struct dfa *);
  */
-static rchr			/* endpoint, or RCHR_ISNULL */
+static void
 lastCold(
     struct vars *const v,
-    struct dfa *const d)
+    struct dfa *const d,
+    rchr * endp)		/* store endpoint pointer here */
 {
     struct sset *ss;
-    rchr nopr = d->lastnopr;
+    rchr nopr;
     int i;
+    RCHR_SET(nopr, d->lastnopr);
 
     if (RCHR_ISNULL(nopr)) {
-	nopr = v->start;
+	RCHR_SET(nopr, v->start);
     }
     for (ss = d->ssets, i = d->nssused; i > 0; ss++, i--) {
 	if ((ss->flags&NOPROGRESS) && RCHR_LT(nopr, ss->lastseen)) {
-	    nopr = ss->lastseen;
+	    RCHR_SET(nopr, ss->lastseen);
 	}
     }
-    return nopr;
+    RCHR_SET(*endp, nopr); return;
 }
 
 /*
@@ -397,8 +396,8 @@ newDFA(
     d->wordsper = wordsper;
     d->cnfa = cnfa;
     d->cm = cm;
-    d->lastpost = RCHR_NULL;
-    d->lastnopr = RCHR_NULL;
+    RCHR_SETNULL(d->lastpost);
+    RCHR_SETNULL(d->lastnopr);
     d->search = d->ssets;
 
     /*
@@ -491,11 +490,11 @@ initialize(
     }
 
     for (i = 0; i < d->nssused; i++) {
-	d->ssets[i].lastseen = RCHR_NULL;
+	RCHR_SETNULL(d->ssets[i].lastseen);
     }
-    ss->lastseen = start;	/* maybe untrue, but harmless */
-    d->lastpost = RCHR_NULL;
-    d->lastnopr = RCHR_NULL;
+    RCHR_SET(ss->lastseen, start);	/* maybe untrue, but harmless */
+    RCHR_SETNULL(d->lastpost);
+    RCHR_SETNULL(d->lastnopr);
     return ss;
 }
 
@@ -654,7 +653,7 @@ checkLAConstraint(
 	ERR(REG_ESPACE);
 	return 0;
     }
-    end = longest(v, d, cp, v->stop, NULL);
+    longest(v, d, cp, v->stop, &end, NULL);
     freeDFA(d);
     FDEBUG(("=== lacon %d match %d\n", n, !RCHR_ISNULL(end)));
     return (sub->subno) ? !RCHR_ISNULL(end) : RCHR_ISNULL(end);
@@ -727,7 +726,7 @@ getVacantSS(
 
     if ((ss->flags&POSTSTATE) && !RCHR_EQ(ss->lastseen, d->lastpost) &&
 	    (RCHR_ISNULL(d->lastpost) || RCHR_LT(d->lastpost, ss->lastseen))) {
-	d->lastpost = ss->lastseen;
+	RCHR_SET(d->lastpost, ss->lastseen);
     }
 
     /*
@@ -736,7 +735,7 @@ getVacantSS(
 
     if ((ss->flags&NOPROGRESS) && !RCHR_EQ(ss->lastseen, d->lastnopr) &&
 	    (RCHR_ISNULL(d->lastnopr) || RCHR_LT(d->lastnopr, ss->lastseen))) {
-	d->lastnopr = ss->lastseen;
+	RCHR_SET(d->lastnopr, ss->lastseen);
     }
 
     return ss;
@@ -789,9 +788,9 @@ pickNextSS(
      */
 
     if (LOFF(cp)-LOFF(start)/*FIXME?cp - start*/ > d->nssets*2/3) {	/* oldest 33% are expendable */
-	ancient = cp; RCHR_BWD(ancient, d->nssets*2/3);
+	RCHR_SET(ancient, cp); RCHR_BWD(ancient, d->nssets*2/3);
     } else {
-	ancient = start;
+	RCHR_SET(ancient, start);
     }
     for (ss = d->search, end = &d->ssets[d->nssets]; ss < end; ss++) {
 	if ((RCHR_ISNULL(ss->lastseen) || RCHR_LT(ss->lastseen, ancient))

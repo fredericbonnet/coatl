@@ -32,16 +32,16 @@
 /* scanning macros (know about v) */
 #define	ATEOS()		(!RCHR_LT(v->now,v->stop))
 #define	NEXT1(c)	(!ATEOS() && RCHR_CHR(v->now) == CHR(c))
-static rchr strprefix(const char *prefix, rchr startp, const rchr end) {
-    const char *n=prefix; rchr c=startp; 
+static void strprefix(const char *prefix, const rchr start, const rchr end, rchr *resultp) {
+    const char *n=prefix; rchr c; RCHR_SET(c,start); 
     while (RCHR_LT(c, end) && *n) {
 	if (*n != RCHR_CHR(c)) break;
 	n++; RCHR_FWD(c,1);
     }
-    if (*n) c = RCHR_NULL;
-    return c;
+    if (*n) RCHR_SETNULL(*resultp);
+    else RCHR_SET(*resultp, c);
 }
-#define NEXTN(s,p)	((p) = strprefix((s), v->now, v->stop), !RCHR_ISNULL(p))
+#define NEXTN(s,p)	(strprefix((s), v->now, v->stop, &(p)), !RCHR_ISNULL(p))
 #define	SET(c)		(v->nexttype = (c))
 #define	SETV(c, n)	(v->nexttype = (c), v->nextvalue = (n))
 #define	RET(c)		return (SET(c), 1)
@@ -123,14 +123,14 @@ prefixes(
 	    NOTE(REG_UNONPOSIX);
 	    v->cflags |= REG_QUOTE;
 	    v->cflags &= ~(REG_ADVANCED|REG_EXPANDED|REG_NEWLINE);
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    RCHR_FWD(v->now,1);
 	    return;		/* and there can be no more prefixes */
 	    break;
 	case CHR(':'):		/* "***:" shifts to AREs */
 	    NOTE(REG_UNONPOSIX);
 	    v->cflags |= REG_ADVANCED;
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    RCHR_FWD(v->now,1);
 	    break;
 	default:		/* otherwise *** is just an error */
@@ -154,7 +154,7 @@ prefixes(
 
     if (NEXTN("(?", tmp) && iscalpha(RCHR_CHR(tmp))) {
 	NOTE(REG_UNONPOSIX);
-	v->now = tmp;
+	RCHR_SET(v->now, tmp);
 	for (; !ATEOS() && iscalpha(RCHR_CHR(v->now)); RCHR_FWD(v->now,1)) {
 	    switch (RCHR_CHR(v->now)) {
 	    case CHR('b'):	/* BREs (but why???) */
@@ -224,8 +224,8 @@ lexnest(
     const chr *endp)		/* one past end of interpolation */
 {
     assert(RCHR_ISNULL(v->savenow));	/* only one level of nesting */
-    v->savenow = v->now;
-    v->savestop = v->stop;
+    RCHR_SET(v->savenow, v->now);
+    RCHR_SET(v->savestop, v->stop);
     RCHR_INIT(v->now, v->stop, beginp, endp-beginp);
 }
 
@@ -330,9 +330,9 @@ next(
      */
 
     if (!RCHR_ISNULL(v->savenow) && ATEOS()) {
-	v->now = v->savenow;
-	v->stop = v->savestop;
-	v->savenow = RCHR_NULL; v->savestop = RCHR_NULL;
+	RCHR_SET(v->now, v->savenow);
+	RCHR_SET(v->stop, v->savestop);
+	RCHR_SETNULL(v->savenow); RCHR_SETNULL(v->savestop);
     }
 
     /*
@@ -665,11 +665,11 @@ next(
 	break;
     case CHR('['):		/* easy except for [[:<:]] and [[:>:]] */
 	if (NEXTN("[:<:]]",tmp)) {
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    NOTE(REG_UNONPOSIX);
 	    RET('<');
 	} else if (NEXTN("[:>:]]",tmp)) {
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    NOTE(REG_UNONPOSIX);
 	    RET('>');
 	}
@@ -875,7 +875,7 @@ lexescape(
     case CHR('1'): case CHR('2'): case CHR('3'): case CHR('4'):
     case CHR('5'): case CHR('6'): case CHR('7'): case CHR('8'):
     case CHR('9'):
-	save = v->now;
+	RCHR_SET(save, v->now);
 	RCHR_BWD(v->now,1);		/* put first digit back */
 	c = lexdigits(v, 10, 1, 255);	/* REs >255 long outside spec */
 	if (ISERR()) {
@@ -895,7 +895,7 @@ lexescape(
 	 * Oops, doesn't look like it's a backref after all...
 	 */
 
-	v->now = save;
+	RCHR_SET(v->now, save);
 
 	/*
 	 * And fall through into octal number.
@@ -995,11 +995,11 @@ brenext(
 	break;
     case CHR('['):
 	if (NEXTN("[:<:]]",tmp)) {
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    NOTE(REG_UNONPOSIX);
 	    RET('<');
 	} else if (NEXTN("[:>:]]",tmp)) {
-	    v->now = tmp;
+	    RCHR_SET(v->now, tmp);
 	    NOTE(REG_UNONPOSIX);
 	    RET('>');
 	}
@@ -1096,7 +1096,8 @@ static void
 skip(
     struct vars *v)
 {
-    rchr start = v->now;
+    rchr start; 
+    RCHR_SET(start, v->now);
 
     assert(v->cflags&REG_EXPANDED);
 
