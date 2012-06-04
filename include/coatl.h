@@ -127,8 +127,42 @@ extern "C" {
  * Include other files.
  */
 
+#include "coatlNumber.h"
 #include "coatlUnicode.h"
 #include "coatlRegexp.h"
+#include "coatlJson.h"
+
+
+EXTERN void CoatlTest();//FIXME
+
+
+/*
+================================================================================
+Section: Error Handling
+================================================================================
+*/
+
+/*---------------------------------------------------------------------------
+ * Enum: Coatl_ErrorCode
+ *
+ *	Error codes defined in the CoATL domain.
+ *
+ * See also: 
+ *	<Coatl_GetErrorDomain>
+ *---------------------------------------------------------------------------*/
+
+typedef enum Coatl_ErrorCode {
+    COATL_ERROR_ASSERTION,
+    COATL_ERROR_LARGEINT,
+    COATL_ERROR_REGEXP,
+} Coatl_ErrorCode;
+
+/*
+ * Remaining declarations.
+ */
+
+EXTERN Col_ErrorDomain	Coatl_GetErrorDomain();
+
 
 /*
  * end block for C++

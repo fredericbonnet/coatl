@@ -47,8 +47,9 @@ Internal Section: Type Checking
  *---------------------------------------------------------------------------*/
 
 #define TYPECHECK_REGEXP(word, rePtr) \
-    if (!(Col_WordType(word) & COL_CUSTOM) || Col_CustomWordInfo((word), (void **) &(rePtr)) != &regexpWordType) { \
-	Col_Error(COL_TYPECHECK, "%x is not a regexp", (word)); \
+    if (!(Col_WordType(word) & COL_CUSTOM) \
+	    || Col_CustomWordInfo((word), (void **) &(rePtr)) != &regexpWordType) { \
+	Col_Error(COL_TYPECHECK, CoatlDomain, COATL_ERROR_REGEXP, (word)); \
 	goto COL_CONCATENATE(FAILED,__LINE__); \
     } \
     if (0) \
