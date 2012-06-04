@@ -24,6 +24,9 @@
     <Filter Include="RegExp">
       <UniqueIdentifier>{df0387ab-510f-43aa-8c16-03d45200d5d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Work">
+      <UniqueIdentifier>{599f8fe2-ad92-4166-92a1-2f5daad6b78d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="InternalDocs\Topics.txt">
@@ -89,7 +92,37 @@
       <Filter>RegExp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclStringObj.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclListObj.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclUtil.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclParse.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclScan.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlParse.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlParseTcl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclStrToD.c">
+      <Filter>Work</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlJson.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coatlNumber.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mp\dtoa.c">
+      <Filter>Work</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +155,21 @@
     </ClInclude>
     <ClInclude Include="re\regguts.h">
       <Filter>RegExp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Tcl\src\tcl8.5.5\generic\tclInt.h">
+      <Filter>Work</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlParseInt.h">
+      <Filter>Internal Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coatlJson.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coatlNumber.h">
+      <Filter>Public Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coatlNumberInt.h">
+      <Filter>Internal Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
