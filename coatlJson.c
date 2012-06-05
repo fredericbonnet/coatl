@@ -284,6 +284,7 @@ ParseJsonBackslash(
 	 * Consume 4 hex digits.
 	 */
 
+	NEXTCHAR(c, begin, end, return 0);
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
