@@ -29,6 +29,21 @@ EXTERN Col_Word		Coatl_NewLargeIntWord(intmax_t value);
 #   define Coatl_NewLargeIntWord	Col_NewIntWord
 #endif
 
+
+/****************************************************************************
+ * Group: Large Integer Word Predicates
+ *
+ * Declaration:
+ *	<Coatl_IsLargeIntWord>
+ ****************************************************************************/
+
+#if INTPTR_MAX != INTMAX_MAX
+EXTERN int		Coatl_IsLargeIntWord(Col_Word word);
+#else
+#   define Coatl_IsLargeIntWord	(Col_WordType(word) & COL_INT)
+#endif
+
+
 /****************************************************************************
  * Group: Large Integer Word Accessors
  *

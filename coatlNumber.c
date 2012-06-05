@@ -59,13 +59,13 @@ Internal Section: Number Parsing
  *---------------------------------------------------------------------------*/
 
 #define DIGIT(c, b) \
-      (c) <  '0' ? CHAR_MAX		\
-    : (c) <= '9' ? (c)-'0'		\
-    : (c) <  'A' ? CHAR_MAX		\
-    : (c) <= 'Z' ? (c)-'A'+10		\
-    : (c) <  'a' ? CHAR_MAX		\
-    : (c) <= 'z' ? (c)-'a'+(b>36)?36:10	\
-    :              CHAR_MAX
+    (   (c) <  '0' ? CHAR_MAX			\
+     : (c) <= '9' ? (c)-'0'			\
+     : (c) <  'A' ? CHAR_MAX			\
+     : (c) <= 'Z' ? (c)-'A'+10			\
+     : (c) <  'a' ? CHAR_MAX			\
+     : (c) <= 'z' ? (c)-'a'+(b>36)?36:10	\
+     :              CHAR_MAX)
 
 /*---------------------------------------------------------------------------
  * Internal Constant: STRLEN_USE_ALLOCA
@@ -102,7 +102,7 @@ ParseInt(
     Col_RopeIterator end,
     size_t min,
     size_t max,
-    int base,
+    unsigned int base,
     Col_Char *ignore)
 {
     size_t nb;
@@ -155,13 +155,13 @@ int
 ScanInt(
     Col_RopeIterator begin,
     Col_RopeIterator end,
-    int base,
+    unsigned int base,
     Col_Char *ignore,
     uintmax_t *valuePtr)
 {
     uintmax_t v = 0;
     Col_Char c, *pi;
-    int d;
+    unsigned int d;
 
     /*
      * Consume hex digits. Assume hex digit codepoints are contiguous (true
@@ -239,7 +239,7 @@ Col_Word
 ScanIntWord(
     Col_RopeIterator begin, 
     Col_RopeIterator end, 
-    int base,
+    unsigned int base,
     Col_Char *ignore)
 {
     uintmax_t v;
@@ -312,7 +312,7 @@ Col_Word
 ScanFloatWord(
     Col_RopeIterator begin, 
     Col_RopeIterator end, 
-    int base,
+    unsigned int base,
     Col_Char *ignore)
 {
     mpf_t mpf, *data;
@@ -452,7 +452,7 @@ COL_CONCATENATE(FAILED,__LINE__):
  *	If the integer value is sufficiently small, return a Colibri integer.
  *
  *	On platforms where the largest supported integer differs from the native
- *	word type large integers store the former whereas Colibri only support 
+ *	word type, large integers store the former whereas Colibri only support 
  *	the latter. This is the case on 32-bit platforms with 64-bit integer 
  *	support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
  *	<Coatl_NewLargeIntWord> is simply an alias of <Col_NewIntWord>.
@@ -489,6 +489,42 @@ Coatl_NewLargeIntWord(
 
 
 /****************************************************************************
+ * Group: Large Integer Word Predicates
+ ****************************************************************************/
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_IsLargeIntWord
+ *
+ *	Test whether word is a large integer word.
+ *
+ *	On platforms where the largest supported integer differs from the native
+ *	word type, large integers store the former whereas Colibri only support 
+ *	the latter. This is the case on 32-bit platforms with 64-bit integer 
+ *	support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
+ *	<Coatl_LargeIntWordValue> simply tests the result of <Col_WordType>
+ *	against <COL_INT>.
+ *
+ * Argument:
+ *	word	- The word to test.
+ *
+ * Result:
+ *	Nonzero if word is a large integer word.
+ *
+ * See also:
+ *	<Col_NewLargeIntWord>
+ *---------------------------------------------------------------------------*/
+
+int
+Coatl_IsLargeIntWord(
+    Col_Word word)
+{
+    void *dummy;
+    return ((Col_WordType(word) & COL_CUSTOM) 
+	    && Col_CustomWordInfo(word, &dummy) == &largeIntWordType);
+}
+
+
+/****************************************************************************
  * Group: Large Integer Word Accessors
  ****************************************************************************/
 
@@ -498,7 +534,7 @@ Coatl_NewLargeIntWord(
  *	Get value of large integer word.
  *
  *	On platforms where the largest supported integer differs from the native
- *	word type large integers store the former whereas Colibri only support 
+ *	word type, large integers store the former whereas Colibri only support 
  *	the latter. This is the case on 32-bit platforms with 64-bit integer 
  *	support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
  *	<Coatl_LargeIntWordValue> is simply an alias of <Col_IntWordValue>.
