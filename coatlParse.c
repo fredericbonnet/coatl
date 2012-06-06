@@ -106,7 +106,7 @@ ParseBackslash(
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
-	    if (!ParseInt(it, end, 0, SIZE_MAX, 16, NULL)) return 0;
+	    if (!ParseUInt(it, end, 0, SIZE_MAX, 16, NULL)) return 0;
 	    if (Col_RopeIterIndex(it) - Col_RopeIterIndex(begin) > 2) {
 		/*
 		 * Only keep last 2 characters.
@@ -115,12 +115,12 @@ ParseBackslash(
 		Col_RopeIterSet(begin, it);
 		Col_RopeIterBackward(begin, 2);
 	    }
-	    REQUIRE(ScanInt(begin, it, 16, NULL, &v));
+	    REQUIRE(ReadUInt(begin, it, 16, NULL, &v));
 	    ASSERT(v <= 0xFF);
 	    *charPtr = (Col_Char) v;
 	    return 1;
 	} else {
-	    return ParseInt(begin, end, 0, SIZE_MAX, 16, NULL);
+	    return ParseUInt(begin, end, 0, SIZE_MAX, 16, NULL);
 	}
 
     case 'u':
@@ -142,12 +142,12 @@ ParseBackslash(
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
-	    if (!ParseInt(it, end, 0, 4, 16, NULL)) return 0;
-	    REQUIRE(ScanInt(begin, it, 16, NULL, &v));
+	    if (!ParseUInt(it, end, 0, 4, 16, NULL)) return 0;
+	    REQUIRE(ReadUInt(begin, it, 16, NULL, &v));
 	    *charPtr = (Col_Char) v;
 	    return 1;
 	} else {
-	    return ParseInt(begin, end, 0, 4, 16, NULL);
+	    return ParseUInt(begin, end, 0, 4, 16, NULL);
 	}
 
     case 'U':
@@ -169,12 +169,12 @@ ParseBackslash(
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
-	    if (!ParseInt(it, end, 0, 8, 16, NULL)) return 0;
-	    REQUIRE(ScanInt(begin, it, 16, NULL, &v));
+	    if (!ParseUInt(it, end, 0, 8, 16, NULL)) return 0;
+	    REQUIRE(ReadUInt(begin, it, 16, NULL, &v));
 	    *charPtr = (Col_Char) v;
 	    return 1;
 	} else {
-	    return ParseInt(begin, end, 0, 8, 16, NULL);
+	    return ParseUInt(begin, end, 0, 8, 16, NULL);
 	}
 
     default:
@@ -187,12 +187,12 @@ ParseBackslash(
 	    if (charPtr) {
 		Col_RopeIterator it;
 		Col_RopeIterSet(it, begin);
-		if (!ParseInt(it, end, 0, 3, 8, NULL)) return 0;
-		REQUIRE(ScanInt(begin, it, 8, NULL, &v));
+		if (!ParseUInt(it, end, 0, 3, 8, NULL)) return 0;
+		REQUIRE(ReadUInt(begin, it, 8, NULL, &v));
 		*charPtr = (Col_Char) v;
 		return 1;
 	    } else {
-		return ParseInt(begin, end, 0, 3, 8, NULL);
+		return ParseUInt(begin, end, 0, 3, 8, NULL);
 	    }
 	}
 

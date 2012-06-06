@@ -157,9 +157,9 @@ ParseJsonNumber(
 	 */
 
 	if (real) {
-	    *valuePtr = ScanFloatWord(it, begin, 10, NULL);
+	    *valuePtr = ReadFloatWord(it, begin, 10, NULL);
 	} else {
-	    *valuePtr = ScanIntWord(it, begin, 10, NULL);
+	    *valuePtr = ReadIntWord(it, begin, 10, NULL);
 	}
 	ASSERT(Col_RopeIterCompare(it, begin) == 0);
 	if (realPtr) *realPtr = real;
@@ -288,12 +288,12 @@ ParseJsonBackslash(
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
-	    if (!ParseInt(it, end, 4, 4, 16, NULL)) return 0;
-	    REQUIRE(ScanInt(begin, it, 16, NULL, &v));
+	    if (!ParseUInt(it, end, 4, 4, 16, NULL)) return 0;
+	    REQUIRE(ReadUInt(begin, it, 16, NULL, &v));
 	    *charPtr = (Col_Char) v;
 	    return 1;
 	} else {
-	    return ParseInt(begin, end, 4, 4, 16, NULL);
+	    return ParseUInt(begin, end, 4, 4, 16, NULL);
 	}
 
     default:
