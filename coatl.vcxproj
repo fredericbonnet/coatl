@@ -60,13 +60,13 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='PublicDocs|Win32'">if not exist $(OutDir) mkdir $(OutDir)
-perl C:\Dev\NaturalDocs-1.51\NaturalDocs -xi tools -xi doc -i . -o HTML $(OutDir) -p $(IntDir)</NMakeBuildCommandLine>
+perl C:\Dev\NaturalDocs-1.51\NaturalDocs -xi lib -xi tools -xi doc -i . -o HTML $(OutDir) -p $(IntDir)</NMakeBuildCommandLine>
     <NMakeBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='InternalDocs|Win32'">if not exist $(OutDir) mkdir $(OutDir)
-perl C:\Dev\NaturalDocs-1.51\NaturalDocs -xi man -xi tools -xi doc -i . -o HTML $(OutDir) -p InternalDocs</NMakeBuildCommandLine>
+perl C:\Dev\NaturalDocs-1.51\NaturalDocs -xi lib -xi man -xi tools -xi doc -i . -o HTML $(OutDir) -p InternalDocs</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='PublicDocs|Win32'">if not exist $(OutDir) mkdir $(OutDir)
-perl C:\Dev\NaturalDocs-1.51\NaturalDocs -r -xi tools -xi doc -i . -o HTML $(OutDir) -p $(IntDir)</NMakeReBuildCommandLine>
+perl C:\Dev\NaturalDocs-1.51\NaturalDocs -r -xi lib -xi tools -xi doc -i . -o HTML $(OutDir) -p $(IntDir)</NMakeReBuildCommandLine>
     <NMakeReBuildCommandLine Condition="'$(Configuration)|$(Platform)'=='InternalDocs|Win32'">if not exist $(OutDir) mkdir $(OutDir)
-perl C:\Dev\NaturalDocs-1.51\NaturalDocs -r -xi man -xi tools -xi doc -i . -o HTML $(OutDir) -p InternalDocs</NMakeReBuildCommandLine>
+perl C:\Dev\NaturalDocs-1.51\NaturalDocs -r -xi lib -xi man -xi tools -xi doc -i . -o HTML $(OutDir) -p InternalDocs</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='PublicDocs|Win32'">if exist $(IntDir)\Data rmdir /S /Q $(IntDir)\Data
 if exist $(OutDir) rmdir /S /Q $(OutDir)</NMakeCleanCommandLine>
     <NMakeCleanCommandLine Condition="'$(Configuration)|$(Platform)'=='InternalDocs|Win32'">if exist InternalDocs\Data rmdir /S /Q InternalDocs\Data
