@@ -22,8 +22,7 @@ int			ParseJsonObject(Col_RopeIterator begin,
 int			ParseJsonArray(Col_RopeIterator begin, 
 			    Col_RopeIterator end, Col_Word *listPtr);
 
-#define WHITESPACE(c) \
-    ((c) == 0x20 || (c) == 0x09 || (c) == 0x0A || (c) == 0x0D)
+static const Col_Char whitespace[] = {0x20, 0x09, 0x0A, 0x0D, COL_CHAR_INVALID};
 
 
 /*---------------------------------------------------------------------------
@@ -63,11 +62,11 @@ ParseJsonLiteral(
 	 * 'true'.
 	 */
 	
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'r') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'u') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'e') break;
 	if (valuePtr) *valuePtr = Col_NewIntWord(1);
 	return 1;
@@ -77,13 +76,13 @@ ParseJsonLiteral(
 	 * 'false'.
 	 */
 	
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'a') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'l') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 's') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'e') break;
 	if (valuePtr) *valuePtr = Col_NewIntWord(0);
 	return 1;
@@ -93,11 +92,11 @@ ParseJsonLiteral(
 	 * 'null'.
 	 */
 	
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'u') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'l') break;
-	NEXTCHAR(c, begin, end, break);
+	NEXT_CHAR(c, begin, end) break;
 	if (c != 'l') break;
 	if (valuePtr) *valuePtr = COL_NIL;
 	return 1;
@@ -157,9 +156,9 @@ ParseJsonNumber(
 	 */
 
 	if (real) {
-	    *valuePtr = ReadFloatWord(it, begin, 10, NULL);
+	    *valuePtr = Coatl_ReadFloatWord(it, begin, NULL, 0);
 	} else {
-	    *valuePtr = ReadIntWord(it, begin, 10, NULL);
+	    *valuePtr = Coatl_ReadIntWord(it, begin, NULL, 0);
 	}
 	ASSERT(Col_RopeIterCompare(it, begin) == 0);
 	if (realPtr) *realPtr = real;
@@ -167,28 +166,28 @@ ParseJsonNumber(
     }
 
     if (realPtr) *realPtr = 0;
-    GETCHAR(c, begin, end, return 0);
+    GET_CHAR(c, begin, end) return 0;
     if (c == '-') {	
 	/*
 	 * Minus sign.
 	 */
 
-	NEXTCHAR(c, begin, end, return 0);
+	NEXT_CHAR(c, begin, end) return 0;
     }
     if (c == '0') {
 	/*
 	 * Leading zero must not be alone.
 	 */
 
-	NEXTCHAR(c, begin, end, return 1);
+	NEXT_CHAR(c, begin, end) return 1;
     } else if (c >= '1' && c <= '9') {
 	/*
 	 * Digit sequence.
 	 */
 
-	NEXTCHAR(c, begin, end, return 1);
+	NEXT_CHAR(c, begin, end) return 1;
 	while (c >= '0' && c <= '9') {
-	    NEXTCHAR(c, begin, end, return 1);
+	    NEXT_CHAR(c, begin, end) return 1;
 	}
     } else return 0;
     if (c == '.') {
@@ -197,11 +196,11 @@ ParseJsonNumber(
 	 */
 
 	if (realPtr) *realPtr = 1;
-	NEXTCHAR(c, begin, end, return 0);
+	NEXT_CHAR(c, begin, end) return 0;
 	if (!(c >= '0' && c <= '9')) return 0;
-	NEXTCHAR(c, begin, end, return 1);
+	NEXT_CHAR(c, begin, end) return 1;
 	while (c >= '0' && c <= '9') {
-	    NEXTCHAR(c, begin, end, return 1);
+	    NEXT_CHAR(c, begin, end) return 1;
 	}
     }
     if (c == 'e' || c == 'E') {
@@ -210,13 +209,13 @@ ParseJsonNumber(
 	 */
 
 	if (realPtr) *realPtr = 1;
-	NEXTCHAR(c, begin, end, return 0);
+	NEXT_CHAR(c, begin, end) return 0;
 	if (c == '+' || c == '-') {
 	    /*
 	     * Exponent sign.
 	     */
 
-	    NEXTCHAR(c, begin, end, return 0);
+	    NEXT_CHAR(c, begin, end) return 0;
 	}
 
 	/*
@@ -224,9 +223,9 @@ ParseJsonNumber(
 	 */
 
 	if (!(c >= '0' && c <= '9')) return 0;
-	NEXTCHAR(c, begin, end, return 1);
+	NEXT_CHAR(c, begin, end) return 1;
 	while (c >= '0' && c <= '9') {
-	    NEXTCHAR(c, begin, end, return 1);
+	    NEXT_CHAR(c, begin, end) return 1;
 	}
     }
     return 1;
@@ -262,7 +261,7 @@ ParseJsonBackslash(
 
     ASSERT(Col_RopeIterCompare(begin, end) < 0);
     ASSERT(Col_RopeIterAt(begin) == '\\');
-    NEXTCHAR(c, begin, end, return 0);
+    NEXT_CHAR(c, begin, end) return 0;
     switch (c) {
     /*
      * Know escapes. Use numeric values instead of C escapes for known sequence,
@@ -284,7 +283,7 @@ ParseJsonBackslash(
 	 * Consume 4 hex digits.
 	 */
 
-	NEXTCHAR(c, begin, end, return 0);
+	NEXT_CHAR(c, begin, end) return 0;
 	if (charPtr) {
 	    Col_RopeIterator it;
 	    Col_RopeIterSet(it, begin);
@@ -344,7 +343,7 @@ ParseJsonString(
     if (stringPtr) strbuf = Col_NewStringBuffer(0, COL_UCS);//TODO optimize buffer length?
 
     for (;;) {
-	GETCHAR(c, begin, end, return 0);
+	GET_CHAR(c, begin, end) return 0;
 	switch (c) {
 	case '"':
 	    /*
@@ -521,8 +520,8 @@ ParseJsonObject(
     if (mapPtr) map = Col_NewStringHashMap(0);
 
     for (nb = 0; ; nb++) {
-	GETCHAR(c, begin, end, return 0);
-	while (WHITESPACE(c)) NEXTCHAR(c, begin, end, return 0);
+	GET_CHAR(c, begin, end) return 0;
+	SKIP_CHARS(whitespace, c, begin, end) return 0;
 
 	if (c == '}') {
 	    /*
@@ -540,7 +539,8 @@ ParseJsonObject(
 	     */
 
 	    if (c != ',') return 0;
-	    do NEXTCHAR(c, begin, end, return 0) while (WHITESPACE(c));
+	    NEXT_CHAR(c, begin, end) return 0;
+	    SKIP_CHARS(whitespace, c, begin, end) return 0;
 	}
 
 	/*
@@ -553,10 +553,11 @@ ParseJsonObject(
 	 * Key-value separator.
 	 */
 
-	GETCHAR(c, begin, end, return 0);
-	while (WHITESPACE(c)) NEXTCHAR(c, begin, end, return 0);
+	GET_CHAR(c, begin, end) return 0;
+	SKIP_CHARS(whitespace, c, begin, end) return 0;
 	if (c != ':') return 0;
-	do NEXTCHAR(c, begin, end, return 0) while (WHITESPACE(c));
+	NEXT_CHAR(c, begin, end) return 0;
+	SKIP_CHARS(whitespace, c, begin, end) return 0;
 
 	/*
 	 * Value.
@@ -617,8 +618,8 @@ ParseJsonArray(
 
     Col_RopeIterSet(it, begin);
     for (nb = 0; ; nb++) {
-	GETCHAR(c, begin, end, return 0);
-	while (WHITESPACE(c)) NEXTCHAR(c, begin, end, return 0);
+	GET_CHAR(c, begin, end) return 0;
+	SKIP_CHARS(whitespace, c, begin, end) return 0;
 
 	if (c == ']') {
 	    /*
@@ -635,7 +636,8 @@ ParseJsonArray(
 	     */
 
 	    if (c != ',') return 0;
-	    do NEXTCHAR(c, begin, end, return 0) while (WHITESPACE(c));
+	    NEXT_CHAR(c, begin, end) return 0;
+	    SKIP_CHARS(whitespace, c, begin, end) return 0;
 	}
 
 	/*
@@ -659,11 +661,12 @@ ParseJsonArray(
 	Col_Word mvector = Col_NewMVector(0, nb, NULL);
 	Col_Word *elements = Col_MVectorElements(mvector);
 	for (i = 0; i < nb; i++) {
-	    GETCHAR(c, it, end, ASSERT(0));
-	    while (WHITESPACE(c)) NEXTCHAR(c, it, end, ASSERT(0));
+	    GET_CHAR(c, it, end) ASSERT(0);
+	    SKIP_CHARS(whitespace, c, it, end) ASSERT(0);
 	    if (i > 0) {
 		ASSERT(c == ',');
-		do NEXTCHAR(c, it, end, ASSERT(0)) while (WHITESPACE(c));
+		NEXT_CHAR(c, it, end) ASSERT(0);
+		SKIP_CHARS(whitespace, c, it, end) ASSERT(0);
 	    }
 	    REQUIRE(ParseJsonValue(it, end, elements+i));
 	}
@@ -675,13 +678,14 @@ ParseJsonArray(
 
 	Col_Word mlist = Col_NewMList(), element;
 	Col_MListSetLength(mlist, nb);
-	GETCHAR(c, it, end, ASSERT(0));
+	GET_CHAR(c, it, end) ASSERT(0);
 	for (i = 0; i < nb; i++) {
-	    GETCHAR(c, it, end, ASSERT(0));
-	    while (WHITESPACE(c)) NEXTCHAR(c, it, end, ASSERT(0));
+	    GET_CHAR(c, it, end) ASSERT(0);
+	    SKIP_CHARS(whitespace, c, it, end) ASSERT(0);
 	    if (i > 0) {
 		ASSERT(c == ',');
-		do NEXTCHAR(c, it, end, ASSERT(0)) while (WHITESPACE(c));
+		NEXT_CHAR(c, it, end) ASSERT(0);
+		SKIP_CHARS(whitespace, c, it, end) ASSERT(0);
 	    }
 	    REQUIRE(ParseJsonValue(it, end, &element));
 	    Col_MListSetAt(mlist, i, element);
@@ -725,8 +729,8 @@ Coatl_ParseJson(
      * Skip leading whitespace.
      */
 
-    GETCHAR(c, begin, end, return 1);
-    while (WHITESPACE(c)) NEXTCHAR(c, begin, end, return 1);
+    GET_CHAR(c, begin, end) return 1;
+    SKIP_CHARS(whitespace, c, begin, end) return 1;
 
     /*
      * Parse value.
@@ -738,8 +742,8 @@ Coatl_ParseJson(
      * Skip trailing whitespace.
      */
 
-    GETCHAR(c, begin, end, return 1);
-    while (WHITESPACE(c)) NEXTCHAR(c, begin, end, return 1);
+    GET_CHAR(c, begin, end) return 1;
+    SKIP_CHARS(whitespace, c, begin, end) return 1;
 
     /*
      * Invalid trailing characters.

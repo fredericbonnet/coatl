@@ -45,30 +45,29 @@ Footer: Copyright (C) 2012 Frédéric Bonnet
 
 Group: Public Headers  {
 
-   Group: General  {
-
-      Text: Including <coatl.h> will include all other files.
-      File: coatl.h  (include\coatl.h)
-      }  # Group: General
-
-   Group: Unicode  {
-
-      File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
-      File: coatlUcd.h  (include\coatlUcd.h)
-      File: coatlUnicode.h  (include\coatlUnicode.h)
-      }  # Group: Unicode
-
-   Group: Regular Expressions  {
-
-      File: coatlRegexp.h  (include\coatlRegexp.h)
-      }  # Group: Regular Expressions
-
+   File: coatl.h  (include\coatl.h)
+   File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
+   File: coatlUcd.h  (include\coatlUcd.h)
+   File: coatlUnicode.h  (include\coatlUnicode.h)
+   File: coatlJson.h  (include\coatlJson.h)
+   File: coatlNumber.h  (include\coatlNumber.h)
+   File: coatlRegexp.h  (include\coatlRegexp.h)
    }  # Group: Public Headers
+
+Group: Internal Headers  {
+
+   File: coatlInternal.h  (coatlInternal.h)
+   File: coatlNumberInt.h  (coatlNumberInt.h)
+   File: coatlParseInt.h  (coatlParseInt.h)
+   }  # Group: Internal Headers
 
 Group: Source Files  {
 
    File: coatl.c  (coatl.c)
-   File: coatlInternal.h  (coatlInternal.h)
+   File: coatlJson.c  (coatlJson.c)
+   File: coatlNumber.c  (no auto-title, coatlNumber.c)
+   File: coatlParse.c  (coatlParse.c)
+   File: coatlParseTcl.c  (coatlParseTcl.c)
    File: coatlRegexp.c  (coatlRegexp.c)
    File: coatlUcd.c  (coatlUcd.c)
    File: coatlUnicode.c  (coatlUnicode.c)

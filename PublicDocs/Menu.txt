@@ -51,14 +51,28 @@ Group: API Reference  {
       File: coatl.c  (coatl.c)
       }  # Group: General
 
+   Group: Numbers  {
+
+      File: coatlNumber.h  (include\coatlNumber.h)
+      File: coatlNumber.c  (no auto-title, coatlNumber.c)
+      }  # Group: Numbers
+
    Group: Unicode  {
 
-      File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
       File: coatlUcd.h  (include\coatlUcd.h)
+      File: coatlUcdProperties.h  (include\coatlUcdProperties.h)
       File: coatlUcd.c  (coatlUcd.c)
       File: coatlUnicode.h  (include\coatlUnicode.h)
       File: coatlUnicode.c  (coatlUnicode.c)
       }  # Group: Unicode
+
+   Group: Data Formats  {
+
+      File: coatlJson.h  (include\coatlJson.h)
+      File: coatlJson.c  (coatlJson.c)
+      File: coatlParse.c  (coatlParse.c)
+      File: coatlParseTcl.c  (coatlParseTcl.c)
+      }  # Group: Data Formats
 
    Group: Regular Expressions  {
 
