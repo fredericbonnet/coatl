@@ -10,7 +10,7 @@
 //TODO doc format
 
 
-EXTERN int		Coatl_ParseJson(Col_RopeIterator begin, 
-			    Col_RopeIterator end, Col_Word *dataPtr);
+EXTERN int		Coatl_ReadJson(Col_RopeIterator begin, 
+			    Col_RopeIterator end, Col_Word *wordPtr);
 
 #endif /* _COATL_JSON */

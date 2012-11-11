@@ -809,15 +809,15 @@ ReadNumberPrefix(
      */
 
     *negPtr = 0;
-    GET_CHAR(c, begin, end) goto error;
-    SKIP_CHARS(format->ignoreChars, c, begin, end) goto error;
+    GET_CHAR(c, begin, end) return 0;
+    SKIP_CHARS(format->ignoreChars, c, begin, end) return 0;
     switch (c) {
     case '-':
 	*negPtr = 1;
 	/* continued. */
     case '+':
-	NEXT_CHAR(c, begin, end) goto error;
-	SKIP_CHARS(format->ignoreChars, c, begin, end) goto error;
+	NEXT_CHAR(c, begin, end) return 0;
+	SKIP_CHARS(format->ignoreChars, c, begin, end) return 0;
     }
 
     /*
@@ -848,7 +848,7 @@ ReadNumberPrefix(
 		     */
 
 		    if (r->c != '\0') {
-			NEXT_CHAR(c, it, end) goto error;
+			NEXT_CHAR(c, it, end) return 0;
 		    }
 		    Col_RopeIterSet(begin, it);
 		    *radixPtr = r->r;
@@ -870,7 +870,7 @@ ReadNumberPrefix(
 	    }
 
 	    IF_CHAR_IN(format->prefixChars, c) {
-		NEXT_CHAR(c, it, end) goto error;
+		NEXT_CHAR(c, it, end) return 0;
 		Col_RopeIterSet(begin, it);
 		*radixPtr = radix;
 	    }
@@ -878,10 +878,7 @@ ReadNumberPrefix(
     }
 
 success:
-    if (*radixPtr >= 2 && *radixPtr <= 62) return 1;
-
-error:
-    return 0;
+    return (*radixPtr >= 2 && *radixPtr <= 62);
 }
 
 /*---------------------------------------------------------------------------
@@ -896,9 +893,11 @@ error:
  *	types	- Accepted output word types.
  *
  * Results:
- *	Integer word upon success. May be a Colibri integer word, a large 
- *	integer word, or a multiple precision integer word.
- *	Else nil.
+ *	Nonzero if success. Additionally:
+ *
+ *	wordPtr    - If non-NULL, resulting word upon success. May be a Colibri
+ *	integer word, a large integer word, or a multiple precision integer 
+ *	word.
  *
  * Side effects:
  *	*begin* is moved just past the last scanned character.
@@ -907,14 +906,14 @@ error:
  *	<Coatl_NumReadFormat>, <Number Reading Word Type Flags>
  *---------------------------------------------------------------------------*/
 
-Col_Word
+int
 Coatl_ReadIntWord(
     Col_RopeIterator begin, 
     Col_RopeIterator end, 
     const Coatl_NumReadFormat *format,
-    int types)
+    int types,
+    Col_Word *wordPtr)
 {
-    Col_Word w;
     mpz_t *data;
     uintmax_t v;
     Col_RopeIterator it;
@@ -926,7 +925,7 @@ Coatl_ReadIntWord(
     
     if (!format) format = &numReadDefaut;
     else if (format == COATL_INTREAD_C) format = &intReadC;
-    else if (format == COATL_FLOATREAD_C) goto error;
+    else if (format == COATL_FLOATREAD_C) return 0;
 
     if (!types) types = COATL_INTREAD_NATIVE | COATL_INTREAD_LARGE 
 	    | COATL_INTREAD_MP;
@@ -935,21 +934,24 @@ Coatl_ReadIntWord(
      * Get sign and radix.
      */
 
-    if (!ReadNumberPrefix(begin, end, format, &neg, &radix)) goto error;
+    if (!ReadNumberPrefix(begin, end, format, &neg, &radix)) return 0;
 
     /*
      * First try large integer scan.
      */
     
-    len = Col_RopeIterIndex(end) - Col_RopeIterIndex(begin);
     Col_RopeIterSet(it, begin);
     if (ReadUInt(begin, end, radix, format->ignoreChars, &v)) {
 	if ((types & COATL_INTREAD_NATIVE) && v <= (neg ? 
 		(uintptr_t) -INTPTR_MIN : (uintptr_t) INTPTR_MAX)) {
-	    return Col_NewIntWord(neg ? -(intptr_t) v : (intptr_t) v);
+	    if (wordPtr) *wordPtr = Col_NewIntWord(neg ? -(intptr_t) v 
+		    : (intptr_t) v);
+	    return 1;
 	} else if ((types & COATL_INTREAD_LARGE) && v <= (neg ? 
 		(uintmax_t) -INTMAX_MIN : (uintmax_t) INTMAX_MAX)) {
-	    return Coatl_NewLargeIntWord(neg ? -(intmax_t) v : (intmax_t) v);
+	    if (wordPtr) *wordPtr = Coatl_NewLargeIntWord(neg ? -(intmax_t) v
+		    : (intmax_t) v);
+	    return 1;
 	}
     }
     Col_RopeIterSet(begin, it);
@@ -959,7 +961,28 @@ Coatl_ReadIntWord(
      * fit into a char.
      */
 
-    if (!(types & COATL_INTREAD_MP)) goto error;
+    if (!(types & COATL_INTREAD_MP)) return 0;
+
+    if (!wordPtr) {
+	/*
+	 * Consume all suitable characters.
+	 */
+
+	for (; Col_RopeIterCompare(begin, end) < 0; 
+		Col_RopeIterNext(begin)) {
+	    c = Col_RopeIterAt(begin);
+	    if (DIGIT_VALUE(c, radix) < radix) continue;
+	    IF_CHAR_IN(format->ignoreChars, c) continue;
+	    break;
+	}
+	return 1;
+    }
+
+    /*
+     * Build string suitable for MPIR's scan proc.
+     */
+
+    len = Col_RopeIterIndex(end) - Col_RopeIterIndex(begin);
     str = (char *) TMP_ALLOC(len+1);
     for (p = str; Col_RopeIterCompare(begin, end) < 0; 
 	    Col_RopeIterNext(begin)) {
@@ -969,14 +992,11 @@ Coatl_ReadIntWord(
 	break;
     }
     *p = 0;
-    w = Col_NewCustomWord(&mpIntWordType, sizeof(*data), (void **) &data);
+    *wordPtr = Col_NewCustomWord(&mpIntWordType, sizeof(*data), (void **) &data);
     mpz_init_set_str(*data, str, radix);
     if (neg) mpz_neg(*data, *data);
     TMP_FREE(str, len+1);
-    return w;
-
-error:
-    return COL_NIL;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------
@@ -991,9 +1011,10 @@ error:
  *	types	- Accepted output word types.
  *
  * Results:
- *	Floating point word upon success. May be a Colibri floating point word 
- *	or a multiple precision floating point word.
- *	Else nil.
+ *	Nonzero if success. Additionally:
+ *
+ *	wordPtr    - If non-NULL, resulting word upon success. May be a Colibri
+ *	floating point word or a multiple precision floating point word.
  *
  * Side effects:
  *	*begin* is moved just past the last scanned character.
@@ -1002,25 +1023,25 @@ error:
  *	<Coatl_NumReadFormat>, <Number Reading Word Type Flags>
  *---------------------------------------------------------------------------*/
 
-Col_Word
+int
 Coatl_ReadFloatWord(
     Col_RopeIterator begin, 
     Col_RopeIterator end, 
     const Coatl_NumReadFormat *format,
-    int types)
+    int types,
+    Col_Word *wordPtr)
 {
-    Col_Word w;
     mpf_t mpf, *data;
     double f;
     Col_Char c;
     char *str, *p;
     size_t len;
-    int neg = 0;
+    int neg = 0, eneg = 0;
     unsigned int radix = 0;
     enum {NO_EXP, EXP, EXP2} exp = NO_EXP;
 
     if (!format) format = &numReadDefaut;
-    else if (format == COATL_INTREAD_C) goto error;
+    else if (format == COATL_INTREAD_C) return 0;
     else if (format == COATL_FLOATREAD_C) format = &floatReadC;
 
     if (!types) types = COATL_FLOATREAD_NATIVE | COATL_FLOATREAD_MP;
@@ -1029,11 +1050,80 @@ Coatl_ReadFloatWord(
      * Get sign and radix.
      */
 
-    if (!ReadNumberPrefix(begin, end, format, &neg, &radix)) goto error;
+    if (!ReadNumberPrefix(begin, end, format, &neg, &radix)) return 0;
+
+    if (!wordPtr) {
+	/*
+	 * Consume all suitable characters.
+	 */
+
+	for (; Col_RopeIterCompare(begin, end) < 0; 
+		Col_RopeIterNext(begin)) {
+	    c = Col_RopeIterAt(begin);
+	    if (DIGIT_VALUE(c, radix) < radix) continue;
+	    IF_CHAR_IN(format->pointChars, c) continue;
+	    IF_CHAR_IN(format->expChars, c) {
+		/*
+		 * Exponent expressed in same radix as mantissa.
+		 */
+
+		exp = EXP;
+		NEXT_CHAR(c, begin, end) return 0;
+		switch (c) {
+		case '-':
+		case '+':
+		    NEXT_CHAR(c, begin, end) return 0;
+		}
+		break;
+	    }
+	    IF_CHAR_IN(format->exp2Chars, c) {
+		/*
+		 * 2-power exponent needs specific handling.
+		 */
+
+		exp = EXP2;
+		NEXT_CHAR(c, begin, end) return 0;
+		switch (c) {
+		case '-':
+		case '+':
+		    NEXT_CHAR(c, begin, end) return 0;
+		}
+		break;
+	    }
+	    IF_CHAR_IN(format->ignoreChars, c) continue;
+	    break;
+	}
+
+	/*
+	 * Then exponent.
+	 */
+
+	if (exp == EXP) {
+	    for (; Col_RopeIterCompare(begin, end) < 0; 
+		    Col_RopeIterNext(begin)) {
+		c = Col_RopeIterAt(begin);
+		if (DIGIT_VALUE(c, radix) < radix) continue;
+		IF_CHAR_IN(format->ignoreChars, c) continue;
+		break;
+	    }
+	}
+
+	if (exp == EXP2) {
+	    /*
+	     * Scan remainder as 2-power exponent value in decimal.
+	     */
+
+	    uintmax_t e;
+	    if (!ReadUInt(begin, end, 10, format->ignoreChars, &e) 
+		|| e != (mp_bitcnt_t) e) return 0;
+	}
+
+	return 1;
+    }
 
     /*
-     * Rely on multiple precision library, float scanning is too much work to
-     * do reliably because of rounding issues.
+     * Rely on MPIR library, float scanning is too much work to do reliably 
+     * because of rounding issues.
      */
 
     len = Col_RopeIterIndex(end) - Col_RopeIterIndex(begin);
@@ -1056,7 +1146,13 @@ Coatl_ReadFloatWord(
 
 	    exp = EXP;
 	    *p++ = '@';
-	    NEXT_CHAR(c, begin, end) goto error;
+	    NEXT_CHAR(c, begin, end) return 0;
+	    switch (c) {
+	    case '-':
+	    case '+':
+		*p++ = c;
+		NEXT_CHAR(c, begin, end) return 0;
+	    }
 	    break;
 	}
 	IF_CHAR_IN(format->exp2Chars, c) {
@@ -1065,7 +1161,14 @@ Coatl_ReadFloatWord(
 	     */
 
 	    exp = EXP2;
-	    NEXT_CHAR(c, begin, end) goto error;
+	    NEXT_CHAR(c, begin, end) return 0;
+	    switch (c) {
+	    case '-':
+		eneg = 1;
+		/* continued. */
+	    case '+':
+		NEXT_CHAR(c, begin, end) return 0;
+	    }
 	    break;
 	}
 	IF_CHAR_IN(format->ignoreChars, c) continue;
@@ -1080,7 +1183,7 @@ Coatl_ReadFloatWord(
 	for (; Col_RopeIterCompare(begin, end) < 0; 
 		Col_RopeIterNext(begin)) {
 	    c = Col_RopeIterAt(begin);
-	    if (DIGIT_VALUE(c, radix) < radix || c == '+' || c == '-') {*p++ = c; continue; }
+	    if (DIGIT_VALUE(c, radix) < radix) {*p++ = c; continue; }
 	    IF_CHAR_IN(format->ignoreChars, c) continue;
 	    break;
 	}
@@ -1093,20 +1196,13 @@ Coatl_ReadFloatWord(
 
     if (exp == EXP2) {
 	/*
-	 * Scan remainder as 2-power exponent value.
+	 * Scan remainder as 2-power exponent value in decimal.
 	 */
 
 	uintmax_t e;
-	switch (c) {
-	case '-':
-	    neg = 1;
-	    /* continued. */
-	case '+':
-	    NEXT_CHAR(c, begin, end) goto error;
-	}
 	if (!ReadUInt(begin, end, 10, format->ignoreChars, &e) 
-	    || e != (mp_bitcnt_t) e) goto error;
-	if (neg) {
+	    || e != (mp_bitcnt_t) e) return 0;
+	if (eneg) {
 	    mpf_div_2exp(mpf, mpf, (mp_bitcnt_t) e);
 	} else {
 	    mpf_mul_2exp(mpf, mpf, (mp_bitcnt_t) e);
@@ -1123,15 +1219,12 @@ Coatl_ReadFloatWord(
     if (!(types & COATL_FLOATREAD_MP) || ((types & COATL_FLOATREAD_NATIVE) 
 	    && mpf_cmp_d(mpf, f) == 0)) {
 	mpf_clear(mpf);
-	w = Col_NewFloatWord(f);
+	*wordPtr = Col_NewFloatWord(f);
     } else {
-	w = Col_NewCustomWord(&mpFloatWordType, sizeof(*data), (void **) &data);
+	*wordPtr = Col_NewCustomWord(&mpFloatWordType, sizeof(*data), (void **) &data);
 	memcpy(data, &mpf, sizeof(mpf));
     }
-    return w;
-
-error:
-    return COL_NIL;
+    return 1;
 }
 
 /*---------------------------------------------------------------------------

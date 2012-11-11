@@ -252,14 +252,14 @@ typedef struct Coatl_NumWriteFormat {
  * Remaining declarations.
  */
 
-EXTERN Col_Word		Coatl_ReadIntWord(Col_RopeIterator begin, 
+EXTERN int		Coatl_ReadIntWord(Col_RopeIterator begin, 
 			    Col_RopeIterator end, 
 			    const Coatl_NumReadFormat *format,
-			    int types);
-EXTERN Col_Word		Coatl_ReadFloatWord(Col_RopeIterator begin, 
+			    int types, Col_Word *wordPtr);
+EXTERN int		Coatl_ReadFloatWord(Col_RopeIterator begin, 
 			    Col_RopeIterator end, 
 			    const Coatl_NumReadFormat *format,
-			    int types);;
+			    int types, Col_Word *wordPtr);
 EXTERN size_t		Coatl_WriteIntWord(Col_Word strbuf, Col_Word value,
 			    const Coatl_NumWriteFormat *format);
 EXTERN size_t		Coatl_WriteFloatWord(Col_Word strbuf, Col_Word value,

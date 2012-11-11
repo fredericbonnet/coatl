@@ -156,9 +156,9 @@ ParseJsonNumber(
 	 */
 
 	if (real) {
-	    *valuePtr = Coatl_ReadFloatWord(it, begin, NULL, 0);
+	    REQUIRE(Coatl_ReadFloatWord(it, begin, NULL, 0, valuePtr));
 	} else {
-	    *valuePtr = Coatl_ReadIntWord(it, begin, NULL, 0);
+	    REQUIRE(Coatl_ReadIntWord(it, begin, NULL, 0, valuePtr));
 	}
 	ASSERT(Col_RopeIterCompare(it, begin) == 0);
 	if (realPtr) *realPtr = real;
@@ -697,18 +697,18 @@ ParseJsonArray(
 }
 
 /*---------------------------------------------------------------------------
- * Function: Coatl_ParseJson
+ * Function: Coatl_ReadJson
  *
- *	Parse a JSON data.
+ *	Read JSON data from a character sequence.
  *
  * Arguments:
  *	begin	- Beginning of sequence to parse.
- *	end	- End of sequence.
+ *	end	- End of sequence (just past the last character to scan).
  *
  * Results:
  *	Nonzero if success. Additionally:
  *
- *	dataPtr    - If non-NULL, resulting data upon success.
+ *	wordPtr    - If non-NULL, resulting data upon success.
  *
  * Side effects:
  *	*begin* is moved just past the parsed sequence.
@@ -716,14 +716,14 @@ ParseJsonArray(
 
 
 int
-Coatl_ParseJson(
+Coatl_ReadJson(
     Col_RopeIterator begin, 
     Col_RopeIterator end, 
-    Col_Word *dataPtr)
+    Col_Word *wordPtr)
 {
     Col_Char c;
 
-    if (dataPtr) *dataPtr = WORD_NIL;
+    if (wordPtr) *wordPtr = WORD_NIL;
 
     /*
      * Skip leading whitespace.
@@ -736,7 +736,7 @@ Coatl_ParseJson(
      * Parse value.
      */
 
-    if (!ParseJsonValue(begin, end, dataPtr)) return 0;
+    if (!ParseJsonValue(begin, end, wordPtr)) return 0;
 
     /*
      * Skip trailing whitespace.
