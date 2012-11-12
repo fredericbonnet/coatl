@@ -8,7 +8,12 @@ OBJS = 	coatl.o \
 	coatlRegexp.o \
 	regcomp.o \
 	regexec.o \
-	regfree.o
+	regfree.o \
+	regerror.o \
+	coatlNumber.o \
+	coatlJson.o \
+	coatlParse.o \
+	coatlParseTcl.o
 
 libcoatl.so: $(OBJS)
 	gcc -pthread -shared -o libcoatl.so ../colibri/libcolibri.so $(OBJS)
