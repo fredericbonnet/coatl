@@ -60,6 +60,38 @@ EXTERN intmax_t		Coatl_LargeIntWordValue(Col_Word word);
 
 /*
 ================================================================================
+Section: Multiple Precision Integer Words
+================================================================================
+*/
+
+/****************************************************************************
+ * Group: Multiple Precision Integer Word Predicates
+ *
+ * Declaration:
+ *	<Coatl_WordIsMpInt>
+ ****************************************************************************/
+
+EXTERN int		Coatl_WordIsMpInt(Col_Word word);
+
+
+/*
+================================================================================
+Section: Multiple Precision Floating Point Words
+================================================================================
+*/
+
+/****************************************************************************
+ * Group: Multiple Precision Floating Point Word Predicates
+ *
+ * Declaration:
+ *	<Coatl_WordIsMpFloat>
+ ****************************************************************************/
+
+EXTERN int		Coatl_WordIsMpFloat(Col_Word word);
+
+
+/*
+================================================================================
 Section: Number Input/Output
 
 Declarations:
@@ -260,9 +292,9 @@ EXTERN int		Coatl_ReadFloatWord(Col_RopeIterator begin,
 			    Col_RopeIterator end, 
 			    const Coatl_NumReadFormat *format,
 			    int types, Col_Word *wordPtr);
-EXTERN size_t		Coatl_WriteIntWord(Col_Word strbuf, Col_Word value,
+EXTERN size_t		Coatl_WriteIntWord(Col_Word strbuf, Col_Word word,
 			    const Coatl_NumWriteFormat *format);
-EXTERN size_t		Coatl_WriteFloatWord(Col_Word strbuf, Col_Word value,
+EXTERN size_t		Coatl_WriteFloatWord(Col_Word strbuf, Col_Word word,
 			    const Coatl_NumWriteFormat *format);
 
 #endif /* _COATL_NUMBER */

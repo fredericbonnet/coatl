@@ -45,7 +45,7 @@ static int		ReadNumberPrefix(Col_RopeIterator begin,
 
 /*
 ================================================================================
-Section: Large Integer Word
+Section: Large Integer Words
 ================================================================================
 */
 
@@ -257,7 +257,7 @@ Coatl_LargeIntWordValue(
 
 /*
 ================================================================================
-Section: Multiple Precision Integer Word
+Section: Multiple Precision Integer Words
 ================================================================================
 */
 
@@ -333,9 +333,35 @@ MpIntFreeProc(
 }
 
 
+/****************************************************************************
+ * Group: Multiple Precision Integer Word Predicates
+ ****************************************************************************/
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_WordIsMpInt
+ *
+ *	Test whether word is a multiple precision integer word.
+ *
+ * Argument:
+ *	word	- The word to test.
+ *
+ * Result:
+ *	Nonzero if word is a multiple precision integer word.
+ *---------------------------------------------------------------------------*/
+
+int
+Coatl_WordIsMpInt(
+    Col_Word word)
+{
+    void *dummy;
+    return ((Col_WordType(word) & COL_CUSTOM) 
+	    && Col_CustomWordInfo(word, &dummy) == &mpIntWordType);
+}
+
+
 /*
 ================================================================================
-Section: Multiple Precision Floating Point Word
+Section: Multiple Precision Floating Point Words
 ================================================================================
 */
 
@@ -408,6 +434,32 @@ MpFloatFreeProc(
     REQUIRE(Col_CustomWordInfo(word, (void **) &mpf) == &mpFloatWordType);
 
     mpf_clear(*mpf);
+}
+
+
+/****************************************************************************
+ * Group: Multiple Precision Floating Point Word Predicates
+ ****************************************************************************/
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_WordIsMpFloat
+ *
+ *	Test whether word is a multiple precision floating point word.
+ *
+ * Argument:
+ *	word	- The word to test.
+ *
+ * Result:
+ *	Nonzero if word is a multiple precision floating point word.
+ *---------------------------------------------------------------------------*/
+
+int
+Coatl_WordIsMpFloat(
+    Col_Word word)
+{
+    void *dummy;
+    return ((Col_WordType(word) & COL_CUSTOM) 
+	    && Col_CustomWordInfo(word, &dummy) == &mpFloatWordType);
 }
 
 
@@ -557,7 +609,7 @@ ParseUInt(
  *	Read an unsigned integer number from a character sequence.
  *
  * Arguments:
- *	begin	- Beginning of digit sequence to parse.
+ *	begin	- Beginning of digit sequence to read.
  *	end	- End of sequence (just past the last character to scan).
  *	radix	- Numeric radix (2..62).
  *	ignored	- If non-NULL, a COL_CHAR_INVALID-terminated string of 
@@ -778,7 +830,7 @@ static const Coatl_NumReadFormat floatReadC = {
  *	Read a number sign and radix.
  *
  * Arguments:
- *	begin	- Beginning of sequence to parse.
+ *	begin	- Beginning of sequence to read.
  *	end	- End of sequence (just past the last character to scan).
  *	format	- Read format (NULL means default).
  *
@@ -887,7 +939,7 @@ success:
  *	Read an integer number from a character sequence.
  *
  * Arguments:
- *	begin	- Beginning of sequence to parse.
+ *	begin	- Beginning of sequence to read.
  *	end	- End of sequence (just past the last character to scan).
  *	format	- Read format (NULL means default).
  *	types	- Accepted output word types.
@@ -896,8 +948,8 @@ success:
  *	Nonzero if success. Additionally:
  *
  *	wordPtr    - If non-NULL, resulting word upon success. May be a Colibri
- *	integer word, a large integer word, or a multiple precision integer 
- *	word.
+ *		     integer word, a CoATL large integer word, or a CoATL 
+ *		     multiple precision integer word.
  *
  * Side effects:
  *	*begin* is moved just past the last scanned character.
@@ -1005,7 +1057,7 @@ Coatl_ReadIntWord(
  *	Read a floating point number from a character sequence.
  *
  * Arguments:
- *	begin	- Beginning of sequence to parse.
+ *	begin	- Beginning of sequence to read.
  *	end	- End of sequence (just past the last character to scan).
  *	format	- Read format (NULL means default).
  *	types	- Accepted output word types.
@@ -1014,7 +1066,8 @@ Coatl_ReadIntWord(
  *	Nonzero if success. Additionally:
  *
  *	wordPtr    - If non-NULL, resulting word upon success. May be a Colibri
- *	floating point word or a multiple precision floating point word.
+ *		     floating point word or a CoATL multiple precision floating
+ *		     point word.
  *
  * Side effects:
  *	*begin* is moved just past the last scanned character.
@@ -1236,7 +1289,7 @@ Coatl_ReadFloatWord(
  *	- No prefix.
  *	- No digit grouping.
  *	- No leading zeroes in integral part.
- *	- No trailing zeroes in fractional part;
+ *	- No trailing zeroes in fractional part.
  *	- No truncation.
  *	- Optional radix point is dot character *'.'*.
  *	- Optional exponent character is lowercase *'e'*.
@@ -1274,7 +1327,7 @@ static const Coatl_NumWriteFormat numWriteDefaut = {
  *	- Lowercase prefix *'0x'*.
  *	- No digit grouping.
  *	- No leading zeroes in integral part.
- *	- No trailing zeroes in fractional part;
+ *	- No trailing zeroes in fractional part.
  *	- No truncation.
  *	- Optional radix point is dot character *'.'*.
  *	- Optional exponent character is lowercase *'p'*.
@@ -1654,11 +1707,11 @@ FormatDigitString(
 /*---------------------------------------------------------------------------
  * Function: Coatl_WriteIntWord
  *
- *	Write an integer word value to a string buffer in the given format.
+ *	Write an integer word to a string buffer in the given format.
  *
  * Arguments:
  *	strbuf	- Output string buffer.
- *	value	- Value to write.
+ *	word	- Number to write.
  *	format	- Write format (NULL means default).
  *
  * Result:
@@ -1674,7 +1727,7 @@ FormatDigitString(
 size_t
 Coatl_WriteIntWord(
     Col_Word strbuf, 
-    Col_Word value,
+    Col_Word word,
     const Coatl_NumWriteFormat *format)
 {
     Col_CustomWordType *wt = NULL;
@@ -1694,15 +1747,15 @@ Coatl_WriteIntWord(
 
     oldLen = Col_StringBufferLength(strbuf);
 
-    type = Col_WordType(value);
+    type = Col_WordType(word);
     if (type & COL_INT) {
 	/*
 	 * Native integer.
 	 */
 
-	v = Col_IntWordValue(value);
+	v = Col_IntWordValue(word);
     } else if (type & COL_CUSTOM) {
-	wt = Col_CustomWordInfo(value, &data);
+	wt = Col_CustomWordInfo(word, &data);
     }
 #if INTPTR_MAX != INTMAX_MAX
     if (wt == &largeIntWordType) {
@@ -1775,12 +1828,11 @@ Coatl_WriteIntWord(
 /*---------------------------------------------------------------------------
  * Function: Coatl_WriteFloatWord
  *
- *	Write a floating point word value to a string buffer in the given 
- *	format.
+ *	Write a floating point word to a string buffer in the given format.
  *
  * Arguments:
  *	strbuf	- Output string buffer.
- *	value	- Value to write.
+ *	word	- Value to write.
  *	format	- Write format (NULL means default).
  *
  * Result:
@@ -1796,7 +1848,7 @@ Coatl_WriteIntWord(
 size_t
 Coatl_WriteFloatWord(
     Col_Word strbuf, 
-    Col_Word value,
+    Col_Word word,
     const Coatl_NumWriteFormat *format)
 {
     mpf_t v, *pv;
@@ -1823,13 +1875,13 @@ Coatl_WriteFloatWord(
      * library.
      */
 
-    type = Col_WordType(value);
+    type = Col_WordType(word);
     if (type & COL_FLOAT) {
 	/*
 	 * Native floating point.
 	 */
 
-	double d = Col_FloatWordValue(value);
+	double d = Col_FloatWordValue(word);
 	//TODO handle special values (inf, NaN...)
 	if (d == 0) {
 	    sign = 0;
@@ -1844,7 +1896,7 @@ Coatl_WriteFloatWord(
 	}
     } else if (type & COL_CUSTOM) {
 	void *data;
-	Col_CustomWordType *wt = Col_CustomWordInfo(value, &data);
+	Col_CustomWordType *wt = Col_CustomWordInfo(word, &data);
 	if (wt == &mpFloatWordType) {
 	    /*
 	     * Multiple precision floating point.
