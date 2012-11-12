@@ -13,6 +13,7 @@
 #include "coatlNumberInt.h"
 #include "coatlParseInt.h"
 
+#include <stdlib.h>
 #include <limits.h>
 #include <float.h>
 #include <mpir.h>
@@ -994,13 +995,14 @@ Coatl_ReadIntWord(
     
     Col_RopeIterSet(it, begin);
     if (ReadUInt(begin, end, radix, format->ignoreChars, &v)) {
-	if ((types & COATL_INTREAD_NATIVE) && v <= (neg ? 
-		(uintptr_t) -INTPTR_MIN : (uintptr_t) INTPTR_MAX)) {
+	ASSERT(1+~1 == -1);
+	if ((types & COATL_INTREAD_NATIVE) 
+		&& (v <= (uintptr_t) INTPTR_MAX+(neg?1:0))) {
 	    if (wordPtr) *wordPtr = Col_NewIntWord(neg ? -(intptr_t) v 
 		    : (intptr_t) v);
 	    return 1;
-	} else if ((types & COATL_INTREAD_LARGE) && v <= (neg ? 
-		(uintmax_t) -INTMAX_MIN : (uintmax_t) INTMAX_MAX)) {
+	} else if ((types & COATL_INTREAD_LARGE)
+		&& (v <= (uintmax_t) INTMAX_MAX+(neg?1:0))) {
 	    if (wordPtr) *wordPtr = Coatl_NewLargeIntWord(neg ? -(intmax_t) v
 		    : (intmax_t) v);
 	    return 1;
