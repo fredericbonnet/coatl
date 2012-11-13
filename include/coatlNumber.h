@@ -297,4 +297,28 @@ EXTERN size_t		Coatl_WriteIntWord(Col_Word strbuf, Col_Word word,
 EXTERN size_t		Coatl_WriteFloatWord(Col_Word strbuf, Col_Word word,
 			    const Coatl_NumWriteFormat *format);
 
+
+/*
+================================================================================
+Section: Number Conversion
+
+Declarations:
+	<Coatl_RopeToIntWord>, <Coatl_RopeToFloatWord>, <Coatl_IntWordToRope>, 
+	<Coatl_FloatWordToRope>
+================================================================================
+*/
+
+EXTERN Col_Word		Coatl_RopeToIntWord(Col_Word rope, 
+			    const Coatl_NumReadFormat *format,
+			    int types);
+EXTERN Col_Word		Coatl_RopeToFloatWord(Col_Word rope, 
+			    const Coatl_NumReadFormat *format,
+			    int types);
+EXTERN Col_Word		Coatl_IntWordToRope(Col_Word word,
+			    Col_StringFormat strFormat,
+			    const Coatl_NumWriteFormat *format);
+EXTERN Col_Word		Coatl_FloatWordToRope(Col_Word word,
+			    Col_StringFormat strFormat,
+			    const Coatl_NumWriteFormat *format);
+
 #endif /* _COATL_NUMBER */

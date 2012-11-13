@@ -937,7 +937,7 @@ success:
 /*---------------------------------------------------------------------------
  * Function: Coatl_ReadIntWord
  *
- *	Read an integer number from a character sequence.
+ *	Read an integer from a character sequence.
  *
  * Arguments:
  *	begin	- Beginning of sequence to read.
@@ -1056,7 +1056,7 @@ Coatl_ReadIntWord(
 /*---------------------------------------------------------------------------
  * Function: Coatl_ReadFloatWord
  *
- *	Read a floating point number from a character sequence.
+ *	Read a floating point from a character sequence.
  *
  * Arguments:
  *	begin	- Beginning of sequence to read.
@@ -1713,7 +1713,7 @@ FormatDigitString(
  *
  * Arguments:
  *	strbuf	- Output string buffer.
- *	word	- Number to write.
+ *	word	- Integer word to write.
  *	format	- Write format (NULL means default).
  *
  * Result:
@@ -1834,7 +1834,7 @@ Coatl_WriteIntWord(
  *
  * Arguments:
  *	strbuf	- Output string buffer.
- *	word	- Value to write.
+ *	word	- Floating point word to write.
  *	format	- Write format (NULL means default).
  *
  * Result:
@@ -2195,4 +2195,133 @@ adjustExp:
     }
 
     return Col_StringBufferLength(strbuf) - oldLen;
+}
+
+
+/*
+================================================================================
+Section: Number Conversion
+================================================================================
+*/
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_RopeToIntWord
+ *
+ *	Convert a rope to an integer word.
+ *
+ * Arguments:
+ *	rope	- Rope to convert.
+ *	format	- Read format (NULL means default).
+ *	types	- Accepted output word types.
+ *
+ * Results:
+ *	Integer word if success, else nil. May be a Colibri integer word, a 
+ *	CoATL large integer word, or a CoATL multiple precision integer word.
+ *
+ * See also:
+ *	<Coatl_NumReadFormat>, <Number Reading Word Type Flags>,
+ *	<Coatl_ReadIntWord>
+ *---------------------------------------------------------------------------*/
+
+Col_Word
+Coatl_RopeToIntWord(
+    Col_Word rope, 
+    const Coatl_NumReadFormat *format,
+    int types)
+{
+    Col_Word word;
+    Col_RopeIterator begin, end;
+    Col_RopeIterFirst(begin, rope);
+    Col_RopeIterBegin(end, rope, SIZE_MAX);
+    return (Coatl_ReadIntWord(begin, end, format, types, &word)) ? word 
+	    : COL_NIL;
+}
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_RopeToFloatWord
+ *
+ *	Convert a rope to a floating point word.
+ *
+ * Arguments:
+ *	rope	- Rope to convert.
+ *	format	- Read format (NULL means default).
+ *	types	- Accepted output word types.
+ *
+ * Results:
+ *	Integer word if success, else nil. May be a Colibri floating point word
+ *	or a CoATL multiple precision floating point word.
+ *
+ * See also:
+ *	<Coatl_NumReadFormat>, <Number Reading Word Type Flags>,
+ *	<Coatl_ReadFloatWord>
+ *---------------------------------------------------------------------------*/
+
+Col_Word
+Coatl_RopeToFloatWord(
+    Col_Word rope, 
+    const Coatl_NumReadFormat *format,
+    int types)
+{
+    Col_Word word;
+    Col_RopeIterator begin, end;
+    Col_RopeIterFirst(begin, rope);
+    Col_RopeIterBegin(end, rope, SIZE_MAX);
+    return (Coatl_ReadFloatWord(begin, end, format, types, &word)) ? word 
+	    : COL_NIL;
+}
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_IntWordToRope
+ *
+ *	Convert an integer word to a rope.
+ *
+ * Arguments:
+ *	word		- Integer word to convert.
+ *	strFormat	- String format.
+ *	format		- Write format (NULL means default).
+ *
+ * Result:
+ *	String representation of integer value in the given format.
+ *
+ * See also:
+ *	<Coatl_NumWriteFormat>, <Coatl_WriteIntWord>
+ *---------------------------------------------------------------------------*/
+
+Col_Word
+Coatl_IntWordToRope(
+    Col_Word word,
+    Col_StringFormat strFormat,
+    const Coatl_NumWriteFormat *format)
+{
+    Col_Word strbuf = Col_NewStringBuffer(0, strFormat); // TODO default length.
+    Coatl_WriteIntWord(strbuf, word, format);
+    return Col_StringBufferFreeze(strbuf);
+}
+
+/*---------------------------------------------------------------------------
+ * Function: Coatl_FloatWordToRope
+ *
+ *	Convert a floating point word to a rope.
+ *
+ * Arguments:
+ *	word		- Floating point word to convert.
+ *	strFormat	- String format.
+ *	format		- Write format (NULL means default).
+ *
+ * Result:
+ *	String representation of floating point value in the given format.
+ *
+ * See also:
+ *	<Coatl_NumWriteFormat>, <Coatl_WriteIntWord>
+ *---------------------------------------------------------------------------*/
+
+Col_Word
+Coatl_FloatWordToRope(
+    Col_Word word,
+    Col_StringFormat strFormat,
+    const Coatl_NumWriteFormat *format)
+{
+    Col_Word strbuf = Col_NewStringBuffer(0, strFormat); // TODO default length.
+    Coatl_WriteFloatWord(strbuf, word, format);
+    return Col_StringBufferFreeze(strbuf);
 }
