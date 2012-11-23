@@ -25,9 +25,21 @@
 
 #define REGEXP_USE_ITERATORS
 
+
 /*
- * Remaining definitions.
- */
+================================================================================
+Internal Section: Error Handling
+================================================================================
+*/
+
+/*---------------------------------------------------------------------------
+ * Internal Variable: CoatlDomain
+ *
+ *	Error domain used by CoATL.
+ *
+ * See also:
+ *	<Coatl_GetErrorDomain>, <Coatl_ErrorCode>
+ *---------------------------------------------------------------------------*/
 
 extern const char * const CoatlDomain[];
 

@@ -46,15 +46,16 @@ Internal Section: Type Checking
  *	<Col_Error>
  *---------------------------------------------------------------------------*/
 
-#define TYPECHECK_REGEXP(word, rePtr) \
-    if (!(Col_WordType(word) & COL_CUSTOM) \
-	    || Col_CustomWordInfo((word), (void **) &(rePtr)) != &regexpWordType) { \
-	Col_Error(COL_TYPECHECK, CoatlDomain, COATL_ERROR_REGEXP, (word)); \
-	goto COL_CONCATENATE(FAILED,__LINE__); \
-    } \
-    if (0) \
-COL_CONCATENATE(FAILED,__LINE__): 
-
+#ifdef _DEBUG
+#   define TYPECHECK_REGEXP(word, rePtr) \
+	COL_RUNTIMECHECK(((Col_WordType(word) & COL_CUSTOM) \
+		&& Col_CustomWordInfo((word), (void **) &(rePtr)) \
+		== &regexpWordType), COL_TYPECHECK, CoatlDomain, \
+		COATL_ERROR_REGEXP, (word))
+#else
+#   define TYPECHECK_REGEXP(word, rePtr) \
+	Col_CustomWordInfo((word), (void **) &(rePtr)); if (0)
+#endif
 
 /*
 ================================================================================

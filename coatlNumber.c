@@ -112,18 +112,19 @@ LargeIntSizeProc(
  *	Generate <COL_TYPECHECK> error when *word* is not a large integer word.
  *
  * See also:
- *	<Col_Error>
+ *	<COL_RUNTIMECHECK>
  *---------------------------------------------------------------------------*/
 
+#ifdef _DEBUG
 #define TYPECHECK_LARGEINT(word, liPtr) \
-    if (!(Col_WordType(word) & COL_CUSTOM) \
-	    || Col_CustomWordInfo((word), (void **) &(liPtr)) \
-	    != &largeIntWordType) { \
-	Col_Error(COL_TYPECHECK, CoatlDomain, COATL_ERROR_LARGEINT, (word)); \
-	goto COL_CONCATENATE(FAILED,__LINE__); \
-    } \
-    if (0) \
-COL_CONCATENATE(FAILED,__LINE__): 
+    COL_RUNTIMECHECK(((Col_WordType(word) & COL_CUSTOM) \
+	    && Col_CustomWordInfo((word), (void **) &(liPtr)) \
+	    == &largeIntWordType), COL_TYPECHECK, CoatlDomain, \
+	    COATL_ERROR_LARGEINT, (word))
+#else
+#   define TYPECHECK_LARGEINT(word, liPtr) \
+	Col_CustomWordInfo((word), (void **) &(liPtr)); if (0)
+#endif
 
 
 /****************************************************************************
