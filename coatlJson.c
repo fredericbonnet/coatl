@@ -97,8 +97,8 @@ static const Coatl_NumWriteFormat jsonFloatFormat = {
  *
  *	Read a JSON literal as a word. The following literals are recognized:
  *
- *	true    - Boolean true, gives the integer word 1.
- *	false   - Boolean false, gives the integer word 0.
+ *	true    - Boolean true.
+ *	false   - Boolean false.
  *	null    - Null value, gives the nil word.
  *
  * Arguments:
@@ -135,7 +135,8 @@ ReadJsonLiteral(
 	if (c != 'u') break;
 	NEXT_CHAR(c, begin, end) break;
 	if (c != 'e') break;
-	if (wordPtr) *wordPtr = Col_NewIntWord(1);
+	if (wordPtr) *wordPtr = WORD_TRUE;
+	NEXT_CHAR(c, begin, end);
 	return 1;
 
     case 'f':
@@ -151,7 +152,8 @@ ReadJsonLiteral(
 	if (c != 's') break;
 	NEXT_CHAR(c, begin, end) break;
 	if (c != 'e') break;
-	if (wordPtr) *wordPtr = Col_NewIntWord(0);
+	if (wordPtr) *wordPtr = WORD_FALSE;
+	NEXT_CHAR(c, begin, end);
 	return 1;
 
     case 'n':
@@ -165,7 +167,8 @@ ReadJsonLiteral(
 	if (c != 'l') break;
 	NEXT_CHAR(c, begin, end) break;
 	if (c != 'l') break;
-	if (wordPtr) *wordPtr = COL_NIL;
+	if (wordPtr) *wordPtr = WORD_NIL;
+	NEXT_CHAR(c, begin, end);
 	return 1;
     }
     
@@ -1029,6 +1032,25 @@ WriteJsonValue(
 	    Col_StringBufferAppendChar(strbuf, 'l');
 	    Col_StringBufferAppendChar(strbuf, 'l');
 	    return 4;
+	} else if (type == COL_BOOL) {
+	    /*
+	     * Colibri boolean => JSON boolean.
+	     */
+
+	    if (Col_BoolWordValue(w)) {
+		Col_StringBufferAppendChar(strbuf, 't');
+		Col_StringBufferAppendChar(strbuf, 'r');
+		Col_StringBufferAppendChar(strbuf, 'u');
+		Col_StringBufferAppendChar(strbuf, 'e');
+		return 4;
+	    } else {
+		Col_StringBufferAppendChar(strbuf, 'f');
+		Col_StringBufferAppendChar(strbuf, 'a');
+		Col_StringBufferAppendChar(strbuf, 'l');
+		Col_StringBufferAppendChar(strbuf, 's');
+		Col_StringBufferAppendChar(strbuf, 'e');
+		return 5;
+	    }
 	} else if (type & COL_INT) {
 	    /*
 	     * Colibri integer => JSON integer. Use default CoATL formatting.
