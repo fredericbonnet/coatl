@@ -200,8 +200,9 @@ StrEq(
     const rchr startp,
     const rchr endp)
 {
-    const char *n=name; rchr c=startp; 
-    while (RCHR_CMP(c, endp) < 0) {
+    const char *n=name; rchr c;
+    RCHR_SET(c, startp); 
+    while (RCHR_LT(c, endp)) {
 	if (*n == 0 || *n != RCHR_CHR(c)) return 0;
 	n++; RCHR_FWD(c,1);
     }
@@ -232,8 +233,8 @@ element(
      * Generic: one-chr names stand for themselves.
      */
 
-    assert(RCHR_CMP(startp, endp) < 0);
-    if ((tmp = startp, RCHR_FWD(tmp,1), RCHR_CMP(tmp, endp) >= 0)) {
+    assert(RCHR_LT(startp, endp));
+    if ((RCHR_SET(tmp, startp), RCHR_FWD(tmp,1), !RCHR_LT(tmp, endp))) {
 	return RCHR_CHR(startp);
     }
 
@@ -462,7 +463,7 @@ cmp(
     const rchr x, const rchr y,	/* strings to compare */
     size_t len)			/* exact length of comparison */
 {
-    rchr x2 = x, y2 = y;
+    rchr x2, y2; RCHR_SET(x2, x), RCHR_SET(y2, y);
     for (; len > 0; len--, RCHR_FWD(x2,1), RCHR_FWD(y2,1)) {
 	chr cx = RCHR_CHR(x2), cy = RCHR_CHR(y2);
 	if (cx != cy) return 1;
@@ -480,10 +481,10 @@ cmp(
  */
 static int			/* 0 for equal, nonzero for unequal */
 casecmp(
-    const rchr x, const rchr y,		/* strings to compare */
+    const rchr x, const rchr y,	/* strings to compare */
     size_t len)			/* exact length of comparison */
 {
-    rchr x2 = x, y2 = y;
+    rchr x2, y2; RCHR_SET(x2, x), RCHR_SET(y2, y);
     for (; len > 0; len--, RCHR_FWD(x2,1), RCHR_FWD(y2,1)) {
 	chr cx = RCHR_CHR(x2), cy = RCHR_CHR(y2);
 	if (cx != cy 

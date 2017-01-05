@@ -40,7 +40,7 @@ EXTERN Col_Word		Coatl_NewLargeIntWord(intmax_t value);
 #if INTPTR_MAX != INTMAX_MAX
 EXTERN int		Coatl_WordIsLargeInt(Col_Word word);
 #else
-#   define Coatl_WordIsLargeInt	(Col_WordType(word) & COL_INT)
+#   define Coatl_WordIsLargeInt(word)	(Col_WordType(word) & COL_INT)
 #endif /* INTPTR_MAX != INTMAX_MAX */
 
 

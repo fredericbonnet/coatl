@@ -16,8 +16,8 @@ header
  * Prototypes for functions used only in this file.
  */
 
-static size_t		GetRange(Col_Char c, const Col_Char *ranges, 
-			    size_t nbRanges);
+static int		GetRange(Col_Char c, const Col_Char *ranges, 
+			    int nbRanges);
 }
 
 ucdCompiledDataGroup 
@@ -230,11 +230,11 @@ Section: UCD Property Accessors
  *	Range index.
  *---------------------------------------------------------------------------*/
 
-static size_t 
+static int 
 GetRange(
     Col_Char c, 
     const Col_Char *ranges, 
-    size_t nbRanges) 
+    int nbRanges) 
 {
     int min, max;
     if (c < ranges[0] || nbRanges < 2) return 0;

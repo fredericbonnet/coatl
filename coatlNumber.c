@@ -1961,7 +1961,7 @@ adjustExp:
 	nbDigitsInt = ((exp-1) % format->expMul) + 1;
 	nbDigitsFrac = (nbDigitsSigd > nbDigitsInt) ? nbDigitsSigd - nbDigitsInt
 		: 0;
-	exp -= nbDigitsInt;
+	exp -= (mp_exp_t) nbDigitsInt;
     } else {
 	/*
 	 * Zero integral digits and no leading fractional zero: same format as 
