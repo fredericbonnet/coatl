@@ -35,7 +35,7 @@ Declarations:
 	<Coatl_GetUcdProperty_Hex>, <Coatl_GetUcdProperty_Hst>,
 	<Coatl_GetUcdProperty_IDC>, <Coatl_GetUcdProperty_Ideo>,
 	<Coatl_GetUcdProperty_IDS>, <Coatl_GetUcdProperty_IDSB>,
-	<Coatl_GetUcdProperty_IDST>, <Coatl_GetUcdProperty_InMC>,
+	<Coatl_GetUcdProperty_IDST>, <Coatl_GetUcdProperty_InPC>,
 	<Coatl_GetUcdProperty_InSC>, <Coatl_GetUcdProperty_Jg>,
 	<Coatl_GetUcdProperty_Join_C>, <Coatl_GetUcdProperty_Jt>,
 	<Coatl_GetUcdProperty_Lb>, <Coatl_GetUcdProperty_Lc>,
@@ -59,7 +59,9 @@ Declarations:
 	<Coatl_GetUcdProperty_Uc>, <Coatl_GetUcdProperty_UIdeo>,
 	<Coatl_GetUcdProperty_Upper>, <Coatl_GetUcdProperty_VS>,
 	<Coatl_GetUcdProperty_WB>, <Coatl_GetUcdProperty_WSpace>,
-	<Coatl_GetUcdProperty_XIDC>, <Coatl_GetUcdProperty_XIDS>
+	<Coatl_GetUcdProperty_XIDC>, <Coatl_GetUcdProperty_XIDS>,
+	<Coatl_GetUcdProperty_Bpb>, <Coatl_GetUcdProperty_Bpt>,
+	<Coatl_GetUcdProperty_PCM>
 ================================================================================
 */
 
@@ -104,7 +106,7 @@ EXTERN int		Coatl_GetUcdProperty_Ideo(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_IDS(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_IDSB(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_IDST(Col_Char c);
-EXTERN Coatl_Ucd_InMC	Coatl_GetUcdProperty_InMC(Col_Char c);
+EXTERN Coatl_Ucd_InPC	Coatl_GetUcdProperty_InPC(Col_Char c);
 EXTERN Coatl_Ucd_InSC	Coatl_GetUcdProperty_InSC(Col_Char c);
 EXTERN Coatl_Ucd_Jg	Coatl_GetUcdProperty_Jg(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_Join_C(Col_Char c);
@@ -158,6 +160,9 @@ EXTERN Coatl_Ucd_WB	Coatl_GetUcdProperty_WB(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_WSpace(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_XIDC(Col_Char c);
 EXTERN int		Coatl_GetUcdProperty_XIDS(Col_Char c);
+EXTERN Col_Char		Coatl_GetUcdProperty_Bpb(Col_Char c);
+EXTERN Coatl_Ucd_Bpt	Coatl_GetUcdProperty_Bpt(Col_Char c);
+EXTERN int		Coatl_GetUcdProperty_PCM(Col_Char c);
 
 /*---------------------------------------------------------------------------
  * Macro: Coatl_GetUcdProperty_ASCII_Hex_Digit
@@ -880,24 +885,24 @@ EXTERN int		Coatl_GetUcdProperty_XIDS(Col_Char c);
     Coatl_GetUcdProperty_IDST(c)
 
 /*---------------------------------------------------------------------------
- * Macro: Coatl_GetUcdProperty_Indic_Matra_Category
+ * Macro: Coatl_GetUcdProperty_Indic_Positional_Category
  *
- *	Get value of UCD property '*Indic_Matra_Category*' for given codepoint.
- *	Alias for property UCD property accessor '*InMC*'
+ *	Get value of UCD property '*Indic_Positional_Category*' for given codepoint.
+ *	Alias for property UCD property accessor '*InPC*'
  *
  * Argument:
  *	c	- Codepoint to get UCD property value for.
  *
  * Result:
- *	Value of UCD property '*Indic_Matra_Category*'.
+ *	Value of UCD property '*Indic_Positional_Category*'.
  *
  * See also:
- *	<COATL_UCD_INMC>, <Coatl_GetUcdProperty_InMC>,
- *	<COATL_UCD_INDIC_MATRA_CATEGORY>
+ *	<COATL_UCD_INPC>, <Coatl_GetUcdProperty_InPC>,
+ *	<COATL_UCD_INDIC_POSITIONAL_CATEGORY>
  *---------------------------------------------------------------------------*/
 
- #define Coatl_GetUcdProperty_Indic_Matra_Category(c) \
-    Coatl_GetUcdProperty_InMC(c)
+ #define Coatl_GetUcdProperty_Indic_Positional_Category(c) \
+    Coatl_GetUcdProperty_InPC(c)
 
 /*---------------------------------------------------------------------------
  * Macro: Coatl_GetUcdProperty_Indic_Syllabic_Category
@@ -1600,6 +1605,26 @@ EXTERN int		Coatl_GetUcdProperty_XIDS(Col_Char c);
     Coatl_GetUcdProperty_Stc(c)
 
 /*---------------------------------------------------------------------------
+ * Macro: Coatl_GetUcdProperty_Sentence_Terminal
+ *
+ *	Get value of UCD property '*Sentence_Terminal*' for given codepoint.
+ *	Alias for property UCD property accessor '*STerm*'
+ *
+ * Argument:
+ *	c	- Codepoint to get UCD property value for.
+ *
+ * Result:
+ *	Value of UCD property '*Sentence_Terminal*'.
+ *
+ * See also:
+ *	<COATL_UCD_STERM>, <Coatl_GetUcdProperty_STerm>,
+ *	<COATL_UCD_SENTENCE_TERMINAL>
+ *---------------------------------------------------------------------------*/
+
+ #define Coatl_GetUcdProperty_Sentence_Terminal(c) \
+    Coatl_GetUcdProperty_STerm(c)
+
+/*---------------------------------------------------------------------------
  * Macro: Coatl_GetUcdProperty_Simple_Uppercase_Mapping
  *
  *	Get value of UCD property '*Simple_Uppercase_Mapping*' for given codepoint.
@@ -1838,5 +1863,65 @@ EXTERN int		Coatl_GetUcdProperty_XIDS(Col_Char c);
 
  #define Coatl_GetUcdProperty_XID_Start(c) \
     Coatl_GetUcdProperty_XIDS(c)
+
+/*---------------------------------------------------------------------------
+ * Macro: Coatl_GetUcdProperty_Bidi_Paired_Bracket
+ *
+ *	Get value of UCD property '*Bidi_Paired_Bracket*' for given codepoint.
+ *	Alias for property UCD property accessor '*Bpb*'
+ *
+ * Argument:
+ *	c	- Codepoint to get UCD property value for.
+ *
+ * Result:
+ *	Value of UCD property '*Bidi_Paired_Bracket*'.
+ *
+ * See also:
+ *	<COATL_UCD_BPB>, <Coatl_GetUcdProperty_Bpb>,
+ *	<COATL_UCD_BIDI_PAIRED_BRACKET>
+ *---------------------------------------------------------------------------*/
+
+ #define Coatl_GetUcdProperty_Bidi_Paired_Bracket(c) \
+    Coatl_GetUcdProperty_Bpb(c)
+
+/*---------------------------------------------------------------------------
+ * Macro: Coatl_GetUcdProperty_Bidi_Paired_Bracket_Type
+ *
+ *	Get value of UCD property '*Bidi_Paired_Bracket_Type*' for given codepoint.
+ *	Alias for property UCD property accessor '*Bpt*'
+ *
+ * Argument:
+ *	c	- Codepoint to get UCD property value for.
+ *
+ * Result:
+ *	Value of UCD property '*Bidi_Paired_Bracket_Type*'.
+ *
+ * See also:
+ *	<COATL_UCD_BPT>, <Coatl_GetUcdProperty_Bpt>,
+ *	<COATL_UCD_BIDI_PAIRED_BRACKET_TYPE>
+ *---------------------------------------------------------------------------*/
+
+ #define Coatl_GetUcdProperty_Bidi_Paired_Bracket_Type(c) \
+    Coatl_GetUcdProperty_Bpt(c)
+
+/*---------------------------------------------------------------------------
+ * Macro: Coatl_GetUcdProperty_Prepended_Concatenation_Mark
+ *
+ *	Get value of UCD property '*Prepended_Concatenation_Mark*' for given codepoint.
+ *	Alias for property UCD property accessor '*PCM*'
+ *
+ * Argument:
+ *	c	- Codepoint to get UCD property value for.
+ *
+ * Result:
+ *	Value of UCD property '*Prepended_Concatenation_Mark*'.
+ *
+ * See also:
+ *	<COATL_UCD_PCM>, <Coatl_GetUcdProperty_PCM>,
+ *	<COATL_UCD_PREPENDED_CONCATENATION_MARK>
+ *---------------------------------------------------------------------------*/
+
+ #define Coatl_GetUcdProperty_Prepended_Concatenation_Mark(c) \
+    Coatl_GetUcdProperty_PCM(c)
 
 #endif /* _COATL_UCD */

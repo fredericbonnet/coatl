@@ -41,7 +41,7 @@ set properties [dict create {*}{
     IDS         {type boolean}
     IDSB        {type boolean}
     IDST        {type boolean}
-    InMC        {type enum}
+    InPC        {type enum}
     InSC        {type enum}
     isc         {type deprecated}
     jg          {type enum}
@@ -99,4 +99,7 @@ set properties [dict create {*}{
     XO_NFD      {type deprecated}
     XO_NFKC     {type deprecated}
     XO_NFKD     {type deprecated}
+    bpb         {type cp}
+    bpt         {type enum}
+    PCM         {type boolean}
 }]
