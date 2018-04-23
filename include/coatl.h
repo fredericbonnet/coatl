@@ -133,9 +133,6 @@ extern "C" {
 #include "coatlJson.h"
 
 
-EXTERN void CoatlTest();//FIXME
-
-
 /*
 ================================================================================
 Section: Error Handling
