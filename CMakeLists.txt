@@ -7,6 +7,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST
 find_package(colibri REQUIRED)
 find_package(mpir 2.6.0 REQUIRED)
 
+# CoATL library
 add_library(coatl SHARED)
 target_compile_definitions(coatl
 	PRIVATE BUILD_coatl
@@ -45,3 +46,23 @@ install(TARGETS coatl EXPORT coatl-config
 install(DIRECTORY include/ DESTINATION include/coatl)
 install(EXPORT coatl-config DESTINATION cmake)
 install(FILES $<TARGET_FILE:mpir> DESTINATION bin/${CMAKE_BUILD_TYPE})
+
+
+# CoATL unit tests
+add_executable(test_coatl)
+target_sources(test_coatl
+	PRIVATE
+		tests/testCoatl.c
+		tests/testUnicode.c
+		tests/testRegexp.c
+		tests/testNumber.c
+		tests/testJson.c
+)
+target_link_libraries(test_coatl
+	PRIVATE
+		colibri
+		coatl
+)
+install(TARGETS test_coatl EXPORT test_coatl
+	RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
+)
