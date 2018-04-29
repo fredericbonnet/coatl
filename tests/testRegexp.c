@@ -3,7 +3,9 @@
 
 #include <coatl.h>
 
-#include "unitTest.h"
+#include <picotest.h>
+
+#include "testCoatl.h"
 
 /*
  *---------------------------------------------------------------------------
@@ -13,14 +15,14 @@
  *---------------------------------------------------------------------------
  */
 
-TEST_FIXTURE_SETUP(testRegexps) {
+PICOTEST_FIXTURE_SETUP(testRegexps) {
     Col_Init(COL_SINGLE);
     Col_SetErrorProc(ERROR_PROC);
 
     Col_PauseGC();
 }
-TEST_FIXTURE_TEARDOWN(testRegexps) {
-    if (!TEST_FAIL) {
+PICOTEST_FIXTURE_TEARDOWN(testRegexps) {
+    if (!PICOTEST_FAIL) {
 	Col_ResumeGC();
     }
     Col_Cleanup();
@@ -31,7 +33,7 @@ static int testRegexp(Col_Word re, Col_Word string, size_t nbMatches, size_t *ma
     return (Coatl_RegexpExec(re, string, 0, nbMatches, matches) == COATL_REEXEC_OKAY);
 }
 
-TEST_CASE(testRegexps, testRegexps) {
+PICOTEST_CASE(testRegexps, testRegexps) {
     Col_Word r = Col_NewRopeFromString("12ab23");
     size_t matches[2];
 

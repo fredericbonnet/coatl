@@ -6,6 +6,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST
 
 find_package(colibri REQUIRED)
 find_package(mpir 2.6.0 REQUIRED)
+find_package(PicoTest REQUIRED)
 
 # CoATL library
 add_library(coatl SHARED)
@@ -62,7 +63,26 @@ target_link_libraries(test_coatl
 	PRIVATE
 		colibri
 		coatl
+		PicoTest
 )
 install(TARGETS test_coatl EXPORT test_coatl
 	RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
+)
+
+# Copy test_coatl dependencies to target dir before running 
+# picotest_discover_tests
+add_custom_command(TARGET test_coatl POST_BUILD
+	COMMAND 
+		${CMAKE_COMMAND} -E copy_if_different
+		$<TARGET_FILE:colibri>
+		$<TARGET_FILE_DIR:test_coatl>
+	COMMAND 
+		${CMAKE_COMMAND} -E copy_if_different
+		$<TARGET_FILE:mpir>
+		$<TARGET_FILE_DIR:test_coatl>
+)
+
+enable_testing()
+picotest_discover_tests(test_coatl
+	TEST_LIST_OPTION "-l"
 )

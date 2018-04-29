@@ -4,7 +4,9 @@
 
 #include <coatl.h>
 
-#include "unitTest.h"
+#include <picotest.h>
+
+#include "testCoatl.h"
 
 /*
  *---------------------------------------------------------------------------
@@ -14,7 +16,7 @@
  *---------------------------------------------------------------------------
  */
 
-TEST_SUITE(testJson, 
+PICOTEST_SUITE(testJson, 
     testJsonLiteral, testJsonInt, testJsonFloat, testJsonString, testJsonArray,
     testJsonObject, testJsonValue
 )
@@ -26,23 +28,23 @@ TEST_SUITE(testJson,
     ASSERT(Coatl_WriteJson(strbuf, value, indent) == (size_t) strlen(expected)); \
     for (Col_RopeIterFirst(it, Col_StringBufferFreeze(strbuf)); \
 	    !Col_RopeIterEnd(it); Col_RopeIterNext(it)) { \
-	ASSERT_MSG(Col_RopeIterAt(it) == (Col_Char) expected[Col_RopeIterIndex(it)], "index=%u", Col_RopeIterIndex(it)); \
+	ASSERT(Col_RopeIterAt(it) == (Col_Char) expected[Col_RopeIterIndex(it)], "index=%u", Col_RopeIterIndex(it)); \
     } \
 }
 
-TEST_FIXTURE_SETUP(testJson) {
+PICOTEST_FIXTURE_SETUP(testJson) {
     Col_Init(COL_SINGLE);
     Col_SetErrorProc(ERROR_PROC);
 
     Col_PauseGC();
 }
-TEST_FIXTURE_TEARDOWN(testJson) {
-    if (!TEST_FAIL) {
+PICOTEST_FIXTURE_TEARDOWN(testJson) {
+    if (!PICOTEST_FAIL) {
 	Col_ResumeGC();
     }
     Col_Cleanup();
 }
-TEST_CASE(testJsonLiteral, testJson) {
+PICOTEST_CASE(testJsonLiteral, testJson) {
     char str[100];
     size_t len;
     Col_Word v;
@@ -80,7 +82,7 @@ TEST_CASE(testJsonLiteral, testJson) {
     ASSERT(v == WORD_NIL);
     WRITE_EXPECTED_JSON(v, 0, "null");
 }
-TEST_CASE(testJsonInt, testJson) {
+PICOTEST_CASE(testJsonInt, testJson) {
     char str[100];
     size_t len;
     Col_Word v;
@@ -141,7 +143,7 @@ TEST_CASE(testJsonInt, testJson) {
     ASSERT(Col_RopeIterCompare(begin, end) == 0);
     ASSERT(Coatl_WordIsMpInt(v));
 }
-TEST_CASE(testJsonFloat, testJson) {
+PICOTEST_CASE(testJsonFloat, testJson) {
     char str[1000];
     size_t len;
     Col_Word v;
@@ -203,7 +205,7 @@ TEST_CASE(testJsonFloat, testJson) {
     ASSERT(Coatl_WordIsMpFloat(v));
     sprintf(str, "1.2345e%d  ", DBL_MAX_10_EXP+3);
 }
-TEST_CASE(testJsonString, testJson) {
+PICOTEST_CASE(testJsonString, testJson) {
     const char *str;
     size_t len;
     Col_Word v;
@@ -228,7 +230,7 @@ TEST_CASE(testJsonString, testJson) {
     ASSERT(Col_WordType(v) & COL_ROPE);
     WRITE_EXPECTED_JSON(v, 0, "\"abcd\\\"efgh\"");
 }
-TEST_CASE(testJsonArray, testJson) {
+PICOTEST_CASE(testJsonArray, testJson) {
     const char *str;
     size_t len;
     Col_Word v;
@@ -282,7 +284,7 @@ TEST_CASE(testJsonArray, testJson) {
 	"]"
     );
 }
-TEST_CASE(testJsonObject, testJson) {
+PICOTEST_CASE(testJsonObject, testJson) {
     const char *str;
     size_t len;
     Col_Word v, e;
@@ -325,7 +327,7 @@ TEST_CASE(testJsonObject, testJson) {
 	"}"
     );
 }
-TEST_CASE(testJsonValue, testJson) {
+PICOTEST_CASE(testJsonValue, testJson) {
     const char *str;
     size_t len;
     Col_Word v, e;
