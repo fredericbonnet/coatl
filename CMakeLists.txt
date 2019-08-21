@@ -5,7 +5,7 @@ project(coatl LANGUAGES C)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST_DIR}/../lib)
 
 find_package(colibri REQUIRED)
-find_package(mpir 3.0.0 REQUIRED)
+find_package(mpir 3.0.0 QUIET)
 find_package(PicoTest REQUIRED)
 
 # CoATL library
@@ -13,6 +13,11 @@ add_library(coatl SHARED)
 target_compile_definitions(coatl
 	PRIVATE BUILD_coatl
 )
+if (mpir_FOUND)
+	target_compile_definitions(coatl
+		PRIVATE HAVE_MPIR
+	)
+endif()
 target_include_directories(coatl
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -36,25 +41,19 @@ target_sources(coatl
 target_link_libraries(coatl
 	PUBLIC
 		colibri
-	PRIVATE
-		mpir
 )
+if (mpir_FOUND)
+	target_link_libraries(coatl
+		PRIVATE
+			mpir
+	)
+endif()
 
+install(TARGETS coatl EXPORT coatl-config)
 # FIXME
-if (WIN32)
-	install(TARGETS coatl EXPORT coatl-config
-		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
-		ARCHIVE DESTINATION lib/${CMAKE_BUILD_TYPE}
-		LIBRARY DESTINATION lib/${CMAKE_BUILD_TYPE}/static
-	)
+if (WIN32 AND mpir_FOUND)
 	# Copy binary dependencies as well
-	install(FILES $<TARGET_FILE:mpir> DESTINATION bin/${CMAKE_BUILD_TYPE})
-else()
-	install(TARGETS coatl EXPORT coatl-config
-		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
-		ARCHIVE DESTINATION lib/${CMAKE_BUILD_TYPE}
-		LIBRARY DESTINATION bin/${CMAKE_BUILD_TYPE}
-	)
+	install(FILES $<TARGET_FILE:mpir> DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 install(DIRECTORY include/ DESTINATION include/coatl)
 install(EXPORT coatl-config DESTINATION cmake)
@@ -88,11 +87,15 @@ if (WIN32)
 			${CMAKE_COMMAND} -E copy_if_different
 			$<TARGET_FILE:colibri>
 			$<TARGET_FILE_DIR:test_coatl>
-		COMMAND 
-			${CMAKE_COMMAND} -E copy_if_different
-			$<TARGET_FILE:mpir>
-			$<TARGET_FILE_DIR:test_coatl>
 	)
+	if (mpir_FOUND)
+		add_custom_command(TARGET test_coatl POST_BUILD
+			COMMAND 
+				${CMAKE_COMMAND} -E copy_if_different
+				$<TARGET_FILE:mpir>
+				$<TARGET_FILE_DIR:test_coatl>
+		)
+	endif()
 endif()
 
 enable_testing()

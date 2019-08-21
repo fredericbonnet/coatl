@@ -16,7 +16,9 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <float.h>
-#include <mpir.h>
+#ifdef HAVE_MPIR
+	#include <mpir.h>
+#endif
 #include <malloc.h> /* For malloc & alloca */
 
 /*
@@ -263,6 +265,8 @@ Section: Multiple Precision Integer Words
 ================================================================================
 */
 
+#ifdef HAVE_MPIR
+
 /****************************************************************************
  * Internal Group: Multiple Precision Integer Word Type
  ****************************************************************************/
@@ -360,12 +364,16 @@ Coatl_WordIsMpInt(
 	    && Col_CustomWordInfo(word, &dummy) == &mpIntWordType);
 }
 
+#endif /* HAVE_MPIR */ 
+
 
 /*
 ================================================================================
 Section: Multiple Precision Floating Point Words
 ================================================================================
 */
+
+#ifdef HAVE_MPIR
 
 /****************************************************************************
  * Internal Group: Multiple Precision Floating Point Word Type
@@ -464,6 +472,7 @@ Coatl_WordIsMpFloat(
 	    && Col_CustomWordInfo(word, &dummy) == &mpFloatWordType);
 }
 
+#endif /* HAVE_MPIR */ 
 
 /*
 ================================================================================
@@ -968,7 +977,9 @@ Coatl_ReadIntWord(
     int types,
     Col_Word *wordPtr)
 {
+#ifdef HAVE_MPIR
     mpz_t *data;
+#endif /* HAVE_MPIR */
     uintmax_t v;
     Col_RopeIterator it;
     Col_Char c;
@@ -1011,6 +1022,7 @@ Coatl_ReadIntWord(
     }
     Col_RopeIterSet(begin, it);
 
+#ifdef HAVE_MPIR
     /*
      * Scan multiple precision integer. Assumes digit character codepoints
      * fit into a char.
@@ -1052,6 +1064,7 @@ Coatl_ReadIntWord(
     if (neg) mpz_neg(*data, *data);
     TMP_FREE(str, len+1);
     return 1;
+#endif /* HAVE_MPIR */
 }
 
 /*---------------------------------------------------------------------------
@@ -1079,6 +1092,7 @@ Coatl_ReadIntWord(
  *	<Coatl_NumReadFormat>, <Number Reading Word Type Flags>
  *---------------------------------------------------------------------------*/
 
+#ifdef HAVE_MPIR
 int
 Coatl_ReadFloatWord(
     Col_RopeIterator begin, 
@@ -1282,6 +1296,7 @@ Coatl_ReadFloatWord(
     }
     return 1;
 }
+#endif /* HAVE_MPIR */
 
 /*---------------------------------------------------------------------------
  * Internal Variable: numWriteDefaut
@@ -1770,6 +1785,7 @@ Coatl_WriteIntWord(
     }
 #endif /* INTPTR_MAX != INTMAX_MAX */
     if (wt == &mpIntWordType) {
+#ifdef HAVE_MPIR
 	/*
 	 * Get digit string from multiple precision integer.
 	 */
@@ -1786,6 +1802,7 @@ Coatl_WriteIntWord(
 		    : -(int) format->radix, *pv);
 	    nbDigits = strlen(buf)-(sign < 0 ? 1 : 0);
 	}
+#endif /* HAVE_MPIR */
     } else {
 	/*
 	 * Get digit string from native integer.
@@ -1848,6 +1865,7 @@ Coatl_WriteIntWord(
  *	<Coatl_NumWriteFormat>
 *---------------------------------------------------------------------------*/
 
+#ifdef HAVE_MPIR
 size_t
 Coatl_WriteFloatWord(
     Col_Word strbuf, 
@@ -2197,6 +2215,7 @@ adjustExp:
 
     return Col_StringBufferLength(strbuf) - oldLen;
 }
+#endif /* HAVE_MPIR */
 
 
 /*
