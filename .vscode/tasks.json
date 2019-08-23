@@ -1,0 +1,110 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake",
+      "type": "shell",
+      "group": "build",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build/x64",
+        "-A",
+        "x64",
+        "-DCMAKE_MODULE_PATH=../picotest",
+        "-DCMAKE_INSTALL_PREFIX=../install",
+        "-DCMAKE_RELEASE_POSTFIX=64",
+        "-DCMAKE_DEBUG_POSTFIX=64d"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake (x86)",
+      "type": "shell",
+      "group": "build",
+      "command": "cmake",
+      "args": [
+        "-S",
+        ".",
+        "-B",
+        "build/x86",
+        "-A",
+        "win32",
+        "-DCMAKE_MODULE_PATH=../picotest",
+        "-DCMAKE_INSTALL_PREFIX=../install",
+        "-DCMAKE_RELEASE_POSTFIX=32",
+        "-DCMAKE_DEBUG_POSTFIX=32d"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "command": "cmake",
+      "args": ["--build", ".", "--config", "debug", "--verbose"],
+      "options": {
+        "cwd": "build/x64"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build & install (release)",
+      "type": "shell",
+      "group": "build",
+      "command": "cmake",
+      "args": [
+        "--build",
+        ".",
+        "--target",
+        "install",
+        "--config",
+        "release",
+        "--verbose"
+      ],
+      "options": {
+        "cwd": "build/x64"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "group": "build",
+      "command": "cmake",
+      "args": [
+        "--build",
+        ".",
+        "--config",
+        "debug",
+        "--target",
+        "clean",
+        "--verbose"
+      ],
+      "options": {
+        "cwd": "build/x64"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "command": "ctest",
+      "args": ["-j", "32", "--output-on-failure"],
+      "options": {
+        "cwd": "build/x64"
+      }
+    }
+  ]
+}
