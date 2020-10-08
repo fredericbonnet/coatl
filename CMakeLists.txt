@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 project(coatl LANGUAGES C)
 
+include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST_DIR}/../lib)
 
 find_package(colibri REQUIRED)
@@ -37,27 +38,16 @@ target_link_libraries(coatl
 	PUBLIC
 		colibri
 	PRIVATE
-		mpir
+		mpir::mpir
 )
 
-# FIXME
-if (WIN32)
-	install(TARGETS coatl EXPORT coatl-config
-		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
-		ARCHIVE DESTINATION lib/${CMAKE_BUILD_TYPE}
-		LIBRARY DESTINATION lib/${CMAKE_BUILD_TYPE}/static
-	)
-	# Copy binary dependencies as well
-	install(FILES $<TARGET_FILE:mpir> DESTINATION bin/${CMAKE_BUILD_TYPE})
-else()
-	install(TARGETS coatl EXPORT coatl-config
-		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
-		ARCHIVE DESTINATION lib/${CMAKE_BUILD_TYPE}
-		LIBRARY DESTINATION bin/${CMAKE_BUILD_TYPE}
-	)
-endif()
+install(TARGETS coatl EXPORT coatl-config)
 install(DIRECTORY include/ DESTINATION include/coatl)
 install(EXPORT coatl-config DESTINATION cmake)
+if (WIN32)
+	# Copy binary dependencies as well
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin/mpir/ DESTINATION bin)
+endif()
 
 
 # CoATL unit tests
@@ -89,8 +79,8 @@ if (WIN32)
 			$<TARGET_FILE:colibri>
 			$<TARGET_FILE_DIR:test_coatl>
 		COMMAND 
-			${CMAKE_COMMAND} -E copy_if_different
-			$<TARGET_FILE:mpir>
+			${CMAKE_COMMAND} -E copy_directory
+			${CMAKE_CURRENT_BINARY_DIR}/bin/mpir
 			$<TARGET_FILE_DIR:test_coatl>
 	)
 endif()

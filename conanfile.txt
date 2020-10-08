@@ -1,0 +1,12 @@
+[requires]
+mpir/3.0.0
+
+[options]
+mpir:shared=True
+
+[imports]
+bin, *.dll -> ./bin @ folder=True
+
+[generators]
+cmake_find_package
+cmake_paths
