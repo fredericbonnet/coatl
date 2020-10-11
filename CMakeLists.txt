@@ -21,18 +21,18 @@ target_include_directories(coatl
 )
 target_sources(coatl
 	PRIVATE
-		coatl.c
-		coatlUcd.c
-		coatlUnicode.c
-		coatlRegexp.c
-		re/regcomp.c
-		re/regexec.c
-		re/regfree.c
-		re/regerror.c
-		coatlNumber.c
-		coatlJson.c
-		coatlParse.c
-		coatlParseTcl.c
+		src/coatl.c
+		src/coatlUcd.c
+		src/coatlUnicode.c
+		src/coatlRegexp.c
+		src/re/regcomp.c
+		src/re/regexec.c
+		src/re/regfree.c
+		src/re/regerror.c
+		src/coatlNumber.c
+		src/coatlJson.c
+		src/coatlParse.c
+		src/coatlParseTcl.c
 )
 target_link_libraries(coatl
 	PUBLIC

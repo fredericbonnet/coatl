@@ -3,9 +3,9 @@ source coatlUcd_propertyTypes.tcl
 set doParse 0; # True for parsing UCD, false for reading pre-parsed result
 set doSave 1; # True for saving UCD parsing result
 
-set srcroot "../../"
+set srcroot "../../src"
 set includeroot "../../include"
-set reroot "../../re"
+set reroot "../../src/re"
 
 ###############################################################################
 #
