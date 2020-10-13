@@ -23,7 +23,7 @@ PICOTEST_FIXTURE_SETUP(testRegexps) {
 }
 PICOTEST_FIXTURE_TEARDOWN(testRegexps) {
     if (!PICOTEST_FAIL) {
-	Col_ResumeGC();
+        Col_ResumeGC();
     }
     Col_Cleanup();
 }

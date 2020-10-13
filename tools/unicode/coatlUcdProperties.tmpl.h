@@ -2,10 +2,10 @@ header
 {/*
  * Header: coatlUcdProperties.h
  *
- *	This header file describes Unicode character properties and values.
+ *      This header file describes Unicode character properties and values.
  *
- *	It is automatically generated from the Unicode Character Database (UCD)
- *	using the file *coatlUcdProperties.tcl*; Do not modify.
+ *      It is automatically generated from the Unicode Character Database (UCD)
+ *      using the file *coatlUcdProperties.tcl*; Do not modify.
  */
 
 #ifndef _COATL_UCDPROPERTIES
@@ -21,7 +21,7 @@ ucdPropertiesGroup
 ================================================================================
 Section: UCD Properties
 
-	Unicode Character Database (UCD) property types & values.
+        Unicode Character Database (UCD) property types & values.
 ================================================================================
 */
 }
@@ -30,10 +30,10 @@ propertiesEnum
 {/*---------------------------------------------------------------------------
  * Enum: Coatl_UcdProperty
  *
- *	Unicode character properties.
+ *      Unicode character properties.
  *
- *	Names are automatically generated from the UCD file
- *	*PropertyAliases.txt*
+ *      Names are automatically generated from the UCD file
+ *      *PropertyAliases.txt*
  *${comments} 
  *---------------------------------------------------------------------------*/
  
@@ -44,13 +44,13 @@ ${values}
 /*---------------------------------------------------------------------------
  * Constant: COATL_UCD_NBPROPERTIES
  *
- *	Number of Unicode character properties.
+ *      Number of Unicode character properties.
  *
  * See also:
- *	<Coatl_UcdProperty>
+ *      <Coatl_UcdProperty>
  *---------------------------------------------------------------------------*/
 
-#define COATL_UCD_NBPROPERTIES	$number
+#define COATL_UCD_NBPROPERTIES  $number
 }
 
 propertyAlias
@@ -69,21 +69,21 @@ propertiesEnumValue
 }
 
 propertiesEnumAlias
-{	COATL_UCD_${ALIAS}=COATL_UCD_${PROPERTY},
+{        COATL_UCD_${ALIAS}=COATL_UCD_${PROPERTY},
 }
 
 propertyEnum
 {/*---------------------------------------------------------------------------
  * Enum: Coatl_Ucd_${Property}
  *
- *	Values for Unicode character property '*${property}*'.
+ *      Values for Unicode character property '*${property}*'.
  *
- *	Names are automatically generated from the UCD file
- *	*PropertyValueAliases.txt*
+ *      Names are automatically generated from the UCD file
+ *      *PropertyValueAliases.txt*
  *${comments}
  *
  * See also:
- *	<COATL_UCD_${PROPERTY}>
+ *      <COATL_UCD_${PROPERTY}>
  *---------------------------------------------------------------------------*/
 
 typedef enum Coatl_Ucd_${Property} {
@@ -93,13 +93,13 @@ ${values}
 /*---------------------------------------------------------------------------
  * Constant: COATL_UCD_${PROPERTY}_NBVALUES
  *
- *	Number of values for Unicode character property '*${property}*'.
+ *      Number of values for Unicode character property '*${property}*'.
  *
  * See also:
- *	<Coatl_Ucd_${Property}>
+ *      <Coatl_Ucd_${Property}>
  *---------------------------------------------------------------------------*/
 
-#define COATL_UCD_${PROPERTY}_NBVALUES	${number}
+#define COATL_UCD_${PROPERTY}_NBVALUES${padding} ${number}
 }
 
 propertyValueAlias
@@ -118,6 +118,6 @@ propertyEnumValue
 }
 
 propertyEnumAlias
-{	COATL_UCD_${PROPERTY}_${ALIAS}=COATL_UCD_${PROPERTY}_${VALUE},
+{        COATL_UCD_${PROPERTY}_${ALIAS}=COATL_UCD_${PROPERTY}_${VALUE},
 }
 

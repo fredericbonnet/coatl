@@ -27,8 +27,8 @@ PICOTEST_SUITE(testJson,
     \
     ASSERT(Coatl_WriteJson(strbuf, value, indent) == (size_t) strlen(expected)); \
     for (Col_RopeIterFirst(it, Col_StringBufferFreeze(strbuf)); \
-	    !Col_RopeIterEnd(it); Col_RopeIterNext(it)) { \
-	ASSERT(Col_RopeIterAt(it) == (Col_Char) expected[Col_RopeIterIndex(it)], "index=%u", Col_RopeIterIndex(it)); \
+            !Col_RopeIterEnd(it); Col_RopeIterNext(it)) { \
+        ASSERT(Col_RopeIterAt(it) == (Col_Char) expected[Col_RopeIterIndex(it)], "index=%u", Col_RopeIterIndex(it)); \
     } \
 }
 
@@ -40,7 +40,7 @@ PICOTEST_FIXTURE_SETUP(testJson) {
 }
 PICOTEST_FIXTURE_TEARDOWN(testJson) {
     if (!PICOTEST_FAIL) {
-	Col_ResumeGC();
+        Col_ResumeGC();
     }
     Col_Cleanup();
 }
@@ -262,26 +262,26 @@ PICOTEST_CASE(testJsonArray, testJson) {
     ASSERT(Col_WordType(elements[6]) & COL_ROPE);
     ASSERT(Col_RopeLength(elements[6]) == 3);
     WRITE_EXPECTED_JSON(v, 0, 
-	"["
-	    "null,"
-	    "true,"
-	    "false,"
-	    "1,"
-	    "2.0,"
-	    "3.45e1,"
-	    "\"678\""
-	"]"
+        "["
+            "null,"
+            "true,"
+            "false,"
+            "1,"
+            "2.0,"
+            "3.45e1,"
+            "\"678\""
+        "]"
     );
     WRITE_EXPECTED_JSON(v, 2, 
-	"["		"\n"
-	"  null,"	"\n"
-	"  true,"	"\n"
-	"  false,"	"\n"
-	"  1,"		"\n"
-	"  2.0,"	"\n"
-	"  3.45e1,"	"\n"
-	"  \"678\""	"\n"
-	"]"
+        "["             "\n"
+        "  null,"       "\n"
+        "  true,"       "\n"
+        "  false,"      "\n"
+        "  1,"          "\n"
+        "  2.0,"        "\n"
+        "  3.45e1,"     "\n"
+        "  \"678\""     "\n"
+        "]"
     );
 }
 PICOTEST_CASE(testJsonObject, testJson) {
@@ -311,20 +311,20 @@ PICOTEST_CASE(testJsonObject, testJson) {
     ASSERT(Col_WordType(e) & COL_ROPE);
     ASSERT(Col_RopeLength(e) == 3);
     WRITE_EXPECTED_JSON(v, 0, 
-	"{"
-	    "\"a\":1,"
-	    "\"b\":2.0,"
-	    "\"c\":3.45e1,"
-	    "\"d\":\"678\""
-	"}"
+        "{"
+            "\"a\":1,"
+            "\"b\":2.0,"
+            "\"c\":3.45e1,"
+            "\"d\":\"678\""
+        "}"
     );
     WRITE_EXPECTED_JSON(v, 2, 
-	"{"			"\n"
-	"  \"a\": 1,"		"\n"
-	"  \"b\": 2.0,"		"\n"
-	"  \"c\": 3.45e1,"	"\n"
-	"  \"d\": \"678\""	"\n"
-	"}"
+        "{"                     "\n"
+        "  \"a\": 1,"           "\n"
+        "  \"b\": 2.0,"         "\n"
+        "  \"c\": 3.45e1,"      "\n"
+        "  \"d\": \"678\""      "\n"
+        "}"
     );
 }
 PICOTEST_CASE(testJsonValue, testJson) {
@@ -354,56 +354,56 @@ PICOTEST_CASE(testJsonValue, testJson) {
     ASSERT(Col_WordType(e) & COL_ROPE);
     ASSERT(Col_RopeLength(e) == 3);
     WRITE_EXPECTED_JSON(v, 0, 
-	"{"
-	    "\"a\":["
-		"null,"
-		"true,"
-		"false,"
-		"1,"
-		"2.0,"
-		"3.45e1,"
-		"\"678\""
-	    "],"
-	    "\"b\":2.0,"
-	    "\"c\":{"
-		"\"a\":1,"
-		"\"b\":["
-		    "1,"
-		    "2.0,"
-		    "3.45e1,"
-		    "\"678\""
-		"],"
-		"\"c\":3.45e1,"
-		"\"d\":\"678\""
-	    "},"
-	    "\"d\":\"678\""
-	"}"
+        "{"
+            "\"a\":["
+                "null,"
+                "true,"
+                "false,"
+                "1,"
+                "2.0,"
+                "3.45e1,"
+                "\"678\""
+            "],"
+            "\"b\":2.0,"
+            "\"c\":{"
+                "\"a\":1,"
+                "\"b\":["
+                    "1,"
+                    "2.0,"
+                    "3.45e1,"
+                    "\"678\""
+                "],"
+                "\"c\":3.45e1,"
+                "\"d\":\"678\""
+            "},"
+            "\"d\":\"678\""
+        "}"
     );
     WRITE_EXPECTED_JSON(v, 2, 
-	"{"			"\n"
-	"  \"a\": ["		"\n"
-	"    null,"		"\n"
-	"    true,"		"\n"
-	"    false,"		"\n"
-	"    1,"		"\n"
-	"    2.0,"		"\n"
-	"    3.45e1,"		"\n"
-	"    \"678\""		"\n"
-	"  ],"			"\n"
-	"  \"b\": 2.0,"		"\n"
-	"  \"c\": {"		"\n"
-	"    \"a\": 1,"		"\n"
-	"    \"b\": ["		"\n"
-	"      1,"		"\n"
-	"      2.0,"		"\n"
-	"      3.45e1,"		"\n"
-	"      \"678\""		"\n"
-	"    ],"		"\n"
-	"    \"c\": 3.45e1,"	"\n"
-	"    \"d\": \"678\""	"\n"
-	"  },"			"\n"
-	"  \"d\": \"678\""	"\n"
-	"}"
+        "{"                     "\n"
+        "  \"a\": ["            "\n"
+        "    null,"             "\n"
+        "    true,"             "\n"
+        "    false,"            "\n"
+        "    1,"                "\n"
+        "    2.0,"              "\n"
+        "    3.45e1,"           "\n"
+        "    \"678\""           "\n"
+        "  ],"                  "\n"
+        "  \"b\": 2.0,"         "\n"
+        "  \"c\": {"            "\n"
+        "    \"a\": 1,"         "\n"
+        "    \"b\": ["          "\n"
+        "      1,"              "\n"
+        "      2.0,"            "\n"
+        "      3.45e1,"         "\n"
+        "      \"678\""         "\n"
+        "    ],"                "\n"
+        "    \"c\": 3.45e1,"    "\n"
+        "    \"d\": \"678\""    "\n"
+        "  },"                  "\n"
+        "  \"d\": \"678\""      "\n"
+        "}"
     );
 }
 

@@ -1,7 +1,7 @@
 /*
  * Header: coatl.h
  *
- *	This header file describes the public API of the CoATL library.
+ *      This header file describes the public API of the CoATL library.
  */
 
 #ifndef _COATL
@@ -28,13 +28,13 @@ extern "C" {
 
 #ifndef __WIN32__
 #   if defined(_WIN32) || defined(WIN32) || defined(__MINGW32__) || defined(__BORLANDC__) || (defined(__WATCOMC__) && defined(__WINDOWS_386__))
-#	define __WIN32__
-#	ifndef WIN32
-#	    define WIN32
-#	endif
-#	ifndef _WIN32
-#	    define _WIN32
-#	endif
+#       define __WIN32__
+#       ifndef WIN32
+#           define WIN32
+#       endif
+#       ifndef _WIN32
+#           define _WIN32
+#       endif
 #   endif
 #endif
 
@@ -44,7 +44,7 @@ extern "C" {
 
 #ifdef __WIN32__
 #   ifndef STRICT
-#	define STRICT
+#       define STRICT
 #   endif
 #endif /* __WIN32__ */
 
@@ -149,10 +149,10 @@ Declarations:
 /*---------------------------------------------------------------------------
  * Enum: Coatl_ErrorCode
  *
- *	Error codes defined in the CoATL domain.
+ *      Error codes defined in the CoATL domain.
  *
  * See also: 
- *	<Coatl_GetErrorDomain>
+ *      <Coatl_GetErrorDomain>
  *---------------------------------------------------------------------------*/
 
 typedef enum Coatl_ErrorCode {
@@ -165,7 +165,7 @@ typedef enum Coatl_ErrorCode {
  * Remaining declarations.
  */
 
-EXTERN Col_ErrorDomain	Coatl_GetErrorDomain();
+EXTERN Col_ErrorDomain  Coatl_GetErrorDomain();
 
 
 /*
