@@ -1,12 +1,11 @@
-/*
- * File: coatlRegexp.c
+/**
+ * @file coatlRegexp.c
  *
- *      This file implements the regular expression facility of CoATL.
+ * This file implements the regular expression facility of CoATL.
  *
- *      The code is based on Henry Spencer's regexp library found in Tcl.
+ * The code is based on Henry Spencer's regexp library found in Tcl.
  *
- * See also:
- *      <coatlRegexp.h>
+ * @see coatlRegexp.h
  */
 
 #include "../include/coatl.h"
@@ -18,34 +17,94 @@
  * Prototypes for functions used only in this file.
  */
 
+/*! \cond IGNORE */
 static Col_CustomWordSizeProc RegexpSizeProc;
 static Col_CustomWordFreeProc RegexpFreeProc;
+/*! \endcond *//* IGNORE */
 
 
 /*
-================================================================================
-Internal Section: Type Checking
-================================================================================
+===========================================================================*//*!
+\internal \defgroup regexp_words Regular Expression Words
+\ingroup regexp
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Internal Macro: TYPECHECK_REGEXP
- *
- *      Type checking macro for regular expressions.
- *
- * Argument:
- *      word    - Checked word.
- *
- * Result:
- *      rePtr   - Variable receiving address of regex_t structure.
- *
- * Side effects:
- *      Generate <COL_TYPECHECK> error when *word* is not a regexp word.
- *
- * See also:
- *      <Col_Error>
- *---------------------------------------------------------------------------*/
+/** @beginprivate @cond PRIVATE */
 
+/***************************************************************************//*!
+ * \name Regular Expression Word Type
+ *
+ * Regular expressions are custom Colibri word types.
+ ***************************************************************************\{*/
+
+/**
+ * Custom word type holding a **regex_t** structure.
+ *
+ * @see RegexpSizeProc
+ * @see RegexpFreeProc
+ */
+static Col_CustomWordType regexpWordType = {
+    0,
+    "regexp",
+    RegexpSizeProc,
+    RegexpFreeProc,
+    NULL /* childrenProc */
+};
+
+/**
+ * Regexp word type size proc. Follows **Col_CustomWordSizeProc()** signature. 
+ *
+ * @return The custom word size in bytes.
+ *
+ * @see regexpWordType
+ */
+static size_t
+RegexpSizeProc(
+    Col_Word word)  /*!< Custom word to get size for. */
+{
+    return sizeof(regex_t);
+}
+
+/**
+ * Regexp word type cleanup proc. Follows **Col_CustomWordFreeProc()** 
+ * signature.
+ *
+ * @sideeffect
+ *      Calls **regex_t** cleanup procedure.
+ *
+ * @see regexpWordType
+ */
+static void
+RegexpFreeProc(
+    Col_Word word)  /*!< Custom word to cleanup. */
+{
+    regex_t *re;
+
+    REQUIRE(Col_CustomWordInfo(word, (void **) &re) == &regexpWordType);
+
+    CoatlReFree(re);
+}
+
+/* End of Regular Expression Word Type *//*!\}*/
+
+
+/***************************************************************************//*!
+ * \name Regular Expression Word Type Checking
+ ***************************************************************************\{*/
+
+/**
+ * Type checking macro for regular expressions.
+ *
+ * @param word  Checked word.
+ *
+ * @param[out] rePtr    Variable receiving address of **regex_t** structure.
+ *
+ * @typecheck{COATL_ERROR_REGEXP,word}
+ *
+ * @see **COL_RUNTIMECHECK**
+ * @hideinitializer
+ **/
 #ifdef _DEBUG
 #   define TYPECHECK_REGEXP(word, rePtr) \
         COL_RUNTIMECHECK(((Col_WordType(word) & COL_CUSTOM) \
@@ -57,106 +116,36 @@ Internal Section: Type Checking
         Col_CustomWordInfo((word), (void **) &(rePtr)); if (0)
 #endif
 
+/* End of Regular Expression Word Type Checking *//*!\}*/
+
+/** @endcond @endprivate */
+
+/* End of Regular Expression Words *//*!\}*/
+
+
 /*
-================================================================================
-Section: Regular Expressions
-================================================================================
+===========================================================================*//*!
+\weakgroup regexp Regular Expressions
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Internal Variable: regexpWordType
+/**
+ * Compile a regular expression for later execution.
  *
- *      Custom word type holding a regex_t structure.
+ * @return A @ref regexp_compile_errors "compilation error code". 
  *
- * See also:
- *      <RegexpSizeProc>, <RegexpFreeProc>
- *---------------------------------------------------------------------------*/
-
-static Col_CustomWordType regexpWordType = {
-    0,
-    "regexp",
-    RegexpSizeProc,
-    RegexpFreeProc,
-    NULL /* childrenProc */
-};
-
-/*---------------------------------------------------------------------------
- * Internal Function: RegexpSizeProc
- *
- *      Regexp word type size proc. Follows <Col_CustomWordSizeProc> signature. 
- *
- * Argument:
- *      word    - Custom word to get size for.
- *
- * Result:
- *      The custom word size in bytes.
- *
- * See also:
- *      <regexpWordType>
- *---------------------------------------------------------------------------*/
-
-static size_t
-RegexpSizeProc(
-    Col_Word word)
-{
-    return sizeof(regex_t);
-}
-
-/*---------------------------------------------------------------------------
- * Internal Function: RegexpFreeProc
- *
- *      Regexp word type cleanup proc. Follows <Col_CustomWordFreeProc>
- *      signature.
- *
- * Argument:
- *      word    - Custom word to cleanup.
- *
- * Side effects:
- *      Calls regex_t cleanup procedure.
- *
- * See also: 
- *      <regexpWordType>
- *---------------------------------------------------------------------------*/
-
-static void
-RegexpFreeProc(
-    Col_Word word)
-{
-    regex_t *re;
-
-    REQUIRE(Col_CustomWordInfo(word, (void **) &re) == &regexpWordType);
-
-    CoatlReFree(re);
-}
-
-/*---------------------------------------------------------------------------
- * Function: Coatl_RegexpCompile
- *
- *      Compile a regular expression for later execution.
- *
- * Arguments:
- *      string  - Regular expression to compile.
- *      flags   - Compilation flags (see <Regular Expression Compilation 
- *                Flags>).
- *
- * Results:
- *      An error code (see <Regular Expression Compilation Error Codes>). 
- *      Additionally:
- *
- *      rePtr   - Regular expression word if compilation was successful (i.e.
- *                result is <COATL_RECOMP_OKAY>).
- *
- * Side effects:
+ * @sideeffect
  *      May allocate memory cells.
  *
- * See also:
- *      <Coatl_RegexpExec>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_RegexpExec
+ */
 int
 Coatl_RegexpCompile(
-    Col_Word string, 
-    int flags,
+    Col_Word string,    /*!< Regular expression to compile. */
+    int flags,          /*!< @ref regexp_compile_flags "Compilation flags". */
+
+    /*! [out] Regular expression word if compilation was successful (i.e. result
+        is #COATL_RECOMP_OKAY). */
     Col_Word *rePtr)
 {
     int result;
@@ -174,28 +163,18 @@ Coatl_RegexpCompile(
     return result;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_RegexpNbSubexpressions
+/**
+ * Return the number of subexpressions in a compiled regular expression, i\.e\. 
+ * the number of capturing sets of parentheses.
  *
- *      Return the number of subexpressions in a compiled regular expression.
- *      I.e. the number of capturing sets of parentheses.
+ * @return The number of subexpressions.
  *
- * Argument:
- *      re      - Compiled regular expression (result of <Coatl_RegexpCompile>).
- *
- * Type checking:
- *      *re* must be a valid regular expression word.
- *
- * Result:
- *      The number of subexpressions.
- *
- * See also:
- *      <Coatl_RegexpCompile>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_RegexpCompile
+ */
 size_t
 Coatl_RegexpNbSubexpressions(
-    Col_Word re)
+    Col_Word re)    /*!< Compiled regular expression (result of 
+                         Coatl_RegexpCompile()). */
 {
     regex_t *rePtr;
 
@@ -203,53 +182,35 @@ Coatl_RegexpNbSubexpressions(
      * Check preconditions.
      */
 
+    /*! @typecheck{COATL_ERROR_REGEXP,re} */
     TYPECHECK_REGEXP(re, rePtr) return 0;
 
     return rePtr->re_nsub;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_RegexpExec
+/**
+ * Execute a previously compiled regular expression.
  *
- *      Execute a previously compiled regular expression.
+ * @return A @ref regexp_exec_errors "execution error code".
  *
- * Arguments:
- *      re              - Compiled regular expression (result of 
- *                        <Coatl_RegexpCompile>).
- *      string          - String to match against regular expression.
- *      flags           - Execution flags (see <Regular Expression Execution 
- *                        Flags>).
- *      nbMatches       - Number of matching ranges to return upon success,
- *                        including the global match.
- *      matches         - If nbMatches is > 0, array of matching ranges of 
- *                        characters upon success.
- *
- * Type checking:
- *      *re* must be a valid regular expression word.
- *
- * Results:
- *      An error code (see <Regular Expression Execution Error Codes>).
- *      Additionally:
- *
- *      matches - Upon success and if nbMatches is > 0, holds the matching 
- *                ranges of characters, in the form of string index pairs in 
- *                even/odd order (first/last inclusive character indices 
- *                respectively, suitable for e.g. <Col_Subrope>), the first 
- *                pair being for the global match and the subsequent pairs for 
- *                the respective subexpressions. If either index of a pair is
- *                SIZE_MAX (which is always out of range whatever the string),
- *                this means that the respective subexpression didn't match.
- *
- * See also:
- *      <Coatl_RegexpCompile>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_RegexpCompile
+ */
 int
 Coatl_RegexpExec(
-    Col_Word re,
-    Col_Word string,
-    int flags,
-    size_t nbMatches,
+    Col_Word re,        /*!< Compiled regular expression (result of 
+                             Coatl_RegexpCompile()). */
+    Col_Word string,    /*!< String to match against regular expression. */
+    int flags,          /*!< @ref regexp_exec_flags "Execution flags". */
+    size_t nbMatches,   /*!< Number of matching ranges to return upon success,
+                             including the global match. */
+
+    /*! [out] Upon success and if **nbMatches** is > 0, holds the matching
+        ranges of characters, in the form of string index pairs in even/odd
+        order (first/last inclusive character indices respectively, suitable for
+        e.g. **Col_Subrope()**), the first pair being for the global match and
+        the subsequent pairs for the respective subexpressions. If either index
+        of a pair is SIZE_MAX (which is always out of range whatever the
+        string), this means that the respective subexpression didn't match. */
     size_t *matches)
 {
     regex_t *rePtr;
@@ -260,6 +221,7 @@ Coatl_RegexpExec(
      * Check preconditions.
      */
 
+    /*! @typecheck{COATL_ERROR_REGEXP,re} */
     TYPECHECK_REGEXP(re, rePtr) return 0;
 
     /*
@@ -294,3 +256,5 @@ Coatl_RegexpExec(
 
     return result;
 }
+
+/* End of Regular Expressions *//*!\}*/

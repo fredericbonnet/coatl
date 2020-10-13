@@ -1,11 +1,11 @@
 header
-{/*
- * Header: coatlUcd.h
+{/**
+ * @file coatlUcd.h
  *
- *      This file defines Unicode character property accessors.
+ * This file defines Unicode character property accessors.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcd.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 #ifndef _COATL_UCD
@@ -16,27 +16,19 @@ footer
 {
 #endif /* _COATL_UCD */}
 
-ucdPropertyAccessorsGroup 
+ucdPropertyAccessorsGroupBegin
 {
 /*
-================================================================================
-Section: UCD Property Accessors
-
-Declarations: ${declarations}
-================================================================================
+===========================================================================*//*!
+\defgroup ucd Unicode Character Database
+\ingroup unicode
+\{*//*==========================================================================
 */
+
+/***************************************************************************//*!
+ * \name UCD Property Accessors 
+ ***************************************************************************\{*/
 }
-
-propertyAccessorDeclarationFirst
-{
-        <Coatl_GetUcdProperty_${Property}>}
-
-propertyAccessorDeclarationNext
-{, <Coatl_GetUcdProperty_${Property}>}
-
-propertyAccessorDeclarationWrap
-{,
-        <Coatl_GetUcdProperty_${Property}>}
 
 propertyAccessor_boolean
 {EXTERN int              Coatl_GetUcdProperty_${Property}(Col_Char c);}
@@ -63,48 +55,44 @@ propertyAccessor_enumList
 
 propertyAccessorAlias
 {
-/*---------------------------------------------------------------------------
- * Macro: Coatl_GetUcdProperty_${Alias}
+/**
+ * Get value of UCD property '**${alias}**' for given codepoint.
+ * Alias for property UCD property accessor '**${Property}**'
  *
- *      Get value of UCD property '*${alias}*' for given codepoint.
- *      Alias for property UCD property accessor '*${Property}*'
+ * @param c Codepoint to get UCD property value for.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * @return Value of UCD property '**${alias}**'.
  *
- * Result:
- *      Value of UCD property '*${alias}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>, <Coatl_GetUcdProperty_${Property}>,
- *      <COATL_UCD_${ALIAS}>
- *---------------------------------------------------------------------------*/
-
- #define Coatl_GetUcdProperty_${Alias}(c) \
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_GetUcdProperty_${Property}
+ * @see COATL_UCD_${ALIAS}
+ */
+#define Coatl_GetUcdProperty_${Alias}(c) \
     Coatl_GetUcdProperty_${Property}(c)}
 
 propertyAccessorAliasList
 {
-/*---------------------------------------------------------------------------
- * Macro: Coatl_GetUcdProperty_${Alias}
+/**
+ * Get value of UCD property '**${alias}**' for given codepoint.
+ * Alias for property UCD property accessor '**${Property}**'
  *
- *      Get value of UCD property '*${alias}*' for given codepoint.
- *      Alias for property UCD property accessor '*${Property}*'
+ * @param c Codepoint to get UCD property value for.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * @param[out] lengthPtr    Value list length.
  *
- * Results:
- *      Beginning of value list for UCD property '*${property}*'. Additionally:
+ * @return Beginning of value list for UCD property '**${property}**'. 
  *
- *      lengthPtr       - (out) Value list length.
+ * Entries can be safely cast to <Coatl_Ucd_${ElementProperty}>.
  *
- *      Entries can be safely cast to <Coatl_Ucd_${ElementProperty}>.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>, <Coatl_GetUcdProperty_${Property}>,
- *      <COATL_UCD_${ALIAS}>
- *---------------------------------------------------------------------------*/
-
- #define Coatl_GetUcdProperty_${Alias}(c, lengthPtr) \
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_GetUcdProperty_${Property}
+ * @see COATL_UCD_${ALIAS}
+ */
+#define Coatl_GetUcdProperty_${Alias}(c, lengthPtr) \
     Coatl_GetUcdProperty_${Property}((c), (lengthPtr))}
+
+ucdPropertyAccessorsGroupEnd
+{
+/* End of UCD Property Accessors *//*!\}*/
+
+/* End of Unicode Character Database *//*!\}*/}

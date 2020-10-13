@@ -1,10 +1,10 @@
-/*
- * File: coatlUcd.c
+/**
+ * @file coatlUcd.c
  *
- *      This file implements Unicode character property data and accessors.
+ * This file implements Unicode character property data and accessors.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcd.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 #include "../include/coatl.h"
@@ -15,54 +15,59 @@
  * Prototypes for functions used only in this file.
  */
 
-static int              GetRange(Col_Char c, const Col_Char *ranges, 
+/*! \cond IGNORE */
+static int              GetRange(Col_Char c, const Col_Char *ranges,
                             int nbRanges);
+/*! \endcond *//* IGNORE */
 
 
 /*
-================================================================================
-Internal Section: Compiled UCD Data
-
-        Statically compiled Unicode Character Database (UCD).
-
-Description:
-        The Unicode Character Database (UCD) defines a set of properties for
-        every known codepoint in the standard. This represents a huge quantity
-        of raw data for over one million codepoints. Storing this data as flat
-        C arrays of high level structures is not realistic, as it would inflate
-        the size of the compiled binary by tens of megabytes and would 
-        overburden the client processes' memory.
-
-        To solve this problem we compile the UCD in the most compact way 
-        possible using a combination of techniques:
-
-        - Don't store flat arrays of values, but contiguous ranges of values 
-        that are binary-searched during lookup; as neighboring codepoints in the
-        UCD often share the same properties, this technique is very efficient.
-        - Use enums for all enumerated properties to minimize storage (values
-        fit a single byte in most cases).
-        - Boolean properties need only the first value since consecutive ranges 
-        have alternate values.
-        - Use atom tables for strings and complex datatypes to reuse storage. 
- 
-        That way, all but the name properties are statically defined in the
-        library without too much overhead. By comparison the uncompressed 
-        textual version of the UCD weighs around 15MB, and the grouped XML 
-        version around 40MB.
-================================================================================
+===========================================================================*//*!
+\defgroup ucd Unicode Character Database
+\ingroup unicode
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_age
- *
- *      Codepoint ranges of values for UCD property '*age*'.
- *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_age>, <COATL_UCD_AGE>
- *---------------------------------------------------------------------------*/
+/*
+===========================================================================*//*!
+\internal \defgroup ucd_data Compiled UCD Data
 
+Statically compiled Unicode Character Database (UCD).
+
+The Unicode Character Database (UCD) defines a set of properties for every known
+codepoint in the standard. This represents a huge quantity of raw data for over
+one million codepoints. Storing this data as flat C arrays of high level
+structures is not realistic, as it would inflate the size of the compiled binary
+by tens of megabytes and would overburden the client processes' memory.
+
+To solve this problem we compile the UCD in the most compact way possible using
+a combination of techniques:
+
+- Don't store flat arrays of values, but contiguous ranges of values that are
+  binary-searched during lookup; as neighboring codepoints in the UCD often
+  share the same properties, this technique is very efficient.
+- Use enums for all enumerated properties to minimize storage (values fit a
+  single byte in most cases).
+- Boolean properties need only the first value since consecutive ranges have
+  alternate values.
+- Use atom tables for strings and complex datatypes to reuse storage.
+
+That way, all but the name properties are statically defined in the library
+without too much overhead. By comparison the uncompressed textual version of the
+UCD weighs around 15MB, and the grouped XML version around 40MB.
+\{*//*==========================================================================
+*/
+
+/** @beginprivate @cond PRIVATE */
+
+/**
+ * Codepoint ranges of values for UCD property '**age**'.
+ *
+ * Automatically generated from the UCD.
+ *
+ * @see ucdValues_age
+ * @see COATL_UCD_AGE
+ */
 static const Col_Char ucdRanges_age[] = {
     0x01F6, 0x01FA, 0x0218, 0x0220, 0x0221, 0x0222, 0x0234, 0x0237, 
     0x0242, 0x0250, 0x02A9, 0x02AE, 0x02B0, 0x02DF, 0x02E0, 0x02EA, 
@@ -317,30 +322,25 @@ static const Col_Char ucdRanges_age[] = {
     0xE0000, 0xE0001, 0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 0xEFFFE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_AGE
+/**
+ * Number of ranges of values for UCD property '**age**'.
  *
- *      Number of ranges of values for UCD property '*age*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_age>, <COATL_UCD_AGE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_age
+ * @see COATL_UCD_AGE
+ */
 #define UCD_NBRANGES_AGE    2009
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_age
+/**
+ * Per-range values for UCD property '**age**'.
  *
- *      Per-range values for UCD property '*age*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_age>, <COATL_UCD_AGE>, <Coatl_Ucd_Age>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_age
+ * @see COATL_UCD_AGE
+ * @see Coatl_Ucd_Age
+ */
 static const Coatl_Ucd_Age ucdValues_age[] = {
     COATL_UCD_AGE_1_1, COATL_UCD_AGE_3_0, COATL_UCD_AGE_1_1, COATL_UCD_AGE_3_0, 
     COATL_UCD_AGE_3_2, COATL_UCD_AGE_4_0, COATL_UCD_AGE_3_0, COATL_UCD_AGE_4_0, 
@@ -847,61 +847,49 @@ static const Coatl_Ucd_Age ucdValues_age[] = {
     COATL_UCD_AGE_2_0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_AHex
+/**
+ * Codepoint ranges of values for UCD property '**AHex**'.
  *
- *      Codepoint ranges of values for UCD property '*AHex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_AHEX>, <COATL_UCD_AHEX>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_AHEX
+ * @see COATL_UCD_AHEX
+ */
 static const Col_Char ucdRanges_AHex[] = {
     0x0030, 0x003A, 0x0041, 0x0047, 0x0061, 0x0067, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_AHEX
+/**
+ * Number of ranges of values for UCD property '**AHex**'.
  *
- *      Number of ranges of values for UCD property '*AHex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_AHex>, <COATL_UCD_AHEX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_AHex
+ * @see COATL_UCD_AHEX
+ */
 #define UCD_NBRANGES_AHEX   7
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_AHEX
+/**
+ * Value of first range for UCD property '**AHex**'.
  *
- *      Value of first range for UCD property '*AHex*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_AHex>, <COATL_UCD_AHEX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_AHex
+ * @see COATL_UCD_AHEX
+ */
 #define UCD_VALUE_0_AHEX    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Alpha
+/**
+ * Codepoint ranges of values for UCD property '**Alpha**'.
  *
- *      Codepoint ranges of values for UCD property '*Alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_ALPHA>, <COATL_UCD_ALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_ALPHA
+ * @see COATL_UCD_ALPHA
+ */
 static const Col_Char ucdRanges_Alpha[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00B5, 0x00B6, 
     0x00BA, 0x00BB, 0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x02C2, 
@@ -1066,46 +1054,37 @@ static const Col_Char ucdRanges_Alpha[] = {
     0x2A700, 0x2B735, 0x2B740, 0x2B81E, 0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_ALPHA
+/**
+ * Number of ranges of values for UCD property '**Alpha**'.
  *
- *      Number of ranges of values for UCD property '*Alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Alpha>, <COATL_UCD_ALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Alpha
+ * @see COATL_UCD_ALPHA
+ */
 #define UCD_NBRANGES_ALPHA  1289
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_ALPHA
+/**
+ * Value of first range for UCD property '**Alpha**'.
  *
- *      Value of first range for UCD property '*Alpha*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Alpha>, <COATL_UCD_ALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Alpha
+ * @see COATL_UCD_ALPHA
+ */
 #define UCD_VALUE_0_ALPHA   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_bc
+/**
+ * Codepoint ranges of values for UCD property '**bc**'.
  *
- *      Codepoint ranges of values for UCD property '*bc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_bc>, <COATL_UCD_BC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_bc
+ * @see COATL_UCD_BC
+ */
 static const Col_Char ucdRanges_bc[] = {
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x001C, 0x001F, 
     0x0020, 0x0021, 0x0023, 0x0026, 0x002B, 0x002C, 0x002D, 0x002E, 
@@ -1240,30 +1219,25 @@ static const Col_Char ucdRanges_bc[] = {
     0x10FFFE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BC
+/**
+ * Number of ranges of values for UCD property '**bc**'.
  *
- *      Number of ranges of values for UCD property '*bc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bc>, <COATL_UCD_BC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bc
+ * @see COATL_UCD_BC
+ */
 #define UCD_NBRANGES_BC     1042
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_bc
+/**
+ * Per-range values for UCD property '**bc**'.
  *
- *      Per-range values for UCD property '*bc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bc>, <COATL_UCD_BC>, <Coatl_Ucd_Bc>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bc
+ * @see COATL_UCD_BC
+ * @see Coatl_Ucd_Bc
+ */
 static const Coatl_Ucd_Bc ucdValues_bc[] = {
     COATL_UCD_BC_BN, COATL_UCD_BC_S, COATL_UCD_BC_B, COATL_UCD_BC_S, 
     COATL_UCD_BC_WS, COATL_UCD_BC_B, COATL_UCD_BC_BN, COATL_UCD_BC_B, 
@@ -1528,61 +1502,49 @@ static const Coatl_Ucd_Bc ucdValues_bc[] = {
     COATL_UCD_BC_L, COATL_UCD_BC_BN, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Bidi_C
+/**
+ * Codepoint ranges of values for UCD property '**Bidi_C**'.
  *
- *      Codepoint ranges of values for UCD property '*Bidi_C*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_BIDI_C>, <COATL_UCD_BIDI_C>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_BIDI_C
+ * @see COATL_UCD_BIDI_C
+ */
 static const Col_Char ucdRanges_Bidi_C[] = {
     0x061C, 0x061D, 0x200E, 0x2010, 0x202A, 0x202F, 0x2066, 0x206A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BIDI_C
+/**
+ * Number of ranges of values for UCD property '**Bidi_C**'.
  *
- *      Number of ranges of values for UCD property '*Bidi_C*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Bidi_C>, <COATL_UCD_BIDI_C>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Bidi_C
+ * @see COATL_UCD_BIDI_C
+ */
 #define UCD_NBRANGES_BIDI_C 9
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_BIDI_C
+/**
+ * Value of first range for UCD property '**Bidi_C**'.
  *
- *      Value of first range for UCD property '*Bidi_C*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Bidi_C>, <COATL_UCD_BIDI_C>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Bidi_C
+ * @see COATL_UCD_BIDI_C
+ */
 #define UCD_VALUE_0_BIDI_C  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Bidi_M
+/**
+ * Codepoint ranges of values for UCD property '**Bidi_M**'.
  *
- *      Codepoint ranges of values for UCD property '*Bidi_M*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_BIDI_M>, <COATL_UCD_BIDI_M>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_BIDI_M
+ * @see COATL_UCD_BIDI_M
+ */
 static const Col_Char ucdRanges_Bidi_M[] = {
     0x0028, 0x002A, 0x003C, 0x003D, 0x003E, 0x003F, 0x005B, 0x005C, 
     0x005D, 0x005E, 0x007B, 0x007C, 0x007D, 0x007E, 0x00AB, 0x00AC, 
@@ -1614,46 +1576,37 @@ static const Col_Char ucdRanges_Bidi_M[] = {
     0x1D74F, 0x1D750, 0x1D789, 0x1D78A, 0x1D7C3, 0x1D7C4, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BIDI_M
+/**
+ * Number of ranges of values for UCD property '**Bidi_M**'.
  *
- *      Number of ranges of values for UCD property '*Bidi_M*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Bidi_M>, <COATL_UCD_BIDI_M>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Bidi_M
+ * @see COATL_UCD_BIDI_M
+ */
 #define UCD_NBRANGES_BIDI_M 223
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_BIDI_M
+/**
+ * Value of first range for UCD property '**Bidi_M**'.
  *
- *      Value of first range for UCD property '*Bidi_M*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Bidi_M>, <COATL_UCD_BIDI_M>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Bidi_M
+ * @see COATL_UCD_BIDI_M
+ */
 #define UCD_VALUE_0_BIDI_M  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_blk
+/**
+ * Codepoint ranges of values for UCD property '**blk**'.
  *
- *      Codepoint ranges of values for UCD property '*blk*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_blk>, <COATL_UCD_BLK>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_blk
+ * @see COATL_UCD_BLK
+ */
 static const Col_Char ucdRanges_blk[] = {
     0x0080, 0x0100, 0x0180, 0x0250, 0x02B0, 0x0300, 0x0370, 0x0400, 
     0x0500, 0x0530, 0x0590, 0x0600, 0x0700, 0x0750, 0x0780, 0x07C0, 
@@ -1697,30 +1650,25 @@ static const Col_Char ucdRanges_blk[] = {
     0xE0100, 0xE01F0, 0xF0000, 0x100000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BLK
+/**
+ * Number of ranges of values for UCD property '**blk**'.
  *
- *      Number of ranges of values for UCD property '*blk*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_blk>, <COATL_UCD_BLK>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_blk
+ * @see COATL_UCD_BLK
+ */
 #define UCD_NBRANGES_BLK    317
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_blk
+/**
+ * Per-range values for UCD property '**blk**'.
  *
- *      Per-range values for UCD property '*blk*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_blk>, <COATL_UCD_BLK>, <Coatl_Ucd_Blk>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_blk
+ * @see COATL_UCD_BLK
+ * @see Coatl_Ucd_Blk
+ */
 static const Coatl_Ucd_Blk ucdValues_blk[] = {
     COATL_UCD_BLK_ASCII, COATL_UCD_BLK_LATIN_1_SUP, COATL_UCD_BLK_LATIN_EXT_A, COATL_UCD_BLK_LATIN_EXT_B, 
     COATL_UCD_BLK_IPA_EXT, COATL_UCD_BLK_MODIFIER_LETTERS, COATL_UCD_BLK_DIACRITICALS, COATL_UCD_BLK_GREEK, 
@@ -1804,17 +1752,14 @@ static const Coatl_Ucd_Blk ucdValues_blk[] = {
     COATL_UCD_BLK_SUP_PUA_B, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_bmg
+/**
+ * Codepoint ranges of values for UCD property '**bmg**'.
  *
- *      Codepoint ranges of values for UCD property '*bmg*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_bmg>, <COATL_UCD_BMG>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_bmg
+ * @see COATL_UCD_BMG
+ */
 static const Col_Char ucdRanges_bmg[] = {
     0x0028, 0x0029, 0x002A, 0x003C, 0x003D, 0x003E, 0x003F, 0x005B, 
     0x005C, 0x005D, 0x005E, 0x007B, 0x007C, 0x007D, 0x007E, 0x00AB, 
@@ -1874,33 +1819,27 @@ static const Col_Char ucdRanges_bmg[] = {
     0xFF60, 0xFF61, 0xFF62, 0xFF63, 0xFF64, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BMG
+/**
+ * Number of ranges of values for UCD property '**bmg**'.
  *
- *      Number of ranges of values for UCD property '*bmg*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bmg>, <COATL_UCD_BMG>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bmg
+ * @see COATL_UCD_BMG
+ */
 #define UCD_NBRANGES_BMG    446
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_bmg
+/**
+ * Per-range values for UCD property '**bmg**'.
  *
- *      Per-range values for UCD property '*bmg*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bmg>, <COATL_UCD_BMG>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bmg
+ * @see COATL_UCD_BMG
+ */
 static const Col_Char ucdValues_bmg[] = {
     0, 1, -1, 0, 2, 0, -2, 0, 2, 0, -2, 0, 2, 0, -2, 0, 
     16, 0, -16, 0, 1, -1, 1, -1, 0, 1, -1, 0, 1, -1, 0, 1, 
@@ -1932,17 +1871,14 @@ static const Col_Char ucdValues_bmg[] = {
     2, 0, -2, 0, 2, 0, -2, 0, 1, -1, 0, 1, -1, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Cased
+/**
+ * Codepoint ranges of values for UCD property '**Cased**'.
  *
- *      Codepoint ranges of values for UCD property '*Cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CASED>, <COATL_UCD_CASED>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CASED
+ * @see COATL_UCD_CASED
+ */
 static const Col_Char ucdRanges_Cased[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00B5, 0x00B6, 
     0x00BA, 0x00BB, 0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x01BB, 
@@ -1980,46 +1916,37 @@ static const Col_Char ucdRanges_Cased[] = {
     0x1F130, 0x1F14A, 0x1F150, 0x1F16A, 0x1F170, 0x1F18A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CASED
+/**
+ * Number of ranges of values for UCD property '**Cased**'.
  *
- *      Number of ranges of values for UCD property '*Cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Cased>, <COATL_UCD_CASED>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Cased
+ * @see COATL_UCD_CASED
+ */
 #define UCD_NBRANGES_CASED  271
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CASED
+/**
+ * Value of first range for UCD property '**Cased**'.
  *
- *      Value of first range for UCD property '*Cased*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Cased>, <COATL_UCD_CASED>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Cased
+ * @see COATL_UCD_CASED
+ */
 #define UCD_VALUE_0_CASED   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_ccc
+/**
+ * Codepoint ranges of values for UCD property '**ccc**'.
  *
- *      Codepoint ranges of values for UCD property '*ccc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_ccc>, <COATL_UCD_CCC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_ccc
+ * @see COATL_UCD_CCC
+ */
 static const Col_Char ucdRanges_ccc[] = {
     0x0300, 0x0315, 0x0316, 0x031A, 0x031B, 0x031C, 0x0321, 0x0323, 
     0x0327, 0x0329, 0x0334, 0x0339, 0x033D, 0x0345, 0x0346, 0x0347, 
@@ -2085,30 +2012,25 @@ static const Col_Char ucdRanges_ccc[] = {
     0x1E026, 0x1E02B, 0x1E8D0, 0x1E8D7, 0x1E944, 0x1E94A, 0x1E94B, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CCC
+/**
+ * Number of ranges of values for UCD property '**ccc**'.
  *
- *      Number of ranges of values for UCD property '*ccc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ccc>, <COATL_UCD_CCC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ccc
+ * @see COATL_UCD_CCC
+ */
 #define UCD_NBRANGES_CCC    496
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_ccc
+/**
+ * Per-range values for UCD property '**ccc**'.
  *
- *      Per-range values for UCD property '*ccc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ccc>, <COATL_UCD_CCC>, <Coatl_Ucd_Ccc>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ccc
+ * @see COATL_UCD_CCC
+ * @see Coatl_Ucd_Ccc
+ */
 static const Coatl_Ucd_Ccc ucdValues_ccc[] = {
     COATL_UCD_CCC_0, COATL_UCD_CCC_230, COATL_UCD_CCC_232, COATL_UCD_CCC_220, 
     COATL_UCD_CCC_232, COATL_UCD_CCC_216, COATL_UCD_CCC_220, COATL_UCD_CCC_202, 
@@ -2236,17 +2158,14 @@ static const Coatl_Ucd_Ccc ucdValues_ccc[] = {
     COATL_UCD_CCC_0, COATL_UCD_CCC_230, COATL_UCD_CCC_7, COATL_UCD_CCC_0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CE
+/**
+ * Codepoint ranges of values for UCD property '**CE**'.
  *
- *      Codepoint ranges of values for UCD property '*CE*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CE>, <COATL_UCD_CE>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CE
+ * @see COATL_UCD_CE
+ */
 static const Col_Char ucdRanges_CE[] = {
     0x0958, 0x0960, 0x09DC, 0x09DE, 0x09DF, 0x09E0, 0x0A33, 0x0A34, 
     0x0A36, 0x0A37, 0x0A59, 0x0A5C, 0x0A5E, 0x0A5F, 0x0B5C, 0x0B5E, 
@@ -2259,46 +2178,37 @@ static const Col_Char ucdRanges_CE[] = {
     0x1D1BB, 0x1D1C1, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CE
+/**
+ * Number of ranges of values for UCD property '**CE**'.
  *
- *      Number of ranges of values for UCD property '*CE*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CE>, <COATL_UCD_CE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CE
+ * @see COATL_UCD_CE
+ */
 #define UCD_NBRANGES_CE     67
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CE
+/**
+ * Value of first range for UCD property '**CE**'.
  *
- *      Value of first range for UCD property '*CE*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CE>, <COATL_UCD_CE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CE
+ * @see COATL_UCD_CE
+ */
 #define UCD_VALUE_0_CE      0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_cf
+/**
+ * Codepoint ranges of values for UCD property '**cf**'.
  *
- *      Codepoint ranges of values for UCD property '*cf*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_cf>, <COATL_UCD_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_cf
+ * @see COATL_UCD_CF
+ */
 static const Col_Char ucdRanges_cf[] = {
     0x0041, 0x005B, 0x00B5, 0x00B6, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 
     0x00E0, 0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 
@@ -2474,33 +2384,28 @@ static const Col_Char ucdRanges_cf[] = {
     0x118A0, 0x118C0, 0x1E900, 0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CF
+/**
+ * Number of ranges of values for UCD property '**cf**'.
  *
- *      Number of ranges of values for UCD property '*cf*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_cf>, <COATL_UCD_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_cf
+ * @see COATL_UCD_CF
+ */
 #define UCD_NBRANGES_CF     1373
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_cf
+/**
+ * Per-range atom indices for UCD property '**cf**'.
  *
- *      Per-range atom indices for UCD property '*cf*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_cf.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_cf>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_cf>, <ucdAtoms_cf>, <COATL_UCD_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_cf
+ * @see ucdAtoms_cf
+ * @see COATL_UCD_CF
+ */
 static const unsigned short ucdValues_cf[] = {
     106, 384, 106, 408, 106, 384, 106, 384, 136, 106, 340, 106, 340, 106, 340, 106, 
     340, 106, 340, 106, 340, 106, 340, 106, 340, 106, 340, 106, 340, 106, 340, 106, 
@@ -2590,17 +2495,14 @@ static const unsigned short ucdValues_cf[] = {
     106, 384, 106, 394, 106, 394, 106, 400, 106, 384, 106, 386, 106, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_cf
+/**
+ * Atoms for UCD property '**cf**'.
  *
- *      Atoms for UCD property '*cf*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_cf>, <COATL_UCD_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_cf
+ * @see COATL_UCD_CF
+ */
 static const int ucdAtoms_cf[] = {
     -100, 0, -10727, 0, -10743, 0, -10749, 0, -10780, 0, -10782, 0, -10783, 0, -10815, 0, 
     -112, 0, -121, 0, -126, 0, -128, 0, -130, 0, -15, 0, -163, 0, -195, 0, 
@@ -2631,17 +2533,14 @@ static const int ucdAtoms_cf[] = {
     928, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CI
+/**
+ * Codepoint ranges of values for UCD property '**CI**'.
  *
- *      Codepoint ranges of values for UCD property '*CI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CI>, <COATL_UCD_CI>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CI
+ * @see COATL_UCD_CI
+ */
 static const Col_Char ucdRanges_CI[] = {
     0x0027, 0x0028, 0x002E, 0x002F, 0x003A, 0x003B, 0x005E, 0x005F, 
     0x0060, 0x0061, 0x00A8, 0x00A9, 0x00AD, 0x00AE, 0x00AF, 0x00B0, 
@@ -2737,46 +2636,37 @@ static const Col_Char ucdRanges_CI[] = {
     0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CI
+/**
+ * Number of ranges of values for UCD property '**CI**'.
  *
- *      Number of ranges of values for UCD property '*CI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CI>, <COATL_UCD_CI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CI
+ * @see COATL_UCD_CI
+ */
 #define UCD_NBRANGES_CI     731
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CI
+/**
+ * Value of first range for UCD property '**CI**'.
  *
- *      Value of first range for UCD property '*CI*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CI>, <COATL_UCD_CI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CI
+ * @see COATL_UCD_CI
+ */
 #define UCD_VALUE_0_CI      0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Comp_Ex
+/**
+ * Codepoint ranges of values for UCD property '**Comp_Ex**'.
  *
- *      Codepoint ranges of values for UCD property '*Comp_Ex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_COMP_EX>, <COATL_UCD_COMP_EX>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_COMP_EX
+ * @see COATL_UCD_COMP_EX
+ */
 static const Col_Char ucdRanges_Comp_Ex[] = {
     0x0340, 0x0342, 0x0343, 0x0345, 0x0374, 0x0375, 0x037E, 0x037F, 
     0x0387, 0x0388, 0x0958, 0x0960, 0x09DC, 0x09DE, 0x09DF, 0x09E0, 
@@ -2799,46 +2689,37 @@ static const Col_Char ucdRanges_Comp_Ex[] = {
     0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_COMP_EX
+/**
+ * Number of ranges of values for UCD property '**Comp_Ex**'.
  *
- *      Number of ranges of values for UCD property '*Comp_Ex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Comp_Ex>, <COATL_UCD_COMP_EX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Comp_Ex
+ * @see COATL_UCD_COMP_EX
+ */
 #define UCD_NBRANGES_COMP_EX 147
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_COMP_EX
+/**
+ * Value of first range for UCD property '**Comp_Ex**'.
  *
- *      Value of first range for UCD property '*Comp_Ex*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Comp_Ex>, <COATL_UCD_COMP_EX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Comp_Ex
+ * @see COATL_UCD_COMP_EX
+ */
 #define UCD_VALUE_0_COMP_EX  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWCF
+/**
+ * Codepoint ranges of values for UCD property '**CWCF**'.
  *
- *      Codepoint ranges of values for UCD property '*CWCF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWCF>, <COATL_UCD_CWCF>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWCF
+ * @see COATL_UCD_CWCF
+ */
 static const Col_Char ucdRanges_CWCF[] = {
     0x0041, 0x005B, 0x00B5, 0x00B6, 0x00C0, 0x00D7, 0x00D8, 0x00E0, 
     0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 
@@ -2993,46 +2874,37 @@ static const Col_Char ucdRanges_CWCF[] = {
     0x10C80, 0x10CB3, 0x118A0, 0x118C0, 0x1E900, 0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWCF
+/**
+ * Number of ranges of values for UCD property '**CWCF**'.
  *
- *      Number of ranges of values for UCD property '*CWCF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWCF>, <COATL_UCD_CWCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWCF
+ * @see COATL_UCD_CWCF
+ */
 #define UCD_NBRANGES_CWCF   1207
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWCF
+/**
+ * Value of first range for UCD property '**CWCF**'.
  *
- *      Value of first range for UCD property '*CWCF*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWCF>, <COATL_UCD_CWCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWCF
+ * @see COATL_UCD_CWCF
+ */
 #define UCD_VALUE_0_CWCF    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWCM
+/**
+ * Codepoint ranges of values for UCD property '**CWCM**'.
  *
- *      Codepoint ranges of values for UCD property '*CWCM*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWCM>, <COATL_UCD_CWCM>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWCM
+ * @see COATL_UCD_CWCM
+ */
 static const Col_Char ucdRanges_CWCM[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00B5, 0x00B6, 0x00C0, 0x00D7, 
     0x00D8, 0x00F7, 0x00F8, 0x0138, 0x0139, 0x018D, 0x018E, 0x019B, 
@@ -3065,46 +2937,37 @@ static const Col_Char ucdRanges_CWCM[] = {
     0x10C80, 0x10CB3, 0x10CC0, 0x10CF3, 0x118A0, 0x118E0, 0x1E900, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWCM
+/**
+ * Number of ranges of values for UCD property '**CWCM**'.
  *
- *      Number of ranges of values for UCD property '*CWCM*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWCM>, <COATL_UCD_CWCM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWCM
+ * @see COATL_UCD_CWCM
+ */
 #define UCD_NBRANGES_CWCM   233
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWCM
+/**
+ * Value of first range for UCD property '**CWCM**'.
  *
- *      Value of first range for UCD property '*CWCM*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWCM>, <COATL_UCD_CWCM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWCM
+ * @see COATL_UCD_CWCM
+ */
 #define UCD_VALUE_0_CWCM    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWKCF
+/**
+ * Codepoint ranges of values for UCD property '**CWKCF**'.
  *
- *      Codepoint ranges of values for UCD property '*CWKCF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWKCF>, <COATL_UCD_CWKCF>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWKCF
+ * @see COATL_UCD_CWKCF
+ */
 static const Col_Char ucdRanges_CWKCF[] = {
     0x0041, 0x005B, 0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 
     0x00AD, 0x00AE, 0x00AF, 0x00B0, 0x00B2, 0x00B6, 0x00B8, 0x00BB, 
@@ -3312,46 +3175,37 @@ static const Col_Char ucdRanges_CWKCF[] = {
     0x1F250, 0x1F252, 0x2F800, 0x2FA1E, 0xE0000, 0xE1000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWKCF
+/**
+ * Number of ranges of values for UCD property '**CWKCF**'.
  *
- *      Number of ranges of values for UCD property '*CWKCF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWKCF>, <COATL_UCD_CWKCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWKCF
+ * @see COATL_UCD_CWKCF
+ */
 #define UCD_NBRANGES_CWKCF  1631
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWKCF
+/**
+ * Value of first range for UCD property '**CWKCF**'.
  *
- *      Value of first range for UCD property '*CWKCF*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWKCF>, <COATL_UCD_CWKCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWKCF
+ * @see COATL_UCD_CWKCF
+ */
 #define UCD_VALUE_0_CWKCF   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWL
+/**
+ * Codepoint ranges of values for UCD property '**CWL**'.
  *
- *      Codepoint ranges of values for UCD property '*CWL*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWL>, <COATL_UCD_CWL>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWL
+ * @see COATL_UCD_CWL
+ */
 static const Col_Char ucdRanges_CWL[] = {
     0x0041, 0x005B, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 0x0100, 0x0101, 
     0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 
@@ -3503,46 +3357,37 @@ static const Col_Char ucdRanges_CWL[] = {
     0x118A0, 0x118C0, 0x1E900, 0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWL
+/**
+ * Number of ranges of values for UCD property '**CWL**'.
  *
- *      Number of ranges of values for UCD property '*CWL*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWL>, <COATL_UCD_CWL>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWL
+ * @see COATL_UCD_CWL
+ */
 #define UCD_NBRANGES_CWL    1181
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWL
+/**
+ * Value of first range for UCD property '**CWL**'.
  *
- *      Value of first range for UCD property '*CWL*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWL>, <COATL_UCD_CWL>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWL
+ * @see COATL_UCD_CWL
+ */
 #define UCD_VALUE_0_CWL     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWT
+/**
+ * Codepoint ranges of values for UCD property '**CWT**'.
  *
- *      Codepoint ranges of values for UCD property '*CWT*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWT>, <COATL_UCD_CWT>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWT
+ * @see COATL_UCD_CWT
+ */
 static const Col_Char ucdRanges_CWT[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00DF, 0x00F7, 0x00F8, 0x0100, 
     0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 
@@ -3698,46 +3543,37 @@ static const Col_Char ucdRanges_CWT[] = {
     0x104D8, 0x104FC, 0x10CC0, 0x10CF3, 0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWT
+/**
+ * Number of ranges of values for UCD property '**CWT**'.
  *
- *      Number of ranges of values for UCD property '*CWT*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWT>, <COATL_UCD_CWT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWT
+ * @see COATL_UCD_CWT
+ */
 #define UCD_NBRANGES_CWT    1217
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWT
+/**
+ * Value of first range for UCD property '**CWT**'.
  *
- *      Value of first range for UCD property '*CWT*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWT>, <COATL_UCD_CWT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWT
+ * @see COATL_UCD_CWT
+ */
 #define UCD_VALUE_0_CWT     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_CWU
+/**
+ * Codepoint ranges of values for UCD property '**CWU**'.
  *
- *      Codepoint ranges of values for UCD property '*CWU*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_CWU>, <COATL_UCD_CWU>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_CWU
+ * @see COATL_UCD_CWU
+ */
 static const Col_Char ucdRanges_CWU[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00DF, 0x00F7, 0x00F8, 0x0100, 
     0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 
@@ -3893,46 +3729,37 @@ static const Col_Char ucdRanges_CWU[] = {
     0x10CC0, 0x10CF3, 0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_CWU
+/**
+ * Number of ranges of values for UCD property '**CWU**'.
  *
- *      Number of ranges of values for UCD property '*CWU*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWU>, <COATL_UCD_CWU>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWU
+ * @see COATL_UCD_CWU
+ */
 #define UCD_NBRANGES_CWU    1215
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_CWU
+/**
+ * Value of first range for UCD property '**CWU**'.
  *
- *      Value of first range for UCD property '*CWU*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_CWU>, <COATL_UCD_CWU>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_CWU
+ * @see COATL_UCD_CWU
+ */
 #define UCD_VALUE_0_CWU     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Dash
+/**
+ * Codepoint ranges of values for UCD property '**Dash**'.
  *
- *      Codepoint ranges of values for UCD property '*Dash*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_DASH>, <COATL_UCD_DASH>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_DASH
+ * @see COATL_UCD_DASH
+ */
 static const Col_Char ucdRanges_Dash[] = {
     0x002D, 0x002E, 0x058A, 0x058B, 0x05BE, 0x05BF, 0x1400, 0x1401, 
     0x1806, 0x1807, 0x2010, 0x2016, 0x2053, 0x2054, 0x207B, 0x207C, 
@@ -3942,91 +3769,73 @@ static const Col_Char ucdRanges_Dash[] = {
     0xFF0D, 0xFF0E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DASH
+/**
+ * Number of ranges of values for UCD property '**Dash**'.
  *
- *      Number of ranges of values for UCD property '*Dash*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dash>, <COATL_UCD_DASH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dash
+ * @see COATL_UCD_DASH
+ */
 #define UCD_NBRANGES_DASH   43
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_DASH
+/**
+ * Value of first range for UCD property '**Dash**'.
  *
- *      Value of first range for UCD property '*Dash*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dash>, <COATL_UCD_DASH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dash
+ * @see COATL_UCD_DASH
+ */
 #define UCD_VALUE_0_DASH    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Dep
+/**
+ * Codepoint ranges of values for UCD property '**Dep**'.
  *
- *      Codepoint ranges of values for UCD property '*Dep*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_DEP>, <COATL_UCD_DEP>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_DEP
+ * @see COATL_UCD_DEP
+ */
 static const Col_Char ucdRanges_Dep[] = {
     0x0149, 0x014A, 0x0673, 0x0674, 0x0F77, 0x0F78, 0x0F79, 0x0F7A, 
     0x17A3, 0x17A5, 0x206A, 0x2070, 0x2329, 0x232B, 0xE0001, 0xE0002, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DEP
+/**
+ * Number of ranges of values for UCD property '**Dep**'.
  *
- *      Number of ranges of values for UCD property '*Dep*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dep>, <COATL_UCD_DEP>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dep
+ * @see COATL_UCD_DEP
+ */
 #define UCD_NBRANGES_DEP    17
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_DEP
+/**
+ * Value of first range for UCD property '**Dep**'.
  *
- *      Value of first range for UCD property '*Dep*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dep>, <COATL_UCD_DEP>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dep
+ * @see COATL_UCD_DEP
+ */
 #define UCD_VALUE_0_DEP     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_DI
+/**
+ * Codepoint ranges of values for UCD property '**DI**'.
  *
- *      Codepoint ranges of values for UCD property '*DI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_DI>, <COATL_UCD_DI>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_DI
+ * @see COATL_UCD_DI
+ */
 static const Col_Char ucdRanges_DI[] = {
     0x00AD, 0x00AE, 0x034F, 0x0350, 0x061C, 0x061D, 0x115F, 0x1161, 
     0x17B4, 0x17B6, 0x180B, 0x180F, 0x200B, 0x2010, 0x202A, 0x202F, 
@@ -4035,46 +3844,37 @@ static const Col_Char ucdRanges_DI[] = {
     0xE0000, 0xE1000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DI
+/**
+ * Number of ranges of values for UCD property '**DI**'.
  *
- *      Number of ranges of values for UCD property '*DI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_DI>, <COATL_UCD_DI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_DI
+ * @see COATL_UCD_DI
+ */
 #define UCD_NBRANGES_DI     35
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_DI
+/**
+ * Value of first range for UCD property '**DI**'.
  *
- *      Value of first range for UCD property '*DI*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_DI>, <COATL_UCD_DI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_DI
+ * @see COATL_UCD_DI
+ */
 #define UCD_VALUE_0_DI      0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Dia
+/**
+ * Codepoint ranges of values for UCD property '**Dia**'.
  *
- *      Codepoint ranges of values for UCD property '*Dia*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_DIA>, <COATL_UCD_DIA>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_DIA
+ * @see COATL_UCD_DIA
+ */
 static const Col_Char ucdRanges_Dia[] = {
     0x005E, 0x005F, 0x0060, 0x0061, 0x00A8, 0x00A9, 0x00AF, 0x00B0, 
     0x00B4, 0x00B5, 0x00B7, 0x00B9, 0x02B0, 0x034F, 0x0350, 0x0358, 
@@ -4116,46 +3916,37 @@ static const Col_Char ucdRanges_Dia[] = {
     0x1D1AA, 0x1D1AE, 0x1E8D0, 0x1E8D7, 0x1E944, 0x1E947, 0x1E948, 0x1E94B, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DIA
+/**
+ * Number of ranges of values for UCD property '**Dia**'.
  *
- *      Number of ranges of values for UCD property '*Dia*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dia>, <COATL_UCD_DIA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dia
+ * @see COATL_UCD_DIA
+ */
 #define UCD_NBRANGES_DIA    305
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_DIA
+/**
+ * Value of first range for UCD property '**Dia**'.
  *
- *      Value of first range for UCD property '*Dia*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Dia>, <COATL_UCD_DIA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Dia
+ * @see COATL_UCD_DIA
+ */
 #define UCD_VALUE_0_DIA     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_dm
+/**
+ * Codepoint ranges of values for UCD property '**dm**'.
  *
- *      Codepoint ranges of values for UCD property '*dm*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_dm>, <COATL_UCD_DM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_dm
+ * @see COATL_UCD_DM
+ */
 static const Col_Char ucdRanges_dm[] = {
     0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AF, 0x00B0, 
     0x00B2, 0x00B4, 0x00B5, 0x00B6, 0x00B8, 0x00B9, 0x00BA, 0x00BB, 
@@ -6146,33 +5937,28 @@ static const Col_Char ucdRanges_dm[] = {
     0x2FA18, 0x2FA19, 0x2FA1A, 0x2FA1B, 0x2FA1C, 0x2FA1D, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DM
+/**
+ * Number of ranges of values for UCD property '**dm**'.
  *
- *      Number of ranges of values for UCD property '*dm*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_dm>, <COATL_UCD_DM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_dm
+ * @see COATL_UCD_DM
+ */
 #define UCD_NBRANGES_DM     15896
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_dm
+/**
+ * Per-range atom indices for UCD property '**dm**'.
  *
- *      Per-range atom indices for UCD property '*dm*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_dm.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_dm>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_dm>, <ucdAtoms_dm>, <COATL_UCD_DM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_dm
+ * @see ucdAtoms_dm
+ * @see COATL_UCD_DM
+ */
 static const unsigned short ucdValues_dm[] = {
     3470, 470, 3470, 3489, 3470, 3172, 3470, 3477, 3470, 470, 3471, 43956, 3470, 3504, 474, 3206, 
     3470, 4372, 4364, 4566, 3470, 4755, 4758, 4761, 4764, 4776, 4782, 3470, 4838, 4879, 4882, 4885, 
@@ -7170,17 +6956,14 @@ static const unsigned short ucdValues_dm[] = {
     490, 488, 486, 484, 482, 480, 1342, 3470, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_dm
+/**
+ * Atoms for UCD property '**dm**'.
  *
- *      Atoms for UCD property '*dm*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_dm>, <COATL_UCD_DM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_dm
+ * @see COATL_UCD_DM
+ */
 static const int ucdAtoms_dm[] = {
     -1, 0, -101165, 0, -101167, 0, -101369, 0, -101487, 0, -101506, 0, -102099, 0, -102184, 0, 
     -102290, 0, -102341, 0, -102366, 0, -103057, 0, -103097, 0, -103494, 0, -104122, 0, -104686, 0, 
@@ -9939,17 +9722,14 @@ static const int ucdAtoms_dm[] = {
     9944, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_dt
+/**
+ * Codepoint ranges of values for UCD property '**dt**'.
  *
- *      Codepoint ranges of values for UCD property '*dt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_dt>, <COATL_UCD_DT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_dt
+ * @see COATL_UCD_DT
+ */
 static const Col_Char ucdRanges_dt[] = {
     0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AF, 0x00B0, 
     0x00B2, 0x00B4, 0x00B6, 0x00B8, 0x00B9, 0x00BB, 0x00BC, 0x00BF, 
@@ -10100,30 +9880,25 @@ static const Col_Char ucdRanges_dt[] = {
     0x1F250, 0x1F252, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_DT
+/**
+ * Number of ranges of values for UCD property '**dt**'.
  *
- *      Number of ranges of values for UCD property '*dt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_dt>, <COATL_UCD_DT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_dt
+ * @see COATL_UCD_DT
+ */
 #define UCD_NBRANGES_DT     1173
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_dt
+/**
+ * Per-range values for UCD property '**dt**'.
  *
- *      Per-range values for UCD property '*dt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_dt>, <COATL_UCD_DT>, <Coatl_Ucd_Dt>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_dt
+ * @see COATL_UCD_DT
+ * @see Coatl_Ucd_Dt
+ */
 static const Coatl_Ucd_Dt ucdValues_dt[] = {
     COATL_UCD_DT_NONE, COATL_UCD_DT_NB, COATL_UCD_DT_NONE, COATL_UCD_DT_COM, 
     COATL_UCD_DT_NONE, COATL_UCD_DT_SUP, COATL_UCD_DT_NONE, COATL_UCD_DT_COM, 
@@ -10421,17 +10196,14 @@ static const Coatl_Ucd_Dt ucdValues_dt[] = {
     COATL_UCD_DT_NONE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_ea
+/**
+ * Codepoint ranges of values for UCD property '**ea**'.
  *
- *      Codepoint ranges of values for UCD property '*ea*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_ea>, <COATL_UCD_EA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_ea
+ * @see COATL_UCD_EA
+ */
 static const Col_Char ucdRanges_ea[] = {
     0x0020, 0x007F, 0x00A1, 0x00A2, 0x00A4, 0x00A5, 0x00A7, 0x00A9, 
     0x00AA, 0x00AB, 0x00AC, 0x00AD, 0x00AF, 0x00B0, 0x00B5, 0x00B6, 
@@ -10506,30 +10278,25 @@ static const Col_Char ucdRanges_ea[] = {
     0xE0100, 0xE01F0, 0xF0000, 0xFFFFE, 0x100000, 0x10FFFE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_EA
+/**
+ * Number of ranges of values for UCD property '**ea**'.
  *
- *      Number of ranges of values for UCD property '*ea*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ea>, <COATL_UCD_EA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ea
+ * @see COATL_UCD_EA
+ */
 #define UCD_NBRANGES_EA     567
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_ea
+/**
+ * Per-range values for UCD property '**ea**'.
  *
- *      Per-range values for UCD property '*ea*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ea>, <COATL_UCD_EA>, <Coatl_Ucd_Ea>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ea
+ * @see COATL_UCD_EA
+ * @see Coatl_Ucd_Ea
+ */
 static const Coatl_Ucd_Ea ucdValues_ea[] = {
     COATL_UCD_EA_N, COATL_UCD_EA_NA, COATL_UCD_EA_N, COATL_UCD_EA_A, 
     COATL_UCD_EA_NA, COATL_UCD_EA_A, COATL_UCD_EA_NA, COATL_UCD_EA_A, 
@@ -10675,17 +10442,14 @@ static const Coatl_Ucd_Ea ucdValues_ea[] = {
     COATL_UCD_EA_N, COATL_UCD_EA_A, COATL_UCD_EA_N, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Ext
+/**
+ * Codepoint ranges of values for UCD property '**Ext**'.
  *
- *      Codepoint ranges of values for UCD property '*Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_EXT>, <COATL_UCD_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_EXT
+ * @see COATL_UCD_EXT
+ */
 static const Col_Char ucdRanges_Ext[] = {
     0x00B7, 0x00B8, 0x02D0, 0x02D2, 0x0640, 0x0641, 0x07FA, 0x07FB, 
     0x0E46, 0x0E47, 0x0EC6, 0x0EC7, 0x180A, 0x180B, 0x1843, 0x1844, 
@@ -10696,46 +10460,37 @@ static const Col_Char ucdRanges_Ext[] = {
     0x115C6, 0x115C9, 0x16B42, 0x16B44, 0x16FE0, 0x16FE1, 0x1E944, 0x1E947, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_EXT
+/**
+ * Number of ranges of values for UCD property '**Ext**'.
  *
- *      Number of ranges of values for UCD property '*Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Ext>, <COATL_UCD_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Ext
+ * @see COATL_UCD_EXT
+ */
 #define UCD_NBRANGES_EXT    57
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_EXT
+/**
+ * Value of first range for UCD property '**Ext**'.
  *
- *      Value of first range for UCD property '*Ext*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Ext>, <COATL_UCD_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Ext
+ * @see COATL_UCD_EXT
+ */
 #define UCD_VALUE_0_EXT     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_gc
+/**
+ * Codepoint ranges of values for UCD property '**gc**'.
  *
- *      Codepoint ranges of values for UCD property '*gc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_gc>, <COATL_UCD_GC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_gc
+ * @see COATL_UCD_GC
+ */
 static const Col_Char ucdRanges_gc[] = {
     0x0020, 0x0021, 0x0024, 0x0025, 0x0028, 0x0029, 0x002A, 0x002B, 
     0x002C, 0x002D, 0x002E, 0x0030, 0x003A, 0x003C, 0x003F, 0x0041, 
@@ -11196,30 +10951,25 @@ static const Col_Char ucdRanges_gc[] = {
     0xE01F0, 0xF0000, 0xFFFFE, 0x100000, 0x10FFFE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_GC
+/**
+ * Number of ranges of values for UCD property '**gc**'.
  *
- *      Number of ranges of values for UCD property '*gc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_gc>, <COATL_UCD_GC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_gc
+ * @see COATL_UCD_GC
+ */
 #define UCD_NBRANGES_GC     3654
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_gc
+/**
+ * Per-range values for UCD property '**gc**'.
  *
- *      Per-range values for UCD property '*gc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_gc>, <COATL_UCD_GC>, <Coatl_Ucd_Gc>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_gc
+ * @see COATL_UCD_GC
+ * @see Coatl_Ucd_Gc
+ */
 static const Coatl_Ucd_Gc ucdValues_gc[] = {
     COATL_UCD_GC_CC, COATL_UCD_GC_ZS, COATL_UCD_GC_PO, COATL_UCD_GC_SC, 
     COATL_UCD_GC_PO, COATL_UCD_GC_PS, COATL_UCD_GC_PE, COATL_UCD_GC_PO, 
@@ -12137,17 +11887,14 @@ static const Coatl_Ucd_Gc ucdValues_gc[] = {
     COATL_UCD_GC_CO, COATL_UCD_GC_CN, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_GCB
+/**
+ * Codepoint ranges of values for UCD property '**GCB**'.
  *
- *      Codepoint ranges of values for UCD property '*GCB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_GCB>, <COATL_UCD_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_GCB
+ * @see COATL_UCD_GCB
+ */
 static const Col_Char ucdRanges_GCB[] = {
     0x000A, 0x000B, 0x000D, 0x000E, 0x0020, 0x007F, 0x00A0, 0x00AD, 
     0x00AE, 0x0300, 0x0370, 0x0483, 0x048A, 0x0591, 0x05BE, 0x05BF, 
@@ -12353,30 +12100,25 @@ static const Col_Char ucdRanges_GCB[] = {
     0xE0000, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 0xE1000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_GCB
+/**
+ * Number of ranges of values for UCD property '**GCB**'.
  *
- *      Number of ranges of values for UCD property '*GCB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_GCB>, <COATL_UCD_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_GCB
+ * @see COATL_UCD_GCB
+ */
 #define UCD_NBRANGES_GCB    1615
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_GCB
+/**
+ * Per-range values for UCD property '**GCB**'.
  *
- *      Per-range values for UCD property '*GCB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_GCB>, <COATL_UCD_GCB>, <Coatl_Ucd_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_GCB
+ * @see COATL_UCD_GCB
+ * @see Coatl_Ucd_GCB
+ */
 static const Coatl_Ucd_GCB ucdValues_GCB[] = {
     COATL_UCD_GCB_CN, COATL_UCD_GCB_LF, COATL_UCD_GCB_CN, COATL_UCD_GCB_CR, 
     COATL_UCD_GCB_CN, COATL_UCD_GCB_XX, COATL_UCD_GCB_CN, COATL_UCD_GCB_XX, 
@@ -12784,17 +12526,14 @@ static const Coatl_Ucd_GCB ucdValues_GCB[] = {
     COATL_UCD_GCB_EX, COATL_UCD_GCB_CN, COATL_UCD_GCB_XX, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Gr_Base
+/**
+ * Codepoint ranges of values for UCD property '**Gr_Base**'.
  *
- *      Codepoint ranges of values for UCD property '*Gr_Base*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_GR_BASE>, <COATL_UCD_GR_BASE>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_GR_BASE
+ * @see COATL_UCD_GR_BASE
+ */
 static const Col_Char ucdRanges_Gr_Base[] = {
     0x0020, 0x007F, 0x00A0, 0x00AD, 0x00AE, 0x0300, 0x0370, 0x0378, 
     0x037A, 0x0380, 0x0384, 0x038B, 0x038C, 0x038D, 0x038E, 0x03A2, 
@@ -12991,46 +12730,37 @@ static const Col_Char ucdRanges_Gr_Base[] = {
     0x2A700, 0x2B735, 0x2B740, 0x2B81E, 0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_GR_BASE
+/**
+ * Number of ranges of values for UCD property '**Gr_Base**'.
  *
- *      Number of ranges of values for UCD property '*Gr_Base*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Gr_Base>, <COATL_UCD_GR_BASE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Gr_Base
+ * @see COATL_UCD_GR_BASE
+ */
 #define UCD_NBRANGES_GR_BASE 1545
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_GR_BASE
+/**
+ * Value of first range for UCD property '**Gr_Base**'.
  *
- *      Value of first range for UCD property '*Gr_Base*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Gr_Base>, <COATL_UCD_GR_BASE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Gr_Base
+ * @see COATL_UCD_GR_BASE
+ */
 #define UCD_VALUE_0_GR_BASE  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Gr_Ext
+/**
+ * Codepoint ranges of values for UCD property '**Gr_Ext**'.
  *
- *      Codepoint ranges of values for UCD property '*Gr_Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_GR_EXT>, <COATL_UCD_GR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_GR_EXT
+ * @see COATL_UCD_GR_EXT
+ */
 static const Col_Char ucdRanges_Gr_Ext[] = {
     0x0300, 0x0370, 0x0483, 0x048A, 0x0591, 0x05BE, 0x05BF, 0x05C0, 
     0x05C1, 0x05C3, 0x05C4, 0x05C6, 0x05C7, 0x05C8, 0x0610, 0x061B, 
@@ -13110,91 +12840,73 @@ static const Col_Char ucdRanges_Gr_Ext[] = {
     0x1E944, 0x1E94B, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_GR_EXT
+/**
+ * Number of ranges of values for UCD property '**Gr_Ext**'.
  *
- *      Number of ranges of values for UCD property '*Gr_Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Gr_Ext>, <COATL_UCD_GR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Gr_Ext
+ * @see COATL_UCD_GR_EXT
+ */
 #define UCD_NBRANGES_GR_EXT 607
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_GR_EXT
+/**
+ * Value of first range for UCD property '**Gr_Ext**'.
  *
- *      Value of first range for UCD property '*Gr_Ext*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Gr_Ext>, <COATL_UCD_GR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Gr_Ext
+ * @see COATL_UCD_GR_EXT
+ */
 #define UCD_VALUE_0_GR_EXT  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Hex
+/**
+ * Codepoint ranges of values for UCD property '**Hex**'.
  *
- *      Codepoint ranges of values for UCD property '*Hex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_HEX>, <COATL_UCD_HEX>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_HEX
+ * @see COATL_UCD_HEX
+ */
 static const Col_Char ucdRanges_Hex[] = {
     0x0030, 0x003A, 0x0041, 0x0047, 0x0061, 0x0067, 0xFF10, 0xFF1A, 
     0xFF21, 0xFF27, 0xFF41, 0xFF47, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_HEX
+/**
+ * Number of ranges of values for UCD property '**Hex**'.
  *
- *      Number of ranges of values for UCD property '*Hex*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Hex>, <COATL_UCD_HEX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Hex
+ * @see COATL_UCD_HEX
+ */
 #define UCD_NBRANGES_HEX    13
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_HEX
+/**
+ * Value of first range for UCD property '**Hex**'.
  *
- *      Value of first range for UCD property '*Hex*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Hex>, <COATL_UCD_HEX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Hex
+ * @see COATL_UCD_HEX
+ */
 #define UCD_VALUE_0_HEX     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_hst
+/**
+ * Codepoint ranges of values for UCD property '**hst**'.
  *
- *      Codepoint ranges of values for UCD property '*hst*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_hst>, <COATL_UCD_HST>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_hst
+ * @see COATL_UCD_HST
+ */
 static const Col_Char ucdRanges_hst[] = {
     0x1100, 0x1160, 0x11A8, 0x1200, 0xA960, 0xA97D, 0xAC00, 0xAC01, 
     0xAC1C, 0xAC1D, 0xAC38, 0xAC39, 0xAC54, 0xAC55, 0xAC70, 0xAC71, 
@@ -13300,30 +13012,25 @@ static const Col_Char ucdRanges_hst[] = {
     0xD7FC, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_HST
+/**
+ * Number of ranges of values for UCD property '**hst**'.
  *
- *      Number of ranges of values for UCD property '*hst*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_hst>, <COATL_UCD_HST>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_hst
+ * @see COATL_UCD_HST
+ */
 #define UCD_NBRANGES_HST    810
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_hst
+/**
+ * Per-range values for UCD property '**hst**'.
  *
- *      Per-range values for UCD property '*hst*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_hst>, <COATL_UCD_HST>, <Coatl_Ucd_Hst>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_hst
+ * @see COATL_UCD_HST
+ * @see Coatl_Ucd_Hst
+ */
 static const Coatl_Ucd_Hst ucdValues_hst[] = {
     COATL_UCD_HST_NA, COATL_UCD_HST_L, COATL_UCD_HST_V, COATL_UCD_HST_T, 
     COATL_UCD_HST_NA, COATL_UCD_HST_L, COATL_UCD_HST_NA, COATL_UCD_HST_LV, 
@@ -13530,17 +13237,14 @@ static const Coatl_Ucd_Hst ucdValues_hst[] = {
     COATL_UCD_HST_T, COATL_UCD_HST_NA, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_IDC
+/**
+ * Codepoint ranges of values for UCD property '**IDC**'.
  *
- *      Codepoint ranges of values for UCD property '*IDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_IDC>, <COATL_UCD_IDC>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_IDC
+ * @see COATL_UCD_IDC
+ */
 static const Col_Char ucdRanges_IDC[] = {
     0x0030, 0x003A, 0x0041, 0x005B, 0x005F, 0x0060, 0x0061, 0x007B, 
     0x00AA, 0x00AB, 0x00B5, 0x00B6, 0x00B7, 0x00B8, 0x00BA, 0x00BB, 
@@ -13713,46 +13417,37 @@ static const Col_Char ucdRanges_IDC[] = {
     0x2B740, 0x2B81E, 0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_IDC
+/**
+ * Number of ranges of values for UCD property '**IDC**'.
  *
- *      Number of ranges of values for UCD property '*IDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDC>, <COATL_UCD_IDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDC
+ * @see COATL_UCD_IDC
+ */
 #define UCD_NBRANGES_IDC    1353
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_IDC
+/**
+ * Value of first range for UCD property '**IDC**'.
  *
- *      Value of first range for UCD property '*IDC*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDC>, <COATL_UCD_IDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDC
+ * @see COATL_UCD_IDC
+ */
 #define UCD_VALUE_0_IDC     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Ideo
+/**
+ * Codepoint ranges of values for UCD property '**Ideo**'.
  *
- *      Codepoint ranges of values for UCD property '*Ideo*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_IDEO>, <COATL_UCD_IDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_IDEO
+ * @see COATL_UCD_IDEO
+ */
 static const Col_Char ucdRanges_Ideo[] = {
     0x3006, 0x3008, 0x3021, 0x302A, 0x3038, 0x303B, 0x3400, 0x4DB6, 
     0x4E00, 0x9FD6, 0xF900, 0xFA6E, 0xFA70, 0xFADA, 0x17000, 0x187ED, 
@@ -13760,46 +13455,37 @@ static const Col_Char ucdRanges_Ideo[] = {
     0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_IDEO
+/**
+ * Number of ranges of values for UCD property '**Ideo**'.
  *
- *      Number of ranges of values for UCD property '*Ideo*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Ideo>, <COATL_UCD_IDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Ideo
+ * @see COATL_UCD_IDEO
+ */
 #define UCD_NBRANGES_IDEO   29
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_IDEO
+/**
+ * Value of first range for UCD property '**Ideo**'.
  *
- *      Value of first range for UCD property '*Ideo*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Ideo>, <COATL_UCD_IDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Ideo
+ * @see COATL_UCD_IDEO
+ */
 #define UCD_VALUE_0_IDEO    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_IDS
+/**
+ * Codepoint ranges of values for UCD property '**IDS**'.
  *
- *      Codepoint ranges of values for UCD property '*IDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_IDS>, <COATL_UCD_IDS>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_IDS
+ * @see COATL_UCD_IDS
+ */
 static const Col_Char ucdRanges_IDS[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00B5, 0x00B6, 
     0x00BA, 0x00BB, 0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x02C2, 
@@ -13946,134 +13632,107 @@ static const Col_Char ucdRanges_IDS[] = {
     0x2B740, 0x2B81E, 0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_IDS
+/**
+ * Number of ranges of values for UCD property '**IDS**'.
  *
- *      Number of ranges of values for UCD property '*IDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDS>, <COATL_UCD_IDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDS
+ * @see COATL_UCD_IDS
+ */
 #define UCD_NBRANGES_IDS    1143
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_IDS
+/**
+ * Value of first range for UCD property '**IDS**'.
  *
- *      Value of first range for UCD property '*IDS*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDS>, <COATL_UCD_IDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDS
+ * @see COATL_UCD_IDS
+ */
 #define UCD_VALUE_0_IDS     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_IDSB
+/**
+ * Codepoint ranges of values for UCD property '**IDSB**'.
  *
- *      Codepoint ranges of values for UCD property '*IDSB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_IDSB>, <COATL_UCD_IDSB>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_IDSB
+ * @see COATL_UCD_IDSB
+ */
 static const Col_Char ucdRanges_IDSB[] = {
     0x2FF0, 0x2FF2, 0x2FF4, 0x2FFC, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_IDSB
+/**
+ * Number of ranges of values for UCD property '**IDSB**'.
  *
- *      Number of ranges of values for UCD property '*IDSB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDSB>, <COATL_UCD_IDSB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDSB
+ * @see COATL_UCD_IDSB
+ */
 #define UCD_NBRANGES_IDSB   5
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_IDSB
+/**
+ * Value of first range for UCD property '**IDSB**'.
  *
- *      Value of first range for UCD property '*IDSB*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDSB>, <COATL_UCD_IDSB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDSB
+ * @see COATL_UCD_IDSB
+ */
 #define UCD_VALUE_0_IDSB    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_IDST
+/**
+ * Codepoint ranges of values for UCD property '**IDST**'.
  *
- *      Codepoint ranges of values for UCD property '*IDST*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_IDST>, <COATL_UCD_IDST>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_IDST
+ * @see COATL_UCD_IDST
+ */
 static const Col_Char ucdRanges_IDST[] = {
     0x2FF2, 0x2FF4, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_IDST
+/**
+ * Number of ranges of values for UCD property '**IDST**'.
  *
- *      Number of ranges of values for UCD property '*IDST*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDST>, <COATL_UCD_IDST>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDST
+ * @see COATL_UCD_IDST
+ */
 #define UCD_NBRANGES_IDST   3
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_IDST
+/**
+ * Value of first range for UCD property '**IDST**'.
  *
- *      Value of first range for UCD property '*IDST*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_IDST>, <COATL_UCD_IDST>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_IDST
+ * @see COATL_UCD_IDST
+ */
 #define UCD_VALUE_0_IDST    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_InPC
+/**
+ * Codepoint ranges of values for UCD property '**InPC**'.
  *
- *      Codepoint ranges of values for UCD property '*InPC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_InPC>, <COATL_UCD_INPC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_InPC
+ * @see COATL_UCD_INPC
+ */
 static const Col_Char ucdRanges_InPC[] = {
     0x0900, 0x0903, 0x0904, 0x093A, 0x093B, 0x093C, 0x093D, 0x093E, 
     0x093F, 0x0940, 0x0941, 0x0945, 0x0949, 0x094D, 0x094E, 0x094F, 
@@ -14165,30 +13824,25 @@ static const Col_Char ucdRanges_InPC[] = {
     0x11CB7, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_INPC
+/**
+ * Number of ranges of values for UCD property '**InPC**'.
  *
- *      Number of ranges of values for UCD property '*InPC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_InPC>, <COATL_UCD_INPC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_InPC
+ * @see COATL_UCD_INPC
+ */
 #define UCD_NBRANGES_INPC   698
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_InPC
+/**
+ * Per-range values for UCD property '**InPC**'.
  *
- *      Per-range values for UCD property '*InPC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_InPC>, <COATL_UCD_INPC>, <Coatl_Ucd_InPC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_InPC
+ * @see COATL_UCD_INPC
+ * @see Coatl_Ucd_InPC
+ */
 static const Coatl_Ucd_InPC ucdValues_InPC[] = {
     COATL_UCD_INPC_NA, COATL_UCD_INPC_TOP, COATL_UCD_INPC_RIGHT, COATL_UCD_INPC_NA, 
     COATL_UCD_INPC_TOP, COATL_UCD_INPC_RIGHT, COATL_UCD_INPC_BOTTOM, COATL_UCD_INPC_NA, 
@@ -14367,17 +14021,14 @@ static const Coatl_Ucd_InPC ucdValues_InPC[] = {
     COATL_UCD_INPC_TOP, COATL_UCD_INPC_NA, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_InSC
+/**
+ * Codepoint ranges of values for UCD property '**InSC**'.
  *
- *      Codepoint ranges of values for UCD property '*InSC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_InSC>, <COATL_UCD_INSC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_InSC
+ * @see COATL_UCD_INSC
+ */
 static const Col_Char ucdRanges_InSC[] = {
     0x002D, 0x002E, 0x0030, 0x003A, 0x00A0, 0x00A1, 0x00B2, 0x00B4, 
     0x00D7, 0x00D8, 0x0900, 0x0903, 0x0904, 0x0915, 0x093A, 0x093C, 
@@ -14498,30 +14149,25 @@ static const Col_Char ucdRanges_InSC[] = {
     0x11CB7, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_INSC
+/**
+ * Number of ranges of values for UCD property '**InSC**'.
  *
- *      Number of ranges of values for UCD property '*InSC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_InSC>, <COATL_UCD_INSC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_InSC
+ * @see COATL_UCD_INSC
+ */
 #define UCD_NBRANGES_INSC   930
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_InSC
+/**
+ * Per-range values for UCD property '**InSC**'.
  *
- *      Per-range values for UCD property '*InSC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_InSC>, <COATL_UCD_INSC>, <Coatl_Ucd_InSC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_InSC
+ * @see COATL_UCD_INSC
+ * @see Coatl_Ucd_InSC
+ */
 static const Coatl_Ucd_InSC ucdValues_InSC[] = {
     COATL_UCD_INSC_OTHER, COATL_UCD_INSC_CONSONANT_PLACEHOLDER, COATL_UCD_INSC_OTHER, COATL_UCD_INSC_NUMBER, 
     COATL_UCD_INSC_OTHER, COATL_UCD_INSC_CONSONANT_PLACEHOLDER, COATL_UCD_INSC_OTHER, COATL_UCD_INSC_SYLLABLE_MODIFIER, 
@@ -14758,17 +14404,14 @@ static const Coatl_Ucd_InSC ucdValues_InSC[] = {
     COATL_UCD_INSC_BINDU, COATL_UCD_INSC_OTHER, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_jg
+/**
+ * Codepoint ranges of values for UCD property '**jg**'.
  *
- *      Codepoint ranges of values for UCD property '*jg*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_jg>, <COATL_UCD_JG>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_jg
+ * @see COATL_UCD_JG
+ */
 static const Col_Char ucdRanges_jg[] = {
     0x0620, 0x0621, 0x0622, 0x0624, 0x0625, 0x0626, 0x0627, 0x0628, 
     0x0629, 0x062A, 0x062C, 0x062F, 0x0631, 0x0633, 0x0635, 0x0637, 
@@ -14797,30 +14440,25 @@ static const Col_Char ucdRanges_jg[] = {
     0x10AE5, 0x10AEB, 0x10AEC, 0x10AED, 0x10AEE, 0x10AEF, 0x10AF0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_JG
+/**
+ * Number of ranges of values for UCD property '**jg**'.
  *
- *      Number of ranges of values for UCD property '*jg*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_jg>, <COATL_UCD_JG>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_jg
+ * @see COATL_UCD_JG
+ */
 #define UCD_NBRANGES_JG     200
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_jg
+/**
+ * Per-range values for UCD property '**jg**'.
  *
- *      Per-range values for UCD property '*jg*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_jg>, <COATL_UCD_JG>, <Coatl_Ucd_Jg>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_jg
+ * @see COATL_UCD_JG
+ * @see Coatl_Ucd_Jg
+ */
 static const Coatl_Ucd_Jg ucdValues_jg[] = {
     COATL_UCD_JG_NO_JOINING_GROUP, COATL_UCD_JG_YEH, COATL_UCD_JG_NO_JOINING_GROUP, COATL_UCD_JG_ALEF, 
     COATL_UCD_JG_WAW, COATL_UCD_JG_ALEF, COATL_UCD_JG_YEH, COATL_UCD_JG_ALEF, 
@@ -14874,61 +14512,49 @@ static const Coatl_Ucd_Jg ucdValues_jg[] = {
     COATL_UCD_JG_MANICHAEAN_TEN, COATL_UCD_JG_MANICHAEAN_TWENTY, COATL_UCD_JG_MANICHAEAN_HUNDRED, COATL_UCD_JG_NO_JOINING_GROUP, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Join_C
+/**
+ * Codepoint ranges of values for UCD property '**Join_C**'.
  *
- *      Codepoint ranges of values for UCD property '*Join_C*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_JOIN_C>, <COATL_UCD_JOIN_C>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_JOIN_C
+ * @see COATL_UCD_JOIN_C
+ */
 static const Col_Char ucdRanges_Join_C[] = {
     0x200C, 0x200E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_JOIN_C
+/**
+ * Number of ranges of values for UCD property '**Join_C**'.
  *
- *      Number of ranges of values for UCD property '*Join_C*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Join_C>, <COATL_UCD_JOIN_C>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Join_C
+ * @see COATL_UCD_JOIN_C
+ */
 #define UCD_NBRANGES_JOIN_C 3
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_JOIN_C
+/**
+ * Value of first range for UCD property '**Join_C**'.
  *
- *      Value of first range for UCD property '*Join_C*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Join_C>, <COATL_UCD_JOIN_C>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Join_C
+ * @see COATL_UCD_JOIN_C
+ */
 #define UCD_VALUE_0_JOIN_C  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_jt
+/**
+ * Codepoint ranges of values for UCD property '**jt**'.
  *
- *      Codepoint ranges of values for UCD property '*jt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_jt>, <COATL_UCD_JT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_jt
+ * @see COATL_UCD_JT
+ */
 static const Col_Char ucdRanges_jt[] = {
     0x00AD, 0x00AE, 0x0300, 0x0370, 0x0483, 0x048A, 0x0591, 0x05BE, 
     0x05BF, 0x05C0, 0x05C1, 0x05C3, 0x05C4, 0x05C6, 0x05C7, 0x05C8, 
@@ -15023,30 +14649,25 @@ static const Col_Char ucdRanges_jt[] = {
     0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_JT
+/**
+ * Number of ranges of values for UCD property '**jt**'.
  *
- *      Number of ranges of values for UCD property '*jt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_jt>, <COATL_UCD_JT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_jt
+ * @see COATL_UCD_JT
+ */
 #define UCD_NBRANGES_JT     726
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_jt
+/**
+ * Per-range values for UCD property '**jt**'.
  *
- *      Per-range values for UCD property '*jt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_jt>, <COATL_UCD_JT>, <Coatl_Ucd_Jt>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_jt
+ * @see COATL_UCD_JT
+ * @see Coatl_Ucd_Jt
+ */
 static const Coatl_Ucd_Jt ucdValues_jt[] = {
     COATL_UCD_JT_U, COATL_UCD_JT_T, COATL_UCD_JT_U, COATL_UCD_JT_T, 
     COATL_UCD_JT_U, COATL_UCD_JT_T, COATL_UCD_JT_U, COATL_UCD_JT_T, 
@@ -15232,17 +14853,14 @@ static const Coatl_Ucd_Jt ucdValues_jt[] = {
     COATL_UCD_JT_T, COATL_UCD_JT_U, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_lb
+/**
+ * Codepoint ranges of values for UCD property '**lb**'.
  *
- *      Codepoint ranges of values for UCD property '*lb*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_lb>, <COATL_UCD_LB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_lb
+ * @see COATL_UCD_LB
+ */
 static const Col_Char ucdRanges_lb[] = {
     0x0009, 0x000A, 0x000B, 0x000D, 0x000E, 0x0020, 0x0021, 0x0022, 
     0x0023, 0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 0x002A, 
@@ -15644,30 +15262,25 @@ static const Col_Char ucdRanges_lb[] = {
     0x30000, 0x3FFFE, 0xE0001, 0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_LB
+/**
+ * Number of ranges of values for UCD property '**lb**'.
  *
- *      Number of ranges of values for UCD property '*lb*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_lb>, <COATL_UCD_LB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_lb
+ * @see COATL_UCD_LB
+ */
 #define UCD_NBRANGES_LB     3185
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_lb
+/**
+ * Per-range values for UCD property '**lb**'.
  *
- *      Per-range values for UCD property '*lb*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_lb>, <COATL_UCD_LB>, <Coatl_Ucd_Lb>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_lb
+ * @see COATL_UCD_LB
+ * @see Coatl_Ucd_Lb
+ */
 static const Coatl_Ucd_Lb ucdValues_lb[] = {
     COATL_UCD_LB_CM, COATL_UCD_LB_BA, COATL_UCD_LB_LF, COATL_UCD_LB_BK, 
     COATL_UCD_LB_CR, COATL_UCD_LB_CM, COATL_UCD_LB_SP, COATL_UCD_LB_EX, 
@@ -16468,17 +16081,14 @@ static const Coatl_Ucd_Lb ucdValues_lb[] = {
     COATL_UCD_LB_XX, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_lc
+/**
+ * Codepoint ranges of values for UCD property '**lc**'.
  *
- *      Codepoint ranges of values for UCD property '*lc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_lc>, <COATL_UCD_LC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_lc
+ * @see COATL_UCD_LC
+ */
 static const Col_Char ucdRanges_lc[] = {
     0x0041, 0x005B, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 0x0100, 0x0101, 
     0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 
@@ -16637,33 +16247,28 @@ static const Col_Char ucdRanges_lc[] = {
     0x118A0, 0x118C0, 0x1E900, 0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_LC
+/**
+ * Number of ranges of values for UCD property '**lc**'.
  *
- *      Number of ranges of values for UCD property '*lc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_lc>, <COATL_UCD_LC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_lc
+ * @see COATL_UCD_LC
+ */
 #define UCD_NBRANGES_LC     1237
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_lc
+/**
+ * Per-range atom indices for UCD property '**lc**'.
  *
- *      Per-range atom indices for UCD property '*lc*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_lc.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_lc>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_lc>, <ucdAtoms_lc>, <COATL_UCD_LC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_lc
+ * @see ucdAtoms_lc
+ * @see COATL_UCD_LC
+ */
 static const unsigned short ucdValues_lc[] = {
     74, 122, 74, 122, 74, 122, 74, 78, 74, 78, 74, 78, 74, 78, 74, 78, 
     74, 78, 74, 78, 74, 78, 74, 78, 74, 78, 74, 78, 74, 78, 74, 78, 
@@ -16745,17 +16350,14 @@ static const unsigned short ucdValues_lc[] = {
     74, 122, 74, 124, 74, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_lc
+/**
+ * Atoms for UCD property '**lc**'.
  *
- *      Atoms for UCD property '*lc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_lc>, <COATL_UCD_LC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_lc
+ * @see COATL_UCD_LC
+ */
 static const int ucdAtoms_lc[] = {
     -100, 0, -10727, 0, -10743, 0, -10749, 0, -10780, 0, -10782, 0, -10783, 0, -10815, 0, 
     -112, 0, -121, 0, -126, 0, -128, 0, -130, 0, -163, 0, -195, 0, -35332, 0, 
@@ -16769,62 +16371,50 @@ static const int ucdAtoms_lc[] = {
     7264, 0, 79, 0, 8, 0, 80, 0, 928, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_LOE
+/**
+ * Codepoint ranges of values for UCD property '**LOE**'.
  *
- *      Codepoint ranges of values for UCD property '*LOE*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_LOE>, <COATL_UCD_LOE>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_LOE
+ * @see COATL_UCD_LOE
+ */
 static const Col_Char ucdRanges_LOE[] = {
     0x0E40, 0x0E45, 0x0EC0, 0x0EC5, 0x19B5, 0x19B8, 0x19BA, 0x19BB, 
     0xAAB5, 0xAAB7, 0xAAB9, 0xAABA, 0xAABB, 0xAABD, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_LOE
+/**
+ * Number of ranges of values for UCD property '**LOE**'.
  *
- *      Number of ranges of values for UCD property '*LOE*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_LOE>, <COATL_UCD_LOE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_LOE
+ * @see COATL_UCD_LOE
+ */
 #define UCD_NBRANGES_LOE    15
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_LOE
+/**
+ * Value of first range for UCD property '**LOE**'.
  *
- *      Value of first range for UCD property '*LOE*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_LOE>, <COATL_UCD_LOE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_LOE
+ * @see COATL_UCD_LOE
+ */
 #define UCD_VALUE_0_LOE     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Lower
+/**
+ * Codepoint ranges of values for UCD property '**Lower**'.
  *
- *      Codepoint ranges of values for UCD property '*Lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_LOWER>, <COATL_UCD_LOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_LOWER
+ * @see COATL_UCD_LOWER
+ */
 static const Col_Char ucdRanges_Lower[] = {
     0x0061, 0x007B, 0x00AA, 0x00AB, 0x00B5, 0x00B6, 0x00BA, 0x00BB, 
     0x00DF, 0x00F7, 0x00F8, 0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 
@@ -16988,46 +16578,37 @@ static const Col_Char ucdRanges_Lower[] = {
     0x1D7AA, 0x1D7C3, 0x1D7C4, 0x1D7CA, 0x1D7CB, 0x1D7CC, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_LOWER
+/**
+ * Number of ranges of values for UCD property '**Lower**'.
  *
- *      Number of ranges of values for UCD property '*Lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Lower>, <COATL_UCD_LOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Lower
+ * @see COATL_UCD_LOWER
+ */
 #define UCD_NBRANGES_LOWER  1281
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_LOWER
+/**
+ * Value of first range for UCD property '**Lower**'.
  *
- *      Value of first range for UCD property '*Lower*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Lower>, <COATL_UCD_LOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Lower
+ * @see COATL_UCD_LOWER
+ */
 #define UCD_VALUE_0_LOWER   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Math
+/**
+ * Codepoint ranges of values for UCD property '**Math**'.
  *
- *      Codepoint ranges of values for UCD property '*Math*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_MATH>, <COATL_UCD_MATH>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_MATH
+ * @see COATL_UCD_MATH
+ */
 static const Col_Char ucdRanges_Math[] = {
     0x002B, 0x002C, 0x003C, 0x003F, 0x005E, 0x005F, 0x007C, 0x007D, 
     0x007E, 0x007F, 0x00AC, 0x00AD, 0x00B1, 0x00B2, 0x00D7, 0x00D8, 
@@ -17066,46 +16647,37 @@ static const Col_Char ucdRanges_Math[] = {
     0x1EEAB, 0x1EEBC, 0x1EEF0, 0x1EEF2, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_MATH
+/**
+ * Number of ranges of values for UCD property '**Math**'.
  *
- *      Number of ranges of values for UCD property '*Math*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Math>, <COATL_UCD_MATH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Math
+ * @see COATL_UCD_MATH
+ */
 #define UCD_NBRANGES_MATH   277
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_MATH
+/**
+ * Value of first range for UCD property '**Math**'.
  *
- *      Value of first range for UCD property '*Math*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Math>, <COATL_UCD_MATH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Math
+ * @see COATL_UCD_MATH
+ */
 #define UCD_VALUE_0_MATH    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NChar
+/**
+ * Codepoint ranges of values for UCD property '**NChar**'.
  *
- *      Codepoint ranges of values for UCD property '*NChar*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_NCHAR>, <COATL_UCD_NCHAR>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_NCHAR
+ * @see COATL_UCD_NCHAR
+ */
 static const Col_Char ucdRanges_NChar[] = {
     0xFDD0, 0xFDF0, 0xFFFE, 0x10000, 0x1FFFE, 0x20000, 0x2FFFE, 0x30000, 
     0x3FFFE, 0x40000, 0x4FFFE, 0x50000, 0x5FFFE, 0x60000, 0x6FFFE, 0x70000, 
@@ -17114,46 +16686,37 @@ static const Col_Char ucdRanges_NChar[] = {
     0xFFFFE, 0x100000, 0x10FFFE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NCHAR
+/**
+ * Number of ranges of values for UCD property '**NChar**'.
  *
- *      Number of ranges of values for UCD property '*NChar*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NChar>, <COATL_UCD_NCHAR>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NChar
+ * @see COATL_UCD_NCHAR
+ */
 #define UCD_NBRANGES_NCHAR  36
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_NCHAR
+/**
+ * Value of first range for UCD property '**NChar**'.
  *
- *      Value of first range for UCD property '*NChar*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NChar>, <COATL_UCD_NCHAR>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NChar
+ * @see COATL_UCD_NCHAR
+ */
 #define UCD_VALUE_0_NCHAR   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NFC_QC
+/**
+ * Codepoint ranges of values for UCD property '**NFC_QC**'.
  *
- *      Codepoint ranges of values for UCD property '*NFC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_NFC_QC>, <COATL_UCD_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_NFC_QC
+ * @see COATL_UCD_NFC_QC
+ */
 static const Col_Char ucdRanges_NFC_QC[] = {
     0x0300, 0x0305, 0x0306, 0x030D, 0x030F, 0x0310, 0x0311, 0x0312, 
     0x0313, 0x0315, 0x031B, 0x031C, 0x0323, 0x0329, 0x032D, 0x032F, 
@@ -17186,30 +16749,25 @@ static const Col_Char ucdRanges_NFC_QC[] = {
     0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NFC_QC
+/**
+ * Number of ranges of values for UCD property '**NFC_QC**'.
  *
- *      Number of ranges of values for UCD property '*NFC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFC_QC>, <COATL_UCD_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFC_QC
+ * @see COATL_UCD_NFC_QC
+ */
 #define UCD_NBRANGES_NFC_QC 226
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_NFC_QC
+/**
+ * Per-range values for UCD property '**NFC_QC**'.
  *
- *      Per-range values for UCD property '*NFC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFC_QC>, <COATL_UCD_NFC_QC>, <Coatl_Ucd_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFC_QC
+ * @see COATL_UCD_NFC_QC
+ * @see Coatl_Ucd_NFC_QC
+ */
 static const Coatl_Ucd_NFC_QC ucdValues_NFC_QC[] = {
     COATL_UCD_NFC_QC_Y, COATL_UCD_NFC_QC_M, COATL_UCD_NFC_QC_Y, COATL_UCD_NFC_QC_M, 
     COATL_UCD_NFC_QC_Y, COATL_UCD_NFC_QC_M, COATL_UCD_NFC_QC_Y, COATL_UCD_NFC_QC_M, 
@@ -17270,17 +16828,14 @@ static const Coatl_Ucd_NFC_QC ucdValues_NFC_QC[] = {
     COATL_UCD_NFC_QC_N, COATL_UCD_NFC_QC_Y, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NFD_QC
+/**
+ * Codepoint ranges of values for UCD property '**NFD_QC**'.
  *
- *      Codepoint ranges of values for UCD property '*NFD_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_NFD_QC>, <COATL_UCD_NFD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_NFD_QC
+ * @see COATL_UCD_NFD_QC
+ */
 static const Col_Char ucdRanges_NFD_QC[] = {
     0x00C0, 0x00C6, 0x00C7, 0x00D0, 0x00D1, 0x00D7, 0x00D9, 0x00DE, 
     0x00E0, 0x00E6, 0x00E7, 0x00F0, 0x00F1, 0x00F7, 0x00F9, 0x00FE, 
@@ -17342,46 +16897,37 @@ static const Col_Char ucdRanges_NFD_QC[] = {
     0x1D15E, 0x1D165, 0x1D1BB, 0x1D1C1, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NFD_QC
+/**
+ * Number of ranges of values for UCD property '**NFD_QC**'.
  *
- *      Number of ranges of values for UCD property '*NFD_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFD_QC>, <COATL_UCD_NFD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFD_QC
+ * @see COATL_UCD_NFD_QC
+ */
 #define UCD_NBRANGES_NFD_QC 463
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_NFD_QC
+/**
+ * Value of first range for UCD property '**NFD_QC**'.
  *
- *      Value of first range for UCD property '*NFD_QC*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFD_QC>, <COATL_UCD_NFD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFD_QC
+ * @see COATL_UCD_NFD_QC
+ */
 #define UCD_VALUE_0_NFD_QC  1
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NFKC_CF
+/**
+ * Codepoint ranges of values for UCD property '**NFKC_CF**'.
  *
- *      Codepoint ranges of values for UCD property '*NFKC_CF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_NFKC_CF>, <COATL_UCD_NFKC_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_NFKC_CF
+ * @see COATL_UCD_NFKC_CF
+ */
 static const Col_Char ucdRanges_NFKC_CF[] = {
     0x0041, 0x005B, 0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 
     0x00AF, 0x00B0, 0x00B2, 0x00B4, 0x00B5, 0x00B6, 0x00B8, 0x00B9, 
@@ -18000,33 +17546,28 @@ static const Col_Char ucdRanges_NFKC_CF[] = {
     0x2FA1B, 0x2FA1C, 0x2FA1D, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NFKC_CF
+/**
+ * Number of ranges of values for UCD property '**NFKC_CF**'.
  *
- *      Number of ranges of values for UCD property '*NFKC_CF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKC_CF>, <COATL_UCD_NFKC_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKC_CF
+ * @see COATL_UCD_NFKC_CF
+ */
 #define UCD_NBRANGES_NFKC_CF 4917
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_NFKC_CF
+/**
+ * Per-range atom indices for UCD property '**NFKC_CF**'.
  *
- *      Per-range atom indices for UCD property '*NFKC_CF*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_NFKC_CF.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_NFKC_CF>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKC_CF>, <ucdAtoms_NFKC_CF>, <COATL_UCD_NFKC_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKC_CF
+ * @see ucdAtoms_NFKC_CF
+ * @see COATL_UCD_NFKC_CF
+ */
 static const unsigned short ucdValues_NFKC_CF[] = {
     3554, 7636, 3554, 502, 3554, 3573, 3554, 3250, 3554, 3561, 3554, 502, 3555, 7740, 3554, 3624, 
     508, 3286, 3554, 4368, 4360, 4562, 3554, 7636, 3554, 7636, 5172, 3554, 7168, 3554, 7168, 3554, 
@@ -18338,17 +17879,14 @@ static const unsigned short ucdValues_NFKC_CF[] = {
     518, 516, 514, 1380, 3554, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_NFKC_CF
+/**
+ * Atoms for UCD property '**NFKC_CF**'.
  *
- *      Atoms for UCD property '*NFKC_CF*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_NFKC_CF>, <COATL_UCD_NFKC_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_NFKC_CF
+ * @see COATL_UCD_NFKC_CF
+ */
 static const int ucdAtoms_NFKC_CF[] = {
     -1, 0, -100, 0, -101165, 0, -101167, 0, -101369, 0, -101487, 0, -101506, 0, -102099, 0, 
     -102184, 0, -102290, 0, -102341, 0, -102366, 0, -103057, 0, -103097, 0, -103494, 0, -104122, 0, 
@@ -18844,17 +18382,14 @@ static const int ucdAtoms_NFKC_CF[] = {
     9944, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NFKC_QC
+/**
+ * Codepoint ranges of values for UCD property '**NFKC_QC**'.
  *
- *      Codepoint ranges of values for UCD property '*NFKC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_NFKC_QC>, <COATL_UCD_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_NFKC_QC
+ * @see COATL_UCD_NFKC_QC
+ */
 static const Col_Char ucdRanges_NFKC_QC[] = {
     0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AF, 0x00B0, 
     0x00B2, 0x00B6, 0x00B8, 0x00BB, 0x00BC, 0x00BF, 0x0132, 0x0134, 
@@ -18930,30 +18465,25 @@ static const Col_Char ucdRanges_NFKC_QC[] = {
     0x1F210, 0x1F23C, 0x1F240, 0x1F249, 0x1F250, 0x1F252, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NFKC_QC
+/**
+ * Number of ranges of values for UCD property '**NFKC_QC**'.
  *
- *      Number of ranges of values for UCD property '*NFKC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKC_QC>, <COATL_UCD_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKC_QC
+ * @see COATL_UCD_NFKC_QC
+ */
 #define UCD_NBRANGES_NFKC_QC 577
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_NFKC_QC
+/**
+ * Per-range values for UCD property '**NFKC_QC**'.
  *
- *      Per-range values for UCD property '*NFKC_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKC_QC>, <COATL_UCD_NFKC_QC>, <Coatl_Ucd_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKC_QC
+ * @see COATL_UCD_NFKC_QC
+ * @see Coatl_Ucd_NFKC_QC
+ */
 static const Coatl_Ucd_NFKC_QC ucdValues_NFKC_QC[] = {
     COATL_UCD_NFKC_QC_Y, COATL_UCD_NFKC_QC_N, COATL_UCD_NFKC_QC_Y, COATL_UCD_NFKC_QC_N, 
     COATL_UCD_NFKC_QC_Y, COATL_UCD_NFKC_QC_N, COATL_UCD_NFKC_QC_Y, COATL_UCD_NFKC_QC_N, 
@@ -19102,17 +18632,14 @@ static const Coatl_Ucd_NFKC_QC ucdValues_NFKC_QC[] = {
     COATL_UCD_NFKC_QC_Y, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_NFKD_QC
+/**
+ * Codepoint ranges of values for UCD property '**NFKD_QC**'.
  *
- *      Codepoint ranges of values for UCD property '*NFKD_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_NFKD_QC>, <COATL_UCD_NFKD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_NFKD_QC
+ * @see COATL_UCD_NFKD_QC
+ */
 static const Col_Char ucdRanges_NFKD_QC[] = {
     0x00A0, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AF, 0x00B0, 
     0x00B2, 0x00B6, 0x00B8, 0x00BB, 0x00BC, 0x00BF, 0x00C0, 0x00C6, 
@@ -19214,46 +18741,37 @@ static const Col_Char ucdRanges_NFKD_QC[] = {
     0x1F250, 0x1F252, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NFKD_QC
+/**
+ * Number of ranges of values for UCD property '**NFKD_QC**'.
  *
- *      Number of ranges of values for UCD property '*NFKD_QC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKD_QC>, <COATL_UCD_NFKD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKD_QC
+ * @see COATL_UCD_NFKD_QC
+ */
 #define UCD_NBRANGES_NFKD_QC 781
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_NFKD_QC
+/**
+ * Value of first range for UCD property '**NFKD_QC**'.
  *
- *      Value of first range for UCD property '*NFKD_QC*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_NFKD_QC>, <COATL_UCD_NFKD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_NFKD_QC
+ * @see COATL_UCD_NFKD_QC
+ */
 #define UCD_VALUE_0_NFKD_QC  1
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_nt
+/**
+ * Codepoint ranges of values for UCD property '**nt**'.
  *
- *      Codepoint ranges of values for UCD property '*nt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_nt>, <COATL_UCD_NT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_nt
+ * @see COATL_UCD_NT
+ */
 static const Col_Char ucdRanges_nt[] = {
     0x0030, 0x003A, 0x00B2, 0x00B4, 0x00B9, 0x00BA, 0x00BC, 0x00BF, 
     0x0660, 0x066A, 0x06F0, 0x06FA, 0x07C0, 0x07CA, 0x0966, 0x0970, 
@@ -19308,30 +18826,25 @@ static const Col_Char ucdRanges_nt[] = {
     0x2F891, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NT
+/**
+ * Number of ranges of values for UCD property '**nt**'.
  *
- *      Number of ranges of values for UCD property '*nt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_nt>, <COATL_UCD_NT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_nt
+ * @see COATL_UCD_NT
+ */
 #define UCD_NBRANGES_NT     402
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_nt
+/**
+ * Per-range values for UCD property '**nt**'.
  *
- *      Per-range values for UCD property '*nt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_nt>, <COATL_UCD_NT>, <Coatl_Ucd_Nt>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_nt
+ * @see COATL_UCD_NT
+ * @see Coatl_Ucd_Nt
+ */
 static const Coatl_Ucd_Nt ucdValues_nt[] = {
     COATL_UCD_NT_NONE, COATL_UCD_NT_DE, COATL_UCD_NT_NONE, COATL_UCD_NT_DI, 
     COATL_UCD_NT_NONE, COATL_UCD_NT_DI, COATL_UCD_NT_NONE, COATL_UCD_NT_NU, 
@@ -19436,17 +18949,14 @@ static const Coatl_Ucd_Nt ucdValues_nt[] = {
     COATL_UCD_NT_NU, COATL_UCD_NT_NONE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_nv
+/**
+ * Codepoint ranges of values for UCD property '**nv**'.
  *
- *      Codepoint ranges of values for UCD property '*nv*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_nv>, <COATL_UCD_NV>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_nv
+ * @see COATL_UCD_NV
+ */
 static const Col_Char ucdRanges_nv[] = {
     0x0030, 0x0031, 0x0032, 0x0033, 0x0034, 0x0035, 0x0036, 0x0037, 
     0x0038, 0x0039, 0x003A, 0x00B2, 0x00B3, 0x00B4, 0x00B9, 0x00BA, 
@@ -19665,33 +19175,28 @@ static const Col_Char ucdRanges_nv[] = {
     0x22999, 0x23B1B, 0x23B1C, 0x2626D, 0x2626E, 0x2F890, 0x2F891, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_NV
+/**
+ * Number of ranges of values for UCD property '**nv**'.
  *
- *      Number of ranges of values for UCD property '*nv*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_nv>, <COATL_UCD_NV>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_nv
+ * @see COATL_UCD_NV
+ */
 #define UCD_NBRANGES_NV     1720
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_nv
+/**
+ * Per-range atom indices for UCD property '**nv**'.
  *
- *      Per-range atom indices for UCD property '*nv*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_nv.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_nv>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_nv>, <ucdAtoms_nv>, <COATL_UCD_NV>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_nv
+ * @see ucdAtoms_nv
+ * @see COATL_UCD_NV
+ */
 static const unsigned short ucdValues_nv[] = {
     283, 2, 3, 81, 119, 165, 201, 221, 235, 253, 267, 283, 81, 119, 283, 3, 
     283, 19, 13, 129, 283, 2, 3, 81, 119, 165, 201, 221, 235, 253, 267, 283, 
@@ -19803,17 +19308,14 @@ static const unsigned short ucdValues_nv[] = {
     119, 283, 119, 283, 165, 283, 267, 283, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_nv
+/**
+ * Atoms for UCD property '**nv**'.
  *
- *      Atoms for UCD property '*nv*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_nv>, <COATL_UCD_NV>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_nv
+ * @see COATL_UCD_NV
+ */
 static const char * const ucdAtoms_nv[] = {
     "-1/2", "0", "1", "1/10", "1/12", "1/16", "1/160", "1/2", 
     "1/20", "1/3", "1/4", "1/40", "1/5", "1/6", "1/7", "1/8", 
@@ -19835,17 +19337,14 @@ static const char * const ucdAtoms_nv[] = {
     "9/2", "90", "900", "9000", "90000", "900000", "NaN", 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OAlpha
+/**
+ * Codepoint ranges of values for UCD property '**OAlpha**'.
  *
- *      Codepoint ranges of values for UCD property '*OAlpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OALPHA>, <COATL_UCD_OALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OALPHA
+ * @see COATL_UCD_OALPHA
+ */
 static const Col_Char ucdRanges_OAlpha[] = {
     0x0345, 0x0346, 0x05B0, 0x05BE, 0x05BF, 0x05C0, 0x05C1, 0x05C3, 
     0x05C4, 0x05C6, 0x05C7, 0x05C8, 0x0610, 0x061B, 0x064B, 0x0658, 
@@ -19898,92 +19397,74 @@ static const Col_Char ucdRanges_OAlpha[] = {
     0x1F150, 0x1F16A, 0x1F170, 0x1F18A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OALPHA
+/**
+ * Number of ranges of values for UCD property '**OAlpha**'.
  *
- *      Number of ranges of values for UCD property '*OAlpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OAlpha>, <COATL_UCD_OALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OAlpha
+ * @see COATL_UCD_OALPHA
+ */
 #define UCD_NBRANGES_OALPHA 389
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OALPHA
+/**
+ * Value of first range for UCD property '**OAlpha**'.
  *
- *      Value of first range for UCD property '*OAlpha*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OAlpha>, <COATL_UCD_OALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OAlpha
+ * @see COATL_UCD_OALPHA
+ */
 #define UCD_VALUE_0_OALPHA  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_ODI
+/**
+ * Codepoint ranges of values for UCD property '**ODI**'.
  *
- *      Codepoint ranges of values for UCD property '*ODI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_ODI>, <COATL_UCD_ODI>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_ODI
+ * @see COATL_UCD_ODI
+ */
 static const Col_Char ucdRanges_ODI[] = {
     0x034F, 0x0350, 0x115F, 0x1161, 0x17B4, 0x17B6, 0x2065, 0x2066, 
     0x3164, 0x3165, 0xFFA0, 0xFFA1, 0xFFF0, 0xFFF9, 0xE0000, 0xE0001, 
     0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 0xE1000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_ODI
+/**
+ * Number of ranges of values for UCD property '**ODI**'.
  *
- *      Number of ranges of values for UCD property '*ODI*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ODI>, <COATL_UCD_ODI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ODI
+ * @see COATL_UCD_ODI
+ */
 #define UCD_NBRANGES_ODI    23
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_ODI
+/**
+ * Value of first range for UCD property '**ODI**'.
  *
- *      Value of first range for UCD property '*ODI*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_ODI>, <COATL_UCD_ODI>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_ODI
+ * @see COATL_UCD_ODI
+ */
 #define UCD_VALUE_0_ODI     0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OGr_Ext
+/**
+ * Codepoint ranges of values for UCD property '**OGr_Ext**'.
  *
- *      Codepoint ranges of values for UCD property '*OGr_Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OGR_EXT>, <COATL_UCD_OGR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OGR_EXT
+ * @see COATL_UCD_OGR_EXT
+ */
 static const Col_Char ucdRanges_OGr_Ext[] = {
     0x09BE, 0x09BF, 0x09D7, 0x09D8, 0x0B3E, 0x0B3F, 0x0B57, 0x0B58, 
     0x0BBE, 0x0BBF, 0x0BD7, 0x0BD8, 0x0CC2, 0x0CC3, 0x0CD5, 0x0CD7, 
@@ -19993,134 +19474,107 @@ static const Col_Char ucdRanges_OGr_Ext[] = {
     0x1D165, 0x1D166, 0x1D16E, 0x1D173, 0xE0020, 0xE0080, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OGR_EXT
+/**
+ * Number of ranges of values for UCD property '**OGr_Ext**'.
  *
- *      Number of ranges of values for UCD property '*OGr_Ext*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OGr_Ext>, <COATL_UCD_OGR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OGr_Ext
+ * @see COATL_UCD_OGR_EXT
+ */
 #define UCD_NBRANGES_OGR_EXT 47
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OGR_EXT
+/**
+ * Value of first range for UCD property '**OGr_Ext**'.
  *
- *      Value of first range for UCD property '*OGr_Ext*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OGr_Ext>, <COATL_UCD_OGR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OGr_Ext
+ * @see COATL_UCD_OGR_EXT
+ */
 #define UCD_VALUE_0_OGR_EXT  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OIDC
+/**
+ * Codepoint ranges of values for UCD property '**OIDC**'.
  *
- *      Codepoint ranges of values for UCD property '*OIDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OIDC>, <COATL_UCD_OIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OIDC
+ * @see COATL_UCD_OIDC
+ */
 static const Col_Char ucdRanges_OIDC[] = {
     0x00B7, 0x00B8, 0x0387, 0x0388, 0x1369, 0x1372, 0x19DA, 0x19DB, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OIDC
+/**
+ * Number of ranges of values for UCD property '**OIDC**'.
  *
- *      Number of ranges of values for UCD property '*OIDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OIDC>, <COATL_UCD_OIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OIDC
+ * @see COATL_UCD_OIDC
+ */
 #define UCD_NBRANGES_OIDC   9
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OIDC
+/**
+ * Value of first range for UCD property '**OIDC**'.
  *
- *      Value of first range for UCD property '*OIDC*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OIDC>, <COATL_UCD_OIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OIDC
+ * @see COATL_UCD_OIDC
+ */
 #define UCD_VALUE_0_OIDC    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OIDS
+/**
+ * Codepoint ranges of values for UCD property '**OIDS**'.
  *
- *      Codepoint ranges of values for UCD property '*OIDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OIDS>, <COATL_UCD_OIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OIDS
+ * @see COATL_UCD_OIDS
+ */
 static const Col_Char ucdRanges_OIDS[] = {
     0x1885, 0x1887, 0x2118, 0x2119, 0x212E, 0x212F, 0x309B, 0x309D, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OIDS
+/**
+ * Number of ranges of values for UCD property '**OIDS**'.
  *
- *      Number of ranges of values for UCD property '*OIDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OIDS>, <COATL_UCD_OIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OIDS
+ * @see COATL_UCD_OIDS
+ */
 #define UCD_NBRANGES_OIDS   9
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OIDS
+/**
+ * Value of first range for UCD property '**OIDS**'.
  *
- *      Value of first range for UCD property '*OIDS*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OIDS>, <COATL_UCD_OIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OIDS
+ * @see COATL_UCD_OIDS
+ */
 #define UCD_VALUE_0_OIDS    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OLower
+/**
+ * Codepoint ranges of values for UCD property '**OLower**'.
  *
- *      Codepoint ranges of values for UCD property '*OLower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OLOWER>, <COATL_UCD_OLOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OLOWER
+ * @see COATL_UCD_OLOWER
+ */
 static const Col_Char ucdRanges_OLower[] = {
     0x00AA, 0x00AB, 0x00BA, 0x00BB, 0x02B0, 0x02B9, 0x02C0, 0x02C2, 
     0x02E0, 0x02E5, 0x0345, 0x0346, 0x037A, 0x037B, 0x1D2C, 0x1D6B, 
@@ -20129,46 +19583,37 @@ static const Col_Char ucdRanges_OLower[] = {
     0xA69C, 0xA69E, 0xA770, 0xA771, 0xA7F8, 0xA7FA, 0xAB5C, 0xAB60, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OLOWER
+/**
+ * Number of ranges of values for UCD property '**OLower**'.
  *
- *      Number of ranges of values for UCD property '*OLower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OLower>, <COATL_UCD_OLOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OLower
+ * @see COATL_UCD_OLOWER
+ */
 #define UCD_NBRANGES_OLOWER 41
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OLOWER
+/**
+ * Value of first range for UCD property '**OLower**'.
  *
- *      Value of first range for UCD property '*OLower*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OLower>, <COATL_UCD_OLOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OLower
+ * @see COATL_UCD_OLOWER
+ */
 #define UCD_VALUE_0_OLOWER  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OMath
+/**
+ * Codepoint ranges of values for UCD property '**OMath**'.
  *
- *      Codepoint ranges of values for UCD property '*OMath*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OMATH>, <COATL_UCD_OMATH>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OMATH
+ * @see COATL_UCD_OMATH
+ */
 static const Col_Char ucdRanges_OMath[] = {
     0x005E, 0x005F, 0x03D0, 0x03D3, 0x03D5, 0x03D6, 0x03F0, 0x03F2, 
     0x03F4, 0x03F6, 0x2016, 0x2017, 0x2032, 0x2035, 0x2040, 0x2041, 
@@ -20206,91 +19651,73 @@ static const Col_Char ucdRanges_OMath[] = {
     0x1EEA5, 0x1EEAA, 0x1EEAB, 0x1EEBC, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OMATH
+/**
+ * Number of ranges of values for UCD property '**OMath**'.
  *
- *      Number of ranges of values for UCD property '*OMath*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OMath>, <COATL_UCD_OMATH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OMath
+ * @see COATL_UCD_OMATH
+ */
 #define UCD_NBRANGES_OMATH  269
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OMATH
+/**
+ * Value of first range for UCD property '**OMath**'.
  *
- *      Value of first range for UCD property '*OMath*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OMath>, <COATL_UCD_OMATH>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OMath
+ * @see COATL_UCD_OMATH
+ */
 #define UCD_VALUE_0_OMATH   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_OUpper
+/**
+ * Codepoint ranges of values for UCD property '**OUpper**'.
  *
- *      Codepoint ranges of values for UCD property '*OUpper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_OUPPER>, <COATL_UCD_OUPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_OUPPER
+ * @see COATL_UCD_OUPPER
+ */
 static const Col_Char ucdRanges_OUpper[] = {
     0x2160, 0x2170, 0x24B6, 0x24D0, 0x1F130, 0x1F14A, 0x1F150, 0x1F16A, 
     0x1F170, 0x1F18A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_OUPPER
+/**
+ * Number of ranges of values for UCD property '**OUpper**'.
  *
- *      Number of ranges of values for UCD property '*OUpper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OUpper>, <COATL_UCD_OUPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OUpper
+ * @see COATL_UCD_OUPPER
+ */
 #define UCD_NBRANGES_OUPPER 11
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_OUPPER
+/**
+ * Value of first range for UCD property '**OUpper**'.
  *
- *      Value of first range for UCD property '*OUpper*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_OUpper>, <COATL_UCD_OUPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_OUpper
+ * @see COATL_UCD_OUPPER
+ */
 #define UCD_VALUE_0_OUPPER  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Pat_Syn
+/**
+ * Codepoint ranges of values for UCD property '**Pat_Syn**'.
  *
- *      Codepoint ranges of values for UCD property '*Pat_Syn*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_PAT_SYN>, <COATL_UCD_PAT_SYN>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_PAT_SYN
+ * @see COATL_UCD_PAT_SYN
+ */
 static const Col_Char ucdRanges_Pat_Syn[] = {
     0x0021, 0x0030, 0x003A, 0x0041, 0x005B, 0x005F, 0x0060, 0x0061, 
     0x007B, 0x007F, 0x00A1, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AD, 
@@ -20301,91 +19728,73 @@ static const Col_Char ucdRanges_Pat_Syn[] = {
     0x3008, 0x3021, 0x3030, 0x3031, 0xFD3E, 0xFD40, 0xFE45, 0xFE47, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_PAT_SYN
+/**
+ * Number of ranges of values for UCD property '**Pat_Syn**'.
  *
- *      Number of ranges of values for UCD property '*Pat_Syn*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Pat_Syn>, <COATL_UCD_PAT_SYN>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Pat_Syn
+ * @see COATL_UCD_PAT_SYN
+ */
 #define UCD_NBRANGES_PAT_SYN 57
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_PAT_SYN
+/**
+ * Value of first range for UCD property '**Pat_Syn**'.
  *
- *      Value of first range for UCD property '*Pat_Syn*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Pat_Syn>, <COATL_UCD_PAT_SYN>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Pat_Syn
+ * @see COATL_UCD_PAT_SYN
+ */
 #define UCD_VALUE_0_PAT_SYN  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Pat_WS
+/**
+ * Codepoint ranges of values for UCD property '**Pat_WS**'.
  *
- *      Codepoint ranges of values for UCD property '*Pat_WS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_PAT_WS>, <COATL_UCD_PAT_WS>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_PAT_WS
+ * @see COATL_UCD_PAT_WS
+ */
 static const Col_Char ucdRanges_Pat_WS[] = {
     0x0009, 0x000E, 0x0020, 0x0021, 0x0085, 0x0086, 0x200E, 0x2010, 
     0x2028, 0x202A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_PAT_WS
+/**
+ * Number of ranges of values for UCD property '**Pat_WS**'.
  *
- *      Number of ranges of values for UCD property '*Pat_WS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Pat_WS>, <COATL_UCD_PAT_WS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Pat_WS
+ * @see COATL_UCD_PAT_WS
+ */
 #define UCD_NBRANGES_PAT_WS 11
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_PAT_WS
+/**
+ * Value of first range for UCD property '**Pat_WS**'.
  *
- *      Value of first range for UCD property '*Pat_WS*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Pat_WS>, <COATL_UCD_PAT_WS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Pat_WS
+ * @see COATL_UCD_PAT_WS
+ */
 #define UCD_VALUE_0_PAT_WS  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_QMark
+/**
+ * Codepoint ranges of values for UCD property '**QMark**'.
  *
- *      Codepoint ranges of values for UCD property '*QMark*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_QMARK>, <COATL_UCD_QMARK>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_QMARK
+ * @see COATL_UCD_QMARK
+ */
 static const Col_Char ucdRanges_QMark[] = {
     0x0022, 0x0023, 0x0027, 0x0028, 0x00AB, 0x00AC, 0x00BB, 0x00BC, 
     0x2018, 0x2020, 0x2039, 0x203B, 0x2E42, 0x2E43, 0x300C, 0x3010, 
@@ -20393,90 +19802,72 @@ static const Col_Char ucdRanges_QMark[] = {
     0xFF62, 0xFF64, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_QMARK
+/**
+ * Number of ranges of values for UCD property '**QMark**'.
  *
- *      Number of ranges of values for UCD property '*QMark*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_QMark>, <COATL_UCD_QMARK>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_QMark
+ * @see COATL_UCD_QMARK
+ */
 #define UCD_NBRANGES_QMARK  27
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_QMARK
+/**
+ * Value of first range for UCD property '**QMark**'.
  *
- *      Value of first range for UCD property '*QMark*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_QMark>, <COATL_UCD_QMARK>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_QMark
+ * @see COATL_UCD_QMARK
+ */
 #define UCD_VALUE_0_QMARK   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Radical
+/**
+ * Codepoint ranges of values for UCD property '**Radical**'.
  *
- *      Codepoint ranges of values for UCD property '*Radical*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_RADICAL>, <COATL_UCD_RADICAL>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_RADICAL
+ * @see COATL_UCD_RADICAL
+ */
 static const Col_Char ucdRanges_Radical[] = {
     0x2E80, 0x2E9A, 0x2E9B, 0x2EF4, 0x2F00, 0x2FD6, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_RADICAL
+/**
+ * Number of ranges of values for UCD property '**Radical**'.
  *
- *      Number of ranges of values for UCD property '*Radical*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Radical>, <COATL_UCD_RADICAL>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Radical
+ * @see COATL_UCD_RADICAL
+ */
 #define UCD_NBRANGES_RADICAL 7
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_RADICAL
+/**
+ * Value of first range for UCD property '**Radical**'.
  *
- *      Value of first range for UCD property '*Radical*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Radical>, <COATL_UCD_RADICAL>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Radical
+ * @see COATL_UCD_RADICAL
+ */
 #define UCD_VALUE_0_RADICAL  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_SB
+/**
+ * Codepoint ranges of values for UCD property '**SB**'.
  *
- *      Codepoint ranges of values for UCD property '*SB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_SB>, <COATL_UCD_SB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_SB
+ * @see COATL_UCD_SB
+ */
 static const Col_Char ucdRanges_SB[] = {
     0x0009, 0x000A, 0x000B, 0x000D, 0x000E, 0x0020, 0x0021, 0x0022, 
     0x0023, 0x0027, 0x002A, 0x002C, 0x002E, 0x002F, 0x0030, 0x003A, 
@@ -20850,30 +20241,25 @@ static const Col_Char ucdRanges_SB[] = {
     0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SB
+/**
+ * Number of ranges of values for UCD property '**SB**'.
  *
- *      Number of ranges of values for UCD property '*SB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_SB>, <COATL_UCD_SB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_SB
+ * @see COATL_UCD_SB
+ */
 #define UCD_NBRANGES_SB     2957
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_SB
+/**
+ * Per-range values for UCD property '**SB**'.
  *
- *      Per-range values for UCD property '*SB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_SB>, <COATL_UCD_SB>, <Coatl_Ucd_SB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_SB
+ * @see COATL_UCD_SB
+ * @see Coatl_Ucd_SB
+ */
 static const Coatl_Ucd_SB ucdValues_SB[] = {
     COATL_UCD_SB_XX, COATL_UCD_SB_SP, COATL_UCD_SB_LF, COATL_UCD_SB_SP, 
     COATL_UCD_SB_CR, COATL_UCD_SB_XX, COATL_UCD_SB_SP, COATL_UCD_SB_ST, 
@@ -21617,17 +21003,14 @@ static const Coatl_Ucd_SB ucdValues_SB[] = {
     COATL_UCD_SB_XX, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_sc
+/**
+ * Codepoint ranges of values for UCD property '**sc**'.
  *
- *      Codepoint ranges of values for UCD property '*sc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_sc>, <COATL_UCD_SC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_sc
+ * @see COATL_UCD_SC
+ */
 static const Col_Char ucdRanges_sc[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00BA, 0x00BB, 
     0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x02B9, 0x02E0, 0x02E5, 
@@ -21817,30 +21200,25 @@ static const Col_Char ucdRanges_sc[] = {
     0x2FA1E, 0xE0001, 0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SC
+/**
+ * Number of ranges of values for UCD property '**sc**'.
  *
- *      Number of ranges of values for UCD property '*sc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_sc>, <COATL_UCD_SC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_sc
+ * @see COATL_UCD_SC
+ */
 #define UCD_NBRANGES_SC     1488
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_sc
+/**
+ * Per-range values for UCD property '**sc**'.
  *
- *      Per-range values for UCD property '*sc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_sc>, <COATL_UCD_SC>, <Coatl_Ucd_Sc>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_sc
+ * @see COATL_UCD_SC
+ * @see Coatl_Ucd_Sc
+ */
 static const Coatl_Ucd_Sc ucdValues_sc[] = {
     COATL_UCD_SC_ZYYY, COATL_UCD_SC_LATN, COATL_UCD_SC_ZYYY, COATL_UCD_SC_LATN, 
     COATL_UCD_SC_ZYYY, COATL_UCD_SC_LATN, COATL_UCD_SC_ZYYY, COATL_UCD_SC_LATN, 
@@ -22216,17 +21594,14 @@ static const Coatl_Ucd_Sc ucdValues_sc[] = {
     COATL_UCD_SC_ZYYY, COATL_UCD_SC_ZZZZ, COATL_UCD_SC_ZINH, COATL_UCD_SC_ZZZZ, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_scf
+/**
+ * Codepoint ranges of values for UCD property '**scf**'.
  *
- *      Codepoint ranges of values for UCD property '*scf*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_scf>, <COATL_UCD_SCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_scf
+ * @see COATL_UCD_SCF
+ */
 static const Col_Char ucdRanges_scf[] = {
     0x0041, 0x005B, 0x00B5, 0x00B6, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 
     0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 
@@ -22389,33 +21764,27 @@ static const Col_Char ucdRanges_scf[] = {
     0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SCF
+/**
+ * Number of ranges of values for UCD property '**scf**'.
  *
- *      Number of ranges of values for UCD property '*scf*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_scf>, <COATL_UCD_SCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_scf
+ * @see COATL_UCD_SCF
+ */
 #define UCD_NBRANGES_SCF    1266
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_scf
+/**
+ * Per-range values for UCD property '**scf**'.
  *
- *      Per-range values for UCD property '*scf*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_scf>, <COATL_UCD_SCF>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_scf
+ * @see COATL_UCD_SCF
+ */
 static const Col_Char ucdValues_scf[] = {
     0, 32, 0, 775, 0, 32, 0, 32, 0, 1, 0, 1, 0, 1, 0, 1, 
     0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 
@@ -22499,17 +21868,14 @@ static const Col_Char ucdValues_scf[] = {
     34, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_scx
+/**
+ * Codepoint ranges of values for UCD property '**scx**'.
  *
- *      Codepoint ranges of values for UCD property '*scx*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_scx>, <COATL_UCD_SCX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_scx
+ * @see COATL_UCD_SCX
+ */
 static const Col_Char ucdRanges_scx[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00BA, 0x00BB, 
     0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x02B9, 0x02E0, 0x02E5, 
@@ -22707,33 +22073,28 @@ static const Col_Char ucdRanges_scx[] = {
     0x2F800, 0x2FA1E, 0xE0001, 0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SCX
+/**
+ * Number of ranges of values for UCD property '**scx**'.
  *
- *      Number of ranges of values for UCD property '*scx*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_scx>, <COATL_UCD_SCX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_scx
+ * @see COATL_UCD_SCX
+ */
 #define UCD_NBRANGES_SCX    1553
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_scx
+/**
+ * Per-range atom indices for UCD property '**scx**'.
  *
- *      Per-range atom indices for UCD property '*scx*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_scx.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_scx>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_scx>, <ucdAtoms_scx>, <COATL_UCD_SCX>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_scx
+ * @see ucdAtoms_scx
+ * @see COATL_UCD_SCX
+ */
 static const unsigned short ucdValues_scx[] = {
     479, 322, 479, 322, 479, 322, 479, 322, 479, 322, 479, 322, 479, 322, 479, 322, 
     479, 116, 479, 477, 259, 477, 259, 477, 322, 259, 479, 259, 481, 259, 479, 259, 
@@ -22835,17 +22196,15 @@ static const unsigned short ucdValues_scx[] = {
     481, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_scx
+/**
+ * Atoms for UCD property '**scx**'.
  *
- *      Atoms for UCD property '*scx*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_scx>, <COATL_UCD_SCX>, <Coatl_Ucd_Sc>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_scx
+ * @see COATL_UCD_SCX
+ * @see Coatl_Ucd_Sc
+ */
 static const unsigned char ucdAtoms_scx[] = {
     COATL_UCD_SC_ADLM, 0, COATL_UCD_SC_ADLM, COATL_UCD_SC_ARAB, 
     COATL_UCD_SC_MAND, COATL_UCD_SC_MANI, COATL_UCD_SC_PHLP, COATL_UCD_SC_SYRC, 
@@ -22970,17 +22329,14 @@ static const unsigned char ucdAtoms_scx[] = {
     0, COATL_UCD_SC_ZZZZ, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_SD
+/**
+ * Codepoint ranges of values for UCD property '**SD**'.
  *
- *      Codepoint ranges of values for UCD property '*SD*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_SD>, <COATL_UCD_SD>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_SD
+ * @see COATL_UCD_SD
+ */
 static const Col_Char ucdRanges_SD[] = {
     0x0069, 0x006B, 0x012F, 0x0130, 0x0249, 0x024A, 0x0268, 0x0269, 
     0x029D, 0x029E, 0x02B2, 0x02B3, 0x03F3, 0x03F4, 0x0456, 0x0457, 
@@ -22992,46 +22348,37 @@ static const Col_Char ucdRanges_SD[] = {
     0x1D62A, 0x1D62C, 0x1D65E, 0x1D660, 0x1D692, 0x1D694, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SD
+/**
+ * Number of ranges of values for UCD property '**SD**'.
  *
- *      Number of ranges of values for UCD property '*SD*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_SD>, <COATL_UCD_SD>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_SD
+ * @see COATL_UCD_SD
+ */
 #define UCD_NBRANGES_SD     63
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_SD
+/**
+ * Value of first range for UCD property '**SD**'.
  *
- *      Value of first range for UCD property '*SD*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_SD>, <COATL_UCD_SD>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_SD
+ * @see COATL_UCD_SD
+ */
 #define UCD_VALUE_0_SD      0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_slc
+/**
+ * Codepoint ranges of values for UCD property '**slc**'.
  *
- *      Codepoint ranges of values for UCD property '*slc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_slc>, <COATL_UCD_SLC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_slc
+ * @see COATL_UCD_SLC
+ */
 static const Col_Char ucdRanges_slc[] = {
     0x0041, 0x005B, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 0x0100, 0x0101, 
     0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 
@@ -23190,33 +22537,27 @@ static const Col_Char ucdRanges_slc[] = {
     0x118A0, 0x118C0, 0x1E900, 0x1E922, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SLC
+/**
+ * Number of ranges of values for UCD property '**slc**'.
  *
- *      Number of ranges of values for UCD property '*slc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_slc>, <COATL_UCD_SLC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_slc
+ * @see COATL_UCD_SLC
+ */
 #define UCD_NBRANGES_SLC    1237
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_slc
+/**
+ * Per-range values for UCD property '**slc**'.
  *
- *      Per-range values for UCD property '*slc*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_slc>, <COATL_UCD_SLC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_slc
+ * @see COATL_UCD_SLC
+ */
 static const Col_Char ucdValues_slc[] = {
     0, 32, 0, 32, 0, 32, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 
     0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 
@@ -23298,17 +22639,14 @@ static const Col_Char ucdValues_slc[] = {
     0, 32, 0, 34, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_stc
+/**
+ * Codepoint ranges of values for UCD property '**stc**'.
  *
- *      Codepoint ranges of values for UCD property '*stc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_stc>, <COATL_UCD_STC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_stc
+ * @see COATL_UCD_STC
+ */
 static const Col_Char ucdRanges_stc[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00E0, 0x00F7, 0x00F8, 0x00FF, 
     0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 
@@ -23471,33 +22809,27 @@ static const Col_Char ucdRanges_stc[] = {
     0x104FC, 0x10CC0, 0x10CF3, 0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_STC
+/**
+ * Number of ranges of values for UCD property '**stc**'.
  *
- *      Number of ranges of values for UCD property '*stc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_stc>, <COATL_UCD_STC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_stc
+ * @see COATL_UCD_STC
+ */
 #define UCD_NBRANGES_STC    1272
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_stc
+/**
+ * Per-range values for UCD property '**stc**'.
  *
- *      Per-range values for UCD property '*stc*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_stc>, <COATL_UCD_STC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_stc
+ * @see COATL_UCD_STC
+ */
 static const Col_Char ucdValues_stc[] = {
     0, -32, 0, 743, 0, -32, 0, -32, 121, 0, -1, 0, -1, 0, -1, 0, 
     -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, 
@@ -23581,17 +22913,14 @@ static const Col_Char ucdValues_stc[] = {
     -40, 0, -64, 0, -32, 0, -34, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_STerm
+/**
+ * Codepoint ranges of values for UCD property '**STerm**'.
  *
- *      Codepoint ranges of values for UCD property '*STerm*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_STERM>, <COATL_UCD_STERM>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_STERM
+ * @see COATL_UCD_STERM
+ */
 static const Col_Char ucdRanges_STerm[] = {
     0x0021, 0x0022, 0x002E, 0x002F, 0x003F, 0x0040, 0x0589, 0x058A, 
     0x061F, 0x0620, 0x06D4, 0x06D5, 0x0700, 0x0703, 0x07F9, 0x07FA, 
@@ -23612,46 +22941,37 @@ static const Col_Char ucdRanges_STerm[] = {
     0x1BC9F, 0x1BCA0, 0x1DA88, 0x1DA89, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_STERM
+/**
+ * Number of ranges of values for UCD property '**STerm**'.
  *
- *      Number of ranges of values for UCD property '*STerm*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_STerm>, <COATL_UCD_STERM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_STerm
+ * @see COATL_UCD_STERM
+ */
 #define UCD_NBRANGES_STERM  133
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_STERM
+/**
+ * Value of first range for UCD property '**STerm**'.
  *
- *      Value of first range for UCD property '*STerm*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_STerm>, <COATL_UCD_STERM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_STerm
+ * @see COATL_UCD_STERM
+ */
 #define UCD_VALUE_0_STERM   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_suc
+/**
+ * Codepoint ranges of values for UCD property '**suc**'.
  *
- *      Codepoint ranges of values for UCD property '*suc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_suc>, <COATL_UCD_SUC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_suc
+ * @see COATL_UCD_SUC
+ */
 static const Col_Char ucdRanges_suc[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00E0, 0x00F7, 0x00F8, 0x00FF, 
     0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 
@@ -23814,33 +23134,27 @@ static const Col_Char ucdRanges_suc[] = {
     0x10CF3, 0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_SUC
+/**
+ * Number of ranges of values for UCD property '**suc**'.
  *
- *      Number of ranges of values for UCD property '*suc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_suc>, <COATL_UCD_SUC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_suc
+ * @see COATL_UCD_SUC
+ */
 #define UCD_NBRANGES_SUC    1270
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_suc
+/**
+ * Per-range values for UCD property '**suc**'.
  *
- *      Per-range values for UCD property '*suc*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_suc>, <COATL_UCD_SUC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_suc
+ * @see COATL_UCD_SUC
+ */
 static const Col_Char ucdValues_suc[] = {
     0, -32, 0, 743, 0, -32, 0, -32, 121, 0, -1, 0, -1, 0, -1, 0, 
     -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, 
@@ -23924,17 +23238,14 @@ static const Col_Char ucdValues_suc[] = {
     -64, 0, -32, 0, -34, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_tc
+/**
+ * Codepoint ranges of values for UCD property '**tc**'.
  *
- *      Codepoint ranges of values for UCD property '*tc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_tc>, <COATL_UCD_TC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_tc
+ * @see COATL_UCD_TC
+ */
 static const Col_Char ucdRanges_tc[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00DF, 0x00E0, 0x00F7, 0x00F8, 
     0x00FF, 0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 
@@ -24103,33 +23414,28 @@ static const Col_Char ucdRanges_tc[] = {
     0x10CF3, 0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_TC
+/**
+ * Number of ranges of values for UCD property '**tc**'.
  *
- *      Number of ranges of values for UCD property '*tc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_tc>, <COATL_UCD_TC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_tc
+ * @see COATL_UCD_TC
+ */
 #define UCD_NBRANGES_TC     1318
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_tc
+/**
+ * Per-range atom indices for UCD property '**tc**'.
  *
- *      Per-range atom indices for UCD property '*tc*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_tc.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_tc>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_tc>, <ucdAtoms_tc>, <COATL_UCD_TC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_tc
+ * @see ucdAtoms_tc
+ * @see COATL_UCD_TC
+ */
 static const unsigned short ucdValues_tc[] = {
     110, 48, 110, 320, 110, 137, 48, 110, 48, 280, 110, 0, 110, 0, 110, 0, 
     110, 0, 110, 0, 110, 0, 110, 0, 110, 0, 110, 0, 110, 0, 110, 0, 
@@ -24216,17 +23522,14 @@ static const unsigned short ucdValues_tc[] = {
     88, 110, 48, 110, 50, 110, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_tc
+/**
+ * Atoms for UCD property '**tc**'.
  *
- *      Atoms for UCD property '*tc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_tc>, <COATL_UCD_TC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_tc
+ * @see COATL_UCD_TC
+ */
 static const int ucdAtoms_tc[] = {
     -1, 0, -10792, 0, -10795, 0, -116, 0, -15, 0, -16, 0, -202, 0, -203, 0, 
     -205, 0, -206, 0, -207, 0, -209, 0, -210, 0, -211, 0, -213, 0, -214, 0, 
@@ -24251,17 +23554,14 @@ static const int ucdAtoms_tc[] = {
     743, 0, 8, 0, 84, 0, 86, 0, 9, 0, 97, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Term
+/**
+ * Codepoint ranges of values for UCD property '**Term**'.
  *
- *      Codepoint ranges of values for UCD property '*Term*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_TERM>, <COATL_UCD_TERM>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_TERM
+ * @see COATL_UCD_TERM
+ */
 static const Col_Char ucdRanges_Term[] = {
     0x0021, 0x0022, 0x002C, 0x002D, 0x002E, 0x002F, 0x003A, 0x003C, 
     0x003F, 0x0040, 0x037E, 0x037F, 0x0387, 0x0388, 0x0589, 0x058A, 
@@ -24289,46 +23589,37 @@ static const Col_Char ucdRanges_Term[] = {
     0x1BC9F, 0x1BCA0, 0x1DA87, 0x1DA8B, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_TERM
+/**
+ * Number of ranges of values for UCD property '**Term**'.
  *
- *      Number of ranges of values for UCD property '*Term*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Term>, <COATL_UCD_TERM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Term
+ * @see COATL_UCD_TERM
+ */
 #define UCD_NBRANGES_TERM   189
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_TERM
+/**
+ * Value of first range for UCD property '**Term**'.
  *
- *      Value of first range for UCD property '*Term*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Term>, <COATL_UCD_TERM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Term
+ * @see COATL_UCD_TERM
+ */
 #define UCD_VALUE_0_TERM    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_uc
+/**
+ * Codepoint ranges of values for UCD property '**uc**'.
  *
- *      Codepoint ranges of values for UCD property '*uc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_uc>, <COATL_UCD_UC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_uc
+ * @see COATL_UCD_UC
+ */
 static const Col_Char ucdRanges_uc[] = {
     0x0061, 0x007B, 0x00B5, 0x00B6, 0x00DF, 0x00E0, 0x00F7, 0x00F8, 
     0x00FF, 0x0100, 0x0101, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 
@@ -24503,33 +23794,28 @@ static const Col_Char ucdRanges_uc[] = {
     0x118C0, 0x118E0, 0x1E922, 0x1E944, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_UC
+/**
+ * Number of ranges of values for UCD property '**uc**'.
  *
- *      Number of ranges of values for UCD property '*uc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_uc>, <COATL_UCD_UC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_uc
+ * @see COATL_UCD_UC
+ */
 #define UCD_NBRANGES_UC     1365
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_uc
+/**
+ * Per-range atom indices for UCD property '**uc**'.
  *
- *      Per-range atom indices for UCD property '*uc*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_uc.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_uc>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_uc>, <ucdAtoms_uc>, <COATL_UCD_UC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_uc
+ * @see ucdAtoms_uc
+ * @see COATL_UCD_UC
+ */
 static const unsigned short ucdValues_uc[] = {
     112, 50, 112, 401, 112, 139, 50, 112, 50, 361, 112, 0, 112, 0, 112, 0, 
     112, 0, 112, 0, 112, 0, 112, 0, 112, 0, 112, 0, 112, 0, 112, 0, 
@@ -24619,17 +23905,14 @@ static const unsigned short ucdValues_uc[] = {
     112, 50, 112, 52, 112, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_uc
+/**
+ * Atoms for UCD property '**uc**'.
  *
- *      Atoms for UCD property '*uc*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_uc>, <COATL_UCD_UC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_uc
+ * @see COATL_UCD_UC
+ */
 static const int ucdAtoms_uc[] = {
     -1, 0, -10792, 0, -10795, 0, -116, 0, -15, 0, -16, 0, -2, 0, -202, 0, 
     -203, 0, -205, 0, -206, 0, -207, 0, -209, 0, -210, 0, -211, 0, -213, 0, 
@@ -24659,17 +23942,14 @@ static const int ucdAtoms_uc[] = {
     0, 743, 0, 8, 0, 84, 0, 86, 0, 97, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_UIdeo
+/**
+ * Codepoint ranges of values for UCD property '**UIdeo**'.
  *
- *      Codepoint ranges of values for UCD property '*UIdeo*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_UIDEO>, <COATL_UCD_UIDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_UIDEO
+ * @see COATL_UCD_UIDEO
+ */
 static const Col_Char ucdRanges_UIdeo[] = {
     0x3400, 0x4DB6, 0x4E00, 0x9FD6, 0xFA0E, 0xFA10, 0xFA11, 0xFA12, 
     0xFA13, 0xFA15, 0xFA1F, 0xFA20, 0xFA21, 0xFA22, 0xFA23, 0xFA25, 
@@ -24677,46 +23957,37 @@ static const Col_Char ucdRanges_UIdeo[] = {
     0x2B820, 0x2CEA2, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_UIDEO
+/**
+ * Number of ranges of values for UCD property '**UIdeo**'.
  *
- *      Number of ranges of values for UCD property '*UIdeo*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_UIdeo>, <COATL_UCD_UIDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_UIdeo
+ * @see COATL_UCD_UIDEO
+ */
 #define UCD_NBRANGES_UIDEO  27
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_UIDEO
+/**
+ * Value of first range for UCD property '**UIdeo**'.
  *
- *      Value of first range for UCD property '*UIdeo*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_UIdeo>, <COATL_UCD_UIDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_UIdeo
+ * @see COATL_UCD_UIDEO
+ */
 #define UCD_VALUE_0_UIDEO   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_Upper
+/**
+ * Codepoint ranges of values for UCD property '**Upper**'.
  *
- *      Codepoint ranges of values for UCD property '*Upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_UPPER>, <COATL_UCD_UPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_UPPER
+ * @see COATL_UCD_UPPER
+ */
 static const Col_Char ucdRanges_Upper[] = {
     0x0041, 0x005B, 0x00C0, 0x00D7, 0x00D8, 0x00DF, 0x0100, 0x0101, 
     0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 
@@ -24878,90 +24149,72 @@ static const Col_Char ucdRanges_Upper[] = {
     0x1E900, 0x1E922, 0x1F130, 0x1F14A, 0x1F150, 0x1F16A, 0x1F170, 0x1F18A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_UPPER
+/**
+ * Number of ranges of values for UCD property '**Upper**'.
  *
- *      Number of ranges of values for UCD property '*Upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Upper>, <COATL_UCD_UPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Upper
+ * @see COATL_UCD_UPPER
+ */
 #define UCD_NBRANGES_UPPER  1265
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_UPPER
+/**
+ * Value of first range for UCD property '**Upper**'.
  *
- *      Value of first range for UCD property '*Upper*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_Upper>, <COATL_UCD_UPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_Upper
+ * @see COATL_UCD_UPPER
+ */
 #define UCD_VALUE_0_UPPER   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_VS
+/**
+ * Codepoint ranges of values for UCD property '**VS**'.
  *
- *      Codepoint ranges of values for UCD property '*VS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_VS>, <COATL_UCD_VS>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_VS
+ * @see COATL_UCD_VS
+ */
 static const Col_Char ucdRanges_VS[] = {
     0x180B, 0x180E, 0xFE00, 0xFE10, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_VS
+/**
+ * Number of ranges of values for UCD property '**VS**'.
  *
- *      Number of ranges of values for UCD property '*VS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_VS>, <COATL_UCD_VS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_VS
+ * @see COATL_UCD_VS
+ */
 #define UCD_NBRANGES_VS     7
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_VS
+/**
+ * Value of first range for UCD property '**VS**'.
  *
- *      Value of first range for UCD property '*VS*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_VS>, <COATL_UCD_VS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_VS
+ * @see COATL_UCD_VS
+ */
 #define UCD_VALUE_0_VS      0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_WB
+/**
+ * Codepoint ranges of values for UCD property '**WB**'.
  *
- *      Codepoint ranges of values for UCD property '*WB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_WB>, <COATL_UCD_WB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_WB
+ * @see COATL_UCD_WB
+ */
 static const Col_Char ucdRanges_WB[] = {
     0x000A, 0x000B, 0x000D, 0x000E, 0x0022, 0x0023, 0x0027, 0x0028, 
     0x002C, 0x002D, 0x002E, 0x002F, 0x0030, 0x003A, 0x003B, 0x003C, 
@@ -25171,30 +24424,25 @@ static const Col_Char ucdRanges_WB[] = {
     0xE0001, 0xE0002, 0xE0020, 0xE0080, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_WB
+/**
+ * Number of ranges of values for UCD property '**WB**'.
  *
- *      Number of ranges of values for UCD property '*WB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_WB>, <COATL_UCD_WB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_WB
+ * @see COATL_UCD_WB
+ */
 #define UCD_NBRANGES_WB     1647
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_WB
+/**
+ * Per-range values for UCD property '**WB**'.
  *
- *      Per-range values for UCD property '*WB*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_WB>, <COATL_UCD_WB>, <Coatl_Ucd_WB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_WB
+ * @see COATL_UCD_WB
+ * @see Coatl_Ucd_WB
+ */
 static const Coatl_Ucd_WB ucdValues_WB[] = {
     COATL_UCD_WB_XX, COATL_UCD_WB_LF, COATL_UCD_WB_NL, COATL_UCD_WB_CR, 
     COATL_UCD_WB_XX, COATL_UCD_WB_DQ, COATL_UCD_WB_XX, COATL_UCD_WB_SQ, 
@@ -25610,63 +24858,51 @@ static const Coatl_Ucd_WB ucdValues_WB[] = {
     COATL_UCD_WB_XX, COATL_UCD_WB_EXTEND, COATL_UCD_WB_XX, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_WSpace
+/**
+ * Codepoint ranges of values for UCD property '**WSpace**'.
  *
- *      Codepoint ranges of values for UCD property '*WSpace*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_WSPACE>, <COATL_UCD_WSPACE>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_WSPACE
+ * @see COATL_UCD_WSPACE
+ */
 static const Col_Char ucdRanges_WSpace[] = {
     0x0009, 0x000E, 0x0020, 0x0021, 0x0085, 0x0086, 0x00A0, 0x00A1, 
     0x1680, 0x1681, 0x2000, 0x200B, 0x2028, 0x202A, 0x202F, 0x2030, 
     0x205F, 0x2060, 0x3000, 0x3001, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_WSPACE
+/**
+ * Number of ranges of values for UCD property '**WSpace**'.
  *
- *      Number of ranges of values for UCD property '*WSpace*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_WSpace>, <COATL_UCD_WSPACE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_WSpace
+ * @see COATL_UCD_WSPACE
+ */
 #define UCD_NBRANGES_WSPACE 21
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_WSPACE
+/**
+ * Value of first range for UCD property '**WSpace**'.
  *
- *      Value of first range for UCD property '*WSpace*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_WSpace>, <COATL_UCD_WSPACE>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_WSpace
+ * @see COATL_UCD_WSPACE
+ */
 #define UCD_VALUE_0_WSPACE  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_XIDC
+/**
+ * Codepoint ranges of values for UCD property '**XIDC**'.
  *
- *      Codepoint ranges of values for UCD property '*XIDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_XIDC>, <COATL_UCD_XIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_XIDC
+ * @see COATL_UCD_XIDC
+ */
 static const Col_Char ucdRanges_XIDC[] = {
     0x0030, 0x003A, 0x0041, 0x005B, 0x005F, 0x0060, 0x0061, 0x007B, 
     0x00AA, 0x00AB, 0x00B5, 0x00B6, 0x00B7, 0x00B8, 0x00BA, 0x00BB, 
@@ -25841,46 +25077,37 @@ static const Col_Char ucdRanges_XIDC[] = {
     0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 0xE0100, 0xE01F0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_XIDC
+/**
+ * Number of ranges of values for UCD property '**XIDC**'.
  *
- *      Number of ranges of values for UCD property '*XIDC*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_XIDC>, <COATL_UCD_XIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_XIDC
+ * @see COATL_UCD_XIDC
+ */
 #define UCD_NBRANGES_XIDC   1367
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_XIDC
+/**
+ * Value of first range for UCD property '**XIDC**'.
  *
- *      Value of first range for UCD property '*XIDC*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_XIDC>, <COATL_UCD_XIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_XIDC
+ * @see COATL_UCD_XIDC
+ */
 #define UCD_VALUE_0_XIDC    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_XIDS
+/**
+ * Codepoint ranges of values for UCD property '**XIDS**'.
  *
- *      Codepoint ranges of values for UCD property '*XIDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_XIDS>, <COATL_UCD_XIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_XIDS
+ * @see COATL_UCD_XIDS
+ */
 static const Col_Char ucdRanges_XIDS[] = {
     0x0041, 0x005B, 0x0061, 0x007B, 0x00AA, 0x00AB, 0x00B5, 0x00B6, 
     0x00BA, 0x00BB, 0x00C0, 0x00D7, 0x00D8, 0x00F7, 0x00F8, 0x02C2, 
@@ -26029,46 +25256,37 @@ static const Col_Char ucdRanges_XIDS[] = {
     0x2B820, 0x2CEA2, 0x2F800, 0x2FA1E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_XIDS
+/**
+ * Number of ranges of values for UCD property '**XIDS**'.
  *
- *      Number of ranges of values for UCD property '*XIDS*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_XIDS>, <COATL_UCD_XIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_XIDS
+ * @see COATL_UCD_XIDS
+ */
 #define UCD_NBRANGES_XIDS   1157
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_XIDS
+/**
+ * Value of first range for UCD property '**XIDS**'.
  *
- *      Value of first range for UCD property '*XIDS*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_XIDS>, <COATL_UCD_XIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_XIDS
+ * @see COATL_UCD_XIDS
+ */
 #define UCD_VALUE_0_XIDS    0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_bpb
+/**
+ * Codepoint ranges of values for UCD property '**bpb**'.
  *
- *      Codepoint ranges of values for UCD property '*bpb*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_bpb>, <COATL_UCD_BPB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_bpb
+ * @see COATL_UCD_BPB
+ */
 static const Col_Char ucdRanges_bpb[] = {
     0x0028, 0x0029, 0x002A, 0x005B, 0x005C, 0x005D, 0x005E, 0x007B, 
     0x007C, 0x007D, 0x007E, 0x0F3A, 0x0F3B, 0x0F3C, 0x0F3D, 0x0F3E, 
@@ -26091,33 +25309,27 @@ static const Col_Char ucdRanges_bpb[] = {
     0xFF60, 0xFF61, 0xFF62, 0xFF63, 0xFF64, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BPB
+/**
+ * Number of ranges of values for UCD property '**bpb**'.
  *
- *      Number of ranges of values for UCD property '*bpb*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bpb>, <COATL_UCD_BPB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bpb
+ * @see COATL_UCD_BPB
+ */
 #define UCD_NBRANGES_BPB    150
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_bpb
+/**
+ * Per-range values for UCD property '**bpb**'.
  *
- *      Per-range values for UCD property '*bpb*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bpb>, <COATL_UCD_BPB>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bpb
+ * @see COATL_UCD_BPB
+ */
 static const Col_Char ucdValues_bpb[] = {
     0, 1, -1, 0, 2, 0, -2, 0, 2, 0, -2, 0, 1, -1, 1, -1, 
     0, 1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 1, 
@@ -26131,17 +25343,14 @@ static const Col_Char ucdValues_bpb[] = {
     1, -1, 0, 1, -1, 0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_bpt
+/**
+ * Codepoint ranges of values for UCD property '**bpt**'.
  *
- *      Codepoint ranges of values for UCD property '*bpt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_bpt>, <COATL_UCD_BPT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_bpt
+ * @see COATL_UCD_BPT
+ */
 static const Col_Char ucdRanges_bpt[] = {
     0x0028, 0x0029, 0x002A, 0x005B, 0x005C, 0x005D, 0x005E, 0x007B, 
     0x007C, 0x007D, 0x007E, 0x0F3A, 0x0F3B, 0x0F3C, 0x0F3D, 0x0F3E, 
@@ -26164,30 +25373,25 @@ static const Col_Char ucdRanges_bpt[] = {
     0xFF60, 0xFF61, 0xFF62, 0xFF63, 0xFF64, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_BPT
+/**
+ * Number of ranges of values for UCD property '**bpt**'.
  *
- *      Number of ranges of values for UCD property '*bpt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bpt>, <COATL_UCD_BPT>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bpt
+ * @see COATL_UCD_BPT
+ */
 #define UCD_NBRANGES_BPT    150
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_bpt
+/**
+ * Per-range values for UCD property '**bpt**'.
  *
- *      Per-range values for UCD property '*bpt*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_bpt>, <COATL_UCD_BPT>, <Coatl_Ucd_Bpt>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_bpt
+ * @see COATL_UCD_BPT
+ * @see Coatl_Ucd_Bpt
+ */
 static const Coatl_Ucd_Bpt ucdValues_bpt[] = {
     COATL_UCD_BPT_N, COATL_UCD_BPT_O, COATL_UCD_BPT_C, COATL_UCD_BPT_N, 
     COATL_UCD_BPT_O, COATL_UCD_BPT_N, COATL_UCD_BPT_C, COATL_UCD_BPT_N, 
@@ -26229,78 +25433,63 @@ static const Coatl_Ucd_Bpt ucdValues_bpt[] = {
     COATL_UCD_BPT_C, COATL_UCD_BPT_N, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_PCM
+/**
+ * Codepoint ranges of values for UCD property '**PCM**'.
  *
- *      Codepoint ranges of values for UCD property '*PCM*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_PCM>, <COATL_UCD_PCM>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_PCM
+ * @see COATL_UCD_PCM
+ */
 static const Col_Char ucdRanges_PCM[] = {
     0x0600, 0x0606, 0x06DD, 0x06DE, 0x070F, 0x0710, 0x08E2, 0x08E3, 
     0x110BD, 0x110BE, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_PCM
+/**
+ * Number of ranges of values for UCD property '**PCM**'.
  *
- *      Number of ranges of values for UCD property '*PCM*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_PCM>, <COATL_UCD_PCM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_PCM
+ * @see COATL_UCD_PCM
+ */
 #define UCD_NBRANGES_PCM    11
 
-/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_PCM
+/**
+ * Value of first range for UCD property '**PCM**'.
  *
- *      Value of first range for UCD property '*PCM*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_PCM>, <COATL_UCD_PCM>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_PCM
+ * @see COATL_UCD_PCM
+ */
 #define UCD_VALUE_0_PCM     0
 
+/** @endcond @endprivate */
 
-/*
-================================================================================
-Section: UCD Property Accessors
-================================================================================
-*/
+/* End of Compiled UCD Data *//*!\}*/
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetRange
- *
- *      Get the range index containing the given codepoint.
- *
- * Arguments:
- *      c               - Codepoint to lookup.
- *      ranges          - Array of ranges boundaries. First one is omitted 
- *                        (first codepoint is always zero).
- *      nbRanges        - Number of ranges.
- *
- * Result:
- *      Range index.
- *---------------------------------------------------------------------------*/
 
-static int 
+/*******************************************************************************
+ * UCD Property Accessors
+ ******************************************************************************/
+
+/** @beginprivate @cond PRIVATE */
+
+/**
+ * Get the range index containing the given codepoint.
+ *
+ * @return Range index.*/
+static int
 GetRange(
-    Col_Char c, 
-    const Col_Char *ranges, 
-    int nbRanges) 
+    Col_Char c,             /*!< Codepoint to lookup. */
+    const Col_Char *ranges, /*!< Array of ranges boundaries. First one is
+                                 omitted (first codepoint is always zero). */
+    int nbRanges)           /*!< Number of ranges. */
 {
     int min, max;
     if (c < ranges[0] || nbRanges < 2) return 0;
@@ -26313,2193 +25502,1492 @@ GetRange(
     return min;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Age
- *
- *      Get value of UCD property '*age*' for given codepoint.
- *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*age*'.
- *
- * See also:
- *      <COATL_UCD_AGE>, <Coatl_Ucd_Age>
- *---------------------------------------------------------------------------*/
+/** @endcond @endprivate */
 
+/**
+ * Get value of UCD property '**age**' for given codepoint.
+ *
+ * @return Value of UCD property '**age**'.
+ *
+ * @see COATL_UCD_AGE
+ * @see Coatl_Ucd_Age
+ */
 Coatl_Ucd_Age
 Coatl_GetUcdProperty_Age(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_age[GetRange(c, ucdRanges_age, UCD_NBRANGES_AGE)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_AHex
+/**
+ * Get value of UCD property '**AHex**' for given codepoint.
  *
- *      Get value of UCD property '*AHex*' for given codepoint.
+ * @return Value of UCD property '**AHex**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*AHex*'.
- *
- * See also:
- *      <COATL_UCD_AHEX>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_AHEX
+ */
 int
 Coatl_GetUcdProperty_AHex(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_AHex, UCD_NBRANGES_AHEX)%2)
         ? !UCD_VALUE_0_AHEX
         : UCD_VALUE_0_AHEX;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Alpha
+/**
+ * Get value of UCD property '**Alpha**' for given codepoint.
  *
- *      Get value of UCD property '*Alpha*' for given codepoint.
+ * @return Value of UCD property '**Alpha**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Alpha*'.
- *
- * See also:
- *      <COATL_UCD_ALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_ALPHA
+ */
 int
 Coatl_GetUcdProperty_Alpha(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Alpha, UCD_NBRANGES_ALPHA)%2)
         ? !UCD_VALUE_0_ALPHA
         : UCD_VALUE_0_ALPHA;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bc
+/**
+ * Get value of UCD property '**bc**' for given codepoint.
  *
- *      Get value of UCD property '*bc*' for given codepoint.
+ * @return Value of UCD property '**bc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*bc*'.
- *
- * See also:
- *      <COATL_UCD_BC>, <Coatl_Ucd_Bc>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BC
+ * @see Coatl_Ucd_Bc
+ */
 Coatl_Ucd_Bc
 Coatl_GetUcdProperty_Bc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_bc[GetRange(c, ucdRanges_bc, UCD_NBRANGES_BC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bidi_C
+/**
+ * Get value of UCD property '**Bidi_C**' for given codepoint.
  *
- *      Get value of UCD property '*Bidi_C*' for given codepoint.
+ * @return Value of UCD property '**Bidi_C**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Bidi_C*'.
- *
- * See also:
- *      <COATL_UCD_BIDI_C>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BIDI_C
+ */
 int
 Coatl_GetUcdProperty_Bidi_C(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Bidi_C, UCD_NBRANGES_BIDI_C)%2)
         ? !UCD_VALUE_0_BIDI_C
         : UCD_VALUE_0_BIDI_C;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bidi_M
+/**
+ * Get value of UCD property '**Bidi_M**' for given codepoint.
  *
- *      Get value of UCD property '*Bidi_M*' for given codepoint.
+ * @return Value of UCD property '**Bidi_M**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Bidi_M*'.
- *
- * See also:
- *      <COATL_UCD_BIDI_M>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BIDI_M
+ */
 int
 Coatl_GetUcdProperty_Bidi_M(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Bidi_M, UCD_NBRANGES_BIDI_M)%2)
         ? !UCD_VALUE_0_BIDI_M
         : UCD_VALUE_0_BIDI_M;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Blk
+/**
+ * Get value of UCD property '**blk**' for given codepoint.
  *
- *      Get value of UCD property '*blk*' for given codepoint.
+ * @return Value of UCD property '**blk**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*blk*'.
- *
- * See also:
- *      <COATL_UCD_BLK>, <Coatl_Ucd_Blk>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BLK
+ * @see Coatl_Ucd_Blk
+ */
 Coatl_Ucd_Blk
 Coatl_GetUcdProperty_Blk(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_blk[GetRange(c, ucdRanges_blk, UCD_NBRANGES_BLK)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bmg
+/**
+ * Get value of UCD property '**bmg**' for given codepoint.
  *
- *      Get value of UCD property '*bmg*' for given codepoint.
+ * @return Value of UCD property '**bmg**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*bmg*'.
- *
- * See also:
- *      <COATL_UCD_BMG>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BMG
+ */
 Col_Char
 Coatl_GetUcdProperty_Bmg(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_bmg[GetRange(c, ucdRanges_bmg, UCD_NBRANGES_BMG)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Cased
+/**
+ * Get value of UCD property '**Cased**' for given codepoint.
  *
- *      Get value of UCD property '*Cased*' for given codepoint.
+ * @return Value of UCD property '**Cased**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Cased*'.
- *
- * See also:
- *      <COATL_UCD_CASED>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CASED
+ */
 int
 Coatl_GetUcdProperty_Cased(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Cased, UCD_NBRANGES_CASED)%2)
         ? !UCD_VALUE_0_CASED
         : UCD_VALUE_0_CASED;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Ccc
+/**
+ * Get value of UCD property '**ccc**' for given codepoint.
  *
- *      Get value of UCD property '*ccc*' for given codepoint.
+ * @return Value of UCD property '**ccc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*ccc*'.
- *
- * See also:
- *      <COATL_UCD_CCC>, <Coatl_Ucd_Ccc>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CCC
+ * @see Coatl_Ucd_Ccc
+ */
 Coatl_Ucd_Ccc
 Coatl_GetUcdProperty_Ccc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_ccc[GetRange(c, ucdRanges_ccc, UCD_NBRANGES_CCC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CE
+/**
+ * Get value of UCD property '**CE**' for given codepoint.
  *
- *      Get value of UCD property '*CE*' for given codepoint.
+ * @return Value of UCD property '**CE**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CE*'.
- *
- * See also:
- *      <COATL_UCD_CE>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CE
+ */
 int
 Coatl_GetUcdProperty_CE(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CE, UCD_NBRANGES_CE)%2)
         ? !UCD_VALUE_0_CE
         : UCD_VALUE_0_CE;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Cf
+/**
+ * Get value of UCD property '**cf**' for given codepoint.
  *
- *      Get value of UCD property '*cf*' for given codepoint.
+ * @return Beginning of value list for UCD property '**cf**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*cf*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CF
+ */
 const int *
 Coatl_GetUcdProperty_Cf(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_cf + ucdValues_cf[GetRange(c, ucdRanges_cf, UCD_NBRANGES_CF)], 
+    const int *first = ucdAtoms_cf + ucdValues_cf[GetRange(c, ucdRanges_cf, UCD_NBRANGES_CF)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CI
+/**
+ * Get value of UCD property '**CI**' for given codepoint.
  *
- *      Get value of UCD property '*CI*' for given codepoint.
+ * @return Value of UCD property '**CI**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CI*'.
- *
- * See also:
- *      <COATL_UCD_CI>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CI
+ */
 int
 Coatl_GetUcdProperty_CI(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CI, UCD_NBRANGES_CI)%2)
         ? !UCD_VALUE_0_CI
         : UCD_VALUE_0_CI;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Comp_Ex
+/**
+ * Get value of UCD property '**Comp_Ex**' for given codepoint.
  *
- *      Get value of UCD property '*Comp_Ex*' for given codepoint.
+ * @return Value of UCD property '**Comp_Ex**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Comp_Ex*'.
- *
- * See also:
- *      <COATL_UCD_COMP_EX>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_COMP_EX
+ */
 int
 Coatl_GetUcdProperty_Comp_Ex(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Comp_Ex, UCD_NBRANGES_COMP_EX)%2)
         ? !UCD_VALUE_0_COMP_EX
         : UCD_VALUE_0_COMP_EX;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWCF
+/**
+ * Get value of UCD property '**CWCF**' for given codepoint.
  *
- *      Get value of UCD property '*CWCF*' for given codepoint.
+ * @return Value of UCD property '**CWCF**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWCF*'.
- *
- * See also:
- *      <COATL_UCD_CWCF>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWCF
+ */
 int
 Coatl_GetUcdProperty_CWCF(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWCF, UCD_NBRANGES_CWCF)%2)
         ? !UCD_VALUE_0_CWCF
         : UCD_VALUE_0_CWCF;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWCM
+/**
+ * Get value of UCD property '**CWCM**' for given codepoint.
  *
- *      Get value of UCD property '*CWCM*' for given codepoint.
+ * @return Value of UCD property '**CWCM**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWCM*'.
- *
- * See also:
- *      <COATL_UCD_CWCM>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWCM
+ */
 int
 Coatl_GetUcdProperty_CWCM(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWCM, UCD_NBRANGES_CWCM)%2)
         ? !UCD_VALUE_0_CWCM
         : UCD_VALUE_0_CWCM;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWKCF
+/**
+ * Get value of UCD property '**CWKCF**' for given codepoint.
  *
- *      Get value of UCD property '*CWKCF*' for given codepoint.
+ * @return Value of UCD property '**CWKCF**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWKCF*'.
- *
- * See also:
- *      <COATL_UCD_CWKCF>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWKCF
+ */
 int
 Coatl_GetUcdProperty_CWKCF(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWKCF, UCD_NBRANGES_CWKCF)%2)
         ? !UCD_VALUE_0_CWKCF
         : UCD_VALUE_0_CWKCF;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWL
+/**
+ * Get value of UCD property '**CWL**' for given codepoint.
  *
- *      Get value of UCD property '*CWL*' for given codepoint.
+ * @return Value of UCD property '**CWL**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWL*'.
- *
- * See also:
- *      <COATL_UCD_CWL>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWL
+ */
 int
 Coatl_GetUcdProperty_CWL(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWL, UCD_NBRANGES_CWL)%2)
         ? !UCD_VALUE_0_CWL
         : UCD_VALUE_0_CWL;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWT
+/**
+ * Get value of UCD property '**CWT**' for given codepoint.
  *
- *      Get value of UCD property '*CWT*' for given codepoint.
+ * @return Value of UCD property '**CWT**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWT*'.
- *
- * See also:
- *      <COATL_UCD_CWT>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWT
+ */
 int
 Coatl_GetUcdProperty_CWT(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWT, UCD_NBRANGES_CWT)%2)
         ? !UCD_VALUE_0_CWT
         : UCD_VALUE_0_CWT;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_CWU
+/**
+ * Get value of UCD property '**CWU**' for given codepoint.
  *
- *      Get value of UCD property '*CWU*' for given codepoint.
+ * @return Value of UCD property '**CWU**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*CWU*'.
- *
- * See also:
- *      <COATL_UCD_CWU>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_CWU
+ */
 int
 Coatl_GetUcdProperty_CWU(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_CWU, UCD_NBRANGES_CWU)%2)
         ? !UCD_VALUE_0_CWU
         : UCD_VALUE_0_CWU;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Dash
+/**
+ * Get value of UCD property '**Dash**' for given codepoint.
  *
- *      Get value of UCD property '*Dash*' for given codepoint.
+ * @return Value of UCD property '**Dash**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Dash*'.
- *
- * See also:
- *      <COATL_UCD_DASH>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DASH
+ */
 int
 Coatl_GetUcdProperty_Dash(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Dash, UCD_NBRANGES_DASH)%2)
         ? !UCD_VALUE_0_DASH
         : UCD_VALUE_0_DASH;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Dep
+/**
+ * Get value of UCD property '**Dep**' for given codepoint.
  *
- *      Get value of UCD property '*Dep*' for given codepoint.
+ * @return Value of UCD property '**Dep**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Dep*'.
- *
- * See also:
- *      <COATL_UCD_DEP>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DEP
+ */
 int
 Coatl_GetUcdProperty_Dep(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Dep, UCD_NBRANGES_DEP)%2)
         ? !UCD_VALUE_0_DEP
         : UCD_VALUE_0_DEP;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_DI
+/**
+ * Get value of UCD property '**DI**' for given codepoint.
  *
- *      Get value of UCD property '*DI*' for given codepoint.
+ * @return Value of UCD property '**DI**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*DI*'.
- *
- * See also:
- *      <COATL_UCD_DI>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DI
+ */
 int
 Coatl_GetUcdProperty_DI(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_DI, UCD_NBRANGES_DI)%2)
         ? !UCD_VALUE_0_DI
         : UCD_VALUE_0_DI;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Dia
+/**
+ * Get value of UCD property '**Dia**' for given codepoint.
  *
- *      Get value of UCD property '*Dia*' for given codepoint.
+ * @return Value of UCD property '**Dia**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Dia*'.
- *
- * See also:
- *      <COATL_UCD_DIA>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DIA
+ */
 int
 Coatl_GetUcdProperty_Dia(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Dia, UCD_NBRANGES_DIA)%2)
         ? !UCD_VALUE_0_DIA
         : UCD_VALUE_0_DIA;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Dm
+/**
+ * Get value of UCD property '**dm**' for given codepoint.
  *
- *      Get value of UCD property '*dm*' for given codepoint.
+ * @return Beginning of value list for UCD property '**dm**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*dm*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_DM>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DM
+ */
 const int *
 Coatl_GetUcdProperty_Dm(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_dm + ucdValues_dm[GetRange(c, ucdRanges_dm, UCD_NBRANGES_DM)], 
+    const int *first = ucdAtoms_dm + ucdValues_dm[GetRange(c, ucdRanges_dm, UCD_NBRANGES_DM)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Dt
+/**
+ * Get value of UCD property '**dt**' for given codepoint.
  *
- *      Get value of UCD property '*dt*' for given codepoint.
+ * @return Value of UCD property '**dt**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*dt*'.
- *
- * See also:
- *      <COATL_UCD_DT>, <Coatl_Ucd_Dt>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_DT
+ * @see Coatl_Ucd_Dt
+ */
 Coatl_Ucd_Dt
 Coatl_GetUcdProperty_Dt(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_dt[GetRange(c, ucdRanges_dt, UCD_NBRANGES_DT)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Ea
+/**
+ * Get value of UCD property '**ea**' for given codepoint.
  *
- *      Get value of UCD property '*ea*' for given codepoint.
+ * @return Value of UCD property '**ea**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*ea*'.
- *
- * See also:
- *      <COATL_UCD_EA>, <Coatl_Ucd_Ea>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_EA
+ * @see Coatl_Ucd_Ea
+ */
 Coatl_Ucd_Ea
 Coatl_GetUcdProperty_Ea(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_ea[GetRange(c, ucdRanges_ea, UCD_NBRANGES_EA)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Ext
+/**
+ * Get value of UCD property '**Ext**' for given codepoint.
  *
- *      Get value of UCD property '*Ext*' for given codepoint.
+ * @return Value of UCD property '**Ext**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Ext*'.
- *
- * See also:
- *      <COATL_UCD_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_EXT
+ */
 int
 Coatl_GetUcdProperty_Ext(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Ext, UCD_NBRANGES_EXT)%2)
         ? !UCD_VALUE_0_EXT
         : UCD_VALUE_0_EXT;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Gc
+/**
+ * Get value of UCD property '**gc**' for given codepoint.
  *
- *      Get value of UCD property '*gc*' for given codepoint.
+ * @return Value of UCD property '**gc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*gc*'.
- *
- * See also:
- *      <COATL_UCD_GC>, <Coatl_Ucd_Gc>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_GC
+ * @see Coatl_Ucd_Gc
+ */
 Coatl_Ucd_Gc
 Coatl_GetUcdProperty_Gc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_gc[GetRange(c, ucdRanges_gc, UCD_NBRANGES_GC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_GCB
+/**
+ * Get value of UCD property '**GCB**' for given codepoint.
  *
- *      Get value of UCD property '*GCB*' for given codepoint.
+ * @return Value of UCD property '**GCB**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*GCB*'.
- *
- * See also:
- *      <COATL_UCD_GCB>, <Coatl_Ucd_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_GCB
+ * @see Coatl_Ucd_GCB
+ */
 Coatl_Ucd_GCB
 Coatl_GetUcdProperty_GCB(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_GCB[GetRange(c, ucdRanges_GCB, UCD_NBRANGES_GCB)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Gr_Base
+/**
+ * Get value of UCD property '**Gr_Base**' for given codepoint.
  *
- *      Get value of UCD property '*Gr_Base*' for given codepoint.
+ * @return Value of UCD property '**Gr_Base**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Gr_Base*'.
- *
- * See also:
- *      <COATL_UCD_GR_BASE>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_GR_BASE
+ */
 int
 Coatl_GetUcdProperty_Gr_Base(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Gr_Base, UCD_NBRANGES_GR_BASE)%2)
         ? !UCD_VALUE_0_GR_BASE
         : UCD_VALUE_0_GR_BASE;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Gr_Ext
+/**
+ * Get value of UCD property '**Gr_Ext**' for given codepoint.
  *
- *      Get value of UCD property '*Gr_Ext*' for given codepoint.
+ * @return Value of UCD property '**Gr_Ext**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Gr_Ext*'.
- *
- * See also:
- *      <COATL_UCD_GR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_GR_EXT
+ */
 int
 Coatl_GetUcdProperty_Gr_Ext(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Gr_Ext, UCD_NBRANGES_GR_EXT)%2)
         ? !UCD_VALUE_0_GR_EXT
         : UCD_VALUE_0_GR_EXT;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Hex
+/**
+ * Get value of UCD property '**Hex**' for given codepoint.
  *
- *      Get value of UCD property '*Hex*' for given codepoint.
+ * @return Value of UCD property '**Hex**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Hex*'.
- *
- * See also:
- *      <COATL_UCD_HEX>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_HEX
+ */
 int
 Coatl_GetUcdProperty_Hex(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Hex, UCD_NBRANGES_HEX)%2)
         ? !UCD_VALUE_0_HEX
         : UCD_VALUE_0_HEX;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Hst
+/**
+ * Get value of UCD property '**hst**' for given codepoint.
  *
- *      Get value of UCD property '*hst*' for given codepoint.
+ * @return Value of UCD property '**hst**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*hst*'.
- *
- * See also:
- *      <COATL_UCD_HST>, <Coatl_Ucd_Hst>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_HST
+ * @see Coatl_Ucd_Hst
+ */
 Coatl_Ucd_Hst
 Coatl_GetUcdProperty_Hst(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_hst[GetRange(c, ucdRanges_hst, UCD_NBRANGES_HST)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_IDC
+/**
+ * Get value of UCD property '**IDC**' for given codepoint.
  *
- *      Get value of UCD property '*IDC*' for given codepoint.
+ * @return Value of UCD property '**IDC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*IDC*'.
- *
- * See also:
- *      <COATL_UCD_IDC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_IDC
+ */
 int
 Coatl_GetUcdProperty_IDC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_IDC, UCD_NBRANGES_IDC)%2)
         ? !UCD_VALUE_0_IDC
         : UCD_VALUE_0_IDC;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Ideo
+/**
+ * Get value of UCD property '**Ideo**' for given codepoint.
  *
- *      Get value of UCD property '*Ideo*' for given codepoint.
+ * @return Value of UCD property '**Ideo**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Ideo*'.
- *
- * See also:
- *      <COATL_UCD_IDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_IDEO
+ */
 int
 Coatl_GetUcdProperty_Ideo(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Ideo, UCD_NBRANGES_IDEO)%2)
         ? !UCD_VALUE_0_IDEO
         : UCD_VALUE_0_IDEO;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_IDS
+/**
+ * Get value of UCD property '**IDS**' for given codepoint.
  *
- *      Get value of UCD property '*IDS*' for given codepoint.
+ * @return Value of UCD property '**IDS**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*IDS*'.
- *
- * See also:
- *      <COATL_UCD_IDS>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_IDS
+ */
 int
 Coatl_GetUcdProperty_IDS(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_IDS, UCD_NBRANGES_IDS)%2)
         ? !UCD_VALUE_0_IDS
         : UCD_VALUE_0_IDS;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_IDSB
+/**
+ * Get value of UCD property '**IDSB**' for given codepoint.
  *
- *      Get value of UCD property '*IDSB*' for given codepoint.
+ * @return Value of UCD property '**IDSB**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*IDSB*'.
- *
- * See also:
- *      <COATL_UCD_IDSB>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_IDSB
+ */
 int
 Coatl_GetUcdProperty_IDSB(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_IDSB, UCD_NBRANGES_IDSB)%2)
         ? !UCD_VALUE_0_IDSB
         : UCD_VALUE_0_IDSB;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_IDST
+/**
+ * Get value of UCD property '**IDST**' for given codepoint.
  *
- *      Get value of UCD property '*IDST*' for given codepoint.
+ * @return Value of UCD property '**IDST**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*IDST*'.
- *
- * See also:
- *      <COATL_UCD_IDST>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_IDST
+ */
 int
 Coatl_GetUcdProperty_IDST(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_IDST, UCD_NBRANGES_IDST)%2)
         ? !UCD_VALUE_0_IDST
         : UCD_VALUE_0_IDST;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_InPC
+/**
+ * Get value of UCD property '**InPC**' for given codepoint.
  *
- *      Get value of UCD property '*InPC*' for given codepoint.
+ * @return Value of UCD property '**InPC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*InPC*'.
- *
- * See also:
- *      <COATL_UCD_INPC>, <Coatl_Ucd_InPC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_INPC
+ * @see Coatl_Ucd_InPC
+ */
 Coatl_Ucd_InPC
 Coatl_GetUcdProperty_InPC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_InPC[GetRange(c, ucdRanges_InPC, UCD_NBRANGES_INPC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_InSC
+/**
+ * Get value of UCD property '**InSC**' for given codepoint.
  *
- *      Get value of UCD property '*InSC*' for given codepoint.
+ * @return Value of UCD property '**InSC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*InSC*'.
- *
- * See also:
- *      <COATL_UCD_INSC>, <Coatl_Ucd_InSC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_INSC
+ * @see Coatl_Ucd_InSC
+ */
 Coatl_Ucd_InSC
 Coatl_GetUcdProperty_InSC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_InSC[GetRange(c, ucdRanges_InSC, UCD_NBRANGES_INSC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Jg
+/**
+ * Get value of UCD property '**jg**' for given codepoint.
  *
- *      Get value of UCD property '*jg*' for given codepoint.
+ * @return Value of UCD property '**jg**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*jg*'.
- *
- * See also:
- *      <COATL_UCD_JG>, <Coatl_Ucd_Jg>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_JG
+ * @see Coatl_Ucd_Jg
+ */
 Coatl_Ucd_Jg
 Coatl_GetUcdProperty_Jg(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_jg[GetRange(c, ucdRanges_jg, UCD_NBRANGES_JG)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Join_C
+/**
+ * Get value of UCD property '**Join_C**' for given codepoint.
  *
- *      Get value of UCD property '*Join_C*' for given codepoint.
+ * @return Value of UCD property '**Join_C**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Join_C*'.
- *
- * See also:
- *      <COATL_UCD_JOIN_C>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_JOIN_C
+ */
 int
 Coatl_GetUcdProperty_Join_C(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Join_C, UCD_NBRANGES_JOIN_C)%2)
         ? !UCD_VALUE_0_JOIN_C
         : UCD_VALUE_0_JOIN_C;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Jt
+/**
+ * Get value of UCD property '**jt**' for given codepoint.
  *
- *      Get value of UCD property '*jt*' for given codepoint.
+ * @return Value of UCD property '**jt**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*jt*'.
- *
- * See also:
- *      <COATL_UCD_JT>, <Coatl_Ucd_Jt>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_JT
+ * @see Coatl_Ucd_Jt
+ */
 Coatl_Ucd_Jt
 Coatl_GetUcdProperty_Jt(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_jt[GetRange(c, ucdRanges_jt, UCD_NBRANGES_JT)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Lb
+/**
+ * Get value of UCD property '**lb**' for given codepoint.
  *
- *      Get value of UCD property '*lb*' for given codepoint.
+ * @return Value of UCD property '**lb**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*lb*'.
- *
- * See also:
- *      <COATL_UCD_LB>, <Coatl_Ucd_Lb>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_LB
+ * @see Coatl_Ucd_Lb
+ */
 Coatl_Ucd_Lb
 Coatl_GetUcdProperty_Lb(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_lb[GetRange(c, ucdRanges_lb, UCD_NBRANGES_LB)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Lc
+/**
+ * Get value of UCD property '**lc**' for given codepoint.
  *
- *      Get value of UCD property '*lc*' for given codepoint.
+ * @return Beginning of value list for UCD property '**lc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*lc*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_LC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_LC
+ */
 const int *
 Coatl_GetUcdProperty_Lc(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_lc + ucdValues_lc[GetRange(c, ucdRanges_lc, UCD_NBRANGES_LC)], 
+    const int *first = ucdAtoms_lc + ucdValues_lc[GetRange(c, ucdRanges_lc, UCD_NBRANGES_LC)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_LOE
+/**
+ * Get value of UCD property '**LOE**' for given codepoint.
  *
- *      Get value of UCD property '*LOE*' for given codepoint.
+ * @return Value of UCD property '**LOE**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*LOE*'.
- *
- * See also:
- *      <COATL_UCD_LOE>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_LOE
+ */
 int
 Coatl_GetUcdProperty_LOE(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_LOE, UCD_NBRANGES_LOE)%2)
         ? !UCD_VALUE_0_LOE
         : UCD_VALUE_0_LOE;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Lower
+/**
+ * Get value of UCD property '**Lower**' for given codepoint.
  *
- *      Get value of UCD property '*Lower*' for given codepoint.
+ * @return Value of UCD property '**Lower**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Lower*'.
- *
- * See also:
- *      <COATL_UCD_LOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_LOWER
+ */
 int
 Coatl_GetUcdProperty_Lower(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Lower, UCD_NBRANGES_LOWER)%2)
         ? !UCD_VALUE_0_LOWER
         : UCD_VALUE_0_LOWER;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Math
+/**
+ * Get value of UCD property '**Math**' for given codepoint.
  *
- *      Get value of UCD property '*Math*' for given codepoint.
+ * @return Value of UCD property '**Math**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Math*'.
- *
- * See also:
- *      <COATL_UCD_MATH>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_MATH
+ */
 int
 Coatl_GetUcdProperty_Math(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Math, UCD_NBRANGES_MATH)%2)
         ? !UCD_VALUE_0_MATH
         : UCD_VALUE_0_MATH;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NChar
+/**
+ * Get value of UCD property '**NChar**' for given codepoint.
  *
- *      Get value of UCD property '*NChar*' for given codepoint.
+ * @return Value of UCD property '**NChar**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*NChar*'.
- *
- * See also:
- *      <COATL_UCD_NCHAR>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NCHAR
+ */
 int
 Coatl_GetUcdProperty_NChar(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_NChar, UCD_NBRANGES_NCHAR)%2)
         ? !UCD_VALUE_0_NCHAR
         : UCD_VALUE_0_NCHAR;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NFC_QC
+/**
+ * Get value of UCD property '**NFC_QC**' for given codepoint.
  *
- *      Get value of UCD property '*NFC_QC*' for given codepoint.
+ * @return Value of UCD property '**NFC_QC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*NFC_QC*'.
- *
- * See also:
- *      <COATL_UCD_NFC_QC>, <Coatl_Ucd_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NFC_QC
+ * @see Coatl_Ucd_NFC_QC
+ */
 Coatl_Ucd_NFC_QC
 Coatl_GetUcdProperty_NFC_QC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_NFC_QC[GetRange(c, ucdRanges_NFC_QC, UCD_NBRANGES_NFC_QC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NFD_QC
+/**
+ * Get value of UCD property '**NFD_QC**' for given codepoint.
  *
- *      Get value of UCD property '*NFD_QC*' for given codepoint.
+ * @return Value of UCD property '**NFD_QC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*NFD_QC*'.
- *
- * See also:
- *      <COATL_UCD_NFD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NFD_QC
+ */
 int
 Coatl_GetUcdProperty_NFD_QC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_NFD_QC, UCD_NBRANGES_NFD_QC)%2)
         ? !UCD_VALUE_0_NFD_QC
         : UCD_VALUE_0_NFD_QC;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NFKC_CF
+/**
+ * Get value of UCD property '**NFKC_CF**' for given codepoint.
  *
- *      Get value of UCD property '*NFKC_CF*' for given codepoint.
+ * @return Beginning of value list for UCD property '**NFKC_CF**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*NFKC_CF*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_NFKC_CF>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NFKC_CF
+ */
 const int *
 Coatl_GetUcdProperty_NFKC_CF(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_NFKC_CF + ucdValues_NFKC_CF[GetRange(c, ucdRanges_NFKC_CF, UCD_NBRANGES_NFKC_CF)], 
+    const int *first = ucdAtoms_NFKC_CF + ucdValues_NFKC_CF[GetRange(c, ucdRanges_NFKC_CF, UCD_NBRANGES_NFKC_CF)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NFKC_QC
+/**
+ * Get value of UCD property '**NFKC_QC**' for given codepoint.
  *
- *      Get value of UCD property '*NFKC_QC*' for given codepoint.
+ * @return Value of UCD property '**NFKC_QC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*NFKC_QC*'.
- *
- * See also:
- *      <COATL_UCD_NFKC_QC>, <Coatl_Ucd_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NFKC_QC
+ * @see Coatl_Ucd_NFKC_QC
+ */
 Coatl_Ucd_NFKC_QC
 Coatl_GetUcdProperty_NFKC_QC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_NFKC_QC[GetRange(c, ucdRanges_NFKC_QC, UCD_NBRANGES_NFKC_QC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_NFKD_QC
+/**
+ * Get value of UCD property '**NFKD_QC**' for given codepoint.
  *
- *      Get value of UCD property '*NFKD_QC*' for given codepoint.
+ * @return Value of UCD property '**NFKD_QC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*NFKD_QC*'.
- *
- * See also:
- *      <COATL_UCD_NFKD_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NFKD_QC
+ */
 int
 Coatl_GetUcdProperty_NFKD_QC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_NFKD_QC, UCD_NBRANGES_NFKD_QC)%2)
         ? !UCD_VALUE_0_NFKD_QC
         : UCD_VALUE_0_NFKD_QC;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Nt
+/**
+ * Get value of UCD property '**nt**' for given codepoint.
  *
- *      Get value of UCD property '*nt*' for given codepoint.
+ * @return Value of UCD property '**nt**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*nt*'.
- *
- * See also:
- *      <COATL_UCD_NT>, <Coatl_Ucd_Nt>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NT
+ * @see Coatl_Ucd_Nt
+ */
 Coatl_Ucd_Nt
 Coatl_GetUcdProperty_Nt(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_nt[GetRange(c, ucdRanges_nt, UCD_NBRANGES_NT)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Nv
+/**
+ * Get value of UCD property '**nv**' for given codepoint.
  *
- *      Get value of UCD property '*nv*' for given codepoint.
+ * @return Value of UCD property '**nv**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*nv*'.
- *
- * See also:
- *      <COATL_UCD_NV>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_NV
+ */
 const char *
 Coatl_GetUcdProperty_Nv(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdAtoms_nv[ucdValues_nv[GetRange(c, ucdRanges_nv, UCD_NBRANGES_NV)]];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OAlpha
+/**
+ * Get value of UCD property '**OAlpha**' for given codepoint.
  *
- *      Get value of UCD property '*OAlpha*' for given codepoint.
+ * @return Value of UCD property '**OAlpha**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OAlpha*'.
- *
- * See also:
- *      <COATL_UCD_OALPHA>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OALPHA
+ */
 int
 Coatl_GetUcdProperty_OAlpha(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OAlpha, UCD_NBRANGES_OALPHA)%2)
         ? !UCD_VALUE_0_OALPHA
         : UCD_VALUE_0_OALPHA;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_ODI
+/**
+ * Get value of UCD property '**ODI**' for given codepoint.
  *
- *      Get value of UCD property '*ODI*' for given codepoint.
+ * @return Value of UCD property '**ODI**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*ODI*'.
- *
- * See also:
- *      <COATL_UCD_ODI>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_ODI
+ */
 int
 Coatl_GetUcdProperty_ODI(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_ODI, UCD_NBRANGES_ODI)%2)
         ? !UCD_VALUE_0_ODI
         : UCD_VALUE_0_ODI;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OGr_Ext
+/**
+ * Get value of UCD property '**OGr_Ext**' for given codepoint.
  *
- *      Get value of UCD property '*OGr_Ext*' for given codepoint.
+ * @return Value of UCD property '**OGr_Ext**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OGr_Ext*'.
- *
- * See also:
- *      <COATL_UCD_OGR_EXT>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OGR_EXT
+ */
 int
 Coatl_GetUcdProperty_OGr_Ext(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OGr_Ext, UCD_NBRANGES_OGR_EXT)%2)
         ? !UCD_VALUE_0_OGR_EXT
         : UCD_VALUE_0_OGR_EXT;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OIDC
+/**
+ * Get value of UCD property '**OIDC**' for given codepoint.
  *
- *      Get value of UCD property '*OIDC*' for given codepoint.
+ * @return Value of UCD property '**OIDC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OIDC*'.
- *
- * See also:
- *      <COATL_UCD_OIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OIDC
+ */
 int
 Coatl_GetUcdProperty_OIDC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OIDC, UCD_NBRANGES_OIDC)%2)
         ? !UCD_VALUE_0_OIDC
         : UCD_VALUE_0_OIDC;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OIDS
+/**
+ * Get value of UCD property '**OIDS**' for given codepoint.
  *
- *      Get value of UCD property '*OIDS*' for given codepoint.
+ * @return Value of UCD property '**OIDS**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OIDS*'.
- *
- * See also:
- *      <COATL_UCD_OIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OIDS
+ */
 int
 Coatl_GetUcdProperty_OIDS(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OIDS, UCD_NBRANGES_OIDS)%2)
         ? !UCD_VALUE_0_OIDS
         : UCD_VALUE_0_OIDS;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OLower
+/**
+ * Get value of UCD property '**OLower**' for given codepoint.
  *
- *      Get value of UCD property '*OLower*' for given codepoint.
+ * @return Value of UCD property '**OLower**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OLower*'.
- *
- * See also:
- *      <COATL_UCD_OLOWER>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OLOWER
+ */
 int
 Coatl_GetUcdProperty_OLower(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OLower, UCD_NBRANGES_OLOWER)%2)
         ? !UCD_VALUE_0_OLOWER
         : UCD_VALUE_0_OLOWER;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OMath
+/**
+ * Get value of UCD property '**OMath**' for given codepoint.
  *
- *      Get value of UCD property '*OMath*' for given codepoint.
+ * @return Value of UCD property '**OMath**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OMath*'.
- *
- * See also:
- *      <COATL_UCD_OMATH>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OMATH
+ */
 int
 Coatl_GetUcdProperty_OMath(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OMath, UCD_NBRANGES_OMATH)%2)
         ? !UCD_VALUE_0_OMATH
         : UCD_VALUE_0_OMATH;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_OUpper
+/**
+ * Get value of UCD property '**OUpper**' for given codepoint.
  *
- *      Get value of UCD property '*OUpper*' for given codepoint.
+ * @return Value of UCD property '**OUpper**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*OUpper*'.
- *
- * See also:
- *      <COATL_UCD_OUPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_OUPPER
+ */
 int
 Coatl_GetUcdProperty_OUpper(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_OUpper, UCD_NBRANGES_OUPPER)%2)
         ? !UCD_VALUE_0_OUPPER
         : UCD_VALUE_0_OUPPER;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Pat_Syn
+/**
+ * Get value of UCD property '**Pat_Syn**' for given codepoint.
  *
- *      Get value of UCD property '*Pat_Syn*' for given codepoint.
+ * @return Value of UCD property '**Pat_Syn**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Pat_Syn*'.
- *
- * See also:
- *      <COATL_UCD_PAT_SYN>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_PAT_SYN
+ */
 int
 Coatl_GetUcdProperty_Pat_Syn(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Pat_Syn, UCD_NBRANGES_PAT_SYN)%2)
         ? !UCD_VALUE_0_PAT_SYN
         : UCD_VALUE_0_PAT_SYN;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Pat_WS
+/**
+ * Get value of UCD property '**Pat_WS**' for given codepoint.
  *
- *      Get value of UCD property '*Pat_WS*' for given codepoint.
+ * @return Value of UCD property '**Pat_WS**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Pat_WS*'.
- *
- * See also:
- *      <COATL_UCD_PAT_WS>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_PAT_WS
+ */
 int
 Coatl_GetUcdProperty_Pat_WS(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Pat_WS, UCD_NBRANGES_PAT_WS)%2)
         ? !UCD_VALUE_0_PAT_WS
         : UCD_VALUE_0_PAT_WS;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_QMark
+/**
+ * Get value of UCD property '**QMark**' for given codepoint.
  *
- *      Get value of UCD property '*QMark*' for given codepoint.
+ * @return Value of UCD property '**QMark**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*QMark*'.
- *
- * See also:
- *      <COATL_UCD_QMARK>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_QMARK
+ */
 int
 Coatl_GetUcdProperty_QMark(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_QMark, UCD_NBRANGES_QMARK)%2)
         ? !UCD_VALUE_0_QMARK
         : UCD_VALUE_0_QMARK;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Radical
+/**
+ * Get value of UCD property '**Radical**' for given codepoint.
  *
- *      Get value of UCD property '*Radical*' for given codepoint.
+ * @return Value of UCD property '**Radical**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Radical*'.
- *
- * See also:
- *      <COATL_UCD_RADICAL>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_RADICAL
+ */
 int
 Coatl_GetUcdProperty_Radical(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Radical, UCD_NBRANGES_RADICAL)%2)
         ? !UCD_VALUE_0_RADICAL
         : UCD_VALUE_0_RADICAL;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_SB
+/**
+ * Get value of UCD property '**SB**' for given codepoint.
  *
- *      Get value of UCD property '*SB*' for given codepoint.
+ * @return Value of UCD property '**SB**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*SB*'.
- *
- * See also:
- *      <COATL_UCD_SB>, <Coatl_Ucd_SB>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SB
+ * @see Coatl_Ucd_SB
+ */
 Coatl_Ucd_SB
 Coatl_GetUcdProperty_SB(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_SB[GetRange(c, ucdRanges_SB, UCD_NBRANGES_SB)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Sc
+/**
+ * Get value of UCD property '**sc**' for given codepoint.
  *
- *      Get value of UCD property '*sc*' for given codepoint.
+ * @return Value of UCD property '**sc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*sc*'.
- *
- * See also:
- *      <COATL_UCD_SC>, <Coatl_Ucd_Sc>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SC
+ * @see Coatl_Ucd_Sc
+ */
 Coatl_Ucd_Sc
 Coatl_GetUcdProperty_Sc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_sc[GetRange(c, ucdRanges_sc, UCD_NBRANGES_SC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Scf
+/**
+ * Get value of UCD property '**scf**' for given codepoint.
  *
- *      Get value of UCD property '*scf*' for given codepoint.
+ * @return Value of UCD property '**scf**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*scf*'.
- *
- * See also:
- *      <COATL_UCD_SCF>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SCF
+ */
 Col_Char
 Coatl_GetUcdProperty_Scf(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_scf[GetRange(c, ucdRanges_scf, UCD_NBRANGES_SCF)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Scx
+/**
+ * Get value of UCD property '**scx**' for given codepoint.
  *
- *      Get value of UCD property '*scx*' for given codepoint.
+ * @return Beginning of value list for UCD property '**scx**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * Entries can be safely cast to #Coatl_Ucd_Sc.
  *
- * Results:
- *      Beginning of value list for UCD property '*scx*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length.
- *
- *      Entries can be safely cast to <Coatl_Ucd_Sc>.
- *
- * See also:
- *      <COATL_UCD_SCX>, <Coatl_Ucd_Sc>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SCX
+ * @see Coatl_Ucd_Sc
+ */
 const unsigned char *
 Coatl_GetUcdProperty_Scx(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
     const unsigned char
-        *first = ucdAtoms_scx + ucdValues_scx[GetRange(c, ucdRanges_scx, UCD_NBRANGES_SCX)], 
+        *first = ucdAtoms_scx + ucdValues_scx[GetRange(c, ucdRanges_scx, UCD_NBRANGES_SCX)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_SD
+/**
+ * Get value of UCD property '**SD**' for given codepoint.
  *
- *      Get value of UCD property '*SD*' for given codepoint.
+ * @return Value of UCD property '**SD**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*SD*'.
- *
- * See also:
- *      <COATL_UCD_SD>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SD
+ */
 int
 Coatl_GetUcdProperty_SD(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_SD, UCD_NBRANGES_SD)%2)
         ? !UCD_VALUE_0_SD
         : UCD_VALUE_0_SD;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Slc
+/**
+ * Get value of UCD property '**slc**' for given codepoint.
  *
- *      Get value of UCD property '*slc*' for given codepoint.
+ * @return Value of UCD property '**slc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*slc*'.
- *
- * See also:
- *      <COATL_UCD_SLC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SLC
+ */
 Col_Char
 Coatl_GetUcdProperty_Slc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_slc[GetRange(c, ucdRanges_slc, UCD_NBRANGES_SLC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Stc
+/**
+ * Get value of UCD property '**stc**' for given codepoint.
  *
- *      Get value of UCD property '*stc*' for given codepoint.
+ * @return Value of UCD property '**stc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*stc*'.
- *
- * See also:
- *      <COATL_UCD_STC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_STC
+ */
 Col_Char
 Coatl_GetUcdProperty_Stc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_stc[GetRange(c, ucdRanges_stc, UCD_NBRANGES_STC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_STerm
+/**
+ * Get value of UCD property '**STerm**' for given codepoint.
  *
- *      Get value of UCD property '*STerm*' for given codepoint.
+ * @return Value of UCD property '**STerm**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*STerm*'.
- *
- * See also:
- *      <COATL_UCD_STERM>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_STERM
+ */
 int
 Coatl_GetUcdProperty_STerm(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_STerm, UCD_NBRANGES_STERM)%2)
         ? !UCD_VALUE_0_STERM
         : UCD_VALUE_0_STERM;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Suc
+/**
+ * Get value of UCD property '**suc**' for given codepoint.
  *
- *      Get value of UCD property '*suc*' for given codepoint.
+ * @return Value of UCD property '**suc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*suc*'.
- *
- * See also:
- *      <COATL_UCD_SUC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_SUC
+ */
 Col_Char
 Coatl_GetUcdProperty_Suc(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_suc[GetRange(c, ucdRanges_suc, UCD_NBRANGES_SUC)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Tc
+/**
+ * Get value of UCD property '**tc**' for given codepoint.
  *
- *      Get value of UCD property '*tc*' for given codepoint.
+ * @return Beginning of value list for UCD property '**tc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*tc*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_TC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_TC
+ */
 const int *
 Coatl_GetUcdProperty_Tc(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_tc + ucdValues_tc[GetRange(c, ucdRanges_tc, UCD_NBRANGES_TC)], 
+    const int *first = ucdAtoms_tc + ucdValues_tc[GetRange(c, ucdRanges_tc, UCD_NBRANGES_TC)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Term
+/**
+ * Get value of UCD property '**Term**' for given codepoint.
  *
- *      Get value of UCD property '*Term*' for given codepoint.
+ * @return Value of UCD property '**Term**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Term*'.
- *
- * See also:
- *      <COATL_UCD_TERM>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_TERM
+ */
 int
 Coatl_GetUcdProperty_Term(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Term, UCD_NBRANGES_TERM)%2)
         ? !UCD_VALUE_0_TERM
         : UCD_VALUE_0_TERM;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Uc
+/**
+ * Get value of UCD property '**uc**' for given codepoint.
  *
- *      Get value of UCD property '*uc*' for given codepoint.
+ * @return Beginning of value list for UCD property '**uc**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*uc*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_UC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_UC
+ */
 const int *
 Coatl_GetUcdProperty_Uc(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_uc + ucdValues_uc[GetRange(c, ucdRanges_uc, UCD_NBRANGES_UC)], 
+    const int *first = ucdAtoms_uc + ucdValues_uc[GetRange(c, ucdRanges_uc, UCD_NBRANGES_UC)],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_UIdeo
+/**
+ * Get value of UCD property '**UIdeo**' for given codepoint.
  *
- *      Get value of UCD property '*UIdeo*' for given codepoint.
+ * @return Value of UCD property '**UIdeo**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*UIdeo*'.
- *
- * See also:
- *      <COATL_UCD_UIDEO>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_UIDEO
+ */
 int
 Coatl_GetUcdProperty_UIdeo(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_UIdeo, UCD_NBRANGES_UIDEO)%2)
         ? !UCD_VALUE_0_UIDEO
         : UCD_VALUE_0_UIDEO;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Upper
+/**
+ * Get value of UCD property '**Upper**' for given codepoint.
  *
- *      Get value of UCD property '*Upper*' for given codepoint.
+ * @return Value of UCD property '**Upper**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*Upper*'.
- *
- * See also:
- *      <COATL_UCD_UPPER>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_UPPER
+ */
 int
 Coatl_GetUcdProperty_Upper(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_Upper, UCD_NBRANGES_UPPER)%2)
         ? !UCD_VALUE_0_UPPER
         : UCD_VALUE_0_UPPER;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_VS
+/**
+ * Get value of UCD property '**VS**' for given codepoint.
  *
- *      Get value of UCD property '*VS*' for given codepoint.
+ * @return Value of UCD property '**VS**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*VS*'.
- *
- * See also:
- *      <COATL_UCD_VS>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_VS
+ */
 int
 Coatl_GetUcdProperty_VS(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_VS, UCD_NBRANGES_VS)%2)
         ? !UCD_VALUE_0_VS
         : UCD_VALUE_0_VS;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_WB
+/**
+ * Get value of UCD property '**WB**' for given codepoint.
  *
- *      Get value of UCD property '*WB*' for given codepoint.
+ * @return Value of UCD property '**WB**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*WB*'.
- *
- * See also:
- *      <COATL_UCD_WB>, <Coatl_Ucd_WB>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_WB
+ * @see Coatl_Ucd_WB
+ */
 Coatl_Ucd_WB
 Coatl_GetUcdProperty_WB(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_WB[GetRange(c, ucdRanges_WB, UCD_NBRANGES_WB)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_WSpace
+/**
+ * Get value of UCD property '**WSpace**' for given codepoint.
  *
- *      Get value of UCD property '*WSpace*' for given codepoint.
+ * @return Value of UCD property '**WSpace**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*WSpace*'.
- *
- * See also:
- *      <COATL_UCD_WSPACE>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_WSPACE
+ */
 int
 Coatl_GetUcdProperty_WSpace(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_WSpace, UCD_NBRANGES_WSPACE)%2)
         ? !UCD_VALUE_0_WSPACE
         : UCD_VALUE_0_WSPACE;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_XIDC
+/**
+ * Get value of UCD property '**XIDC**' for given codepoint.
  *
- *      Get value of UCD property '*XIDC*' for given codepoint.
+ * @return Value of UCD property '**XIDC**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*XIDC*'.
- *
- * See also:
- *      <COATL_UCD_XIDC>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_XIDC
+ */
 int
 Coatl_GetUcdProperty_XIDC(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_XIDC, UCD_NBRANGES_XIDC)%2)
         ? !UCD_VALUE_0_XIDC
         : UCD_VALUE_0_XIDC;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_XIDS
+/**
+ * Get value of UCD property '**XIDS**' for given codepoint.
  *
- *      Get value of UCD property '*XIDS*' for given codepoint.
+ * @return Value of UCD property '**XIDS**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*XIDS*'.
- *
- * See also:
- *      <COATL_UCD_XIDS>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_XIDS
+ */
 int
 Coatl_GetUcdProperty_XIDS(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_XIDS, UCD_NBRANGES_XIDS)%2)
         ? !UCD_VALUE_0_XIDS
         : UCD_VALUE_0_XIDS;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bpb
+/**
+ * Get value of UCD property '**bpb**' for given codepoint.
  *
- *      Get value of UCD property '*bpb*' for given codepoint.
+ * @return Value of UCD property '**bpb**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*bpb*'.
- *
- * See also:
- *      <COATL_UCD_BPB>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BPB
+ */
 Col_Char
 Coatl_GetUcdProperty_Bpb(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_bpb[GetRange(c, ucdRanges_bpb, UCD_NBRANGES_BPB)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_Bpt
+/**
+ * Get value of UCD property '**bpt**' for given codepoint.
  *
- *      Get value of UCD property '*bpt*' for given codepoint.
+ * @return Value of UCD property '**bpt**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*bpt*'.
- *
- * See also:
- *      <COATL_UCD_BPT>, <Coatl_Ucd_Bpt>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_BPT
+ * @see Coatl_Ucd_Bpt
+ */
 Coatl_Ucd_Bpt
 Coatl_GetUcdProperty_Bpt(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_bpt[GetRange(c, ucdRanges_bpt, UCD_NBRANGES_BPT)];
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_PCM
+/**
+ * Get value of UCD property '**PCM**' for given codepoint.
  *
- *      Get value of UCD property '*PCM*' for given codepoint.
+ * @return Value of UCD property '**PCM**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*PCM*'.
- *
- * See also:
- *      <COATL_UCD_PCM>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_PCM
+ */
 int
 Coatl_GetUcdProperty_PCM(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_PCM, UCD_NBRANGES_PCM)%2)
         ? !UCD_VALUE_0_PCM
         : UCD_VALUE_0_PCM;
 }
 
+/* End of UCD Property Accessors */
+
+/* End of Unicode Character Database *//*!\}*/

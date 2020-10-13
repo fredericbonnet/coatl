@@ -1,12 +1,12 @@
-/*
- * Internal File: regc_locale.c
+/**
+ * @file regc_locale.c
  *
- *      This file implements Unicode locale specific regexp routines.
+ * This file implements Unicode locale specific regexp routines.
  *
- *      This file is included by regcomp.c.
+ * This file is included by regcomp.c.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcd.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 
@@ -16,6 +16,7 @@ typedef struct cvec * (ClassCvecProc) (struct vars *v);
  * Prototypes for functions used only in this file.
  */
 
+/*! \cond IGNORE */
 static int              StrEq(const char *name, const rchr startp, 
                             const rchr endp);
 static struct cvec *    GetCvec_alnum(struct vars *v);
@@ -33,17 +34,16 @@ static struct cvec *    GetCvec_space(struct vars *v);
 static struct cvec *    GetCvec_upper(struct vars *v);
 static struct cvec *    GetCvec_word(struct vars *v);
 static struct cvec *    GetCvec_xdigit(struct vars *v);
+/*! \endcond *//* IGNORE */
 
-/*---------------------------------------------------------------------------
- * Internal Variable: symbols
- *
- *      POSIX+ASCII symbolic names, for use with the '*[.symbol.]*' syntax 
- *      within bracket expressions.
- *
- *      We use the compiled UCD data accordingly to generate character ranges 
- *      suitable for the regexp engine.
- *---------------------------------------------------------------------------*/
 
+/**
+ * POSIX+ASCII symbolic names, for use with the '*[.symbol.]*' syntax within
+ * bracket expressions.
+ *
+ * We use the compiled UCD data accordingly to generate character ranges 
+ * suitable for the regexp engine.
+ */
 typedef struct SymbolInfo {
     const char *const name;
     const celt code;
@@ -147,20 +147,16 @@ static const SymbolInfo symbols[] = {
     {NULL}
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: classes
+/**
+ * POSIX character classes, for use with the '*[:classname:]*' syntax within
+ * bracket expressions.
  *
- *      POSIX character classes, for use with the '*[:classname:]*' syntax 
- *      within bracket expressions.
+ * We use the compiled UCD data accordingly to generate character ranges 
+ * suitable for the regexp engine.
  *
- *      We use the compiled UCD data accordingly to generate character ranges 
- *      suitable for the regexp engine.
- *
- * See also:
- *      http://unicode.org/reports/tr18/
- *      http://www.regular-expressions.info/posixbrackets.html
- *---------------------------------------------------------------------------*/
-
+ * @see http://unicode.org/reports/tr18/
+ * @see http://www.regular-expressions.info/posixbrackets.html
+ */
 typedef struct ClassInfo {
     const char *name;
      ClassCvecProc *proc;
@@ -185,17 +181,13 @@ static const ClassInfo classes[] = {
     {NULL}
 };
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_alnum
+/**
+ * Codepoints of individual characters for class '**alnum**'.
  *
- *      Codepoints of individual characters for class '*alnum*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_alnum>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_alnum
+ */
 static const chr chars_alnum[] = {
     0x00AA, 0x00B5, 0x00BA, 0x02EC, 0x02EE, 0x037F, 0x0386, 0x038C, 
     0x0559, 0x06D5, 0x06FF, 0x0710, 0x07B1, 0x07FA, 0x081A, 0x0824, 
@@ -214,30 +206,22 @@ static const chr chars_alnum[] = {
     0x1EE64, 0x1EE7E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_ALNUM
+/**
+ * Number of individual characters for class '**alnum**'.
  *
- *      Number of individual characters for class '*alnum*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_alnum
- *---------------------------------------------------------------------------*/
-
+ * @see chars_alnum
+ */
 #define NBCHARS_ALNUM   114
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_alnum
+/**
+ * Codepoint ranges of characters for class '**alnum**'.
  *
- *      Codepoint ranges of characters for class '*alnum*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_alnum>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_alnum
+ */
 static const chr ranges_alnum[] = {
     0x0030, 0x0039, 0x0041, 0x005A, 0x0061, 0x007A, 0x00C0, 0x00D6, 
     0x00D8, 0x00F6, 0x00F8, 0x02C1, 0x02C6, 0x02D1, 0x02E0, 0x02E4, 
@@ -365,30 +349,22 @@ static const chr ranges_alnum[] = {
     0x2F800, 0x2FA1D, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_ALNUM
+/**
+ * Number of character ranges for class '**alnum**'.
  *
- *      Number of character ranges for class '*alnum*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_alnum
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_alnum
+ */
 #define NBRANGES_ALNUM  493
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_alpha
+/**
+ * Codepoints of individual characters for class '**alpha**'.
  *
- *      Codepoints of individual characters for class '*alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_alpha>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_alpha
+ */
 static const chr chars_alpha[] = {
     0x00AA, 0x00B5, 0x00BA, 0x02EC, 0x02EE, 0x037F, 0x0386, 0x038C, 
     0x0559, 0x06D5, 0x06FF, 0x0710, 0x07B1, 0x07FA, 0x081A, 0x0824, 
@@ -407,30 +383,22 @@ static const chr chars_alpha[] = {
     0x1EE5B, 0x1EE5D, 0x1EE5F, 0x1EE64, 0x1EE7E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_ALPHA
+/**
+ * Number of individual characters for class '**alpha**'.
  *
- *      Number of individual characters for class '*alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_alpha
- *---------------------------------------------------------------------------*/
-
+ * @see chars_alpha
+ */
 #define NBCHARS_ALPHA   117
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_alpha
+/**
+ * Codepoint ranges of characters for class '**alpha**'.
  *
- *      Codepoint ranges of characters for class '*alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_alpha>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_alpha
+ */
 static const chr ranges_alpha[] = {
     0x0041, 0x005A, 0x0061, 0x007A, 0x00C0, 0x00D6, 0x00D8, 0x00F6, 
     0x00F8, 0x02C1, 0x02C6, 0x02D1, 0x02E0, 0x02E4, 0x0370, 0x0374, 
@@ -548,157 +516,113 @@ static const chr ranges_alpha[] = {
     0x2B820, 0x2CEA1, 0x2F800, 0x2FA1D, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_ALPHA
+/**
+ * Number of character ranges for class '**alpha**'.
  *
- *      Number of character ranges for class '*alpha*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_alpha
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_alpha
+ */
 #define NBRANGES_ALPHA  454
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_ASCII
+/**
+ * Number of individual characters for class '**ascii**'.
  *
- *      Number of individual characters for class '*ascii*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_ascii
- *---------------------------------------------------------------------------*/
-
+ * @see chars_ascii
+ */
 #define NBCHARS_ASCII   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_ascii
+/**
+ * Codepoint ranges of characters for class '**ascii**'.
  *
- *      Codepoint ranges of characters for class '*ascii*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_ascii>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_ascii
+ */
 static const chr ranges_ascii[] = {
     0x0000, 0x007F, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_ASCII
+/**
+ * Number of character ranges for class '**ascii**'.
  *
- *      Number of character ranges for class '*ascii*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_ascii
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_ascii
+ */
 #define NBRANGES_ASCII  1
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_blank
+/**
+ * Codepoints of individual characters for class '**blank**'.
  *
- *      Codepoints of individual characters for class '*blank*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_blank>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_blank
+ */
 static const chr chars_blank[] = {
     0x0020, 0x00A0, 0x1680, 0x202F, 0x205F, 0x3000, 0x0009, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_BLANK
+/**
+ * Number of individual characters for class '**blank**'.
  *
- *      Number of individual characters for class '*blank*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_blank
- *---------------------------------------------------------------------------*/
-
+ * @see chars_blank
+ */
 #define NBCHARS_BLANK   7
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_blank
+/**
+ * Codepoint ranges of characters for class '**blank**'.
  *
- *      Codepoint ranges of characters for class '*blank*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_blank>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_blank
+ */
 static const chr ranges_blank[] = {
     0x2000, 0x200A, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_BLANK
+/**
+ * Number of character ranges for class '**blank**'.
  *
- *      Number of character ranges for class '*blank*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_blank
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_blank
+ */
 #define NBRANGES_BLANK  1
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_cased
+/**
+ * Codepoints of individual characters for class '**cased**'.
  *
- *      Codepoints of individual characters for class '*cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_cased>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_cased
+ */
 static const chr chars_cased[] = {
     0x00B5, 0x037F, 0x0386, 0x038C, 0x10C7, 0x10CD, 0x1F59, 0x1F5B, 
     0x1F5D, 0x1FBE, 0x2102, 0x2107, 0x2115, 0x2124, 0x2126, 0x2128, 
     0x2139, 0x214E, 0x2D27, 0x2D2D, 0xA7FA, 0x1D4A2, 0x1D4BB, 0x1D546, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_CASED
+/**
+ * Number of individual characters for class '**cased**'.
  *
- *      Number of individual characters for class '*cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_cased
- *---------------------------------------------------------------------------*/
-
+ * @see chars_cased
+ */
 #define NBCHARS_CASED   24
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_cased
+/**
+ * Codepoint ranges of characters for class '**cased**'.
  *
- *      Codepoint ranges of characters for class '*cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_cased>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_cased
+ */
 static const chr ranges_cased[] = {
     0x0041, 0x005A, 0x0061, 0x007A, 0x00C0, 0x00D6, 0x00D8, 0x00F6, 
     0x00F8, 0x01BA, 0x01BC, 0x01BF, 0x01C4, 0x0293, 0x0295, 0x02AF, 
@@ -728,84 +652,60 @@ static const chr ranges_cased[] = {
     0x1D7C4, 0x1D7CB, 0x1E900, 0x1E943, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_CASED
+/**
+ * Number of character ranges for class '**cased**'.
  *
- *      Number of character ranges for class '*cased*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_cased
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_cased
+ */
 #define NBRANGES_CASED  102
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_CNTRL
+/**
+ * Number of individual characters for class '**cntrl**'.
  *
- *      Number of individual characters for class '*cntrl*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_cntrl
- *---------------------------------------------------------------------------*/
-
+ * @see chars_cntrl
+ */
 #define NBCHARS_CNTRL   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_cntrl
+/**
+ * Codepoint ranges of characters for class '**cntrl**'.
  *
- *      Codepoint ranges of characters for class '*cntrl*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_cntrl>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_cntrl
+ */
 static const chr ranges_cntrl[] = {
     0x0000, 0x001F, 0x007F, 0x009F, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_CNTRL
+/**
+ * Number of character ranges for class '**cntrl**'.
  *
- *      Number of character ranges for class '*cntrl*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_cntrl
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_cntrl
+ */
 #define NBRANGES_CNTRL  2
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_DIGIT
+/**
+ * Number of individual characters for class '**digit**'.
  *
- *      Number of individual characters for class '*digit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_digit
- *---------------------------------------------------------------------------*/
-
+ * @see chars_digit
+ */
 #define NBCHARS_DIGIT   0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_digit
+/**
+ * Codepoint ranges of characters for class '**digit**'.
  *
- *      Codepoint ranges of characters for class '*digit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_digit>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_digit
+ */
 static const chr ranges_digit[] = {
     0x0030, 0x0039, 0x0660, 0x0669, 0x06F0, 0x06F9, 0x07C0, 0x07C9, 
     0x0966, 0x096F, 0x09E6, 0x09EF, 0x0A66, 0x0A6F, 0x0AE6, 0x0AEF, 
@@ -823,30 +723,22 @@ static const chr ranges_digit[] = {
     0x1D7CE, 0x1D7FF, 0x1E950, 0x1E959, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_DIGIT
+/**
+ * Number of character ranges for class '**digit**'.
  *
- *      Number of character ranges for class '*digit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_digit
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_digit
+ */
 #define NBRANGES_DIGIT  54
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_graph
+/**
+ * Codepoints of individual characters for class '**graph**'.
  *
- *      Codepoints of individual characters for class '*graph*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_graph>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_graph
+ */
 static const chr chars_graph[] = {
     0x038C, 0x085E, 0x09B2, 0x09D7, 0x0A3C, 0x0A51, 0x0A5E, 0x0AD0, 
     0x0AF9, 0x0B9C, 0x0BD0, 0x0BD7, 0x0CDE, 0x0DBD, 0x0DCA, 0x0DD6, 
@@ -859,30 +751,22 @@ static const chr chars_graph[] = {
     0x1F930, 0x1F9C0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_GRAPH
+/**
+ * Number of individual characters for class '**graph**'.
  *
- *      Number of individual characters for class '*graph*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_graph
- *---------------------------------------------------------------------------*/
-
+ * @see chars_graph
+ */
 #define NBCHARS_GRAPH   66
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_graph
+/**
+ * Codepoint ranges of characters for class '**graph**'.
  *
- *      Codepoint ranges of characters for class '*graph*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_graph>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_graph
+ */
 static const chr ranges_graph[] = {
     0x0021, 0x007E, 0x00A1, 0x00AC, 0x00AE, 0x0377, 0x037A, 0x037F, 
     0x0384, 0x038A, 0x038E, 0x03A1, 0x03A3, 0x052F, 0x0531, 0x0556, 
@@ -1030,30 +914,22 @@ static const chr ranges_graph[] = {
     0x2B820, 0x2CEA1, 0x2F800, 0x2FA1D, 0xE0100, 0xE01EF, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_GRAPH
+/**
+ * Number of character ranges for class '**graph**'.
  *
- *      Number of character ranges for class '*graph*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_graph
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_graph
+ */
 #define NBRANGES_GRAPH  575
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_lower
+/**
+ * Codepoints of individual characters for class '**lower**'.
  *
- *      Codepoints of individual characters for class '*lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_lower>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_lower
+ */
 static const chr chars_lower[] = {
     0x00B5, 0x0101, 0x0103, 0x0105, 0x0107, 0x0109, 0x010B, 0x010D, 
     0x010F, 0x0111, 0x0113, 0x0115, 0x0117, 0x0119, 0x011B, 0x011D, 
@@ -1124,30 +1000,22 @@ static const chr chars_lower[] = {
     0xA7B7, 0xA7FA, 0x1D4BB, 0x1D7CB, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_LOWER
+/**
+ * Number of individual characters for class '**lower**'.
  *
- *      Number of individual characters for class '*lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_lower
- *---------------------------------------------------------------------------*/
-
+ * @see chars_lower
+ */
 #define NBCHARS_LOWER   532
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_lower
+/**
+ * Codepoint ranges of characters for class '**lower**'.
  *
- *      Codepoint ranges of characters for class '*lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_lower>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_lower
+ */
 static const chr ranges_lower[] = {
     0x0061, 0x007A, 0x00DF, 0x00F6, 0x00F8, 0x00FF, 0x0137, 0x0138, 
     0x0148, 0x0149, 0x017E, 0x0180, 0x018C, 0x018D, 0x0199, 0x019B, 
@@ -1177,30 +1045,22 @@ static const chr ranges_lower[] = {
     0x1E922, 0x1E943, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_LOWER
+/**
+ * Number of character ranges for class '**lower**'.
  *
- *      Number of character ranges for class '*lower*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_lower
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_lower
+ */
 #define NBRANGES_LOWER  101
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_print
+/**
+ * Codepoints of individual characters for class '**print**'.
  *
- *      Codepoints of individual characters for class '*print*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_print>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_print
+ */
 static const chr chars_print[] = {
     0x038C, 0x085E, 0x09B2, 0x09D7, 0x0A3C, 0x0A51, 0x0A5E, 0x0AD0, 
     0x0AF9, 0x0B9C, 0x0BD0, 0x0BD7, 0x0CDE, 0x0DBD, 0x0DCA, 0x0DD6, 
@@ -1213,30 +1073,22 @@ static const chr chars_print[] = {
     0x1F930, 0x1F9C0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_PRINT
+/**
+ * Number of individual characters for class '**print**'.
  *
- *      Number of individual characters for class '*print*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_print
- *---------------------------------------------------------------------------*/
-
+ * @see chars_print
+ */
 #define NBCHARS_PRINT   66
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_print
+/**
+ * Codepoint ranges of characters for class '**print**'.
  *
- *      Codepoint ranges of characters for class '*print*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_print>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_print
+ */
 static const chr ranges_print[] = {
     0x0020, 0x007E, 0x00A0, 0x00AC, 0x00AE, 0x0377, 0x037A, 0x037F, 
     0x0384, 0x038A, 0x038E, 0x03A1, 0x03A3, 0x052F, 0x0531, 0x0556, 
@@ -1384,30 +1236,22 @@ static const chr ranges_print[] = {
     0x2B820, 0x2CEA1, 0x2F800, 0x2FA1D, 0xE0100, 0xE01EF, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_PRINT
+/**
+ * Number of character ranges for class '**print**'.
  *
- *      Number of character ranges for class '*print*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_print
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_print
+ */
 #define NBRANGES_PRINT  575
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_punct
+/**
+ * Codepoints of individual characters for class '**punct**'.
  *
- *      Codepoints of individual characters for class '*punct*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_punct>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_punct
+ */
 static const chr chars_punct[] = {
     0x00B4, 0x00BB, 0x00BF, 0x00D7, 0x00F7, 0x02ED, 0x0375, 0x037E, 
     0x0387, 0x03F6, 0x0482, 0x05BE, 0x05C0, 0x05C3, 0x05C6, 0x061B, 
@@ -1422,30 +1266,22 @@ static const chr chars_punct[] = {
     0x1D76F, 0x1D789, 0x1D7A9, 0x1D7C3, 0x1F930, 0x1F9C0, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_PUNCT
+/**
+ * Number of individual characters for class '**punct**'.
  *
- *      Number of individual characters for class '*punct*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_punct
- *---------------------------------------------------------------------------*/
-
+ * @see chars_punct
+ */
 #define NBCHARS_PUNCT   86
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_punct
+/**
+ * Codepoint ranges of characters for class '**punct**'.
  *
- *      Codepoint ranges of characters for class '*punct*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_punct>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_punct
+ */
 static const chr ranges_punct[] = {
     0x0021, 0x002F, 0x003A, 0x0040, 0x005B, 0x0060, 0x007B, 0x007E, 
     0x00A1, 0x00A9, 0x00AB, 0x00AC, 0x00AE, 0x00B1, 0x00B6, 0x00B8, 
@@ -1504,86 +1340,62 @@ static const chr ranges_punct[] = {
     0x1F933, 0x1F93E, 0x1F940, 0x1F94B, 0x1F950, 0x1F95E, 0x1F980, 0x1F991, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_PUNCT
+/**
+ * Number of character ranges for class '**punct**'.
  *
- *      Number of character ranges for class '*punct*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_punct
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_punct
+ */
 #define NBRANGES_PUNCT  220
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_space
+/**
+ * Codepoints of individual characters for class '**space**'.
  *
- *      Codepoints of individual characters for class '*space*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_space>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_space
+ */
 static const chr chars_space[] = {
     0x0020, 0x0085, 0x00A0, 0x1680, 0x202F, 0x205F, 0x3000, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_SPACE
+/**
+ * Number of individual characters for class '**space**'.
  *
- *      Number of individual characters for class '*space*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_space
- *---------------------------------------------------------------------------*/
-
+ * @see chars_space
+ */
 #define NBCHARS_SPACE   7
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_space
+/**
+ * Codepoint ranges of characters for class '**space**'.
  *
- *      Codepoint ranges of characters for class '*space*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_space>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_space
+ */
 static const chr ranges_space[] = {
     0x0009, 0x000D, 0x2000, 0x200A, 0x2028, 0x2029, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_SPACE
+/**
+ * Number of character ranges for class '**space**'.
  *
- *      Number of character ranges for class '*space*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_space
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_space
+ */
 #define NBRANGES_SPACE  3
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_upper
+/**
+ * Codepoints of individual characters for class '**upper**'.
  *
- *      Codepoints of individual characters for class '*upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_upper>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_upper
+ */
 static const chr chars_upper[] = {
     0x0100, 0x0102, 0x0104, 0x0106, 0x0108, 0x010A, 0x010C, 0x010E, 
     0x0110, 0x0112, 0x0114, 0x0116, 0x0118, 0x011A, 0x011C, 0x011E, 
@@ -1655,30 +1467,22 @@ static const chr chars_upper[] = {
     0x1D4A2, 0x1D546, 0x1D7CA, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_UPPER
+/**
+ * Number of individual characters for class '**upper**'.
  *
- *      Number of individual characters for class '*upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_upper
- *---------------------------------------------------------------------------*/
-
+ * @see chars_upper
+ */
 #define NBCHARS_UPPER   539
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_upper
+/**
+ * Codepoint ranges of characters for class '**upper**'.
  *
- *      Codepoint ranges of characters for class '*upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_upper>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_upper
+ */
 static const chr ranges_upper[] = {
     0x0041, 0x005A, 0x00C0, 0x00D6, 0x00D8, 0x00DE, 0x0178, 0x0179, 
     0x0181, 0x0182, 0x0186, 0x0187, 0x0189, 0x018B, 0x018E, 0x0191, 
@@ -1704,30 +1508,22 @@ static const chr ranges_upper[] = {
     0x1D71C, 0x1D734, 0x1D756, 0x1D76E, 0x1D790, 0x1D7A8, 0x1E900, 0x1E921, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_UPPER
+/**
+ * Number of character ranges for class '**upper**'.
  *
- *      Number of character ranges for class '*upper*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_upper
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_upper
+ */
 #define NBRANGES_UPPER  88
 
-/*---------------------------------------------------------------------------
- * Internal Variable: chars_word
+/**
+ * Codepoints of individual characters for class '**word**'.
  *
- *      Codepoints of individual characters for class '*word*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_word>
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_word
+ */
 static const chr chars_word[] = {
     0x005F, 0x00AA, 0x00B5, 0x02EC, 0x02EE, 0x037F, 0x0386, 0x038C, 
     0x0559, 0x06D5, 0x06FF, 0x0710, 0x07B1, 0x07FA, 0x081A, 0x0824, 
@@ -1746,30 +1542,22 @@ static const chr chars_word[] = {
     0x1EE7E, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_WORD
+/**
+ * Number of individual characters for class '**word**'.
  *
- *      Number of individual characters for class '*word*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_word
- *---------------------------------------------------------------------------*/
-
+ * @see chars_word
+ */
 #define NBCHARS_WORD    113
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_word
+/**
+ * Codepoint ranges of characters for class '**word**'.
  *
- *      Codepoint ranges of characters for class '*word*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_word>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_word
+ */
 static const chr ranges_word[] = {
     0x0030, 0x0039, 0x0041, 0x005A, 0x0061, 0x007A, 0x00B2, 0x00B3, 
     0x00B9, 0x00BA, 0x00BC, 0x00BE, 0x00C0, 0x00D6, 0x00D8, 0x00F6, 
@@ -1907,78 +1695,56 @@ static const chr ranges_word[] = {
     0x2B740, 0x2B81D, 0x2B820, 0x2CEA1, 0x2F800, 0x2FA1D, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_WORD
+/**
+ * Number of character ranges for class '**word**'.
  *
- *      Number of character ranges for class '*word*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_word
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_word
+ */
 #define NBRANGES_WORD   535
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_XDIGIT
+/**
+ * Number of individual characters for class '**xdigit**'.
  *
- *      Number of individual characters for class '*xdigit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_xdigit
- *---------------------------------------------------------------------------*/
-
+ * @see chars_xdigit
+ */
 #define NBCHARS_XDIGIT  0
 
-/*---------------------------------------------------------------------------
- * Internal Variable: ranges_xdigit
+/**
+ * Codepoint ranges of characters for class '**xdigit**'.
  *
- *      Codepoint ranges of characters for class '*xdigit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_xdigit>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_xdigit
+ */
 static const chr ranges_xdigit[] = {
     0x0041, 0x0046, 0x0061, 0x0066, 0x0030, 0x0039, 
 };
 
-/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_XDIGIT
+/**
+ * Number of character ranges for class '**xdigit**'.
  *
- *      Number of character ranges for class '*xdigit*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_xdigit
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_xdigit
+ */
 #define NBRANGES_XDIGIT 3
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_alnum
+/**
+ * Build vector of characters and ranges for class '**alnum**'.
  *
- *      Build vector of characters and ranges for class '*alnum*'.
+ * @return Vector for class '**alnum**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*alnum*'.
- *
- * See also:
- *      <NBCHARS_ALNUM>, <NBRANGES_ALNUM>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_ALNUM
+ * @see NBRANGES_ALNUM
+ * @see classes
+ */
 static struct cvec *
 GetCvec_alnum(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -1998,24 +1764,18 @@ GetCvec_alnum(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_alpha
+/**
+ * Build vector of characters and ranges for class '**alpha**'.
  *
- *      Build vector of characters and ranges for class '*alpha*'.
+ * @return Vector for class '**alpha**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*alpha*'.
- *
- * See also:
- *      <NBCHARS_ALPHA>, <NBRANGES_ALPHA>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_ALPHA
+ * @see NBRANGES_ALPHA
+ * @see classes
+ */
 static struct cvec *
 GetCvec_alpha(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2035,24 +1795,18 @@ GetCvec_alpha(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_ascii
+/**
+ * Build vector of characters and ranges for class '**ascii**'.
  *
- *      Build vector of characters and ranges for class '*ascii*'.
+ * @return Vector for class '**ascii**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*ascii*'.
- *
- * See also:
- *      <NBCHARS_ASCII>, <NBRANGES_ASCII>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_ASCII
+ * @see NBRANGES_ASCII
+ * @see classes
+ */
 static struct cvec *
 GetCvec_ascii(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2072,24 +1826,18 @@ GetCvec_ascii(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_blank
+/**
+ * Build vector of characters and ranges for class '**blank**'.
  *
- *      Build vector of characters and ranges for class '*blank*'.
+ * @return Vector for class '**blank**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*blank*'.
- *
- * See also:
- *      <NBCHARS_BLANK>, <NBRANGES_BLANK>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_BLANK
+ * @see NBRANGES_BLANK
+ * @see classes
+ */
 static struct cvec *
 GetCvec_blank(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2109,24 +1857,18 @@ GetCvec_blank(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_cased
+/**
+ * Build vector of characters and ranges for class '**cased**'.
  *
- *      Build vector of characters and ranges for class '*cased*'.
+ * @return Vector for class '**cased**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*cased*'.
- *
- * See also:
- *      <NBCHARS_CASED>, <NBRANGES_CASED>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_CASED
+ * @see NBRANGES_CASED
+ * @see classes
+ */
 static struct cvec *
 GetCvec_cased(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2146,24 +1888,18 @@ GetCvec_cased(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_cntrl
+/**
+ * Build vector of characters and ranges for class '**cntrl**'.
  *
- *      Build vector of characters and ranges for class '*cntrl*'.
+ * @return Vector for class '**cntrl**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*cntrl*'.
- *
- * See also:
- *      <NBCHARS_CNTRL>, <NBRANGES_CNTRL>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_CNTRL
+ * @see NBRANGES_CNTRL
+ * @see classes
+ */
 static struct cvec *
 GetCvec_cntrl(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2183,24 +1919,18 @@ GetCvec_cntrl(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_digit
+/**
+ * Build vector of characters and ranges for class '**digit**'.
  *
- *      Build vector of characters and ranges for class '*digit*'.
+ * @return Vector for class '**digit**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*digit*'.
- *
- * See also:
- *      <NBCHARS_DIGIT>, <NBRANGES_DIGIT>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_DIGIT
+ * @see NBRANGES_DIGIT
+ * @see classes
+ */
 static struct cvec *
 GetCvec_digit(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2220,24 +1950,18 @@ GetCvec_digit(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_graph
+/**
+ * Build vector of characters and ranges for class '**graph**'.
  *
- *      Build vector of characters and ranges for class '*graph*'.
+ * @return Vector for class '**graph**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*graph*'.
- *
- * See also:
- *      <NBCHARS_GRAPH>, <NBRANGES_GRAPH>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_GRAPH
+ * @see NBRANGES_GRAPH
+ * @see classes
+ */
 static struct cvec *
 GetCvec_graph(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2257,24 +1981,18 @@ GetCvec_graph(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_lower
+/**
+ * Build vector of characters and ranges for class '**lower**'.
  *
- *      Build vector of characters and ranges for class '*lower*'.
+ * @return Vector for class '**lower**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*lower*'.
- *
- * See also:
- *      <NBCHARS_LOWER>, <NBRANGES_LOWER>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_LOWER
+ * @see NBRANGES_LOWER
+ * @see classes
+ */
 static struct cvec *
 GetCvec_lower(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2294,24 +2012,18 @@ GetCvec_lower(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_print
+/**
+ * Build vector of characters and ranges for class '**print**'.
  *
- *      Build vector of characters and ranges for class '*print*'.
+ * @return Vector for class '**print**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*print*'.
- *
- * See also:
- *      <NBCHARS_PRINT>, <NBRANGES_PRINT>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_PRINT
+ * @see NBRANGES_PRINT
+ * @see classes
+ */
 static struct cvec *
 GetCvec_print(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2331,24 +2043,18 @@ GetCvec_print(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_punct
+/**
+ * Build vector of characters and ranges for class '**punct**'.
  *
- *      Build vector of characters and ranges for class '*punct*'.
+ * @return Vector for class '**punct**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*punct*'.
- *
- * See also:
- *      <NBCHARS_PUNCT>, <NBRANGES_PUNCT>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_PUNCT
+ * @see NBRANGES_PUNCT
+ * @see classes
+ */
 static struct cvec *
 GetCvec_punct(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2368,24 +2074,18 @@ GetCvec_punct(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_space
+/**
+ * Build vector of characters and ranges for class '**space**'.
  *
- *      Build vector of characters and ranges for class '*space*'.
+ * @return Vector for class '**space**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*space*'.
- *
- * See also:
- *      <NBCHARS_SPACE>, <NBRANGES_SPACE>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_SPACE
+ * @see NBRANGES_SPACE
+ * @see classes
+ */
 static struct cvec *
 GetCvec_space(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2405,24 +2105,18 @@ GetCvec_space(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_upper
+/**
+ * Build vector of characters and ranges for class '**upper**'.
  *
- *      Build vector of characters and ranges for class '*upper*'.
+ * @return Vector for class '**upper**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*upper*'.
- *
- * See also:
- *      <NBCHARS_UPPER>, <NBRANGES_UPPER>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_UPPER
+ * @see NBRANGES_UPPER
+ * @see classes
+ */
 static struct cvec *
 GetCvec_upper(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2442,24 +2136,18 @@ GetCvec_upper(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_word
+/**
+ * Build vector of characters and ranges for class '**word**'.
  *
- *      Build vector of characters and ranges for class '*word*'.
+ * @return Vector for class '**word**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*word*'.
- *
- * See also:
- *      <NBCHARS_WORD>, <NBRANGES_WORD>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_WORD
+ * @see NBRANGES_WORD
+ * @see classes
+ */
 static struct cvec *
 GetCvec_word(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2479,24 +2167,18 @@ GetCvec_word(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_xdigit
+/**
+ * Build vector of characters and ranges for class '**xdigit**'.
  *
- *      Build vector of characters and ranges for class '*xdigit*'.
+ * @return Vector for class '**xdigit**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*xdigit*'.
- *
- * See also:
- *      <NBCHARS_XDIGIT>, <NBRANGES_XDIGIT>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_XDIGIT
+ * @see NBRANGES_XDIGIT
+ * @see classes
+ */
 static struct cvec *
 GetCvec_xdigit(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -2516,25 +2198,16 @@ GetCvec_xdigit(
     return cv;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: StrEq
+/**
+ * Utility predicate, compares character sequence to C string.
  *
- *      Utility predicate, compares character sequence to C string.
- *
- * Arguments:
- *      name    - C string to compare to.
- *      startp  - Points to start of name.
- *      endp    - Points just past end of name.
- *
- * Result:
- *      Whether strings are equal.
- *---------------------------------------------------------------------------*/
-
+ * @return Whether strings are equal.
+ */
 static int
 StrEq(
-    const char *name,
-    const rchr startp,
-    const rchr endp)
+    const char *name,   /*!< C string to compare to. */
+    const rchr startp,  /*!< Points to start of name. */
+    const rchr endp)    /*!< Points just past end of name. */
 {
     const char *n=name; rchr c;
     RCHR_SET(c, startp); 
@@ -2546,11 +2219,9 @@ StrEq(
 }
 
 
-/*
-================================================================================
-Internal Section: Generic regexp locale procs
-================================================================================
-*/
+/*******************************************************************************
+ * Generic regexp locale procs
+ ******************************************************************************/
 
 /*
  - element - map collating-element name to celt

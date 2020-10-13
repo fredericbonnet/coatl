@@ -1,46 +1,46 @@
-/*
- * File: coatl.c
+/**
+ * @file coatl.c
  *
- *      TODO
+ * This file implements the error handling functions of CoATL.
+ *
+ * @see coatl.h
  */
 
 #include "../include/coatl.h"
 
+
 /*
-================================================================================
-Internal Section: Error Handling
-================================================================================
+===========================================================================*//*!
+\weakgroup error Error Handling & Debugging
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Internal Variable: CoatlDomain
- *
- *      Domain for CoATL error codes. Defines a message string for each code.
- *
- * See also:
- *      <Coatl_ErrorCode>
- *---------------------------------------------------------------------------*/
+/** @beginprivate @cond PRIVATE */
 
+/**
+ * Domain for CoATL error codes. Defines a message string for each code.
+ *
+ * @see **Col_ErrorCode**
+ */
 const char * const CoatlDomain[] = {
     "%s(%d) : assertion failed! (%s)",          // COATL_ERROR_ASSERTION (file, line, expression)
     "%x is not a large integer",                // COATL_ERROR_LARGEINT (word)
     "%x is not a regexp",                       // COATL_ERROR_REGEXP (word)
 };
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_GetErrorDomain
- *
- *      Get the domain for CoATL error codes.
- *
- * Result:
- *      The domain.
- *
- * See also: 
- *      <Col_Error>
- *---------------------------------------------------------------------------*/
+/** @endcond @endprivate */
 
+/**
+ * Get the domain for CoATL error codes.
+ *
+ * @return The domain.
+ *
+ * @see **Col_Error**
+ */
 Col_ErrorDomain
 Coatl_GetErrorDomain()
 {
     return CoatlDomain;
 }
+
+/* End of Error Handling & Debugging *//*!\}*/

@@ -1,10 +1,12 @@
-/*
- * Internal Header: coatlNumberInt.h
+/**
+ * @file coatlNumberInt.h
  *
- *      This header file defines the number handling internals of CoATL.
+ * This header file defines the number handling internals of CoATL.
  *
- * See also:
- *      <coatlNumber.c>, <coatlNumber.h>
+ * @see coatlNumber.c
+ * @see <coatlNumber.h>
+ *
+ * @beginprivate @cond PRIVATE
  */
 
 #ifndef _COATL_NUMBER_INT
@@ -12,12 +14,9 @@
 
 
 /*
-================================================================================
-Internal Section: Number Input/Output
-
-Declarations:
-        <ParseUInt>, <ReadUInt>, <WriteUInt>
-================================================================================
+===========================================================================*//*!
+\internal \addtogroup number_io Number Input/Output
+\{*//*==========================================================================
 */
 
 int                     ParseUInt(Col_RopeIterator begin, Col_RopeIterator end,
@@ -29,4 +28,7 @@ int                     ReadUInt(Col_RopeIterator begin, Col_RopeIterator end,
 void                    WriteUInt(Col_Word strbuf, uintmax_t value,
                             unsigned int radix);
 
+/* End of Number Input/Output *//*!\}*/
+
 #endif /* _COATL_NUMBER_INT */
+/*! @endcond @endprivate */

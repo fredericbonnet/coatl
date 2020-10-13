@@ -1,10 +1,9 @@
-/*
- * File: coatlUnicode.c
+/**
+ * @file coatlUnicode.c
  *
- *      This file implements the Unicode handling features of CoATL.
+ * This file implements the Unicode handling features of CoATL.
  *
- * See also:
- *      <coatlUnicode.h>
+ * @see coatlUnicode.h
  */
 
 #include "../include/coatl.h"
@@ -14,54 +13,163 @@
 
 
 /*
-================================================================================
-Section: Case Mapping and Folding
-================================================================================
+===========================================================================*//*!
+\weakgroup unicode_case Case Mapping and Folding
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_CharIsTitlecase
- *
- *      Check whether the character is titlecase.
- *
- *      Uses the Unicode Character Database (UCD).
- *
- * Argument:
- *      c       - The character to check.
- *
- * Result:
- *      Whether the character is titlecase.
- *
- * See also:
- *      <Coatl_CharIsLowercase>, <Coatl_CharIsUppercase>, <Coatl_CharIsCased>,
- *      <Coatl_CharToTitlecase>, <Coatl_GetUcdProperty_Simple_Titlecase_Mapping>
- *---------------------------------------------------------------------------*/
+/*******************************************************************************
+ * Unicode Case Predicates
+ ******************************************************************************/
 
+/**
+ * Check whether the character is titlecase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * @return Whether the character is titlecase.
+ *
+ * @see Coatl_CharIsLowercase
+ * @see Coatl_CharIsUppercase
+ * @see Coatl_CharIsCased
+ * @see Coatl_CharToTitlecase
+ * @see Coatl_GetUcdProperty_Simple_Titlecase_Mapping
+ */
 int
 Coatl_CharIsTitlecase(
-    Col_Char c)
+    Col_Char c) /*!< The character to check. */
 {
     return (Coatl_GetUcdProperty_Cased(c) 
             && Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) == c);
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: MapRope
+/**
+ * Check whether the rope is lowercase.
  *
- *      Transform rope using a one-to-one character mapping function.
+ * Uses the Unicode Character Database (UCD).
  *
- * Argument:
- *      r       - The rope to transform.
- *      mapProc - The mapping function.
+ * @return Whether the rope is lowercase.
  *
- * Result:
- *      The transformed rope.
- *---------------------------------------------------------------------------*/
+ * @see Coatl_CharIsLowercase
+ * @see Coatl_CharIsCased
+ * @see Coatl_CharToLowercase
+ */
+int
+Coatl_RopeIsLowercase(
+    Col_Word r) /*!< The rope to check. */
+{
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        Col_Char c = Col_RopeIterAt(it);
+        if (Coatl_CharIsCased(c) && !Coatl_CharIsLowercase(c)) return 0;
+    }
+    return 1;
+}
 
+/**
+ * Check whether the rope is uppercase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * @return Whether the rope is uppercase.
+ *
+ * @see Coatl_CharIsUppercase
+ * @see Coatl_CharIsCased
+ * @see Coatl_CharToUppercase
+ */
+int
+Coatl_RopeIsUppercase(
+    Col_Word r) /*!< The rope to check. */
+{
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        Col_Char c = Col_RopeIterAt(it);
+        if (Coatl_CharIsCased(c) && !Coatl_CharIsUppercase(c)) return 0;
+    }
+    return 1;
+}
+
+/**
+ * Check whether the rope is titlecase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * @return Whether the rope is titlecase.
+ *
+ * @see Coatl_CharIsTitlecase
+ * @see Coatl_CharIsCased
+ * @see Coatl_CharToTitlecase
+ */
+int
+Coatl_RopeIsTitlecase(
+    Col_Word r) /*!< The rope to check. */
+{
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        Col_Char c = Col_RopeIterAt(it);
+        if (Coatl_CharIsCased(c) && !Coatl_CharIsTitlecase(c)) return 0;
+    }
+    return 1;
+}
+
+/* TODO
+int
+Coatl_RopeIsCasefolded(
+    Col_Word r)
+{
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        Col_Char c = Col_RopeIterAt(it);
+//TODO  if (Coatl_CharIsCased(c) && !Coatl_CharIsCasefolded(c)) return 0;
+    }
+    return 1;
+}
+*/
+
+/**
+ * Check whether the rope is cased.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * @return Whether the rope is cased.
+ *
+ * @see Coatl_CharIsCased
+ */
+int
+Coatl_RopeIsCased(
+    Col_Word r) /*!< The rope to check. */
+{
+    Col_RopeIterator it;
+    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        Col_Char c = Col_RopeIterAt(it);
+        if (Coatl_CharIsCased(c)) return 1;
+    }
+    return 0;
+}
+
+/* End of Unicode Case Predicates */
+
+
+/*******************************************************************************
+ * Unicode Case Transform
+ ******************************************************************************/
+
+/** @beginprivate @cond PRIVATE */
+
+/**
+ * Transform rope using a one-to-one character mapping function.
+ *
+ * @return The transformed rope.
+ */
 static Col_Word
 MapRope(
-    Col_Word r,
-    Col_Char (*mapProc)(Col_Char))
+    Col_Word r,                     /*!< The rope to transform. */
+    Col_Char (*mapProc)(Col_Char))  /*!< The mapping function. */
 {
     Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
     Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);//TODO optimize buffer length?
@@ -105,23 +213,15 @@ MapRope(
     return Col_StringBufferFreeze(strbuf);
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: TransformRope
+/**
+ * Transform rope using a one-to-many character mapping function.
  *
- *      Transform rope using a one-to-many character mapping function.
- *
- * Argument:
- *      r       - The rope to transform.
- *      mapProc - The mapping function.
- *
- * Result:
- *      The transformed rope.
- *---------------------------------------------------------------------------*/
-
+ * @return The transformed rope.
+ */
 static Col_Word
 TransformRope(
-    Col_Word r,
-    const int * (*mapProc)(Col_Char, size_t *))
+    Col_Word r,                                 /*!< The rope to transform. */
+    const int * (*mapProc)(Col_Char, size_t *)) /*!< The mapping function. */
 {
     Col_RopeIterator it, firstUnchanged = COL_ROPEITER_NULL;
     Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS);//TODO optimize buffer length?
@@ -175,97 +275,108 @@ TransformRope(
     return Col_StringBufferFreeze(strbuf);
 }
 
+/** @endcond @endprivate */
 
+/**
+ * Transform the rope to lowercase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * Two modes are available:
+ * - full mode: cased characters are transformed into character sequences, 
+ *   depending on the UCD property '**Lowercase_Mapping**'
+ * - simple mode: cased characters are mapped individually, depending on the
+ *   UCD property '**Simple_Lowercase_Mapping**'
+ *
+ * @return The transformed rope.
+ *
+ * @see Coatl_GetUcdProperty_Lc
+ * @see Coatl_GetUcdProperty_Slc
+ */
 Col_Word
 Coatl_RopeToLowercase(
-    Col_Word r,
-    int full)
+    Col_Word r, /*!< The rope to transform. */
+    int full)   /*!< Whether to use full or simple mode. */
 {
     return full ? TransformRope(r, Coatl_GetUcdProperty_Lc)
             : MapRope(r, Coatl_GetUcdProperty_Slc);
 }
+
+/**
+ * Transform the rope to uppercase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * Two modes are available:
+ * - full mode: cased characters are transformed into character sequences, 
+ *   depending on the UCD property '**Uppercase_Mapping**'
+ * - simple mode: cased characters are mapped individually, depending on the
+ *   UCD property '**Simple_Uppercase_Mapping**'
+ *
+ * @return The transformed rope.
+ *
+ * @see Coatl_GetUcdProperty_Uc
+ * @see Coatl_GetUcdProperty_Suc
+ */
 Col_Word
 Coatl_RopeToUppercase(
-    Col_Word r,
-    int full)
+    Col_Word r, /*!< The rope to transform. */
+    int full)   /*!< Whether to use full or simple mode. */
 {
     return full ? TransformRope(r, Coatl_GetUcdProperty_Uc)
             : MapRope(r, Coatl_GetUcdProperty_Suc);
 }
+
+/**
+ * Transform the rope to titlecase.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * Two modes are available:
+ * - full mode: cased characters are transformed into character sequences, 
+ *   depending on the UCD property '**Titlecase_Mapping**'
+ * - simple mode: cased characters are mapped individually, depending on the
+ *   UCD property '**Simple_Titlecase_Mapping**'
+ *
+ * @return The transformed rope.
+ *
+ * @see Coatl_GetUcdProperty_Tc
+ * @see Coatl_GetUcdProperty_Stc
+ */
 Col_Word
 Coatl_RopeToTitlecase(
-    Col_Word r,
-    int full)
+    Col_Word r, /*!< The rope to transform. */
+    int full)   /*!< Whether to use full or simple mode. */
 {
     return full ? TransformRope(r, Coatl_GetUcdProperty_Tc)
             : MapRope(r, Coatl_GetUcdProperty_Stc);
 }
+
+/**
+ * Transform the rope to case folded.
+ *
+ * Uses the Unicode Character Database (UCD).
+ *
+ * Two modes are available:
+ * - full mode: cased characters are transformed into character sequences, 
+ *   depending on the UCD property '**Case_Folding**'
+ * - simple mode: cased characters are mapped individually, depending on the
+ *   UCD property '**Simple_Case_Folding**'
+ *
+ * @return The transformed rope.
+ *
+ * @see Coatl_GetUcdProperty_Cf
+ * @see Coatl_GetUcdProperty_Scf
+ */
 Col_Word
-Coatl_RopeToCasefold(
-    Col_Word r,
-    int full)
+Coatl_RopeToCaseFolded(
+    Col_Word r, /*!< The rope to transform. */
+    int full)   /*!< Whether to use full or simple mode. */
 {
     return full ? TransformRope(r, Coatl_GetUcdProperty_Cf)
             : MapRope(r, Coatl_GetUcdProperty_Scf);
 }
 
-int
-Coatl_RopeIsLowercase(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsLowercase(c)) return 0;
-    }
-    return 1;
-}
-int
-Coatl_RopeIsUppercase(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsUppercase(c)) return 0;
-    }
-    return 1;
-}
-int
-Coatl_RopeIsTitlecase(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsTitlecase(c)) return 0;
-    }
-    return 1;
-}
-int
-Coatl_RopeIsCasefolded(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-//TODO  if (Coatl_CharIsCased(c) && !Coatl_CharIsCasefolded(c)) return 0;
-    }
-    return 1;
-}
-int
-Coatl_RopeIsCased(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c)) return 1;
-    }
-    return 0;
-}
+/* End of Unicode Case Transform */
+
+/* End of Case Mapping and Folding *//*!\}*/

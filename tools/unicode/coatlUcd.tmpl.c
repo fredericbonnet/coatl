@@ -1,11 +1,11 @@
 header
-{/*
- * File: coatlUcd.c
+{/**
+ * @file coatlUcd.c
  *
- *      This file implements Unicode character property data and accessors.
+ * This file implements Unicode character property data and accessors.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcd.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 #include "../include/coatl.h"
@@ -16,139 +16,130 @@ header
  * Prototypes for functions used only in this file.
  */
 
-static int              GetRange(Col_Char c, const Col_Char *ranges, 
+/*! \cond IGNORE */
+static int              GetRange(Col_Char c, const Col_Char *ranges,
                             int nbRanges);
+/*! \endcond *//* IGNORE */
 }
 
-ucdCompiledDataGroup 
+ucdCompiledDataGroupBegin
 {
 /*
-================================================================================
-Internal Section: Compiled UCD Data
-
-        Statically compiled Unicode Character Database (UCD).
-
-Description:
-        The Unicode Character Database (UCD) defines a set of properties for
-        every known codepoint in the standard. This represents a huge quantity
-        of raw data for over one million codepoints. Storing this data as flat
-        C arrays of high level structures is not realistic, as it would inflate
-        the size of the compiled binary by tens of megabytes and would 
-        overburden the client processes' memory.
-
-        To solve this problem we compile the UCD in the most compact way 
-        possible using a combination of techniques:
-
-        - Don't store flat arrays of values, but contiguous ranges of values 
-        that are binary-searched during lookup; as neighboring codepoints in the
-        UCD often share the same properties, this technique is very efficient.
-        - Use enums for all enumerated properties to minimize storage (values
-        fit a single byte in most cases).
-        - Boolean properties need only the first value since consecutive ranges 
-        have alternate values.
-        - Use atom tables for strings and complex datatypes to reuse storage. 
- 
-        That way, all but the name properties are statically defined in the
-        library without too much overhead. By comparison the uncompressed 
-        textual version of the UCD weighs around 15MB, and the grouped XML 
-        version around 40MB.
-================================================================================
+===========================================================================*//*!
+\defgroup ucd Unicode Character Database
+\ingroup unicode
+\{*//*==========================================================================
 */
+
+/*
+===========================================================================*//*!
+\internal \defgroup ucd_data Compiled UCD Data
+
+Statically compiled Unicode Character Database (UCD).
+
+The Unicode Character Database (UCD) defines a set of properties for every known
+codepoint in the standard. This represents a huge quantity of raw data for over
+one million codepoints. Storing this data as flat C arrays of high level
+structures is not realistic, as it would inflate the size of the compiled binary
+by tens of megabytes and would overburden the client processes' memory.
+
+To solve this problem we compile the UCD in the most compact way possible using
+a combination of techniques:
+
+- Don't store flat arrays of values, but contiguous ranges of values that are
+  binary-searched during lookup; as neighboring codepoints in the UCD often
+  share the same properties, this technique is very efficient.
+- Use enums for all enumerated properties to minimize storage (values fit a
+  single byte in most cases).
+- Boolean properties need only the first value since consecutive ranges have
+  alternate values.
+- Use atom tables for strings and complex datatypes to reuse storage.
+
+That way, all but the name properties are statically defined in the library
+without too much overhead. By comparison the uncompressed textual version of the
+UCD weighs around 15MB, and the grouped XML version around 40MB.
+\{*//*==========================================================================
+*/
+
+/** @beginprivate @cond PRIVATE */
 }
 
 rangeVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_${property}
+{/**
+ * Codepoint ranges of values for UCD property '**${property}**'.
  *
- *      Codepoint ranges of values for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 static const Col_Char ucdRanges_${property}[] = {${ranges}};
 }
 
 rangeBooleanVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdRanges_${property}
+{/**
+ * Codepoint ranges of values for UCD property '**${property}**'.
  *
- *      Codepoint ranges of values for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <UCD_VALUE_0_${PROPERTY}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see UCD_VALUE_0_${PROPERTY}
+ * @see COATL_UCD_${PROPERTY}
+ */
 static const Col_Char ucdRanges_${property}[] = {${ranges}};
 }
 
 nbRangeConstant
-{/*---------------------------------------------------------------------------
- * Internal Constant: UCD_NBRANGES_${PROPERTY}
+{/**
+ * Number of ranges of values for UCD property '**${property}**'.
  *
- *      Number of ranges of values for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 #define UCD_NBRANGES_${PROPERTY}${padding} ${nbRanges}
 }
 
 valueBooleanVar
-{/*---------------------------------------------------------------------------
- * Internal Constant: UCD_VALUE_0_${PROPERTY}
+{/**
+ * Value of first range for UCD property '**${property}**'.
  *
- *      Value of first range for UCD property '*${property}*'. 
+ * This property is boolean, so storing the first value is sufficient as
+ * consecutive ranges have alternating values.
  *
- *      This property is boolean, so storing the first value is sufficient as
- *      consecutive ranges have alternating values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 #define UCD_VALUE_0_${PROPERTY}${padding}  ${value0}
 }
 
 valueCpVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_${property}
+{/**
+ * Per-range values for UCD property '**${property}**'.
  *
- *      Per-range values for UCD property '*${property}*'.
+ * This property is single-codepoint, stored as offsets from the codepoint
+ * value so as to build large ranges of identical values.
  *
- *      This property is single-codepoint, stored as offsets from the codepoint
- *      value so as to build large ranges of identical values.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 static const Col_Char ucdValues_${property}[] = {${values}};
 }
 
 valueEnumVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_${property}
+{/**
+ * Per-range values for UCD property '**${property}**'.
  *
- *      Per-range values for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_${property}>, <COATL_UCD_${PROPERTY}>, <Coatl_Ucd_${Property}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_${property}
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_Ucd_${Property}
+ */
 static const Coatl_Ucd_${Property} ucdValues_${property}[] = {${values}};
 }
 
@@ -156,85 +147,73 @@ enumValue
 {COATL_UCD_${PROPERTY}_${VALUE}}
 
 valueAtomVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdValues_${property}
+{/**
+ * Per-range atom indices for UCD property '**${property}**'.
  *
- *      Per-range atom indices for UCD property '*${property}*'.
+ * This array stores the index of the value in the atom array for each range. 
+ * Atoms are stored in the separate array #ucdAtoms_${property}.
  *
- *      This array stores the index of the value in the atom array for each 
- *      range. Atoms are stored in the separate array <ucdAtoms_${property}>. 
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdRanges_${property}>, <ucdAtoms_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdRanges_${property}
+ * @see ucdAtoms_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 static const unsigned ${valueType} ucdValues_${property}[] = {${values}};
 }
 
 atomVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_${property}
+{/**
+ * Atoms for UCD property '**${property}**'.
  *
- *      Atoms for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_${property}>, <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_${property}
+ * @see COATL_UCD_${PROPERTY}
+ */
 static const ${atomType} ucdAtoms_${property}[] = {${atoms}};
 }
 
 atomEnumVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ucdAtoms_${property}
+{/**
+ * Atoms for UCD property '**${property}**'.
  *
- *      Atoms for UCD property '*${property}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ucdValues_${property}>, <COATL_UCD_${PROPERTY}>, <Coatl_Ucd_${ElementProperty}>
- *---------------------------------------------------------------------------*/
-
+ * @see ucdValues_${property}
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_Ucd_${ElementProperty}
+ */
 static const unsigned ${valueType} ucdAtoms_${property}[] = {${atoms}};
 }
 
-atomEnumValue 
+atomEnumValue
 {COATL_UCD_${ELEMENT_PROPERTY}_${ENUM_VALUE}}
 
+ucdCompiledDataGroupEnd
+{/** @endcond @endprivate */
 
-ucdPropertyAccessorsGroup 
+/* End of Compiled UCD Data *//*!\}*/
+}
+
+ucdPropertyAccessorsGroupBegin
 {
-/*
-================================================================================
-Section: UCD Property Accessors
-================================================================================
-*/
+/*******************************************************************************
+ * UCD Property Accessors
+ ******************************************************************************/
 
-/*---------------------------------------------------------------------------
- * Internal Function: GetRange
- *
- *      Get the range index containing the given codepoint.
- *
- * Arguments:
- *      c               - Codepoint to lookup.
- *      ranges          - Array of ranges boundaries. First one is omitted 
- *                        (first codepoint is always zero).
- *      nbRanges        - Number of ranges.
- *
- * Result:
- *      Range index.
- *---------------------------------------------------------------------------*/
+/** @beginprivate @cond PRIVATE */
 
-static int 
+/**
+ * Get the range index containing the given codepoint.
+ *
+ * @return Range index.*/
+static int
 GetRange(
-    Col_Char c, 
-    const Col_Char *ranges, 
-    int nbRanges) 
+    Col_Char c,             /*!< Codepoint to lookup. */
+    const Col_Char *ranges, /*!< Array of ranges boundaries. First one is
+                                 omitted (first codepoint is always zero). */
+    int nbRanges)           /*!< Number of ranges. */
 {
     int min, max;
     if (c < ranges[0] || nbRanges < 2) return 0;
@@ -246,27 +225,21 @@ GetRange(
     }
     return min;
 }
+
+/** @endcond @endprivate */
 }
 
 propertyAccessor_boolean
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Value of UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*${property}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ */
 int
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return (GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})%2)
         ? !UCD_VALUE_0_${PROPERTY}
@@ -275,129 +248,90 @@ Coatl_GetUcdProperty_${Property}(
 }
 
 propertyAccessor_enum
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Value of UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Results:
- *      Value of UCD property '*${property}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>, <Coatl_Ucd_${Property}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_Ucd_${Property}
+ */
 Coatl_Ucd_${Property}
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})];
 }
 }
 
 propertyAccessor_cp
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Value of UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*${property}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ */
 Col_Char
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return c+ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})];
 }
 }
 
 propertyAccessor_numeric
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Value of UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*${property}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ */
 const char *
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdAtoms_${property}[ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})]];
 }
 }
 
 propertyAccessor_string
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Value of UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
- *
- * Result:
- *      Value of UCD property '*${property}*'.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ */
 const char *
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c)
+    Col_Char c) /*!< Codepoint to get UCD property value for. */
 {
     return ucdAtoms_${property}[ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})]];
 }
 }
 
 propertyAccessor_mcp
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Beginning of value list for UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * If list length is 1, the first entry gives the offset from the input
+ * codepoint to get the actual single-value codepoint. Else, list entries give
+ * codepoint values that can be safely cast to Col_Char.
  *
- * Results:
- *      Beginning of value list for UCD property '*${property}*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length. 
- *
- *      If list length is 1, the first entry gives the offset from the input 
- *      codepoint to get the actual single-value codepoint. Else, list entries
- *      give codepoint values that can be safely cast to Col_Char.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ */
 const int *
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
-    const int *first = ucdAtoms_${property} + ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})], 
+    const int *first = ucdAtoms_${property} + ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
@@ -406,35 +340,33 @@ Coatl_GetUcdProperty_${Property}(
 }
 
 propertyAccessor_enumList
-{/*---------------------------------------------------------------------------
- * Function: Coatl_GetUcdProperty_${Property}
+{/**
+ * Get value of UCD property '**${property}**' for given codepoint.
  *
- *      Get value of UCD property '*${property}*' for given codepoint.
+ * @return Beginning of value list for UCD property '**${property}**'.
  *
- * Argument:
- *      c       - Codepoint to get UCD property value for.
+ * Entries can be safely cast to #Coatl_Ucd_${ElementProperty}.
  *
- * Results:
- *      Beginning of value list for UCD property '*${property}*'. Additionally:
- *
- *      lengthPtr       - (out) Value list length.
- *
- *      Entries can be safely cast to <Coatl_Ucd_${ElementProperty}>.
- *
- * See also:
- *      <COATL_UCD_${PROPERTY}>, <Coatl_Ucd_${ElementProperty}>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_UCD_${PROPERTY}
+ * @see Coatl_Ucd_${ElementProperty}
+ */
 const unsigned ${valueType} *
 Coatl_GetUcdProperty_${Property}(
-    Col_Char c,
+    Col_Char c, /*!< Codepoint to get UCD property value for. */
+
+    /*! [out] Value list length. */
     size_t *lengthPtr)
 {
     const unsigned ${valueType}
-        *first = ucdAtoms_${property} + ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})], 
+        *first = ucdAtoms_${property} + ucdValues_${property}[GetRange(c, ucdRanges_${property}, UCD_NBRANGES_${PROPERTY})],
         *last = first;
     while (*last != 0) last++;
     *lengthPtr = last-first;
     return first;
 }
 }
+
+ucdPropertyAccessorsGroupEnd
+{/* End of UCD Property Accessors */
+
+/* End of Unicode Character Database *//*!\}*/}

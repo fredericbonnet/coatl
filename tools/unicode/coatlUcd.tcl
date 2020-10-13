@@ -22,7 +22,7 @@ fconfigure $out -buffering line
 
 puts $out [subst -nobackslashes -nocommands $templates(header)]
 
-puts $out [subst -nobackslashes -nocommands $templates(ucdPropertiesGroup)]
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertiesGroupBegin)]
 
 #
 # Parse PropertyAliases.txt and generate enum values for property names.
@@ -175,7 +175,7 @@ dict for {property info} $properties {
     }
     puts $out [subst -nobackslashes -nocommands $templates(propertyEnum)]
 }
-    
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertiesGroupEnd)]
 
 puts $out [subst -nobackslashes -nocommands $templates(footer)]
 
@@ -200,24 +200,7 @@ puts $out [subst -nobackslashes -nocommands $templates(header)]
 # Generate accessor declarations for all known properties.
 #
 
-set declarations ""
-set nb 0
-dict for {property info} $properties {
-    if {[dict get $info type] in {deprecated name}} continue
-
-    set Property [string totitle $property 0 0]
-    set PROPERTY [string toupper $property]
-
-    if {$nb == 0} {
-        append declarations [subst -nobackslashes -nocommands $templates(propertyAccessorDeclarationFirst)]
-    } elseif {($nb % 2) == 0} {
-        append declarations [subst -nobackslashes -nocommands $templates(propertyAccessorDeclarationWrap)]
-    } else {
-        append declarations [subst -nobackslashes -nocommands $templates(propertyAccessorDeclarationNext)]
-    }
-    incr nb
-}
-puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroup)]
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroupBegin)]
 
 dict for {property info} $properties {
     if {[dict get $info type] in {deprecated name}} continue
@@ -268,6 +251,8 @@ dict for {property info} $properties {
     }
 }
 
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroupEnd)]
+
 puts $out [subst -nobackslashes -nocommands $templates(footer)]
 
 close $out
@@ -283,7 +268,7 @@ fconfigure $out -buffering line
 
 puts $out [subst -nobackslashes -nocommands $templates(header)]
 
-puts $out [subst -nobackslashes -nocommands $templates(ucdCompiledDataGroup)]
+puts $out [subst -nobackslashes -nocommands $templates(ucdCompiledDataGroupBegin)]
 
 if {$doParse} {
     puts "Parsing..."
@@ -611,11 +596,13 @@ dict for {property info} $properties {
     }
 }
 
+puts $out [subst -nobackslashes -nocommands $templates(ucdCompiledDataGroupEnd)]
+
 #
 # Now generate accessors for all known properties.
 #
 
-puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroup)]
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroupBegin)]
 
 dict for {property info} $properties {
     if {[dict get $info type] in {deprecated name}} continue
@@ -636,6 +623,8 @@ dict for {property info} $properties {
         puts $out [subst -nobackslashes -nocommands $templates(propertyAccessor_$type)]
     }
 }
+
+puts $out [subst -nobackslashes -nocommands $templates(ucdPropertyAccessorsGroupEnd)]
 
 close $out
 
@@ -661,6 +650,7 @@ puts $out [subst -nobackslashes -nocommands $templates(header)]
 dict for {class criteria} $classes {
     puts $out [subst -nobackslashes -nocommands $templates(procDecl)]
 }
+puts $out [subst -nobackslashes -nocommands $templates(headerEnd)]
 
 set symbolInfos ""
 dict for {symbol char} $symbols {

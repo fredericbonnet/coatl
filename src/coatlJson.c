@@ -1,10 +1,9 @@
-/*
- * File: coatlJson.c
+/**
+ * @file coatlJson.c
  *
- *      This file implements the JSON features of CoATL.
+ * This file implements the JSON features of CoATL.
  *
- * See also:
- *      <coatlJson.h>
+ * @see coatlJson.h
  */
 
 #include "../include/coatl.h"
@@ -19,6 +18,7 @@
  * Prototypes for functions used only in this file.
  */
 
+/*! \cond IGNORE */
 static int              ReadJsonLiteral(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Word *wordPtr);
 static int              ReadJsonNumber(Col_RopeIterator begin,
@@ -26,13 +26,13 @@ static int              ReadJsonNumber(Col_RopeIterator begin,
                             int *realPtr);
 static int              ReadJsonBackslash(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Char *charPtr);
-static int              ReadJsonString(Col_RopeIterator begin, 
+static int              ReadJsonString(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Word *wordPtr);
-static int              ReadJsonObject(Col_RopeIterator begin, 
+static int              ReadJsonObject(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Word *wordPtr);
-static int              ReadJsonArray(Col_RopeIterator begin, 
+static int              ReadJsonArray(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Word *wordPtr);
-static int              ReadJsonValue(Col_RopeIterator begin, 
+static int              ReadJsonValue(Col_RopeIterator begin,
                             Col_RopeIterator end, Col_Word *wordPtr);
 static size_t           WriteJsonString(Col_Word strbuf, Col_Word word);
 static size_t           WriteJsonArray(Col_Word strbuf, Col_Word word,
@@ -41,36 +41,35 @@ static size_t           WriteJsonObject(Col_Word strbuf, Col_Word word,
                             size_t indent, size_t indented);
 static size_t           WriteJsonValue(Col_Word strbuf, Col_Word word,
                             size_t indent, size_t indented);
+/*! \endcond *//* IGNORE */
 
 
 /*
-================================================================================
-Section: JSON Input/Output
-================================================================================
+===========================================================================*//*!
+\weakgroup json JSON Input/Output
+\{*//*==========================================================================
 */
 
-//TODO
+/** @beginprivate @cond PRIVATE */
+
+/** JSON whitespaces */
 static const Col_Char whitespace[] = {0x20, 0x09, 0x0A, 0x0D, COL_CHAR_INVALID};
 
-/*---------------------------------------------------------------------------
- * Internal Variable: jsonFloatFormat
+/**
+ * JSON Float writing format. Ensures floats have at least one fractional
+ * digit.
  *
- *      JSON Float writing format. Ensures floats have at least one fractional
- *      digit.
+ * - Base-10.
+ * - No prefix.
+ * - No digit grouping.
+ * - No leading zeroes in integral part.
+ * - At least one fractional digit.
+ * - No truncation.
+ * - Radix point is dot character *'.'*.
+ * - Optional exponent character is lowercase *'e'*.
  *
- *      - Base-10.
- *      - No prefix.
- *      - No digit grouping.
- *      - No leading zeroes in integral part.
- *      - At least one fractional digit.
- *      - No truncation.
- *      - Radix point is dot character *'.'*.
- *      - Optional exponent character is lowercase *'e'*.
- *
- * See also:
- *      <COATL_NUMWRITE_DEFAULT>
- *---------------------------------------------------------------------------*/
-
+ * @see COATL_NUMWRITE_DEFAULT
+ */
 static const Coatl_NumWriteFormat jsonFloatFormat = {
     /* .flags = */              0,
     /* .radix = */              10,
@@ -91,33 +90,26 @@ static const Coatl_NumWriteFormat jsonFloatFormat = {
     /* .expChar = */            'e',
 };
 
-
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonLiteral
+/**
+ * Read a JSON literal as a word. The following literals are recognized:
  *
- *      Read a JSON literal as a word. The following literals are recognized:
+ * - **true**:  Boolean true.
+ * - **false**: Boolean false.
+ * - **null**:  Null value, gives the nil word.
  *
- *      true    - Boolean true.
- *      false   - Boolean false.
- *      null    - Null value, gives the nil word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including backslash char).
- *      end     - End of sequence.
- *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      valuePtr        - If non-NULL, resulting character upon success.
- *
- * Side effects:
- *      *begin* is moved just past the read sequence.
- *---------------------------------------------------------------------------*/
-
+ * @sideeffect
+ *      **begin** is moved just past the read sequence.
+ */
 static int
 ReadJsonLiteral(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including
+                                 backslash char). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting character upon success. */
     Col_Word *wordPtr)
 {
     Col_Char c;
@@ -128,7 +120,7 @@ ReadJsonLiteral(
         /*
          * 'true'.
          */
-        
+
         NEXT_CHAR(c, begin, end) break;
         if (c != 'r') break;
         NEXT_CHAR(c, begin, end) break;
@@ -143,7 +135,7 @@ ReadJsonLiteral(
         /*
          * 'false'.
          */
-        
+
         NEXT_CHAR(c, begin, end) break;
         if (c != 'a') break;
         NEXT_CHAR(c, begin, end) break;
@@ -160,7 +152,7 @@ ReadJsonLiteral(
         /*
          * 'null'.
          */
-        
+
         NEXT_CHAR(c, begin, end) break;
         if (c != 'u') break;
         NEXT_CHAR(c, begin, end) break;
@@ -171,7 +163,7 @@ ReadJsonLiteral(
         NEXT_CHAR(c, begin, end);
         return 1;
     }
-    
+
     /*
      * Invalid syntax.
      */
@@ -179,35 +171,30 @@ ReadJsonLiteral(
     return 0;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonNumber
+/**
+ * Read a JSON number (integer or floating point) as a number word.
  *
- *      Read a JSON number (integer or floating point) as a number word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including backslash char).
- *      end     - End of sequence.
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
  *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting word upon success. May be a Colibri
- *                integer or floating point word, a CoATL large integer word, 
- *                or a CoATL multiple integer or floating point word.
- *      realPtr - If non-NULL, whether number was real or integer.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
-  *
- * See also:
- *      <Coatl_ReadIntWord>, <Coatl_ReadFloatWord>
-*---------------------------------------------------------------------------*/
-
+ * @see Coatl_ReadIntWord
+ * @see Coatl_ReadFloatWord
+ */
 static int
 ReadJsonNumber(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including
+                                 backslash char). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting word upon success. May be a Colibri integer
+        or floating point word, a CoATL large integer word, or a CoATL multiple
+        integer or floating point word.*/
     Col_Word *wordPtr,
+
+    /*! [out] If non-NULL, resulting data upon success. */
     int *realPtr)
 {
     Col_Char c;
@@ -238,7 +225,7 @@ ReadJsonNumber(
 
     if (realPtr) *realPtr = 0;
     GET_CHAR(c, begin, end) return 0;
-    if (c == '-') {     
+    if (c == '-') {
         /*
          * Minus sign.
          */
@@ -302,28 +289,22 @@ ReadJsonNumber(
     return 1;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonBackslash
+/**
+ * Read a JSON backslash sequence as a character.
  *
- *      Read a JSON backslash sequence as a character.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including backslash char).
- *      end     - End of sequence.
- *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      charPtr    - If non-NULL, resulting character upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *---------------------------------------------------------------------------*/
-
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
+ */
 static int
 ReadJsonBackslash(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including
+                                 backslash char). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting character upon success. */
     Col_Char *charPtr)
 {
     Col_Char c;
@@ -378,37 +359,30 @@ ReadJsonBackslash(
     return 1;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonString
+/**
+ * Read a JSON string as a string word.
  *
- *      Read a JSON string as a string word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including open quote).
- *      end     - End of sequence.
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
  *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting string word upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *
- * See also:
- *      <ReadJsonBackslash>
- *---------------------------------------------------------------------------*/
-
+ * @see ReadJsonBackslash
+ */
 static int
 ReadJsonString(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including open
+                                 quote). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting string word upon success. */
     Col_Word *wordPtr)
 {
     Col_RopeIterator firstUnchanged = COL_ROPEITER_NULL;
     Col_Word strbuf;
     Col_Char c;
-    
+
     ASSERT(Col_RopeIterCompare(begin, end) < 0);
     ASSERT(Col_RopeIterAt(begin) == '"');
     Col_RopeIterNext(begin);
@@ -476,31 +450,25 @@ ReadJsonString(
     }
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonObject
+/**
+ * Read a JSON object (braced block) as a map word.
  *
- *      Read a JSON object (braced block) as a map word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including open brace).
- *      end     - End of sequence.
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
  *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting map word upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *
- * See also:
- *      <ReadJsonString>, <ReadJsonValue>
- *---------------------------------------------------------------------------*/
-
+ * @see ReadJsonString
+ * @see ReadJsonValue
+ */
 static int
 ReadJsonObject(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including open
+                                 brace). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting map word upon success. */
     Col_Word *wordPtr)
 {
     size_t nb;
@@ -574,32 +542,25 @@ ReadJsonObject(
     return 0;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonArray
+/**
+ * Read a JSON array (bracketed block) as a list word.
  *
- *      Read a JSON array (bracketed block) as a list word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read (including open bracket).
- *      end     - End of sequence.
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
  *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting list word upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *
- * See also:
- *      <ReadJsonValue>
- *---------------------------------------------------------------------------*/
-
+ * @see ReadJsonValue
+ */
 static int
 ReadJsonArray(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
-    Col_Word *wordPtr)
+    Col_RopeIterator begin, /*!< Beginning of sequence to read (including open
+                                 bracket). */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting list word upon success. */
+     Col_Word *wordPtr)
 {
     size_t nb, i;
     Col_RopeIterator it;
@@ -693,32 +654,28 @@ ReadJsonArray(
     return 1;
 }
 
-/*---------------------------------------------------------------------------
- * Internal Function: ReadJsonValue
+/**
+ * Read a JSON value as a word.
  *
- *      Read a JSON value as a word.
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
  *
- * Arguments:
- *      begin   - Beginning of sequence to read.
- *      end     - End of sequence.
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
  *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting value upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *
- * See also:
- *      <Coatl_ReadJson>, <ReadJsonString>, <ReadJsonNumber>, <ReadJsonObject>,
- *      <ReadJsonArray>, <ReadJsonLiteral>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_ReadJson
+ * @see ReadJsonString
+ * @see ReadJsonNumber
+ * @see ReadJsonObject
+ * @see ReadJsonArray
+ * @see ReadJsonLiteral
+ */
 static int
 ReadJsonValue(
-    Col_RopeIterator begin,
-    Col_RopeIterator end,
+    Col_RopeIterator begin, /*!< Beginning of sequence to read. */
+    Col_RopeIterator end,   /*!< End of sequence. */
+
+    /*! [out] If non-NULL, resulting value upon success. */
     Col_Word *wordPtr)
 {
     ASSERT(Col_RopeIterCompare(begin, end) < 0);
@@ -779,31 +736,22 @@ ReadJsonValue(
     }
 }
 
-/*---------------------------------------------------------------------------
- * Function: WriteJsonString
+/**
+ * Write a string word to a string buffer using the JSON format.
  *
- *      Write a string word to a string buffer using the JSON format.
+ * Double quotes are escaped.
  *
- *      Double quotes are escaped.
+ * @return Number of characters written.
  *
- * Arguments:
- *      strbuf  - Output string buffer.
- *      word    - Word to write.
- *
- * Result:
- *      Number of characters written.
- *
- * Side effects:
+ * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * See also:
- *      <WriteJsonValue>
- *---------------------------------------------------------------------------*/
-
+ * @see WriteJsonValue
+ */
 static size_t
 WriteJsonString(
-    Col_Word strbuf, 
-    Col_Word word)
+    Col_Word strbuf,    /*!< Output string buffer. */
+    Col_Word word)      /*!< Word to write. */
 {
     size_t oldLen = Col_StringBufferLength(strbuf);
     Col_RopeIterator begin, end;
@@ -825,47 +773,36 @@ WriteJsonString(
     return Col_StringBufferLength(strbuf) - oldLen;
 }
 
-/*---------------------------------------------------------------------------
- * Function: WriteJsonArray
+/**
+ * Write a list word to a string buffer using the JSON format.
  *
- *      Write a list word to a string buffer using the JSON format.
+ * Double quotes are escaped.
  *
- *      Double quotes are escaped.
+ * @result Number of characters written.
  *
- * Arguments:
- *      strbuf          - Output string buffer.
- *      word            - Word to write.
- *      indent          - If zero, output uses no whitespace. Else, output is 
- *                        pretty-printed using the given number of indentation
- *                        spaces.
- *      indented        - If zero, output uses no whitespace. Else, value has 
- *                        been indented by the given number of spaces.
- *
- * Result:
- *      Number of characters written.
- *
- * Side effects:
+ * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * See also:
- *      <WriteJsonValue>
- *---------------------------------------------------------------------------*/
-
+ * @see WriteJsonValue
+ */
 static size_t
 WriteJsonArray(
-    Col_Word strbuf, 
-    Col_Word word,
-    size_t indent,
-    size_t indented)
+    Col_Word strbuf,    /*!< Output string buffer. */
+    Col_Word word,      /*!< Word to write. */
+    size_t indent,      /*!< If zero, output uses no whitespace. Else, output is
+                             pretty-printed using the given number of 
+                             indentation spaces. */
+    size_t indented)    /*!< If zero, output uses no whitespace. Else, value has
+                             been indented by the given number of spaces. */
 {
     size_t oldLen = Col_StringBufferLength(strbuf);
     size_t i;
     Col_ListIterator it;
     int first;
-    
+
     Col_StringBufferAppendChar(strbuf, '[');
 
-    for (Col_ListIterFirst(it, word), first = 1; !Col_ListIterEnd(it); 
+    for (Col_ListIterFirst(it, word), first = 1; !Col_ListIterEnd(it);
             Col_ListIterNext(it)) {
         if (first) first = 0;
         else Col_StringBufferAppendChar(strbuf, ',');
@@ -897,47 +834,36 @@ WriteJsonArray(
     return Col_StringBufferLength(strbuf) - oldLen;
 }
 
-/*---------------------------------------------------------------------------
- * Function: WriteJsonObject
+/**
+ * Write a string-keyed map word to a string buffer using the JSON format.
  *
- *      Write a string-keyed map word to a string buffer using the JSON format.
+ * Double quotes are escaped.
  *
- *      Double quotes are escaped.
+ * @return Number of characters written.
  *
- * Arguments:
- *      strbuf          - Output string buffer.
- *      word            - Word to write.
- *      indent          - If zero, output uses no whitespace. Else, output is 
- *                        pretty-printed using the given number of indentation
- *                        spaces.
- *      indented        - If zero, output uses no whitespace. Else, value has 
- *                        been indented by the given number of spaces.
- *
- * Result:
- *      Number of characters written.
- *
- * Side effects:
+ * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * See also:
- *      <WriteJsonValue>
- *---------------------------------------------------------------------------*/
-
+ * @see WriteJsonValue
+ */
 static size_t
 WriteJsonObject(
-    Col_Word strbuf, 
-    Col_Word word,
-    size_t indent,
-    size_t indented)
+    Col_Word strbuf,    /*!< Output string buffer. */
+    Col_Word word,      /*!< Word to write. */
+    size_t indent,      /*!< If zero, output uses no whitespace. Else, output is
+                             pretty-printed using the given number of 
+                             indentation spaces. */
+    size_t indented)    /*!< If zero, output uses no whitespace. Else, value has
+                             been indented by the given number of spaces. */
 {
     size_t oldLen = Col_StringBufferLength(strbuf);
     size_t i;
     Col_MapIterator it;
     int first;
-    
+
     Col_StringBufferAppendChar(strbuf, '{');
 
-    for (Col_MapIterBegin(it, word), first = 1; !Col_MapIterEnd(it); 
+    for (Col_MapIterBegin(it, word), first = 1; !Col_MapIterEnd(it);
             Col_MapIterNext(it)) {
         if (first) first = 0;
         else Col_StringBufferAppendChar(strbuf, ',');
@@ -972,50 +898,37 @@ WriteJsonObject(
     return Col_StringBufferLength(strbuf) - oldLen;
 }
 
-/*---------------------------------------------------------------------------
- * Function: WriteJsonValue
+/**
+ * Write a word to a string buffer using the JSON format.
  *
- *      Write a word to a string buffer using the JSON format.
+ * Uses the following mapping (for symmetry with Coatl_ReadJson()):
  *
- *      Uses the following mapping (for symmetry with <Coatl_ReadJson>):
+ * - Nil is mapped to JSON null.
+ * - Booleans, strings, integers and floating point numbers are mapped to the
+ *   matching JSON types.
+ * - Lists are mapped to arrays.
+ * - String-keyed maps are mapped to objects.
  *
- *      - Nil is mapped to JSON null.
- *      - Integers and floating point numbers are mapped to the matching JSON 
- *        number types.
- *      - Strings are mapped to JSON Unicode strings; double quotes are escaped.
- *      - Lists are mapped to arrays.
- *      - String-keyed maps are mapped to objects.
- *      
- *      Moreover, JSON booleans have no matching word type and so are never 
- *      output, and word types with no matching JSON type are mapped to null
- *      (e.g. integer- or custom-keyed maps). Word synonym chains are scanned 
- *      for compatible types when necessary.
+ * Word types with no matching JSON type are mapped to null (e.g. integer- or
+ * custom-keyed maps). Word synonym chains are scanned for compatible types when
+ * necessary.
  *
- * Arguments:
- *      strbuf          - Output string buffer.
- *      word            - Word to write.
- *      indent          - If zero, output uses no whitespace. Else, output is 
- *                        pretty-printed using the given number of indentation
- *                        spaces.
- *      indented        - If zero, output uses no whitespace. Else, value has 
- *                        been indented by the given number of spaces.
+ * @return Number of characters written.
  *
- * Result:
- *      Number of characters written.
- *
- * Side effects:
+ * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * See also:
- *      <Coatl_WriteJson>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_WriteJson
+ */
 static size_t
 WriteJsonValue(
-    Col_Word strbuf, 
-    Col_Word word,
-    size_t indent,
-    size_t indented)
+    Col_Word strbuf,    /*!< Output string buffer. */
+    Col_Word word,      /*!< Word to write. */
+    size_t indent,      /*!< If zero, output uses no whitespace. Else, output is
+                             pretty-printed using the given number of 
+                             indentation spaces. */
+    size_t indented)    /*!< If zero, output uses no whitespace. Else, value has
+                             been indented by the given number of spaces. */
 {
     Col_Word w = word;
     int type;
@@ -1110,29 +1023,26 @@ WriteJsonValue(
     return WriteJsonValue(strbuf, COL_NIL, indent, indented);
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_ReadJson
- *
- *      Read JSON data as a word from a character sequence.
- *
- * Arguments:
- *      begin   - Beginning of sequence to read.
- *      end     - End of sequence (just past the last character to scan).
- *
- * Results:
- *      Nonzero if success. Additionally:
- *
- *      wordPtr - If non-NULL, resulting data upon success.
- *
- * Side effects:
- *      *begin* is moved just past the last scanned character.
- *---------------------------------------------------------------------------*/
+/** @endcond @endprivate */
 
-
+/**
+ * Read JSON data as a word from a character sequence.
+ *
+ * @retval non-zero     if successful.
+ * @retval zero         otherwise.
+ *
+ * @sideeffect
+ *      **begin** is moved just past the last scanned character.
+ *
+ * @see Coatl_WriteJson
+ */
 int
 Coatl_ReadJson(
-    Col_RopeIterator begin, 
-    Col_RopeIterator end, 
+    Col_RopeIterator begin,     /*!< Beginning of sequence to read. */
+    Col_RopeIterator end,       /*!< End of sequence (just past the last
+                                     character to scan). */
+
+    /*! [out] If non-NULL, resulting data upon success. */
     Col_Word *wordPtr)
 {
     Col_Char c;
@@ -1166,42 +1076,37 @@ Coatl_ReadJson(
     return 0;
 }
 
-/*---------------------------------------------------------------------------
- * Function: Coatl_WriteJson
+/**
+ * Write a word to a string buffer using the JSON format.
  *
- *      Write a word to a string buffer using the JSON format.
+ * Uses the following mapping (for symmetry with Coatl_ReadJson()):
  *
- *      Uses the following mapping (for symmetry with <Coatl_ReadJson>):
+ * - Nil is mapped to JSON null.
+ * - Booleans, strings, integers and floating point numbers are mapped to the
+ *   matching JSON types.
+ * - Lists are mapped to arrays.
+ * - String-keyed maps are mapped to objects.
  *
- *      - Nil is mapped to JSON null.
- *      - Strings, integers and floating point numbers are mapped to the 
- *        matching JSON types.
- *      - Lists are mapped to arrays.
- *      - String-keyed maps are mapped to objects.
- *      
- *      Moreover, JSON booleans have no matching word type and so are never 
- *      output, and word types with no matching JSON type are mapped to null
- *      (e.g. integer- or custom-keyed maps). Word synonym chains are scanned 
- *      for compatible types when necessary.
+ * Word types with no matching JSON type are mapped to null (e.g. integer- or
+ * custom-keyed maps). Word synonym chains are scanned for compatible types when
+ * necessary.
  *
- * Arguments:
- *      strbuf  - Output string buffer.
- *      word    - Word to write.
- *      indent  - If zero, output uses no whitespace. Else, output is 
- *                pretty-printed using the given number of indentation spaces.
+ * @return Number of characters written.
  *
- * Result:
- *      Number of characters written.
- *
- * Side effects:
+ * @sideeffect
  *      Characters are appended to the string buffer.
- *---------------------------------------------------------------------------*/
-
+ *
+ * @see Coatl_ReadJson
+ */
 size_t
 Coatl_WriteJson(
-    Col_Word strbuf, 
-    Col_Word word,
-    size_t indent)
+    Col_Word strbuf,    /*!< Output string buffer. */
+    Col_Word word,      /*!< Word to write. */
+    size_t indent)      /*!< If zero, output uses no whitespace. Else, output is
+                             pretty-printed using the given number of
+                             indentation spaces. */
 {
     return WriteJsonValue(strbuf, word, indent, 0);
 }
+
+/* End of JSON Input/Output *//*!\}*/

@@ -1,13 +1,13 @@
 header
-{/*
- * Internal File: regc_locale.c
+{/**
+ * @file regc_locale.c
  *
- *      This file implements Unicode locale specific regexp routines.
+ * This file implements Unicode locale specific regexp routines.
  *
- *      This file is included by regcomp.c.
+ * This file is included by regcomp.c.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcd.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 
@@ -17,66 +17,55 @@ typedef struct cvec * (ClassCvecProc) (struct vars *v);
  * Prototypes for functions used only in this file.
  */
 
+/*! \cond IGNORE */
 static int              StrEq(const char *name, const rchr startp, 
                             const rchr endp);}
 
-charVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: chars_${class}
- *
- *      Codepoints of individual characters for class '*${class}*'.
- *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_${class}>
- *---------------------------------------------------------------------------*/
+headerEnd
+{/*! \endcond *//* IGNORE */
+}
 
+charVar
+{/**
+ * Codepoints of individual characters for class '**${class}**'.
+ *
+ * Automatically generated from the UCD.
+ *
+ * @see ranges_${class}
+ */
 static const chr chars_${class}[] = {${chars}};
 }
 
 nbCharConstant
-{/*---------------------------------------------------------------------------
- * Internal Constant: NBCHARS_${CLASS}
+{/**
+ * Number of individual characters for class '**${class}**'.
  *
- *      Number of individual characters for class '*${class}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_${class}
- *---------------------------------------------------------------------------*/
-
+ * @see chars_${class}
+ */
 #define NBCHARS_${CLASS}${padding}  ${nbChars}
 }
 
 rangeVar
-{/*---------------------------------------------------------------------------
- * Internal Variable: ranges_${class}
+{/**
+ * Codepoint ranges of characters for class '**${class}**'.
  *
- *      Codepoint ranges of characters for class '*${class}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <chars_${class}>
- *---------------------------------------------------------------------------*/
-
+ * @see chars_${class}
+ */
 static const chr ranges_${class}[] = {${ranges}};
 }
 
 nbRangeConstant
-{/*---------------------------------------------------------------------------
- * Internal Constant: NBRANGES_${CLASS}
+{/**
+ * Number of character ranges for class '**${class}**'.
  *
- *      Number of character ranges for class '*${class}*'.
+ * Automatically generated from the UCD.
  *
- *      Automatically generated from the UCD.
- *
- * See also:
- *      <ranges_${class}
- *---------------------------------------------------------------------------*/
-
+ * @see ranges_${class}
+ */
 #define NBRANGES_${CLASS}${padding} ${nbRanges}
 }
 
@@ -85,24 +74,18 @@ procDecl
 
 
 procDef
-{/*---------------------------------------------------------------------------
- * Internal Function: GetCvec_${class}
+{/**
+ * Build vector of characters and ranges for class '**${class}**'.
  *
- *      Build vector of characters and ranges for class '*${class}*'.
+ * @return Vector for class '**${class}**'.
  *
- * Argument:
- *      v       - Context.
- *
- * Result:
- *      Vector for class '*${class}*'.
- *
- * See also:
- *      <NBCHARS_${CLASS}>, <NBRANGES_${CLASS}>, <classes>
- *---------------------------------------------------------------------------*/
-
+ * @see NBCHARS_${CLASS}
+ * @see NBRANGES_${CLASS}
+ * @see classes
+ */
 static struct cvec *
 GetCvec_${class}(
-    struct vars *v)
+    struct vars *v) /*!< Context. */
 {
     struct cvec *cv;
     const chr *c;
@@ -124,20 +107,16 @@ GetCvec_${class}(
 }
 
 classes
-{/*---------------------------------------------------------------------------
- * Internal Variable: classes
+{/**
+ * POSIX character classes, for use with the '*[:classname:]*' syntax within
+ * bracket expressions.
  *
- *      POSIX character classes, for use with the '*[:classname:]*' syntax 
- *      within bracket expressions.
+ * We use the compiled UCD data accordingly to generate character ranges 
+ * suitable for the regexp engine.
  *
- *      We use the compiled UCD data accordingly to generate character ranges 
- *      suitable for the regexp engine.
- *
- * See also:
- *      http://unicode.org/reports/tr18/
- *      http://www.regular-expressions.info/posixbrackets.html
- *---------------------------------------------------------------------------*/
-
+ * @see http://unicode.org/reports/tr18/
+ * @see http://www.regular-expressions.info/posixbrackets.html
+ */
 typedef struct ClassInfo {
     const char *name;
      ClassCvecProc *proc;
@@ -155,16 +134,13 @@ classInfo
     
 symbols
 {
-/*---------------------------------------------------------------------------
- * Internal Variable: symbols
+/**
+ * POSIX+ASCII symbolic names, for use with the '*[.symbol.]*' syntax within
+ * bracket expressions.
  *
- *      POSIX+ASCII symbolic names, for use with the '*[.symbol.]*' syntax 
- *      within bracket expressions.
- *
- *      We use the compiled UCD data accordingly to generate character ranges 
- *      suitable for the regexp engine.
- *---------------------------------------------------------------------------*/
-
+ * We use the compiled UCD data accordingly to generate character ranges 
+ * suitable for the regexp engine.
+ */
 typedef struct SymbolInfo {
     const char *const name;
     const celt code;
@@ -180,25 +156,16 @@ symbolInfo
 
 
 footer 
-{/*---------------------------------------------------------------------------
- * Internal Function: StrEq
+{/**
+ * Utility predicate, compares character sequence to C string.
  *
- *      Utility predicate, compares character sequence to C string.
- *
- * Arguments:
- *      name    - C string to compare to.
- *      startp  - Points to start of name.
- *      endp    - Points just past end of name.
- *
- * Result:
- *      Whether strings are equal.
- *---------------------------------------------------------------------------*/
-
+ * @return Whether strings are equal.
+ */
 static int
 StrEq(
-    const char *name,
-    const rchr startp,
-    const rchr endp)
+    const char *name,   /*!< C string to compare to. */
+    const rchr startp,  /*!< Points to start of name. */
+    const rchr endp)    /*!< Points just past end of name. */
 {
     const char *n=name; rchr c;
     RCHR_SET(c, startp); 
@@ -210,11 +177,9 @@ StrEq(
 }
 
 
-/*
-================================================================================
-Internal Section: Generic regexp locale procs
-================================================================================
-*/
+/*******************************************************************************
+ * Generic regexp locale procs
+ ******************************************************************************/
 
 /*
  - element - map collating-element name to celt

@@ -1,10 +1,10 @@
-/*
- * Header: coatlUcdProperties.h
+/**
+ * @file coatlUcdProperties.h
  *
- *      This header file describes Unicode character properties and values.
+ * This header file describes Unicode character properties and values.
  *
- *      It is automatically generated from the Unicode Character Database (UCD)
- *      using the file *coatlUcdProperties.tcl*; Do not modify.
+ * It is automatically generated from the Unicode Character Database (UCD) using
+ * the file `coatlUcd.tcl`; Do not modify.
  */
 
 #ifndef _COATL_UCDPROPERTIES
@@ -12,208 +12,397 @@
 
 
 /*
-================================================================================
-Section: UCD Properties
-
-        Unicode Character Database (UCD) property types & values.
-================================================================================
+===========================================================================*//*!
+\weakgroup ucd Unicode Character Database
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_UcdProperty
+/***************************************************************************//*!
+ * \name UCD Properties
  *
+ * Unicode Character Database (UCD) property types & values.
+ ***************************************************************************\{*/
+
+/**
+ * @enum Coatl_UcdProperty
  *      Unicode character properties.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyAliases.txt*
+ *      `PropertyAliases.txt`.
  *
- *  COATL_UCD_AGE - '*age*', '*Age*'
- *  COATL_UCD_AHEX - '*AHex*', '*ASCII_Hex_Digit*'
- *  COATL_UCD_ASCII_HEX_DIGIT - Alias for <COATL_UCD_AHEX>
- *  COATL_UCD_ALPHA - '*Alpha*', '*Alphabetic*'
- *  COATL_UCD_ALPHABETIC - Alias for <COATL_UCD_ALPHA>
- *  COATL_UCD_BC - '*bc*', '*Bidi_Class*'
- *  COATL_UCD_BIDI_CLASS - Alias for <COATL_UCD_BC>
- *  COATL_UCD_BIDI_C - '*Bidi_C*', '*Bidi_Control*'
- *  COATL_UCD_BIDI_CONTROL - Alias for <COATL_UCD_BIDI_C>
- *  COATL_UCD_BIDI_M - '*Bidi_M*', '*Bidi_Mirrored*'
- *  COATL_UCD_BIDI_MIRRORED - Alias for <COATL_UCD_BIDI_M>
- *  COATL_UCD_BLK - '*blk*', '*Block*'
- *  COATL_UCD_BLOCK - Alias for <COATL_UCD_BLK>
- *  COATL_UCD_BMG - '*bmg*', '*Bidi_Mirroring_Glyph*'
- *  COATL_UCD_BIDI_MIRRORING_GLYPH - Alias for <COATL_UCD_BMG>
- *  COATL_UCD_CASED - '*Cased*', '*Cased*'
- *  COATL_UCD_CCC - '*ccc*', '*Canonical_Combining_Class*'
- *  COATL_UCD_CANONICAL_COMBINING_CLASS - Alias for <COATL_UCD_CCC>
- *  COATL_UCD_CE - '*CE*', '*Composition_Exclusion*'
- *  COATL_UCD_COMPOSITION_EXCLUSION - Alias for <COATL_UCD_CE>
- *  COATL_UCD_CF - '*cf*', '*Case_Folding*'
- *  COATL_UCD_CASE_FOLDING - Alias for <COATL_UCD_CF>
- *  COATL_UCD_CI - '*CI*', '*Case_Ignorable*'
- *  COATL_UCD_CASE_IGNORABLE - Alias for <COATL_UCD_CI>
- *  COATL_UCD_COMP_EX - '*Comp_Ex*', '*Full_Composition_Exclusion*'
- *  COATL_UCD_FULL_COMPOSITION_EXCLUSION - Alias for <COATL_UCD_COMP_EX>
- *  COATL_UCD_CWCF - '*CWCF*', '*Changes_When_Casefolded*'
- *  COATL_UCD_CHANGES_WHEN_CASEFOLDED - Alias for <COATL_UCD_CWCF>
- *  COATL_UCD_CWCM - '*CWCM*', '*Changes_When_Casemapped*'
- *  COATL_UCD_CHANGES_WHEN_CASEMAPPED - Alias for <COATL_UCD_CWCM>
- *  COATL_UCD_CWKCF - '*CWKCF*', '*Changes_When_NFKC_Casefolded*'
- *  COATL_UCD_CHANGES_WHEN_NFKC_CASEFOLDED - Alias for <COATL_UCD_CWKCF>
- *  COATL_UCD_CWL - '*CWL*', '*Changes_When_Lowercased*'
- *  COATL_UCD_CHANGES_WHEN_LOWERCASED - Alias for <COATL_UCD_CWL>
- *  COATL_UCD_CWT - '*CWT*', '*Changes_When_Titlecased*'
- *  COATL_UCD_CHANGES_WHEN_TITLECASED - Alias for <COATL_UCD_CWT>
- *  COATL_UCD_CWU - '*CWU*', '*Changes_When_Uppercased*'
- *  COATL_UCD_CHANGES_WHEN_UPPERCASED - Alias for <COATL_UCD_CWU>
- *  COATL_UCD_DASH - '*Dash*', '*Dash*'
- *  COATL_UCD_DEP - '*Dep*', '*Deprecated*'
- *  COATL_UCD_DEPRECATED - Alias for <COATL_UCD_DEP>
- *  COATL_UCD_DI - '*DI*', '*Default_Ignorable_Code_Point*'
- *  COATL_UCD_DEFAULT_IGNORABLE_CODE_POINT - Alias for <COATL_UCD_DI>
- *  COATL_UCD_DIA - '*Dia*', '*Diacritic*'
- *  COATL_UCD_DIACRITIC - Alias for <COATL_UCD_DIA>
- *  COATL_UCD_DM - '*dm*', '*Decomposition_Mapping*'
- *  COATL_UCD_DECOMPOSITION_MAPPING - Alias for <COATL_UCD_DM>
- *  COATL_UCD_DT - '*dt*', '*Decomposition_Type*'
- *  COATL_UCD_DECOMPOSITION_TYPE - Alias for <COATL_UCD_DT>
- *  COATL_UCD_EA - '*ea*', '*East_Asian_Width*'
- *  COATL_UCD_EAST_ASIAN_WIDTH - Alias for <COATL_UCD_EA>
- *  COATL_UCD_EXT - '*Ext*', '*Extender*'
- *  COATL_UCD_EXTENDER - Alias for <COATL_UCD_EXT>
- *  COATL_UCD_GC - '*gc*', '*General_Category*'
- *  COATL_UCD_GENERAL_CATEGORY - Alias for <COATL_UCD_GC>
- *  COATL_UCD_GCB - '*GCB*', '*Grapheme_Cluster_Break*'
- *  COATL_UCD_GRAPHEME_CLUSTER_BREAK - Alias for <COATL_UCD_GCB>
- *  COATL_UCD_GR_BASE - '*Gr_Base*', '*Grapheme_Base*'
- *  COATL_UCD_GRAPHEME_BASE - Alias for <COATL_UCD_GR_BASE>
- *  COATL_UCD_GR_EXT - '*Gr_Ext*', '*Grapheme_Extend*'
- *  COATL_UCD_GRAPHEME_EXTEND - Alias for <COATL_UCD_GR_EXT>
- *  COATL_UCD_HEX - '*Hex*', '*Hex_Digit*'
- *  COATL_UCD_HEX_DIGIT - Alias for <COATL_UCD_HEX>
- *  COATL_UCD_HST - '*hst*', '*Hangul_Syllable_Type*'
- *  COATL_UCD_HANGUL_SYLLABLE_TYPE - Alias for <COATL_UCD_HST>
- *  COATL_UCD_IDC - '*IDC*', '*ID_Continue*'
- *  COATL_UCD_ID_CONTINUE - Alias for <COATL_UCD_IDC>
- *  COATL_UCD_IDEO - '*Ideo*', '*Ideographic*'
- *  COATL_UCD_IDEOGRAPHIC - Alias for <COATL_UCD_IDEO>
- *  COATL_UCD_IDS - '*IDS*', '*ID_Start*'
- *  COATL_UCD_ID_START - Alias for <COATL_UCD_IDS>
- *  COATL_UCD_IDSB - '*IDSB*', '*IDS_Binary_Operator*'
- *  COATL_UCD_IDS_BINARY_OPERATOR - Alias for <COATL_UCD_IDSB>
- *  COATL_UCD_IDST - '*IDST*', '*IDS_Trinary_Operator*'
- *  COATL_UCD_IDS_TRINARY_OPERATOR - Alias for <COATL_UCD_IDST>
- *  COATL_UCD_INPC - '*InPC*', '*Indic_Positional_Category*'
- *  COATL_UCD_INDIC_POSITIONAL_CATEGORY - Alias for <COATL_UCD_INPC>
- *  COATL_UCD_INSC - '*InSC*', '*Indic_Syllabic_Category*'
- *  COATL_UCD_INDIC_SYLLABIC_CATEGORY - Alias for <COATL_UCD_INSC>
- *  COATL_UCD_JG - '*jg*', '*Joining_Group*'
- *  COATL_UCD_JOINING_GROUP - Alias for <COATL_UCD_JG>
- *  COATL_UCD_JOIN_C - '*Join_C*', '*Join_Control*'
- *  COATL_UCD_JOIN_CONTROL - Alias for <COATL_UCD_JOIN_C>
- *  COATL_UCD_JSN - '*JSN*', '*Jamo_Short_Name*'
- *  COATL_UCD_JAMO_SHORT_NAME - Alias for <COATL_UCD_JSN>
- *  COATL_UCD_JT - '*jt*', '*Joining_Type*'
- *  COATL_UCD_JOINING_TYPE - Alias for <COATL_UCD_JT>
- *  COATL_UCD_LB - '*lb*', '*Line_Break*'
- *  COATL_UCD_LINE_BREAK - Alias for <COATL_UCD_LB>
- *  COATL_UCD_LC - '*lc*', '*Lowercase_Mapping*'
- *  COATL_UCD_LOWERCASE_MAPPING - Alias for <COATL_UCD_LC>
- *  COATL_UCD_LOE - '*LOE*', '*Logical_Order_Exception*'
- *  COATL_UCD_LOGICAL_ORDER_EXCEPTION - Alias for <COATL_UCD_LOE>
- *  COATL_UCD_LOWER - '*Lower*', '*Lowercase*'
- *  COATL_UCD_LOWERCASE - Alias for <COATL_UCD_LOWER>
- *  COATL_UCD_MATH - '*Math*', '*Math*'
- *  COATL_UCD_NA - '*na*', '*Name*'
- *  COATL_UCD_NAME - Alias for <COATL_UCD_NA>
- *  COATL_UCD_NA1 - '*na1*', '*Unicode_1_Name*'
- *  COATL_UCD_UNICODE_1_NAME - Alias for <COATL_UCD_NA1>
- *  COATL_UCD_NAME_ALIAS - '*Name_Alias*', '*Name_Alias*'
- *  COATL_UCD_NCHAR - '*NChar*', '*Noncharacter_Code_Point*'
- *  COATL_UCD_NONCHARACTER_CODE_POINT - Alias for <COATL_UCD_NCHAR>
- *  COATL_UCD_NFC_QC - '*NFC_QC*', '*NFC_Quick_Check*'
- *  COATL_UCD_NFC_QUICK_CHECK - Alias for <COATL_UCD_NFC_QC>
- *  COATL_UCD_NFD_QC - '*NFD_QC*', '*NFD_Quick_Check*'
- *  COATL_UCD_NFD_QUICK_CHECK - Alias for <COATL_UCD_NFD_QC>
- *  COATL_UCD_NFKC_CF - '*NFKC_CF*', '*NFKC_Casefold*'
- *  COATL_UCD_NFKC_CASEFOLD - Alias for <COATL_UCD_NFKC_CF>
- *  COATL_UCD_NFKC_QC - '*NFKC_QC*', '*NFKC_Quick_Check*'
- *  COATL_UCD_NFKC_QUICK_CHECK - Alias for <COATL_UCD_NFKC_QC>
- *  COATL_UCD_NFKD_QC - '*NFKD_QC*', '*NFKD_Quick_Check*'
- *  COATL_UCD_NFKD_QUICK_CHECK - Alias for <COATL_UCD_NFKD_QC>
- *  COATL_UCD_NT - '*nt*', '*Numeric_Type*'
- *  COATL_UCD_NUMERIC_TYPE - Alias for <COATL_UCD_NT>
- *  COATL_UCD_NV - '*nv*', '*Numeric_Value*'
- *  COATL_UCD_NUMERIC_VALUE - Alias for <COATL_UCD_NV>
- *  COATL_UCD_OALPHA - '*OAlpha*', '*Other_Alphabetic*'
- *  COATL_UCD_OTHER_ALPHABETIC - Alias for <COATL_UCD_OALPHA>
- *  COATL_UCD_ODI - '*ODI*', '*Other_Default_Ignorable_Code_Point*'
- *  COATL_UCD_OTHER_DEFAULT_IGNORABLE_CODE_POINT - Alias for <COATL_UCD_ODI>
- *  COATL_UCD_OGR_EXT - '*OGr_Ext*', '*Other_Grapheme_Extend*'
- *  COATL_UCD_OTHER_GRAPHEME_EXTEND - Alias for <COATL_UCD_OGR_EXT>
- *  COATL_UCD_OIDC - '*OIDC*', '*Other_ID_Continue*'
- *  COATL_UCD_OTHER_ID_CONTINUE - Alias for <COATL_UCD_OIDC>
- *  COATL_UCD_OIDS - '*OIDS*', '*Other_ID_Start*'
- *  COATL_UCD_OTHER_ID_START - Alias for <COATL_UCD_OIDS>
- *  COATL_UCD_OLOWER - '*OLower*', '*Other_Lowercase*'
- *  COATL_UCD_OTHER_LOWERCASE - Alias for <COATL_UCD_OLOWER>
- *  COATL_UCD_OMATH - '*OMath*', '*Other_Math*'
- *  COATL_UCD_OTHER_MATH - Alias for <COATL_UCD_OMATH>
- *  COATL_UCD_OUPPER - '*OUpper*', '*Other_Uppercase*'
- *  COATL_UCD_OTHER_UPPERCASE - Alias for <COATL_UCD_OUPPER>
- *  COATL_UCD_PAT_SYN - '*Pat_Syn*', '*Pattern_Syntax*'
- *  COATL_UCD_PATTERN_SYNTAX - Alias for <COATL_UCD_PAT_SYN>
- *  COATL_UCD_PAT_WS - '*Pat_WS*', '*Pattern_White_Space*'
- *  COATL_UCD_PATTERN_WHITE_SPACE - Alias for <COATL_UCD_PAT_WS>
- *  COATL_UCD_QMARK - '*QMark*', '*Quotation_Mark*'
- *  COATL_UCD_QUOTATION_MARK - Alias for <COATL_UCD_QMARK>
- *  COATL_UCD_RADICAL - '*Radical*', '*Radical*'
- *  COATL_UCD_SB - '*SB*', '*Sentence_Break*'
- *  COATL_UCD_SENTENCE_BREAK - Alias for <COATL_UCD_SB>
- *  COATL_UCD_SC - '*sc*', '*Script*'
- *  COATL_UCD_SCRIPT - Alias for <COATL_UCD_SC>
- *  COATL_UCD_SCF - '*scf*', '*Simple_Case_Folding*', '*sfc*'
- *  COATL_UCD_SIMPLE_CASE_FOLDING - Alias for <COATL_UCD_SCF>
- *  COATL_UCD_SFC - Alias for <COATL_UCD_SCF>
- *  COATL_UCD_SCX - '*scx*', '*Script_Extensions*'
- *  COATL_UCD_SCRIPT_EXTENSIONS - Alias for <COATL_UCD_SCX>
- *  COATL_UCD_SD - '*SD*', '*Soft_Dotted*'
- *  COATL_UCD_SOFT_DOTTED - Alias for <COATL_UCD_SD>
- *  COATL_UCD_SLC - '*slc*', '*Simple_Lowercase_Mapping*'
- *  COATL_UCD_SIMPLE_LOWERCASE_MAPPING - Alias for <COATL_UCD_SLC>
- *  COATL_UCD_STC - '*stc*', '*Simple_Titlecase_Mapping*'
- *  COATL_UCD_SIMPLE_TITLECASE_MAPPING - Alias for <COATL_UCD_STC>
- *  COATL_UCD_STERM - '*STerm*', '*Sentence_Terminal*'
- *  COATL_UCD_SENTENCE_TERMINAL - Alias for <COATL_UCD_STERM>
- *  COATL_UCD_SUC - '*suc*', '*Simple_Uppercase_Mapping*'
- *  COATL_UCD_SIMPLE_UPPERCASE_MAPPING - Alias for <COATL_UCD_SUC>
- *  COATL_UCD_TC - '*tc*', '*Titlecase_Mapping*'
- *  COATL_UCD_TITLECASE_MAPPING - Alias for <COATL_UCD_TC>
- *  COATL_UCD_TERM - '*Term*', '*Terminal_Punctuation*'
- *  COATL_UCD_TERMINAL_PUNCTUATION - Alias for <COATL_UCD_TERM>
- *  COATL_UCD_UC - '*uc*', '*Uppercase_Mapping*'
- *  COATL_UCD_UPPERCASE_MAPPING - Alias for <COATL_UCD_UC>
- *  COATL_UCD_UIDEO - '*UIdeo*', '*Unified_Ideograph*'
- *  COATL_UCD_UNIFIED_IDEOGRAPH - Alias for <COATL_UCD_UIDEO>
- *  COATL_UCD_UPPER - '*Upper*', '*Uppercase*'
- *  COATL_UCD_UPPERCASE - Alias for <COATL_UCD_UPPER>
- *  COATL_UCD_VS - '*VS*', '*Variation_Selector*'
- *  COATL_UCD_VARIATION_SELECTOR - Alias for <COATL_UCD_VS>
- *  COATL_UCD_WB - '*WB*', '*Word_Break*'
- *  COATL_UCD_WORD_BREAK - Alias for <COATL_UCD_WB>
- *  COATL_UCD_WSPACE - '*WSpace*', '*White_Space*', '*space*'
- *  COATL_UCD_WHITE_SPACE - Alias for <COATL_UCD_WSPACE>
- *  COATL_UCD_SPACE - Alias for <COATL_UCD_WSPACE>
- *  COATL_UCD_XIDC - '*XIDC*', '*XID_Continue*'
- *  COATL_UCD_XID_CONTINUE - Alias for <COATL_UCD_XIDC>
- *  COATL_UCD_XIDS - '*XIDS*', '*XID_Start*'
- *  COATL_UCD_XID_START - Alias for <COATL_UCD_XIDS>
- *  COATL_UCD_BPB - '*bpb*', '*Bidi_Paired_Bracket*'
- *  COATL_UCD_BIDI_PAIRED_BRACKET - Alias for <COATL_UCD_BPB>
- *  COATL_UCD_BPT - '*bpt*', '*Bidi_Paired_Bracket_Type*'
- *  COATL_UCD_BIDI_PAIRED_BRACKET_TYPE - Alias for <COATL_UCD_BPT>
- *  COATL_UCD_PCM - '*PCM*', '*Prepended_Concatenation_Mark*'
- *  COATL_UCD_PREPENDED_CONCATENATION_MARK - Alias for <COATL_UCD_PCM> 
- *---------------------------------------------------------------------------*/
+ * @var COATL_UCD_AGE
+ *      '**age**', '**Age**'
+ * @var COATL_UCD_AHEX
+ *      '**AHex**', '**ASCII_Hex_Digit**'
+ * @var COATL_UCD_ASCII_HEX_DIGIT
+ *      Alias for #COATL_UCD_AHEX
+ * @var COATL_UCD_ALPHA
+ *      '**Alpha**', '**Alphabetic**'
+ * @var COATL_UCD_ALPHABETIC
+ *      Alias for #COATL_UCD_ALPHA
+ * @var COATL_UCD_BC
+ *      '**bc**', '**Bidi_Class**'
+ * @var COATL_UCD_BIDI_CLASS
+ *      Alias for #COATL_UCD_BC
+ * @var COATL_UCD_BIDI_C
+ *      '**Bidi_C**', '**Bidi_Control**'
+ * @var COATL_UCD_BIDI_CONTROL
+ *      Alias for #COATL_UCD_BIDI_C
+ * @var COATL_UCD_BIDI_M
+ *      '**Bidi_M**', '**Bidi_Mirrored**'
+ * @var COATL_UCD_BIDI_MIRRORED
+ *      Alias for #COATL_UCD_BIDI_M
+ * @var COATL_UCD_BLK
+ *      '**blk**', '**Block**'
+ * @var COATL_UCD_BLOCK
+ *      Alias for #COATL_UCD_BLK
+ * @var COATL_UCD_BMG
+ *      '**bmg**', '**Bidi_Mirroring_Glyph**'
+ * @var COATL_UCD_BIDI_MIRRORING_GLYPH
+ *      Alias for #COATL_UCD_BMG
+ * @var COATL_UCD_CASED
+ *      '**Cased**', '**Cased**'
+ * @var COATL_UCD_CCC
+ *      '**ccc**', '**Canonical_Combining_Class**'
+ * @var COATL_UCD_CANONICAL_COMBINING_CLASS
+ *      Alias for #COATL_UCD_CCC
+ * @var COATL_UCD_CE
+ *      '**CE**', '**Composition_Exclusion**'
+ * @var COATL_UCD_COMPOSITION_EXCLUSION
+ *      Alias for #COATL_UCD_CE
+ * @var COATL_UCD_CF
+ *      '**cf**', '**Case_Folding**'
+ * @var COATL_UCD_CASE_FOLDING
+ *      Alias for #COATL_UCD_CF
+ * @var COATL_UCD_CI
+ *      '**CI**', '**Case_Ignorable**'
+ * @var COATL_UCD_CASE_IGNORABLE
+ *      Alias for #COATL_UCD_CI
+ * @var COATL_UCD_COMP_EX
+ *      '**Comp_Ex**', '**Full_Composition_Exclusion**'
+ * @var COATL_UCD_FULL_COMPOSITION_EXCLUSION
+ *      Alias for #COATL_UCD_COMP_EX
+ * @var COATL_UCD_CWCF
+ *      '**CWCF**', '**Changes_When_Casefolded**'
+ * @var COATL_UCD_CHANGES_WHEN_CASEFOLDED
+ *      Alias for #COATL_UCD_CWCF
+ * @var COATL_UCD_CWCM
+ *      '**CWCM**', '**Changes_When_Casemapped**'
+ * @var COATL_UCD_CHANGES_WHEN_CASEMAPPED
+ *      Alias for #COATL_UCD_CWCM
+ * @var COATL_UCD_CWKCF
+ *      '**CWKCF**', '**Changes_When_NFKC_Casefolded**'
+ * @var COATL_UCD_CHANGES_WHEN_NFKC_CASEFOLDED
+ *      Alias for #COATL_UCD_CWKCF
+ * @var COATL_UCD_CWL
+ *      '**CWL**', '**Changes_When_Lowercased**'
+ * @var COATL_UCD_CHANGES_WHEN_LOWERCASED
+ *      Alias for #COATL_UCD_CWL
+ * @var COATL_UCD_CWT
+ *      '**CWT**', '**Changes_When_Titlecased**'
+ * @var COATL_UCD_CHANGES_WHEN_TITLECASED
+ *      Alias for #COATL_UCD_CWT
+ * @var COATL_UCD_CWU
+ *      '**CWU**', '**Changes_When_Uppercased**'
+ * @var COATL_UCD_CHANGES_WHEN_UPPERCASED
+ *      Alias for #COATL_UCD_CWU
+ * @var COATL_UCD_DASH
+ *      '**Dash**', '**Dash**'
+ * @var COATL_UCD_DEP
+ *      '**Dep**', '**Deprecated**'
+ * @var COATL_UCD_DEPRECATED
+ *      Alias for #COATL_UCD_DEP
+ * @var COATL_UCD_DI
+ *      '**DI**', '**Default_Ignorable_Code_Point**'
+ * @var COATL_UCD_DEFAULT_IGNORABLE_CODE_POINT
+ *      Alias for #COATL_UCD_DI
+ * @var COATL_UCD_DIA
+ *      '**Dia**', '**Diacritic**'
+ * @var COATL_UCD_DIACRITIC
+ *      Alias for #COATL_UCD_DIA
+ * @var COATL_UCD_DM
+ *      '**dm**', '**Decomposition_Mapping**'
+ * @var COATL_UCD_DECOMPOSITION_MAPPING
+ *      Alias for #COATL_UCD_DM
+ * @var COATL_UCD_DT
+ *      '**dt**', '**Decomposition_Type**'
+ * @var COATL_UCD_DECOMPOSITION_TYPE
+ *      Alias for #COATL_UCD_DT
+ * @var COATL_UCD_EA
+ *      '**ea**', '**East_Asian_Width**'
+ * @var COATL_UCD_EAST_ASIAN_WIDTH
+ *      Alias for #COATL_UCD_EA
+ * @var COATL_UCD_EXT
+ *      '**Ext**', '**Extender**'
+ * @var COATL_UCD_EXTENDER
+ *      Alias for #COATL_UCD_EXT
+ * @var COATL_UCD_GC
+ *      '**gc**', '**General_Category**'
+ * @var COATL_UCD_GENERAL_CATEGORY
+ *      Alias for #COATL_UCD_GC
+ * @var COATL_UCD_GCB
+ *      '**GCB**', '**Grapheme_Cluster_Break**'
+ * @var COATL_UCD_GRAPHEME_CLUSTER_BREAK
+ *      Alias for #COATL_UCD_GCB
+ * @var COATL_UCD_GR_BASE
+ *      '**Gr_Base**', '**Grapheme_Base**'
+ * @var COATL_UCD_GRAPHEME_BASE
+ *      Alias for #COATL_UCD_GR_BASE
+ * @var COATL_UCD_GR_EXT
+ *      '**Gr_Ext**', '**Grapheme_Extend**'
+ * @var COATL_UCD_GRAPHEME_EXTEND
+ *      Alias for #COATL_UCD_GR_EXT
+ * @var COATL_UCD_HEX
+ *      '**Hex**', '**Hex_Digit**'
+ * @var COATL_UCD_HEX_DIGIT
+ *      Alias for #COATL_UCD_HEX
+ * @var COATL_UCD_HST
+ *      '**hst**', '**Hangul_Syllable_Type**'
+ * @var COATL_UCD_HANGUL_SYLLABLE_TYPE
+ *      Alias for #COATL_UCD_HST
+ * @var COATL_UCD_IDC
+ *      '**IDC**', '**ID_Continue**'
+ * @var COATL_UCD_ID_CONTINUE
+ *      Alias for #COATL_UCD_IDC
+ * @var COATL_UCD_IDEO
+ *      '**Ideo**', '**Ideographic**'
+ * @var COATL_UCD_IDEOGRAPHIC
+ *      Alias for #COATL_UCD_IDEO
+ * @var COATL_UCD_IDS
+ *      '**IDS**', '**ID_Start**'
+ * @var COATL_UCD_ID_START
+ *      Alias for #COATL_UCD_IDS
+ * @var COATL_UCD_IDSB
+ *      '**IDSB**', '**IDS_Binary_Operator**'
+ * @var COATL_UCD_IDS_BINARY_OPERATOR
+ *      Alias for #COATL_UCD_IDSB
+ * @var COATL_UCD_IDST
+ *      '**IDST**', '**IDS_Trinary_Operator**'
+ * @var COATL_UCD_IDS_TRINARY_OPERATOR
+ *      Alias for #COATL_UCD_IDST
+ * @var COATL_UCD_INPC
+ *      '**InPC**', '**Indic_Positional_Category**'
+ * @var COATL_UCD_INDIC_POSITIONAL_CATEGORY
+ *      Alias for #COATL_UCD_INPC
+ * @var COATL_UCD_INSC
+ *      '**InSC**', '**Indic_Syllabic_Category**'
+ * @var COATL_UCD_INDIC_SYLLABIC_CATEGORY
+ *      Alias for #COATL_UCD_INSC
+ * @var COATL_UCD_JG
+ *      '**jg**', '**Joining_Group**'
+ * @var COATL_UCD_JOINING_GROUP
+ *      Alias for #COATL_UCD_JG
+ * @var COATL_UCD_JOIN_C
+ *      '**Join_C**', '**Join_Control**'
+ * @var COATL_UCD_JOIN_CONTROL
+ *      Alias for #COATL_UCD_JOIN_C
+ * @var COATL_UCD_JSN
+ *      '**JSN**', '**Jamo_Short_Name**'
+ * @var COATL_UCD_JAMO_SHORT_NAME
+ *      Alias for #COATL_UCD_JSN
+ * @var COATL_UCD_JT
+ *      '**jt**', '**Joining_Type**'
+ * @var COATL_UCD_JOINING_TYPE
+ *      Alias for #COATL_UCD_JT
+ * @var COATL_UCD_LB
+ *      '**lb**', '**Line_Break**'
+ * @var COATL_UCD_LINE_BREAK
+ *      Alias for #COATL_UCD_LB
+ * @var COATL_UCD_LC
+ *      '**lc**', '**Lowercase_Mapping**'
+ * @var COATL_UCD_LOWERCASE_MAPPING
+ *      Alias for #COATL_UCD_LC
+ * @var COATL_UCD_LOE
+ *      '**LOE**', '**Logical_Order_Exception**'
+ * @var COATL_UCD_LOGICAL_ORDER_EXCEPTION
+ *      Alias for #COATL_UCD_LOE
+ * @var COATL_UCD_LOWER
+ *      '**Lower**', '**Lowercase**'
+ * @var COATL_UCD_LOWERCASE
+ *      Alias for #COATL_UCD_LOWER
+ * @var COATL_UCD_MATH
+ *      '**Math**', '**Math**'
+ * @var COATL_UCD_NA
+ *      '**na**', '**Name**'
+ * @var COATL_UCD_NAME
+ *      Alias for #COATL_UCD_NA
+ * @var COATL_UCD_NA1
+ *      '**na1**', '**Unicode_1_Name**'
+ * @var COATL_UCD_UNICODE_1_NAME
+ *      Alias for #COATL_UCD_NA1
+ * @var COATL_UCD_NAME_ALIAS
+ *      '**Name_Alias**', '**Name_Alias**'
+ * @var COATL_UCD_NCHAR
+ *      '**NChar**', '**Noncharacter_Code_Point**'
+ * @var COATL_UCD_NONCHARACTER_CODE_POINT
+ *      Alias for #COATL_UCD_NCHAR
+ * @var COATL_UCD_NFC_QC
+ *      '**NFC_QC**', '**NFC_Quick_Check**'
+ * @var COATL_UCD_NFC_QUICK_CHECK
+ *      Alias for #COATL_UCD_NFC_QC
+ * @var COATL_UCD_NFD_QC
+ *      '**NFD_QC**', '**NFD_Quick_Check**'
+ * @var COATL_UCD_NFD_QUICK_CHECK
+ *      Alias for #COATL_UCD_NFD_QC
+ * @var COATL_UCD_NFKC_CF
+ *      '**NFKC_CF**', '**NFKC_Casefold**'
+ * @var COATL_UCD_NFKC_CASEFOLD
+ *      Alias for #COATL_UCD_NFKC_CF
+ * @var COATL_UCD_NFKC_QC
+ *      '**NFKC_QC**', '**NFKC_Quick_Check**'
+ * @var COATL_UCD_NFKC_QUICK_CHECK
+ *      Alias for #COATL_UCD_NFKC_QC
+ * @var COATL_UCD_NFKD_QC
+ *      '**NFKD_QC**', '**NFKD_Quick_Check**'
+ * @var COATL_UCD_NFKD_QUICK_CHECK
+ *      Alias for #COATL_UCD_NFKD_QC
+ * @var COATL_UCD_NT
+ *      '**nt**', '**Numeric_Type**'
+ * @var COATL_UCD_NUMERIC_TYPE
+ *      Alias for #COATL_UCD_NT
+ * @var COATL_UCD_NV
+ *      '**nv**', '**Numeric_Value**'
+ * @var COATL_UCD_NUMERIC_VALUE
+ *      Alias for #COATL_UCD_NV
+ * @var COATL_UCD_OALPHA
+ *      '**OAlpha**', '**Other_Alphabetic**'
+ * @var COATL_UCD_OTHER_ALPHABETIC
+ *      Alias for #COATL_UCD_OALPHA
+ * @var COATL_UCD_ODI
+ *      '**ODI**', '**Other_Default_Ignorable_Code_Point**'
+ * @var COATL_UCD_OTHER_DEFAULT_IGNORABLE_CODE_POINT
+ *      Alias for #COATL_UCD_ODI
+ * @var COATL_UCD_OGR_EXT
+ *      '**OGr_Ext**', '**Other_Grapheme_Extend**'
+ * @var COATL_UCD_OTHER_GRAPHEME_EXTEND
+ *      Alias for #COATL_UCD_OGR_EXT
+ * @var COATL_UCD_OIDC
+ *      '**OIDC**', '**Other_ID_Continue**'
+ * @var COATL_UCD_OTHER_ID_CONTINUE
+ *      Alias for #COATL_UCD_OIDC
+ * @var COATL_UCD_OIDS
+ *      '**OIDS**', '**Other_ID_Start**'
+ * @var COATL_UCD_OTHER_ID_START
+ *      Alias for #COATL_UCD_OIDS
+ * @var COATL_UCD_OLOWER
+ *      '**OLower**', '**Other_Lowercase**'
+ * @var COATL_UCD_OTHER_LOWERCASE
+ *      Alias for #COATL_UCD_OLOWER
+ * @var COATL_UCD_OMATH
+ *      '**OMath**', '**Other_Math**'
+ * @var COATL_UCD_OTHER_MATH
+ *      Alias for #COATL_UCD_OMATH
+ * @var COATL_UCD_OUPPER
+ *      '**OUpper**', '**Other_Uppercase**'
+ * @var COATL_UCD_OTHER_UPPERCASE
+ *      Alias for #COATL_UCD_OUPPER
+ * @var COATL_UCD_PAT_SYN
+ *      '**Pat_Syn**', '**Pattern_Syntax**'
+ * @var COATL_UCD_PATTERN_SYNTAX
+ *      Alias for #COATL_UCD_PAT_SYN
+ * @var COATL_UCD_PAT_WS
+ *      '**Pat_WS**', '**Pattern_White_Space**'
+ * @var COATL_UCD_PATTERN_WHITE_SPACE
+ *      Alias for #COATL_UCD_PAT_WS
+ * @var COATL_UCD_QMARK
+ *      '**QMark**', '**Quotation_Mark**'
+ * @var COATL_UCD_QUOTATION_MARK
+ *      Alias for #COATL_UCD_QMARK
+ * @var COATL_UCD_RADICAL
+ *      '**Radical**', '**Radical**'
+ * @var COATL_UCD_SB
+ *      '**SB**', '**Sentence_Break**'
+ * @var COATL_UCD_SENTENCE_BREAK
+ *      Alias for #COATL_UCD_SB
+ * @var COATL_UCD_SC
+ *      '**sc**', '**Script**'
+ * @var COATL_UCD_SCRIPT
+ *      Alias for #COATL_UCD_SC
+ * @var COATL_UCD_SCF
+ *      '**scf**', '**Simple_Case_Folding**', '**sfc**'
+ * @var COATL_UCD_SIMPLE_CASE_FOLDING
+ *      Alias for #COATL_UCD_SCF
+ * @var COATL_UCD_SFC
+ *      Alias for #COATL_UCD_SCF
+ * @var COATL_UCD_SCX
+ *      '**scx**', '**Script_Extensions**'
+ * @var COATL_UCD_SCRIPT_EXTENSIONS
+ *      Alias for #COATL_UCD_SCX
+ * @var COATL_UCD_SD
+ *      '**SD**', '**Soft_Dotted**'
+ * @var COATL_UCD_SOFT_DOTTED
+ *      Alias for #COATL_UCD_SD
+ * @var COATL_UCD_SLC
+ *      '**slc**', '**Simple_Lowercase_Mapping**'
+ * @var COATL_UCD_SIMPLE_LOWERCASE_MAPPING
+ *      Alias for #COATL_UCD_SLC
+ * @var COATL_UCD_STC
+ *      '**stc**', '**Simple_Titlecase_Mapping**'
+ * @var COATL_UCD_SIMPLE_TITLECASE_MAPPING
+ *      Alias for #COATL_UCD_STC
+ * @var COATL_UCD_STERM
+ *      '**STerm**', '**Sentence_Terminal**'
+ * @var COATL_UCD_SENTENCE_TERMINAL
+ *      Alias for #COATL_UCD_STERM
+ * @var COATL_UCD_SUC
+ *      '**suc**', '**Simple_Uppercase_Mapping**'
+ * @var COATL_UCD_SIMPLE_UPPERCASE_MAPPING
+ *      Alias for #COATL_UCD_SUC
+ * @var COATL_UCD_TC
+ *      '**tc**', '**Titlecase_Mapping**'
+ * @var COATL_UCD_TITLECASE_MAPPING
+ *      Alias for #COATL_UCD_TC
+ * @var COATL_UCD_TERM
+ *      '**Term**', '**Terminal_Punctuation**'
+ * @var COATL_UCD_TERMINAL_PUNCTUATION
+ *      Alias for #COATL_UCD_TERM
+ * @var COATL_UCD_UC
+ *      '**uc**', '**Uppercase_Mapping**'
+ * @var COATL_UCD_UPPERCASE_MAPPING
+ *      Alias for #COATL_UCD_UC
+ * @var COATL_UCD_UIDEO
+ *      '**UIdeo**', '**Unified_Ideograph**'
+ * @var COATL_UCD_UNIFIED_IDEOGRAPH
+ *      Alias for #COATL_UCD_UIDEO
+ * @var COATL_UCD_UPPER
+ *      '**Upper**', '**Uppercase**'
+ * @var COATL_UCD_UPPERCASE
+ *      Alias for #COATL_UCD_UPPER
+ * @var COATL_UCD_VS
+ *      '**VS**', '**Variation_Selector**'
+ * @var COATL_UCD_VARIATION_SELECTOR
+ *      Alias for #COATL_UCD_VS
+ * @var COATL_UCD_WB
+ *      '**WB**', '**Word_Break**'
+ * @var COATL_UCD_WORD_BREAK
+ *      Alias for #COATL_UCD_WB
+ * @var COATL_UCD_WSPACE
+ *      '**WSpace**', '**White_Space**', '**space**'
+ * @var COATL_UCD_WHITE_SPACE
+ *      Alias for #COATL_UCD_WSPACE
+ * @var COATL_UCD_SPACE
+ *      Alias for #COATL_UCD_WSPACE
+ * @var COATL_UCD_XIDC
+ *      '**XIDC**', '**XID_Continue**'
+ * @var COATL_UCD_XID_CONTINUE
+ *      Alias for #COATL_UCD_XIDC
+ * @var COATL_UCD_XIDS
+ *      '**XIDS**', '**XID_Start**'
+ * @var COATL_UCD_XID_START
+ *      Alias for #COATL_UCD_XIDS
+ * @var COATL_UCD_BPB
+ *      '**bpb**', '**Bidi_Paired_Bracket**'
+ * @var COATL_UCD_BIDI_PAIRED_BRACKET
+ *      Alias for #COATL_UCD_BPB
+ * @var COATL_UCD_BPT
+ *      '**bpt**', '**Bidi_Paired_Bracket_Type**'
+ * @var COATL_UCD_BIDI_PAIRED_BRACKET_TYPE
+ *      Alias for #COATL_UCD_BPT
+ * @var COATL_UCD_PCM
+ *      '**PCM**', '**Prepended_Concatenation_Mark**'
+ * @var COATL_UCD_PREPENDED_CONCATENATION_MARK
+ *      Alias for #COATL_UCD_PCM 
+ */
  
 typedef enum Coatl_UcdProperty {
     COATL_UCD_AGE=1,
@@ -405,68 +594,99 @@ typedef enum Coatl_UcdProperty {
 
 } Coatl_UcdProperty;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_NBPROPERTIES
+/**
+ * Number of Unicode character properties.
  *
- *      Number of Unicode character properties.
- *
- * See also:
- *      <Coatl_UcdProperty>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_UcdProperty
+ */
 #define COATL_UCD_NBPROPERTIES  95
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Age
- *
- *      Values for Unicode character property '*age*'.
+/**
+ * @enum Coatl_Ucd_Age
+ *      Values for Unicode character property '**age**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_AGE_1_1 - '*1.1*', '*V1_1*'
- *  COATL_UCD_AGE_V1_1 - Alias for <COATL_UCD_AGE_1_1>
- *  COATL_UCD_AGE_2_0 - '*2.0*', '*V2_0*'
- *  COATL_UCD_AGE_V2_0 - Alias for <COATL_UCD_AGE_2_0>
- *  COATL_UCD_AGE_2_1 - '*2.1*', '*V2_1*'
- *  COATL_UCD_AGE_V2_1 - Alias for <COATL_UCD_AGE_2_1>
- *  COATL_UCD_AGE_3_0 - '*3.0*', '*V3_0*'
- *  COATL_UCD_AGE_V3_0 - Alias for <COATL_UCD_AGE_3_0>
- *  COATL_UCD_AGE_3_1 - '*3.1*', '*V3_1*'
- *  COATL_UCD_AGE_V3_1 - Alias for <COATL_UCD_AGE_3_1>
- *  COATL_UCD_AGE_3_2 - '*3.2*', '*V3_2*'
- *  COATL_UCD_AGE_V3_2 - Alias for <COATL_UCD_AGE_3_2>
- *  COATL_UCD_AGE_4_0 - '*4.0*', '*V4_0*'
- *  COATL_UCD_AGE_V4_0 - Alias for <COATL_UCD_AGE_4_0>
- *  COATL_UCD_AGE_4_1 - '*4.1*', '*V4_1*'
- *  COATL_UCD_AGE_V4_1 - Alias for <COATL_UCD_AGE_4_1>
- *  COATL_UCD_AGE_5_0 - '*5.0*', '*V5_0*'
- *  COATL_UCD_AGE_V5_0 - Alias for <COATL_UCD_AGE_5_0>
- *  COATL_UCD_AGE_5_1 - '*5.1*', '*V5_1*'
- *  COATL_UCD_AGE_V5_1 - Alias for <COATL_UCD_AGE_5_1>
- *  COATL_UCD_AGE_5_2 - '*5.2*', '*V5_2*'
- *  COATL_UCD_AGE_V5_2 - Alias for <COATL_UCD_AGE_5_2>
- *  COATL_UCD_AGE_6_0 - '*6.0*', '*V6_0*'
- *  COATL_UCD_AGE_V6_0 - Alias for <COATL_UCD_AGE_6_0>
- *  COATL_UCD_AGE_6_1 - '*6.1*', '*V6_1*'
- *  COATL_UCD_AGE_V6_1 - Alias for <COATL_UCD_AGE_6_1>
- *  COATL_UCD_AGE_6_2 - '*6.2*', '*V6_2*'
- *  COATL_UCD_AGE_V6_2 - Alias for <COATL_UCD_AGE_6_2>
- *  COATL_UCD_AGE_6_3 - '*6.3*', '*V6_3*'
- *  COATL_UCD_AGE_V6_3 - Alias for <COATL_UCD_AGE_6_3>
- *  COATL_UCD_AGE_7_0 - '*7.0*', '*V7_0*'
- *  COATL_UCD_AGE_V7_0 - Alias for <COATL_UCD_AGE_7_0>
- *  COATL_UCD_AGE_8_0 - '*8.0*', '*V8_0*'
- *  COATL_UCD_AGE_V8_0 - Alias for <COATL_UCD_AGE_8_0>
- *  COATL_UCD_AGE_9_0 - '*9.0*', '*V9_0*'
- *  COATL_UCD_AGE_V9_0 - Alias for <COATL_UCD_AGE_9_0>
- *  COATL_UCD_AGE_NA - '*NA*', '*Unassigned*'
- *  COATL_UCD_AGE_UNASSIGNED - Alias for <COATL_UCD_AGE_NA>
+ * @see COATL_UCD_AGE
  *
- * See also:
- *      <COATL_UCD_AGE>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_AGE_1_1
+ *      '**1.1**', '**V1_1**'
+ * @var COATL_UCD_AGE_V1_1
+ *      Alias for #COATL_UCD_AGE_1_1
+ * @var COATL_UCD_AGE_2_0
+ *      '**2.0**', '**V2_0**'
+ * @var COATL_UCD_AGE_V2_0
+ *      Alias for #COATL_UCD_AGE_2_0
+ * @var COATL_UCD_AGE_2_1
+ *      '**2.1**', '**V2_1**'
+ * @var COATL_UCD_AGE_V2_1
+ *      Alias for #COATL_UCD_AGE_2_1
+ * @var COATL_UCD_AGE_3_0
+ *      '**3.0**', '**V3_0**'
+ * @var COATL_UCD_AGE_V3_0
+ *      Alias for #COATL_UCD_AGE_3_0
+ * @var COATL_UCD_AGE_3_1
+ *      '**3.1**', '**V3_1**'
+ * @var COATL_UCD_AGE_V3_1
+ *      Alias for #COATL_UCD_AGE_3_1
+ * @var COATL_UCD_AGE_3_2
+ *      '**3.2**', '**V3_2**'
+ * @var COATL_UCD_AGE_V3_2
+ *      Alias for #COATL_UCD_AGE_3_2
+ * @var COATL_UCD_AGE_4_0
+ *      '**4.0**', '**V4_0**'
+ * @var COATL_UCD_AGE_V4_0
+ *      Alias for #COATL_UCD_AGE_4_0
+ * @var COATL_UCD_AGE_4_1
+ *      '**4.1**', '**V4_1**'
+ * @var COATL_UCD_AGE_V4_1
+ *      Alias for #COATL_UCD_AGE_4_1
+ * @var COATL_UCD_AGE_5_0
+ *      '**5.0**', '**V5_0**'
+ * @var COATL_UCD_AGE_V5_0
+ *      Alias for #COATL_UCD_AGE_5_0
+ * @var COATL_UCD_AGE_5_1
+ *      '**5.1**', '**V5_1**'
+ * @var COATL_UCD_AGE_V5_1
+ *      Alias for #COATL_UCD_AGE_5_1
+ * @var COATL_UCD_AGE_5_2
+ *      '**5.2**', '**V5_2**'
+ * @var COATL_UCD_AGE_V5_2
+ *      Alias for #COATL_UCD_AGE_5_2
+ * @var COATL_UCD_AGE_6_0
+ *      '**6.0**', '**V6_0**'
+ * @var COATL_UCD_AGE_V6_0
+ *      Alias for #COATL_UCD_AGE_6_0
+ * @var COATL_UCD_AGE_6_1
+ *      '**6.1**', '**V6_1**'
+ * @var COATL_UCD_AGE_V6_1
+ *      Alias for #COATL_UCD_AGE_6_1
+ * @var COATL_UCD_AGE_6_2
+ *      '**6.2**', '**V6_2**'
+ * @var COATL_UCD_AGE_V6_2
+ *      Alias for #COATL_UCD_AGE_6_2
+ * @var COATL_UCD_AGE_6_3
+ *      '**6.3**', '**V6_3**'
+ * @var COATL_UCD_AGE_V6_3
+ *      Alias for #COATL_UCD_AGE_6_3
+ * @var COATL_UCD_AGE_7_0
+ *      '**7.0**', '**V7_0**'
+ * @var COATL_UCD_AGE_V7_0
+ *      Alias for #COATL_UCD_AGE_7_0
+ * @var COATL_UCD_AGE_8_0
+ *      '**8.0**', '**V8_0**'
+ * @var COATL_UCD_AGE_V8_0
+ *      Alias for #COATL_UCD_AGE_8_0
+ * @var COATL_UCD_AGE_9_0
+ *      '**9.0**', '**V9_0**'
+ * @var COATL_UCD_AGE_V9_0
+ *      Alias for #COATL_UCD_AGE_9_0
+ * @var COATL_UCD_AGE_NA
+ *      '**NA**', '**Unassigned**'
+ * @var COATL_UCD_AGE_UNASSIGNED
+ *      Alias for #COATL_UCD_AGE_NA
+ */
 typedef enum Coatl_Ucd_Age {
     COATL_UCD_AGE_1_1=1,
         COATL_UCD_AGE_V1_1=COATL_UCD_AGE_1_1,
@@ -509,76 +729,115 @@ typedef enum Coatl_Ucd_Age {
 
 } Coatl_Ucd_Age;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_AGE_NBVALUES
+/**
+ * Number of values for Unicode character property '*age*'.
  *
- *      Number of values for Unicode character property '*age*'.
- *
- * See also:
- *      <Coatl_Ucd_Age>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Age
+ */
 #define COATL_UCD_AGE_NBVALUES       19
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Bc
- *
- *      Values for Unicode character property '*bc*'.
+/**
+ * @enum Coatl_Ucd_Bc
+ *      Values for Unicode character property '**bc**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_BC_AL - '*AL*', '*Arabic_Letter*'
- *  COATL_UCD_BC_ARABIC_LETTER - Alias for <COATL_UCD_BC_AL>
- *  COATL_UCD_BC_AN - '*AN*', '*Arabic_Number*'
- *  COATL_UCD_BC_ARABIC_NUMBER - Alias for <COATL_UCD_BC_AN>
- *  COATL_UCD_BC_B - '*B*', '*Paragraph_Separator*'
- *  COATL_UCD_BC_PARAGRAPH_SEPARATOR - Alias for <COATL_UCD_BC_B>
- *  COATL_UCD_BC_BN - '*BN*', '*Boundary_Neutral*'
- *  COATL_UCD_BC_BOUNDARY_NEUTRAL - Alias for <COATL_UCD_BC_BN>
- *  COATL_UCD_BC_CS - '*CS*', '*Common_Separator*'
- *  COATL_UCD_BC_COMMON_SEPARATOR - Alias for <COATL_UCD_BC_CS>
- *  COATL_UCD_BC_EN - '*EN*', '*European_Number*'
- *  COATL_UCD_BC_EUROPEAN_NUMBER - Alias for <COATL_UCD_BC_EN>
- *  COATL_UCD_BC_ES - '*ES*', '*European_Separator*'
- *  COATL_UCD_BC_EUROPEAN_SEPARATOR - Alias for <COATL_UCD_BC_ES>
- *  COATL_UCD_BC_ET - '*ET*', '*European_Terminator*'
- *  COATL_UCD_BC_EUROPEAN_TERMINATOR - Alias for <COATL_UCD_BC_ET>
- *  COATL_UCD_BC_FSI - '*FSI*', '*First_Strong_Isolate*'
- *  COATL_UCD_BC_FIRST_STRONG_ISOLATE - Alias for <COATL_UCD_BC_FSI>
- *  COATL_UCD_BC_L - '*L*', '*Left_To_Right*'
- *  COATL_UCD_BC_LEFT_TO_RIGHT - Alias for <COATL_UCD_BC_L>
- *  COATL_UCD_BC_LRE - '*LRE*', '*Left_To_Right_Embedding*'
- *  COATL_UCD_BC_LEFT_TO_RIGHT_EMBEDDING - Alias for <COATL_UCD_BC_LRE>
- *  COATL_UCD_BC_LRI - '*LRI*', '*Left_To_Right_Isolate*'
- *  COATL_UCD_BC_LEFT_TO_RIGHT_ISOLATE - Alias for <COATL_UCD_BC_LRI>
- *  COATL_UCD_BC_LRO - '*LRO*', '*Left_To_Right_Override*'
- *  COATL_UCD_BC_LEFT_TO_RIGHT_OVERRIDE - Alias for <COATL_UCD_BC_LRO>
- *  COATL_UCD_BC_NSM - '*NSM*', '*Nonspacing_Mark*'
- *  COATL_UCD_BC_NONSPACING_MARK - Alias for <COATL_UCD_BC_NSM>
- *  COATL_UCD_BC_ON - '*ON*', '*Other_Neutral*'
- *  COATL_UCD_BC_OTHER_NEUTRAL - Alias for <COATL_UCD_BC_ON>
- *  COATL_UCD_BC_PDF - '*PDF*', '*Pop_Directional_Format*'
- *  COATL_UCD_BC_POP_DIRECTIONAL_FORMAT - Alias for <COATL_UCD_BC_PDF>
- *  COATL_UCD_BC_PDI - '*PDI*', '*Pop_Directional_Isolate*'
- *  COATL_UCD_BC_POP_DIRECTIONAL_ISOLATE - Alias for <COATL_UCD_BC_PDI>
- *  COATL_UCD_BC_R - '*R*', '*Right_To_Left*'
- *  COATL_UCD_BC_RIGHT_TO_LEFT - Alias for <COATL_UCD_BC_R>
- *  COATL_UCD_BC_RLE - '*RLE*', '*Right_To_Left_Embedding*'
- *  COATL_UCD_BC_RIGHT_TO_LEFT_EMBEDDING - Alias for <COATL_UCD_BC_RLE>
- *  COATL_UCD_BC_RLI - '*RLI*', '*Right_To_Left_Isolate*'
- *  COATL_UCD_BC_RIGHT_TO_LEFT_ISOLATE - Alias for <COATL_UCD_BC_RLI>
- *  COATL_UCD_BC_RLO - '*RLO*', '*Right_To_Left_Override*'
- *  COATL_UCD_BC_RIGHT_TO_LEFT_OVERRIDE - Alias for <COATL_UCD_BC_RLO>
- *  COATL_UCD_BC_S - '*S*', '*Segment_Separator*'
- *  COATL_UCD_BC_SEGMENT_SEPARATOR - Alias for <COATL_UCD_BC_S>
- *  COATL_UCD_BC_WS - '*WS*', '*White_Space*'
- *  COATL_UCD_BC_WHITE_SPACE - Alias for <COATL_UCD_BC_WS>
+ * @see COATL_UCD_BC
  *
- * See also:
- *      <COATL_UCD_BC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_BC_AL
+ *      '**AL**', '**Arabic_Letter**'
+ * @var COATL_UCD_BC_ARABIC_LETTER
+ *      Alias for #COATL_UCD_BC_AL
+ * @var COATL_UCD_BC_AN
+ *      '**AN**', '**Arabic_Number**'
+ * @var COATL_UCD_BC_ARABIC_NUMBER
+ *      Alias for #COATL_UCD_BC_AN
+ * @var COATL_UCD_BC_B
+ *      '**B**', '**Paragraph_Separator**'
+ * @var COATL_UCD_BC_PARAGRAPH_SEPARATOR
+ *      Alias for #COATL_UCD_BC_B
+ * @var COATL_UCD_BC_BN
+ *      '**BN**', '**Boundary_Neutral**'
+ * @var COATL_UCD_BC_BOUNDARY_NEUTRAL
+ *      Alias for #COATL_UCD_BC_BN
+ * @var COATL_UCD_BC_CS
+ *      '**CS**', '**Common_Separator**'
+ * @var COATL_UCD_BC_COMMON_SEPARATOR
+ *      Alias for #COATL_UCD_BC_CS
+ * @var COATL_UCD_BC_EN
+ *      '**EN**', '**European_Number**'
+ * @var COATL_UCD_BC_EUROPEAN_NUMBER
+ *      Alias for #COATL_UCD_BC_EN
+ * @var COATL_UCD_BC_ES
+ *      '**ES**', '**European_Separator**'
+ * @var COATL_UCD_BC_EUROPEAN_SEPARATOR
+ *      Alias for #COATL_UCD_BC_ES
+ * @var COATL_UCD_BC_ET
+ *      '**ET**', '**European_Terminator**'
+ * @var COATL_UCD_BC_EUROPEAN_TERMINATOR
+ *      Alias for #COATL_UCD_BC_ET
+ * @var COATL_UCD_BC_FSI
+ *      '**FSI**', '**First_Strong_Isolate**'
+ * @var COATL_UCD_BC_FIRST_STRONG_ISOLATE
+ *      Alias for #COATL_UCD_BC_FSI
+ * @var COATL_UCD_BC_L
+ *      '**L**', '**Left_To_Right**'
+ * @var COATL_UCD_BC_LEFT_TO_RIGHT
+ *      Alias for #COATL_UCD_BC_L
+ * @var COATL_UCD_BC_LRE
+ *      '**LRE**', '**Left_To_Right_Embedding**'
+ * @var COATL_UCD_BC_LEFT_TO_RIGHT_EMBEDDING
+ *      Alias for #COATL_UCD_BC_LRE
+ * @var COATL_UCD_BC_LRI
+ *      '**LRI**', '**Left_To_Right_Isolate**'
+ * @var COATL_UCD_BC_LEFT_TO_RIGHT_ISOLATE
+ *      Alias for #COATL_UCD_BC_LRI
+ * @var COATL_UCD_BC_LRO
+ *      '**LRO**', '**Left_To_Right_Override**'
+ * @var COATL_UCD_BC_LEFT_TO_RIGHT_OVERRIDE
+ *      Alias for #COATL_UCD_BC_LRO
+ * @var COATL_UCD_BC_NSM
+ *      '**NSM**', '**Nonspacing_Mark**'
+ * @var COATL_UCD_BC_NONSPACING_MARK
+ *      Alias for #COATL_UCD_BC_NSM
+ * @var COATL_UCD_BC_ON
+ *      '**ON**', '**Other_Neutral**'
+ * @var COATL_UCD_BC_OTHER_NEUTRAL
+ *      Alias for #COATL_UCD_BC_ON
+ * @var COATL_UCD_BC_PDF
+ *      '**PDF**', '**Pop_Directional_Format**'
+ * @var COATL_UCD_BC_POP_DIRECTIONAL_FORMAT
+ *      Alias for #COATL_UCD_BC_PDF
+ * @var COATL_UCD_BC_PDI
+ *      '**PDI**', '**Pop_Directional_Isolate**'
+ * @var COATL_UCD_BC_POP_DIRECTIONAL_ISOLATE
+ *      Alias for #COATL_UCD_BC_PDI
+ * @var COATL_UCD_BC_R
+ *      '**R**', '**Right_To_Left**'
+ * @var COATL_UCD_BC_RIGHT_TO_LEFT
+ *      Alias for #COATL_UCD_BC_R
+ * @var COATL_UCD_BC_RLE
+ *      '**RLE**', '**Right_To_Left_Embedding**'
+ * @var COATL_UCD_BC_RIGHT_TO_LEFT_EMBEDDING
+ *      Alias for #COATL_UCD_BC_RLE
+ * @var COATL_UCD_BC_RLI
+ *      '**RLI**', '**Right_To_Left_Isolate**'
+ * @var COATL_UCD_BC_RIGHT_TO_LEFT_ISOLATE
+ *      Alias for #COATL_UCD_BC_RLI
+ * @var COATL_UCD_BC_RLO
+ *      '**RLO**', '**Right_To_Left_Override**'
+ * @var COATL_UCD_BC_RIGHT_TO_LEFT_OVERRIDE
+ *      Alias for #COATL_UCD_BC_RLO
+ * @var COATL_UCD_BC_S
+ *      '**S**', '**Segment_Separator**'
+ * @var COATL_UCD_BC_SEGMENT_SEPARATOR
+ *      Alias for #COATL_UCD_BC_S
+ * @var COATL_UCD_BC_WS
+ *      '**WS**', '**White_Space**'
+ * @var COATL_UCD_BC_WHITE_SPACE
+ *      Alias for #COATL_UCD_BC_WS
+ */
 typedef enum Coatl_Ucd_Bc {
     COATL_UCD_BC_AL=1,
         COATL_UCD_BC_ARABIC_LETTER=COATL_UCD_BC_AL,
@@ -629,423 +888,809 @@ typedef enum Coatl_Ucd_Bc {
 
 } Coatl_Ucd_Bc;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_BC_NBVALUES
+/**
+ * Number of values for Unicode character property '*bc*'.
  *
- *      Number of values for Unicode character property '*bc*'.
- *
- * See also:
- *      <Coatl_Ucd_Bc>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Bc
+ */
 #define COATL_UCD_BC_NBVALUES        23
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Blk
- *
- *      Values for Unicode character property '*blk*'.
+/**
+ * @enum Coatl_Ucd_Blk
+ *      Values for Unicode character property '**blk**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_BLK_ADLAM - '*Adlam*'
- *  COATL_UCD_BLK_AEGEAN_NUMBERS - '*Aegean_Numbers*'
- *  COATL_UCD_BLK_AHOM - '*Ahom*'
- *  COATL_UCD_BLK_ALCHEMICAL - '*Alchemical*', '*Alchemical_Symbols*'
- *  COATL_UCD_BLK_ALCHEMICAL_SYMBOLS - Alias for <COATL_UCD_BLK_ALCHEMICAL>
- *  COATL_UCD_BLK_ALPHABETIC_PF - '*Alphabetic_PF*', '*Alphabetic_Presentation_Forms*'
- *  COATL_UCD_BLK_ALPHABETIC_PRESENTATION_FORMS - Alias for <COATL_UCD_BLK_ALPHABETIC_PF>
- *  COATL_UCD_BLK_ANATOLIAN_HIEROGLYPHS - '*Anatolian_Hieroglyphs*'
- *  COATL_UCD_BLK_ANCIENT_GREEK_MUSIC - '*Ancient_Greek_Music*', '*Ancient_Greek_Musical_Notation*'
- *  COATL_UCD_BLK_ANCIENT_GREEK_MUSICAL_NOTATION - Alias for <COATL_UCD_BLK_ANCIENT_GREEK_MUSIC>
- *  COATL_UCD_BLK_ANCIENT_GREEK_NUMBERS - '*Ancient_Greek_Numbers*'
- *  COATL_UCD_BLK_ANCIENT_SYMBOLS - '*Ancient_Symbols*'
- *  COATL_UCD_BLK_ARABIC - '*Arabic*'
- *  COATL_UCD_BLK_ARABIC_EXT_A - '*Arabic_Ext_A*', '*Arabic_Extended_A*'
- *  COATL_UCD_BLK_ARABIC_EXTENDED_A - Alias for <COATL_UCD_BLK_ARABIC_EXT_A>
- *  COATL_UCD_BLK_ARABIC_MATH - '*Arabic_Math*', '*Arabic_Mathematical_Alphabetic_Symbols*'
- *  COATL_UCD_BLK_ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS - Alias for <COATL_UCD_BLK_ARABIC_MATH>
- *  COATL_UCD_BLK_ARABIC_PF_A - '*Arabic_PF_A*', '*Arabic_Presentation_Forms_A*', '*Arabic_Presentation_Forms-A*'
- *  COATL_UCD_BLK_ARABIC_PRESENTATION_FORMS_A - Alias for <COATL_UCD_BLK_ARABIC_PF_A>
- *  COATL_UCD_BLK_ARABIC_PF_B - '*Arabic_PF_B*', '*Arabic_Presentation_Forms_B*'
- *  COATL_UCD_BLK_ARABIC_PRESENTATION_FORMS_B - Alias for <COATL_UCD_BLK_ARABIC_PF_B>
- *  COATL_UCD_BLK_ARABIC_SUP - '*Arabic_Sup*', '*Arabic_Supplement*'
- *  COATL_UCD_BLK_ARABIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_ARABIC_SUP>
- *  COATL_UCD_BLK_ARMENIAN - '*Armenian*'
- *  COATL_UCD_BLK_ARROWS - '*Arrows*'
- *  COATL_UCD_BLK_ASCII - '*ASCII*', '*Basic_Latin*'
- *  COATL_UCD_BLK_BASIC_LATIN - Alias for <COATL_UCD_BLK_ASCII>
- *  COATL_UCD_BLK_AVESTAN - '*Avestan*'
- *  COATL_UCD_BLK_BALINESE - '*Balinese*'
- *  COATL_UCD_BLK_BAMUM - '*Bamum*'
- *  COATL_UCD_BLK_BAMUM_SUP - '*Bamum_Sup*', '*Bamum_Supplement*'
- *  COATL_UCD_BLK_BAMUM_SUPPLEMENT - Alias for <COATL_UCD_BLK_BAMUM_SUP>
- *  COATL_UCD_BLK_BASSA_VAH - '*Bassa_Vah*'
- *  COATL_UCD_BLK_BATAK - '*Batak*'
- *  COATL_UCD_BLK_BENGALI - '*Bengali*'
- *  COATL_UCD_BLK_BHAIKSUKI - '*Bhaiksuki*'
- *  COATL_UCD_BLK_BLOCK_ELEMENTS - '*Block_Elements*'
- *  COATL_UCD_BLK_BOPOMOFO - '*Bopomofo*'
- *  COATL_UCD_BLK_BOPOMOFO_EXT - '*Bopomofo_Ext*', '*Bopomofo_Extended*'
- *  COATL_UCD_BLK_BOPOMOFO_EXTENDED - Alias for <COATL_UCD_BLK_BOPOMOFO_EXT>
- *  COATL_UCD_BLK_BOX_DRAWING - '*Box_Drawing*'
- *  COATL_UCD_BLK_BRAHMI - '*Brahmi*'
- *  COATL_UCD_BLK_BRAILLE - '*Braille*', '*Braille_Patterns*'
- *  COATL_UCD_BLK_BRAILLE_PATTERNS - Alias for <COATL_UCD_BLK_BRAILLE>
- *  COATL_UCD_BLK_BUGINESE - '*Buginese*'
- *  COATL_UCD_BLK_BUHID - '*Buhid*'
- *  COATL_UCD_BLK_BYZANTINE_MUSIC - '*Byzantine_Music*', '*Byzantine_Musical_Symbols*'
- *  COATL_UCD_BLK_BYZANTINE_MUSICAL_SYMBOLS - Alias for <COATL_UCD_BLK_BYZANTINE_MUSIC>
- *  COATL_UCD_BLK_CARIAN - '*Carian*'
- *  COATL_UCD_BLK_CAUCASIAN_ALBANIAN - '*Caucasian_Albanian*'
- *  COATL_UCD_BLK_CHAKMA - '*Chakma*'
- *  COATL_UCD_BLK_CHAM - '*Cham*'
- *  COATL_UCD_BLK_CHEROKEE - '*Cherokee*'
- *  COATL_UCD_BLK_CHEROKEE_SUP - '*Cherokee_Sup*', '*Cherokee_Supplement*'
- *  COATL_UCD_BLK_CHEROKEE_SUPPLEMENT - Alias for <COATL_UCD_BLK_CHEROKEE_SUP>
- *  COATL_UCD_BLK_CJK - '*CJK*', '*CJK_Unified_Ideographs*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS - Alias for <COATL_UCD_BLK_CJK>
- *  COATL_UCD_BLK_CJK_COMPAT - '*CJK_Compat*', '*CJK_Compatibility*'
- *  COATL_UCD_BLK_CJK_COMPATIBILITY - Alias for <COATL_UCD_BLK_CJK_COMPAT>
- *  COATL_UCD_BLK_CJK_COMPAT_FORMS - '*CJK_Compat_Forms*', '*CJK_Compatibility_Forms*'
- *  COATL_UCD_BLK_CJK_COMPATIBILITY_FORMS - Alias for <COATL_UCD_BLK_CJK_COMPAT_FORMS>
- *  COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS - '*CJK_Compat_Ideographs*', '*CJK_Compatibility_Ideographs*'
- *  COATL_UCD_BLK_CJK_COMPATIBILITY_IDEOGRAPHS - Alias for <COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS>
- *  COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS_SUP - '*CJK_Compat_Ideographs_Sup*', '*CJK_Compatibility_Ideographs_Supplement*'
- *  COATL_UCD_BLK_CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT - Alias for <COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS_SUP>
- *  COATL_UCD_BLK_CJK_EXT_A - '*CJK_Ext_A*', '*CJK_Unified_Ideographs_Extension_A*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A - Alias for <COATL_UCD_BLK_CJK_EXT_A>
- *  COATL_UCD_BLK_CJK_EXT_B - '*CJK_Ext_B*', '*CJK_Unified_Ideographs_Extension_B*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B - Alias for <COATL_UCD_BLK_CJK_EXT_B>
- *  COATL_UCD_BLK_CJK_EXT_C - '*CJK_Ext_C*', '*CJK_Unified_Ideographs_Extension_C*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C - Alias for <COATL_UCD_BLK_CJK_EXT_C>
- *  COATL_UCD_BLK_CJK_EXT_D - '*CJK_Ext_D*', '*CJK_Unified_Ideographs_Extension_D*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D - Alias for <COATL_UCD_BLK_CJK_EXT_D>
- *  COATL_UCD_BLK_CJK_EXT_E - '*CJK_Ext_E*', '*CJK_Unified_Ideographs_Extension_E*'
- *  COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E - Alias for <COATL_UCD_BLK_CJK_EXT_E>
- *  COATL_UCD_BLK_CJK_RADICALS_SUP - '*CJK_Radicals_Sup*', '*CJK_Radicals_Supplement*'
- *  COATL_UCD_BLK_CJK_RADICALS_SUPPLEMENT - Alias for <COATL_UCD_BLK_CJK_RADICALS_SUP>
- *  COATL_UCD_BLK_CJK_STROKES - '*CJK_Strokes*'
- *  COATL_UCD_BLK_CJK_SYMBOLS - '*CJK_Symbols*', '*CJK_Symbols_And_Punctuation*'
- *  COATL_UCD_BLK_CJK_SYMBOLS_AND_PUNCTUATION - Alias for <COATL_UCD_BLK_CJK_SYMBOLS>
- *  COATL_UCD_BLK_COMPAT_JAMO - '*Compat_Jamo*', '*Hangul_Compatibility_Jamo*'
- *  COATL_UCD_BLK_HANGUL_COMPATIBILITY_JAMO - Alias for <COATL_UCD_BLK_COMPAT_JAMO>
- *  COATL_UCD_BLK_CONTROL_PICTURES - '*Control_Pictures*'
- *  COATL_UCD_BLK_COPTIC - '*Coptic*'
- *  COATL_UCD_BLK_COPTIC_EPACT_NUMBERS - '*Coptic_Epact_Numbers*'
- *  COATL_UCD_BLK_COUNTING_ROD - '*Counting_Rod*', '*Counting_Rod_Numerals*'
- *  COATL_UCD_BLK_COUNTING_ROD_NUMERALS - Alias for <COATL_UCD_BLK_COUNTING_ROD>
- *  COATL_UCD_BLK_CUNEIFORM - '*Cuneiform*'
- *  COATL_UCD_BLK_CUNEIFORM_NUMBERS - '*Cuneiform_Numbers*', '*Cuneiform_Numbers_And_Punctuation*'
- *  COATL_UCD_BLK_CUNEIFORM_NUMBERS_AND_PUNCTUATION - Alias for <COATL_UCD_BLK_CUNEIFORM_NUMBERS>
- *  COATL_UCD_BLK_CURRENCY_SYMBOLS - '*Currency_Symbols*'
- *  COATL_UCD_BLK_CYPRIOT_SYLLABARY - '*Cypriot_Syllabary*'
- *  COATL_UCD_BLK_CYRILLIC - '*Cyrillic*'
- *  COATL_UCD_BLK_CYRILLIC_EXT_A - '*Cyrillic_Ext_A*', '*Cyrillic_Extended_A*'
- *  COATL_UCD_BLK_CYRILLIC_EXTENDED_A - Alias for <COATL_UCD_BLK_CYRILLIC_EXT_A>
- *  COATL_UCD_BLK_CYRILLIC_EXT_B - '*Cyrillic_Ext_B*', '*Cyrillic_Extended_B*'
- *  COATL_UCD_BLK_CYRILLIC_EXTENDED_B - Alias for <COATL_UCD_BLK_CYRILLIC_EXT_B>
- *  COATL_UCD_BLK_CYRILLIC_EXT_C - '*Cyrillic_Ext_C*', '*Cyrillic_Extended_C*'
- *  COATL_UCD_BLK_CYRILLIC_EXTENDED_C - Alias for <COATL_UCD_BLK_CYRILLIC_EXT_C>
- *  COATL_UCD_BLK_CYRILLIC_SUP - '*Cyrillic_Sup*', '*Cyrillic_Supplement*', '*Cyrillic_Supplementary*'
- *  COATL_UCD_BLK_CYRILLIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_CYRILLIC_SUP>
- *  COATL_UCD_BLK_CYRILLIC_SUPPLEMENTARY - Alias for <COATL_UCD_BLK_CYRILLIC_SUP>
- *  COATL_UCD_BLK_DESERET - '*Deseret*'
- *  COATL_UCD_BLK_DEVANAGARI - '*Devanagari*'
- *  COATL_UCD_BLK_DEVANAGARI_EXT - '*Devanagari_Ext*', '*Devanagari_Extended*'
- *  COATL_UCD_BLK_DEVANAGARI_EXTENDED - Alias for <COATL_UCD_BLK_DEVANAGARI_EXT>
- *  COATL_UCD_BLK_DIACRITICALS - '*Diacriticals*', '*Combining_Diacritical_Marks*'
- *  COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS - Alias for <COATL_UCD_BLK_DIACRITICALS>
- *  COATL_UCD_BLK_DIACRITICALS_EXT - '*Diacriticals_Ext*', '*Combining_Diacritical_Marks_Extended*'
- *  COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_EXTENDED - Alias for <COATL_UCD_BLK_DIACRITICALS_EXT>
- *  COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS - '*Diacriticals_For_Symbols*', '*Combining_Diacritical_Marks_For_Symbols*', '*Combining_Marks_For_Symbols*'
- *  COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_FOR_SYMBOLS - Alias for <COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS>
- *  COATL_UCD_BLK_COMBINING_MARKS_FOR_SYMBOLS - Alias for <COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS>
- *  COATL_UCD_BLK_DIACRITICALS_SUP - '*Diacriticals_Sup*', '*Combining_Diacritical_Marks_Supplement*'
- *  COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_SUPPLEMENT - Alias for <COATL_UCD_BLK_DIACRITICALS_SUP>
- *  COATL_UCD_BLK_DINGBATS - '*Dingbats*'
- *  COATL_UCD_BLK_DOMINO - '*Domino*', '*Domino_Tiles*'
- *  COATL_UCD_BLK_DOMINO_TILES - Alias for <COATL_UCD_BLK_DOMINO>
- *  COATL_UCD_BLK_DUPLOYAN - '*Duployan*'
- *  COATL_UCD_BLK_EARLY_DYNASTIC_CUNEIFORM - '*Early_Dynastic_Cuneiform*'
- *  COATL_UCD_BLK_EGYPTIAN_HIEROGLYPHS - '*Egyptian_Hieroglyphs*'
- *  COATL_UCD_BLK_ELBASAN - '*Elbasan*'
- *  COATL_UCD_BLK_EMOTICONS - '*Emoticons*'
- *  COATL_UCD_BLK_ENCLOSED_ALPHANUM - '*Enclosed_Alphanum*', '*Enclosed_Alphanumerics*'
- *  COATL_UCD_BLK_ENCLOSED_ALPHANUMERICS - Alias for <COATL_UCD_BLK_ENCLOSED_ALPHANUM>
- *  COATL_UCD_BLK_ENCLOSED_ALPHANUM_SUP - '*Enclosed_Alphanum_Sup*', '*Enclosed_Alphanumeric_Supplement*'
- *  COATL_UCD_BLK_ENCLOSED_ALPHANUMERIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_ENCLOSED_ALPHANUM_SUP>
- *  COATL_UCD_BLK_ENCLOSED_CJK - '*Enclosed_CJK*', '*Enclosed_CJK_Letters_And_Months*'
- *  COATL_UCD_BLK_ENCLOSED_CJK_LETTERS_AND_MONTHS - Alias for <COATL_UCD_BLK_ENCLOSED_CJK>
- *  COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUP - '*Enclosed_Ideographic_Sup*', '*Enclosed_Ideographic_Supplement*'
- *  COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUP>
- *  COATL_UCD_BLK_ETHIOPIC - '*Ethiopic*'
- *  COATL_UCD_BLK_ETHIOPIC_EXT - '*Ethiopic_Ext*', '*Ethiopic_Extended*'
- *  COATL_UCD_BLK_ETHIOPIC_EXTENDED - Alias for <COATL_UCD_BLK_ETHIOPIC_EXT>
- *  COATL_UCD_BLK_ETHIOPIC_EXT_A - '*Ethiopic_Ext_A*', '*Ethiopic_Extended_A*'
- *  COATL_UCD_BLK_ETHIOPIC_EXTENDED_A - Alias for <COATL_UCD_BLK_ETHIOPIC_EXT_A>
- *  COATL_UCD_BLK_ETHIOPIC_SUP - '*Ethiopic_Sup*', '*Ethiopic_Supplement*'
- *  COATL_UCD_BLK_ETHIOPIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_ETHIOPIC_SUP>
- *  COATL_UCD_BLK_GEOMETRIC_SHAPES - '*Geometric_Shapes*'
- *  COATL_UCD_BLK_GEOMETRIC_SHAPES_EXT - '*Geometric_Shapes_Ext*', '*Geometric_Shapes_Extended*'
- *  COATL_UCD_BLK_GEOMETRIC_SHAPES_EXTENDED - Alias for <COATL_UCD_BLK_GEOMETRIC_SHAPES_EXT>
- *  COATL_UCD_BLK_GEORGIAN - '*Georgian*'
- *  COATL_UCD_BLK_GEORGIAN_SUP - '*Georgian_Sup*', '*Georgian_Supplement*'
- *  COATL_UCD_BLK_GEORGIAN_SUPPLEMENT - Alias for <COATL_UCD_BLK_GEORGIAN_SUP>
- *  COATL_UCD_BLK_GLAGOLITIC - '*Glagolitic*'
- *  COATL_UCD_BLK_GLAGOLITIC_SUP - '*Glagolitic_Sup*', '*Glagolitic_Supplement*'
- *  COATL_UCD_BLK_GLAGOLITIC_SUPPLEMENT - Alias for <COATL_UCD_BLK_GLAGOLITIC_SUP>
- *  COATL_UCD_BLK_GOTHIC - '*Gothic*'
- *  COATL_UCD_BLK_GRANTHA - '*Grantha*'
- *  COATL_UCD_BLK_GREEK - '*Greek*', '*Greek_And_Coptic*'
- *  COATL_UCD_BLK_GREEK_AND_COPTIC - Alias for <COATL_UCD_BLK_GREEK>
- *  COATL_UCD_BLK_GREEK_EXT - '*Greek_Ext*', '*Greek_Extended*'
- *  COATL_UCD_BLK_GREEK_EXTENDED - Alias for <COATL_UCD_BLK_GREEK_EXT>
- *  COATL_UCD_BLK_GUJARATI - '*Gujarati*'
- *  COATL_UCD_BLK_GURMUKHI - '*Gurmukhi*'
- *  COATL_UCD_BLK_HALF_AND_FULL_FORMS - '*Half_And_Full_Forms*', '*Halfwidth_And_Fullwidth_Forms*'
- *  COATL_UCD_BLK_HALFWIDTH_AND_FULLWIDTH_FORMS - Alias for <COATL_UCD_BLK_HALF_AND_FULL_FORMS>
- *  COATL_UCD_BLK_HALF_MARKS - '*Half_Marks*', '*Combining_Half_Marks*'
- *  COATL_UCD_BLK_COMBINING_HALF_MARKS - Alias for <COATL_UCD_BLK_HALF_MARKS>
- *  COATL_UCD_BLK_HANGUL - '*Hangul*', '*Hangul_Syllables*'
- *  COATL_UCD_BLK_HANGUL_SYLLABLES - Alias for <COATL_UCD_BLK_HANGUL>
- *  COATL_UCD_BLK_HANUNOO - '*Hanunoo*'
- *  COATL_UCD_BLK_HATRAN - '*Hatran*'
- *  COATL_UCD_BLK_HEBREW - '*Hebrew*'
- *  COATL_UCD_BLK_HIGH_PU_SURROGATES - '*High_PU_Surrogates*', '*High_Private_Use_Surrogates*'
- *  COATL_UCD_BLK_HIGH_PRIVATE_USE_SURROGATES - Alias for <COATL_UCD_BLK_HIGH_PU_SURROGATES>
- *  COATL_UCD_BLK_HIGH_SURROGATES - '*High_Surrogates*'
- *  COATL_UCD_BLK_HIRAGANA - '*Hiragana*'
- *  COATL_UCD_BLK_IDC - '*IDC*', '*Ideographic_Description_Characters*'
- *  COATL_UCD_BLK_IDEOGRAPHIC_DESCRIPTION_CHARACTERS - Alias for <COATL_UCD_BLK_IDC>
- *  COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS - '*Ideographic_Symbols*', '*Ideographic_Symbols_And_Punctuation*'
- *  COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION - Alias for <COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS>
- *  COATL_UCD_BLK_IMPERIAL_ARAMAIC - '*Imperial_Aramaic*'
- *  COATL_UCD_BLK_INDIC_NUMBER_FORMS - '*Indic_Number_Forms*', '*Common_Indic_Number_Forms*'
- *  COATL_UCD_BLK_COMMON_INDIC_NUMBER_FORMS - Alias for <COATL_UCD_BLK_INDIC_NUMBER_FORMS>
- *  COATL_UCD_BLK_INSCRIPTIONAL_PAHLAVI - '*Inscriptional_Pahlavi*'
- *  COATL_UCD_BLK_INSCRIPTIONAL_PARTHIAN - '*Inscriptional_Parthian*'
- *  COATL_UCD_BLK_IPA_EXT - '*IPA_Ext*', '*IPA_Extensions*'
- *  COATL_UCD_BLK_IPA_EXTENSIONS - Alias for <COATL_UCD_BLK_IPA_EXT>
- *  COATL_UCD_BLK_JAMO - '*Jamo*', '*Hangul_Jamo*'
- *  COATL_UCD_BLK_HANGUL_JAMO - Alias for <COATL_UCD_BLK_JAMO>
- *  COATL_UCD_BLK_JAMO_EXT_A - '*Jamo_Ext_A*', '*Hangul_Jamo_Extended_A*'
- *  COATL_UCD_BLK_HANGUL_JAMO_EXTENDED_A - Alias for <COATL_UCD_BLK_JAMO_EXT_A>
- *  COATL_UCD_BLK_JAMO_EXT_B - '*Jamo_Ext_B*', '*Hangul_Jamo_Extended_B*'
- *  COATL_UCD_BLK_HANGUL_JAMO_EXTENDED_B - Alias for <COATL_UCD_BLK_JAMO_EXT_B>
- *  COATL_UCD_BLK_JAVANESE - '*Javanese*'
- *  COATL_UCD_BLK_KAITHI - '*Kaithi*'
- *  COATL_UCD_BLK_KANA_SUP - '*Kana_Sup*', '*Kana_Supplement*'
- *  COATL_UCD_BLK_KANA_SUPPLEMENT - Alias for <COATL_UCD_BLK_KANA_SUP>
- *  COATL_UCD_BLK_KANBUN - '*Kanbun*'
- *  COATL_UCD_BLK_KANGXI - '*Kangxi*', '*Kangxi_Radicals*'
- *  COATL_UCD_BLK_KANGXI_RADICALS - Alias for <COATL_UCD_BLK_KANGXI>
- *  COATL_UCD_BLK_KANNADA - '*Kannada*'
- *  COATL_UCD_BLK_KATAKANA - '*Katakana*'
- *  COATL_UCD_BLK_KATAKANA_EXT - '*Katakana_Ext*', '*Katakana_Phonetic_Extensions*'
- *  COATL_UCD_BLK_KATAKANA_PHONETIC_EXTENSIONS - Alias for <COATL_UCD_BLK_KATAKANA_EXT>
- *  COATL_UCD_BLK_KAYAH_LI - '*Kayah_Li*'
- *  COATL_UCD_BLK_KHAROSHTHI - '*Kharoshthi*'
- *  COATL_UCD_BLK_KHMER - '*Khmer*'
- *  COATL_UCD_BLK_KHMER_SYMBOLS - '*Khmer_Symbols*'
- *  COATL_UCD_BLK_KHOJKI - '*Khojki*'
- *  COATL_UCD_BLK_KHUDAWADI - '*Khudawadi*'
- *  COATL_UCD_BLK_LAO - '*Lao*'
- *  COATL_UCD_BLK_LATIN_1_SUP - '*Latin_1_Sup*', '*Latin_1_Supplement*', '*Latin_1*'
- *  COATL_UCD_BLK_LATIN_1_SUPPLEMENT - Alias for <COATL_UCD_BLK_LATIN_1_SUP>
- *  COATL_UCD_BLK_LATIN_1 - Alias for <COATL_UCD_BLK_LATIN_1_SUP>
- *  COATL_UCD_BLK_LATIN_EXT_A - '*Latin_Ext_A*', '*Latin_Extended_A*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_A - Alias for <COATL_UCD_BLK_LATIN_EXT_A>
- *  COATL_UCD_BLK_LATIN_EXT_ADDITIONAL - '*Latin_Ext_Additional*', '*Latin_Extended_Additional*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_ADDITIONAL - Alias for <COATL_UCD_BLK_LATIN_EXT_ADDITIONAL>
- *  COATL_UCD_BLK_LATIN_EXT_B - '*Latin_Ext_B*', '*Latin_Extended_B*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_B - Alias for <COATL_UCD_BLK_LATIN_EXT_B>
- *  COATL_UCD_BLK_LATIN_EXT_C - '*Latin_Ext_C*', '*Latin_Extended_C*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_C - Alias for <COATL_UCD_BLK_LATIN_EXT_C>
- *  COATL_UCD_BLK_LATIN_EXT_D - '*Latin_Ext_D*', '*Latin_Extended_D*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_D - Alias for <COATL_UCD_BLK_LATIN_EXT_D>
- *  COATL_UCD_BLK_LATIN_EXT_E - '*Latin_Ext_E*', '*Latin_Extended_E*'
- *  COATL_UCD_BLK_LATIN_EXTENDED_E - Alias for <COATL_UCD_BLK_LATIN_EXT_E>
- *  COATL_UCD_BLK_LEPCHA - '*Lepcha*'
- *  COATL_UCD_BLK_LETTERLIKE_SYMBOLS - '*Letterlike_Symbols*'
- *  COATL_UCD_BLK_LIMBU - '*Limbu*'
- *  COATL_UCD_BLK_LINEAR_A - '*Linear_A*'
- *  COATL_UCD_BLK_LINEAR_B_IDEOGRAMS - '*Linear_B_Ideograms*'
- *  COATL_UCD_BLK_LINEAR_B_SYLLABARY - '*Linear_B_Syllabary*'
- *  COATL_UCD_BLK_LISU - '*Lisu*'
- *  COATL_UCD_BLK_LOW_SURROGATES - '*Low_Surrogates*'
- *  COATL_UCD_BLK_LYCIAN - '*Lycian*'
- *  COATL_UCD_BLK_LYDIAN - '*Lydian*'
- *  COATL_UCD_BLK_MAHAJANI - '*Mahajani*'
- *  COATL_UCD_BLK_MAHJONG - '*Mahjong*', '*Mahjong_Tiles*'
- *  COATL_UCD_BLK_MAHJONG_TILES - Alias for <COATL_UCD_BLK_MAHJONG>
- *  COATL_UCD_BLK_MALAYALAM - '*Malayalam*'
- *  COATL_UCD_BLK_MANDAIC - '*Mandaic*'
- *  COATL_UCD_BLK_MANICHAEAN - '*Manichaean*'
- *  COATL_UCD_BLK_MARCHEN - '*Marchen*'
- *  COATL_UCD_BLK_MATH_ALPHANUM - '*Math_Alphanum*', '*Mathematical_Alphanumeric_Symbols*'
- *  COATL_UCD_BLK_MATHEMATICAL_ALPHANUMERIC_SYMBOLS - Alias for <COATL_UCD_BLK_MATH_ALPHANUM>
- *  COATL_UCD_BLK_MATH_OPERATORS - '*Math_Operators*', '*Mathematical_Operators*'
- *  COATL_UCD_BLK_MATHEMATICAL_OPERATORS - Alias for <COATL_UCD_BLK_MATH_OPERATORS>
- *  COATL_UCD_BLK_MEETEI_MAYEK - '*Meetei_Mayek*'
- *  COATL_UCD_BLK_MEETEI_MAYEK_EXT - '*Meetei_Mayek_Ext*', '*Meetei_Mayek_Extensions*'
- *  COATL_UCD_BLK_MEETEI_MAYEK_EXTENSIONS - Alias for <COATL_UCD_BLK_MEETEI_MAYEK_EXT>
- *  COATL_UCD_BLK_MENDE_KIKAKUI - '*Mende_Kikakui*'
- *  COATL_UCD_BLK_MEROITIC_CURSIVE - '*Meroitic_Cursive*'
- *  COATL_UCD_BLK_MEROITIC_HIEROGLYPHS - '*Meroitic_Hieroglyphs*'
- *  COATL_UCD_BLK_MIAO - '*Miao*'
- *  COATL_UCD_BLK_MISC_ARROWS - '*Misc_Arrows*', '*Miscellaneous_Symbols_And_Arrows*'
- *  COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS_AND_ARROWS - Alias for <COATL_UCD_BLK_MISC_ARROWS>
- *  COATL_UCD_BLK_MISC_MATH_SYMBOLS_A - '*Misc_Math_Symbols_A*', '*Miscellaneous_Mathematical_Symbols_A*'
- *  COATL_UCD_BLK_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A - Alias for <COATL_UCD_BLK_MISC_MATH_SYMBOLS_A>
- *  COATL_UCD_BLK_MISC_MATH_SYMBOLS_B - '*Misc_Math_Symbols_B*', '*Miscellaneous_Mathematical_Symbols_B*'
- *  COATL_UCD_BLK_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B - Alias for <COATL_UCD_BLK_MISC_MATH_SYMBOLS_B>
- *  COATL_UCD_BLK_MISC_PICTOGRAPHS - '*Misc_Pictographs*', '*Miscellaneous_Symbols_And_Pictographs*'
- *  COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS - Alias for <COATL_UCD_BLK_MISC_PICTOGRAPHS>
- *  COATL_UCD_BLK_MISC_SYMBOLS - '*Misc_Symbols*', '*Miscellaneous_Symbols*'
- *  COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS - Alias for <COATL_UCD_BLK_MISC_SYMBOLS>
- *  COATL_UCD_BLK_MISC_TECHNICAL - '*Misc_Technical*', '*Miscellaneous_Technical*'
- *  COATL_UCD_BLK_MISCELLANEOUS_TECHNICAL - Alias for <COATL_UCD_BLK_MISC_TECHNICAL>
- *  COATL_UCD_BLK_MODI - '*Modi*'
- *  COATL_UCD_BLK_MODIFIER_LETTERS - '*Modifier_Letters*', '*Spacing_Modifier_Letters*'
- *  COATL_UCD_BLK_SPACING_MODIFIER_LETTERS - Alias for <COATL_UCD_BLK_MODIFIER_LETTERS>
- *  COATL_UCD_BLK_MODIFIER_TONE_LETTERS - '*Modifier_Tone_Letters*'
- *  COATL_UCD_BLK_MONGOLIAN - '*Mongolian*'
- *  COATL_UCD_BLK_MONGOLIAN_SUP - '*Mongolian_Sup*', '*Mongolian_Supplement*'
- *  COATL_UCD_BLK_MONGOLIAN_SUPPLEMENT - Alias for <COATL_UCD_BLK_MONGOLIAN_SUP>
- *  COATL_UCD_BLK_MRO - '*Mro*'
- *  COATL_UCD_BLK_MULTANI - '*Multani*'
- *  COATL_UCD_BLK_MUSIC - '*Music*', '*Musical_Symbols*'
- *  COATL_UCD_BLK_MUSICAL_SYMBOLS - Alias for <COATL_UCD_BLK_MUSIC>
- *  COATL_UCD_BLK_MYANMAR - '*Myanmar*'
- *  COATL_UCD_BLK_MYANMAR_EXT_A - '*Myanmar_Ext_A*', '*Myanmar_Extended_A*'
- *  COATL_UCD_BLK_MYANMAR_EXTENDED_A - Alias for <COATL_UCD_BLK_MYANMAR_EXT_A>
- *  COATL_UCD_BLK_MYANMAR_EXT_B - '*Myanmar_Ext_B*', '*Myanmar_Extended_B*'
- *  COATL_UCD_BLK_MYANMAR_EXTENDED_B - Alias for <COATL_UCD_BLK_MYANMAR_EXT_B>
- *  COATL_UCD_BLK_NABATAEAN - '*Nabataean*'
- *  COATL_UCD_BLK_NB - '*NB*', '*No_Block*'
- *  COATL_UCD_BLK_NO_BLOCK - Alias for <COATL_UCD_BLK_NB>
- *  COATL_UCD_BLK_NEW_TAI_LUE - '*New_Tai_Lue*'
- *  COATL_UCD_BLK_NEWA - '*Newa*'
- *  COATL_UCD_BLK_NKO - '*NKo*'
- *  COATL_UCD_BLK_NUMBER_FORMS - '*Number_Forms*'
- *  COATL_UCD_BLK_OCR - '*OCR*', '*Optical_Character_Recognition*'
- *  COATL_UCD_BLK_OPTICAL_CHARACTER_RECOGNITION - Alias for <COATL_UCD_BLK_OCR>
- *  COATL_UCD_BLK_OGHAM - '*Ogham*'
- *  COATL_UCD_BLK_OL_CHIKI - '*Ol_Chiki*'
- *  COATL_UCD_BLK_OLD_HUNGARIAN - '*Old_Hungarian*'
- *  COATL_UCD_BLK_OLD_ITALIC - '*Old_Italic*'
- *  COATL_UCD_BLK_OLD_NORTH_ARABIAN - '*Old_North_Arabian*'
- *  COATL_UCD_BLK_OLD_PERMIC - '*Old_Permic*'
- *  COATL_UCD_BLK_OLD_PERSIAN - '*Old_Persian*'
- *  COATL_UCD_BLK_OLD_SOUTH_ARABIAN - '*Old_South_Arabian*'
- *  COATL_UCD_BLK_OLD_TURKIC - '*Old_Turkic*'
- *  COATL_UCD_BLK_ORIYA - '*Oriya*'
- *  COATL_UCD_BLK_ORNAMENTAL_DINGBATS - '*Ornamental_Dingbats*'
- *  COATL_UCD_BLK_OSAGE - '*Osage*'
- *  COATL_UCD_BLK_OSMANYA - '*Osmanya*'
- *  COATL_UCD_BLK_PAHAWH_HMONG - '*Pahawh_Hmong*'
- *  COATL_UCD_BLK_PALMYRENE - '*Palmyrene*'
- *  COATL_UCD_BLK_PAU_CIN_HAU - '*Pau_Cin_Hau*'
- *  COATL_UCD_BLK_PHAGS_PA - '*Phags_Pa*'
- *  COATL_UCD_BLK_PHAISTOS - '*Phaistos*', '*Phaistos_Disc*'
- *  COATL_UCD_BLK_PHAISTOS_DISC - Alias for <COATL_UCD_BLK_PHAISTOS>
- *  COATL_UCD_BLK_PHOENICIAN - '*Phoenician*'
- *  COATL_UCD_BLK_PHONETIC_EXT - '*Phonetic_Ext*', '*Phonetic_Extensions*'
- *  COATL_UCD_BLK_PHONETIC_EXTENSIONS - Alias for <COATL_UCD_BLK_PHONETIC_EXT>
- *  COATL_UCD_BLK_PHONETIC_EXT_SUP - '*Phonetic_Ext_Sup*', '*Phonetic_Extensions_Supplement*'
- *  COATL_UCD_BLK_PHONETIC_EXTENSIONS_SUPPLEMENT - Alias for <COATL_UCD_BLK_PHONETIC_EXT_SUP>
- *  COATL_UCD_BLK_PLAYING_CARDS - '*Playing_Cards*'
- *  COATL_UCD_BLK_PSALTER_PAHLAVI - '*Psalter_Pahlavi*'
- *  COATL_UCD_BLK_PUA - '*PUA*', '*Private_Use_Area*', '*Private_Use*'
- *  COATL_UCD_BLK_PRIVATE_USE_AREA - Alias for <COATL_UCD_BLK_PUA>
- *  COATL_UCD_BLK_PRIVATE_USE - Alias for <COATL_UCD_BLK_PUA>
- *  COATL_UCD_BLK_PUNCTUATION - '*Punctuation*', '*General_Punctuation*'
- *  COATL_UCD_BLK_GENERAL_PUNCTUATION - Alias for <COATL_UCD_BLK_PUNCTUATION>
- *  COATL_UCD_BLK_REJANG - '*Rejang*'
- *  COATL_UCD_BLK_RUMI - '*Rumi*', '*Rumi_Numeral_Symbols*'
- *  COATL_UCD_BLK_RUMI_NUMERAL_SYMBOLS - Alias for <COATL_UCD_BLK_RUMI>
- *  COATL_UCD_BLK_RUNIC - '*Runic*'
- *  COATL_UCD_BLK_SAMARITAN - '*Samaritan*'
- *  COATL_UCD_BLK_SAURASHTRA - '*Saurashtra*'
- *  COATL_UCD_BLK_SHARADA - '*Sharada*'
- *  COATL_UCD_BLK_SHAVIAN - '*Shavian*'
- *  COATL_UCD_BLK_SHORTHAND_FORMAT_CONTROLS - '*Shorthand_Format_Controls*'
- *  COATL_UCD_BLK_SIDDHAM - '*Siddham*'
- *  COATL_UCD_BLK_SINHALA - '*Sinhala*'
- *  COATL_UCD_BLK_SINHALA_ARCHAIC_NUMBERS - '*Sinhala_Archaic_Numbers*'
- *  COATL_UCD_BLK_SMALL_FORMS - '*Small_Forms*', '*Small_Form_Variants*'
- *  COATL_UCD_BLK_SMALL_FORM_VARIANTS - Alias for <COATL_UCD_BLK_SMALL_FORMS>
- *  COATL_UCD_BLK_SORA_SOMPENG - '*Sora_Sompeng*'
- *  COATL_UCD_BLK_SPECIALS - '*Specials*'
- *  COATL_UCD_BLK_SUNDANESE - '*Sundanese*'
- *  COATL_UCD_BLK_SUNDANESE_SUP - '*Sundanese_Sup*', '*Sundanese_Supplement*'
- *  COATL_UCD_BLK_SUNDANESE_SUPPLEMENT - Alias for <COATL_UCD_BLK_SUNDANESE_SUP>
- *  COATL_UCD_BLK_SUP_ARROWS_A - '*Sup_Arrows_A*', '*Supplemental_Arrows_A*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_A - Alias for <COATL_UCD_BLK_SUP_ARROWS_A>
- *  COATL_UCD_BLK_SUP_ARROWS_B - '*Sup_Arrows_B*', '*Supplemental_Arrows_B*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_B - Alias for <COATL_UCD_BLK_SUP_ARROWS_B>
- *  COATL_UCD_BLK_SUP_ARROWS_C - '*Sup_Arrows_C*', '*Supplemental_Arrows_C*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_C - Alias for <COATL_UCD_BLK_SUP_ARROWS_C>
- *  COATL_UCD_BLK_SUP_MATH_OPERATORS - '*Sup_Math_Operators*', '*Supplemental_Mathematical_Operators*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_MATHEMATICAL_OPERATORS - Alias for <COATL_UCD_BLK_SUP_MATH_OPERATORS>
- *  COATL_UCD_BLK_SUP_PUA_A - '*Sup_PUA_A*', '*Supplementary_Private_Use_Area_A*'
- *  COATL_UCD_BLK_SUPPLEMENTARY_PRIVATE_USE_AREA_A - Alias for <COATL_UCD_BLK_SUP_PUA_A>
- *  COATL_UCD_BLK_SUP_PUA_B - '*Sup_PUA_B*', '*Supplementary_Private_Use_Area_B*'
- *  COATL_UCD_BLK_SUPPLEMENTARY_PRIVATE_USE_AREA_B - Alias for <COATL_UCD_BLK_SUP_PUA_B>
- *  COATL_UCD_BLK_SUP_PUNCTUATION - '*Sup_Punctuation*', '*Supplemental_Punctuation*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_PUNCTUATION - Alias for <COATL_UCD_BLK_SUP_PUNCTUATION>
- *  COATL_UCD_BLK_SUP_SYMBOLS_AND_PICTOGRAPHS - '*Sup_Symbols_And_Pictographs*', '*Supplemental_Symbols_And_Pictographs*'
- *  COATL_UCD_BLK_SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS - Alias for <COATL_UCD_BLK_SUP_SYMBOLS_AND_PICTOGRAPHS>
- *  COATL_UCD_BLK_SUPER_AND_SUB - '*Super_And_Sub*', '*Superscripts_And_Subscripts*'
- *  COATL_UCD_BLK_SUPERSCRIPTS_AND_SUBSCRIPTS - Alias for <COATL_UCD_BLK_SUPER_AND_SUB>
- *  COATL_UCD_BLK_SUTTON_SIGNWRITING - '*Sutton_SignWriting*'
- *  COATL_UCD_BLK_SYLOTI_NAGRI - '*Syloti_Nagri*'
- *  COATL_UCD_BLK_SYRIAC - '*Syriac*'
- *  COATL_UCD_BLK_TAGALOG - '*Tagalog*'
- *  COATL_UCD_BLK_TAGBANWA - '*Tagbanwa*'
- *  COATL_UCD_BLK_TAGS - '*Tags*'
- *  COATL_UCD_BLK_TAI_LE - '*Tai_Le*'
- *  COATL_UCD_BLK_TAI_THAM - '*Tai_Tham*'
- *  COATL_UCD_BLK_TAI_VIET - '*Tai_Viet*'
- *  COATL_UCD_BLK_TAI_XUAN_JING - '*Tai_Xuan_Jing*', '*Tai_Xuan_Jing_Symbols*'
- *  COATL_UCD_BLK_TAI_XUAN_JING_SYMBOLS - Alias for <COATL_UCD_BLK_TAI_XUAN_JING>
- *  COATL_UCD_BLK_TAKRI - '*Takri*'
- *  COATL_UCD_BLK_TAMIL - '*Tamil*'
- *  COATL_UCD_BLK_TANGUT - '*Tangut*'
- *  COATL_UCD_BLK_TANGUT_COMPONENTS - '*Tangut_Components*'
- *  COATL_UCD_BLK_TELUGU - '*Telugu*'
- *  COATL_UCD_BLK_THAANA - '*Thaana*'
- *  COATL_UCD_BLK_THAI - '*Thai*'
- *  COATL_UCD_BLK_TIBETAN - '*Tibetan*'
- *  COATL_UCD_BLK_TIFINAGH - '*Tifinagh*'
- *  COATL_UCD_BLK_TIRHUTA - '*Tirhuta*'
- *  COATL_UCD_BLK_TRANSPORT_AND_MAP - '*Transport_And_Map*', '*Transport_And_Map_Symbols*'
- *  COATL_UCD_BLK_TRANSPORT_AND_MAP_SYMBOLS - Alias for <COATL_UCD_BLK_TRANSPORT_AND_MAP>
- *  COATL_UCD_BLK_UCAS - '*UCAS*', '*Unified_Canadian_Aboriginal_Syllabics*', '*Canadian_Syllabics*'
- *  COATL_UCD_BLK_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS - Alias for <COATL_UCD_BLK_UCAS>
- *  COATL_UCD_BLK_CANADIAN_SYLLABICS - Alias for <COATL_UCD_BLK_UCAS>
- *  COATL_UCD_BLK_UCAS_EXT - '*UCAS_Ext*', '*Unified_Canadian_Aboriginal_Syllabics_Extended*'
- *  COATL_UCD_BLK_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED - Alias for <COATL_UCD_BLK_UCAS_EXT>
- *  COATL_UCD_BLK_UGARITIC - '*Ugaritic*'
- *  COATL_UCD_BLK_VAI - '*Vai*'
- *  COATL_UCD_BLK_VEDIC_EXT - '*Vedic_Ext*', '*Vedic_Extensions*'
- *  COATL_UCD_BLK_VEDIC_EXTENSIONS - Alias for <COATL_UCD_BLK_VEDIC_EXT>
- *  COATL_UCD_BLK_VERTICAL_FORMS - '*Vertical_Forms*'
- *  COATL_UCD_BLK_VS - '*VS*', '*Variation_Selectors*'
- *  COATL_UCD_BLK_VARIATION_SELECTORS - Alias for <COATL_UCD_BLK_VS>
- *  COATL_UCD_BLK_VS_SUP - '*VS_Sup*', '*Variation_Selectors_Supplement*'
- *  COATL_UCD_BLK_VARIATION_SELECTORS_SUPPLEMENT - Alias for <COATL_UCD_BLK_VS_SUP>
- *  COATL_UCD_BLK_WARANG_CITI - '*Warang_Citi*'
- *  COATL_UCD_BLK_YI_RADICALS - '*Yi_Radicals*'
- *  COATL_UCD_BLK_YI_SYLLABLES - '*Yi_Syllables*'
- *  COATL_UCD_BLK_YIJING - '*Yijing*', '*Yijing_Hexagram_Symbols*'
- *  COATL_UCD_BLK_YIJING_HEXAGRAM_SYMBOLS - Alias for <COATL_UCD_BLK_YIJING>
+ * @see COATL_UCD_BLK
  *
- * See also:
- *      <COATL_UCD_BLK>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_BLK_ADLAM
+ *      '**Adlam**'
+ * @var COATL_UCD_BLK_AEGEAN_NUMBERS
+ *      '**Aegean_Numbers**'
+ * @var COATL_UCD_BLK_AHOM
+ *      '**Ahom**'
+ * @var COATL_UCD_BLK_ALCHEMICAL
+ *      '**Alchemical**', '**Alchemical_Symbols**'
+ * @var COATL_UCD_BLK_ALCHEMICAL_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_ALCHEMICAL
+ * @var COATL_UCD_BLK_ALPHABETIC_PF
+ *      '**Alphabetic_PF**', '**Alphabetic_Presentation_Forms**'
+ * @var COATL_UCD_BLK_ALPHABETIC_PRESENTATION_FORMS
+ *      Alias for #COATL_UCD_BLK_ALPHABETIC_PF
+ * @var COATL_UCD_BLK_ANATOLIAN_HIEROGLYPHS
+ *      '**Anatolian_Hieroglyphs**'
+ * @var COATL_UCD_BLK_ANCIENT_GREEK_MUSIC
+ *      '**Ancient_Greek_Music**', '**Ancient_Greek_Musical_Notation**'
+ * @var COATL_UCD_BLK_ANCIENT_GREEK_MUSICAL_NOTATION
+ *      Alias for #COATL_UCD_BLK_ANCIENT_GREEK_MUSIC
+ * @var COATL_UCD_BLK_ANCIENT_GREEK_NUMBERS
+ *      '**Ancient_Greek_Numbers**'
+ * @var COATL_UCD_BLK_ANCIENT_SYMBOLS
+ *      '**Ancient_Symbols**'
+ * @var COATL_UCD_BLK_ARABIC
+ *      '**Arabic**'
+ * @var COATL_UCD_BLK_ARABIC_EXT_A
+ *      '**Arabic_Ext_A**', '**Arabic_Extended_A**'
+ * @var COATL_UCD_BLK_ARABIC_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_ARABIC_EXT_A
+ * @var COATL_UCD_BLK_ARABIC_MATH
+ *      '**Arabic_Math**', '**Arabic_Mathematical_Alphabetic_Symbols**'
+ * @var COATL_UCD_BLK_ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_ARABIC_MATH
+ * @var COATL_UCD_BLK_ARABIC_PF_A
+ *      '**Arabic_PF_A**', '**Arabic_Presentation_Forms_A**', '**Arabic_Presentation_Forms-A**'
+ * @var COATL_UCD_BLK_ARABIC_PRESENTATION_FORMS_A
+ *      Alias for #COATL_UCD_BLK_ARABIC_PF_A
+ * @var COATL_UCD_BLK_ARABIC_PF_B
+ *      '**Arabic_PF_B**', '**Arabic_Presentation_Forms_B**'
+ * @var COATL_UCD_BLK_ARABIC_PRESENTATION_FORMS_B
+ *      Alias for #COATL_UCD_BLK_ARABIC_PF_B
+ * @var COATL_UCD_BLK_ARABIC_SUP
+ *      '**Arabic_Sup**', '**Arabic_Supplement**'
+ * @var COATL_UCD_BLK_ARABIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_ARABIC_SUP
+ * @var COATL_UCD_BLK_ARMENIAN
+ *      '**Armenian**'
+ * @var COATL_UCD_BLK_ARROWS
+ *      '**Arrows**'
+ * @var COATL_UCD_BLK_ASCII
+ *      '**ASCII**', '**Basic_Latin**'
+ * @var COATL_UCD_BLK_BASIC_LATIN
+ *      Alias for #COATL_UCD_BLK_ASCII
+ * @var COATL_UCD_BLK_AVESTAN
+ *      '**Avestan**'
+ * @var COATL_UCD_BLK_BALINESE
+ *      '**Balinese**'
+ * @var COATL_UCD_BLK_BAMUM
+ *      '**Bamum**'
+ * @var COATL_UCD_BLK_BAMUM_SUP
+ *      '**Bamum_Sup**', '**Bamum_Supplement**'
+ * @var COATL_UCD_BLK_BAMUM_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_BAMUM_SUP
+ * @var COATL_UCD_BLK_BASSA_VAH
+ *      '**Bassa_Vah**'
+ * @var COATL_UCD_BLK_BATAK
+ *      '**Batak**'
+ * @var COATL_UCD_BLK_BENGALI
+ *      '**Bengali**'
+ * @var COATL_UCD_BLK_BHAIKSUKI
+ *      '**Bhaiksuki**'
+ * @var COATL_UCD_BLK_BLOCK_ELEMENTS
+ *      '**Block_Elements**'
+ * @var COATL_UCD_BLK_BOPOMOFO
+ *      '**Bopomofo**'
+ * @var COATL_UCD_BLK_BOPOMOFO_EXT
+ *      '**Bopomofo_Ext**', '**Bopomofo_Extended**'
+ * @var COATL_UCD_BLK_BOPOMOFO_EXTENDED
+ *      Alias for #COATL_UCD_BLK_BOPOMOFO_EXT
+ * @var COATL_UCD_BLK_BOX_DRAWING
+ *      '**Box_Drawing**'
+ * @var COATL_UCD_BLK_BRAHMI
+ *      '**Brahmi**'
+ * @var COATL_UCD_BLK_BRAILLE
+ *      '**Braille**', '**Braille_Patterns**'
+ * @var COATL_UCD_BLK_BRAILLE_PATTERNS
+ *      Alias for #COATL_UCD_BLK_BRAILLE
+ * @var COATL_UCD_BLK_BUGINESE
+ *      '**Buginese**'
+ * @var COATL_UCD_BLK_BUHID
+ *      '**Buhid**'
+ * @var COATL_UCD_BLK_BYZANTINE_MUSIC
+ *      '**Byzantine_Music**', '**Byzantine_Musical_Symbols**'
+ * @var COATL_UCD_BLK_BYZANTINE_MUSICAL_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_BYZANTINE_MUSIC
+ * @var COATL_UCD_BLK_CARIAN
+ *      '**Carian**'
+ * @var COATL_UCD_BLK_CAUCASIAN_ALBANIAN
+ *      '**Caucasian_Albanian**'
+ * @var COATL_UCD_BLK_CHAKMA
+ *      '**Chakma**'
+ * @var COATL_UCD_BLK_CHAM
+ *      '**Cham**'
+ * @var COATL_UCD_BLK_CHEROKEE
+ *      '**Cherokee**'
+ * @var COATL_UCD_BLK_CHEROKEE_SUP
+ *      '**Cherokee_Sup**', '**Cherokee_Supplement**'
+ * @var COATL_UCD_BLK_CHEROKEE_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_CHEROKEE_SUP
+ * @var COATL_UCD_BLK_CJK
+ *      '**CJK**', '**CJK_Unified_Ideographs**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS
+ *      Alias for #COATL_UCD_BLK_CJK
+ * @var COATL_UCD_BLK_CJK_COMPAT
+ *      '**CJK_Compat**', '**CJK_Compatibility**'
+ * @var COATL_UCD_BLK_CJK_COMPATIBILITY
+ *      Alias for #COATL_UCD_BLK_CJK_COMPAT
+ * @var COATL_UCD_BLK_CJK_COMPAT_FORMS
+ *      '**CJK_Compat_Forms**', '**CJK_Compatibility_Forms**'
+ * @var COATL_UCD_BLK_CJK_COMPATIBILITY_FORMS
+ *      Alias for #COATL_UCD_BLK_CJK_COMPAT_FORMS
+ * @var COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS
+ *      '**CJK_Compat_Ideographs**', '**CJK_Compatibility_Ideographs**'
+ * @var COATL_UCD_BLK_CJK_COMPATIBILITY_IDEOGRAPHS
+ *      Alias for #COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS
+ * @var COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS_SUP
+ *      '**CJK_Compat_Ideographs_Sup**', '**CJK_Compatibility_Ideographs_Supplement**'
+ * @var COATL_UCD_BLK_CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_CJK_COMPAT_IDEOGRAPHS_SUP
+ * @var COATL_UCD_BLK_CJK_EXT_A
+ *      '**CJK_Ext_A**', '**CJK_Unified_Ideographs_Extension_A**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+ *      Alias for #COATL_UCD_BLK_CJK_EXT_A
+ * @var COATL_UCD_BLK_CJK_EXT_B
+ *      '**CJK_Ext_B**', '**CJK_Unified_Ideographs_Extension_B**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B
+ *      Alias for #COATL_UCD_BLK_CJK_EXT_B
+ * @var COATL_UCD_BLK_CJK_EXT_C
+ *      '**CJK_Ext_C**', '**CJK_Unified_Ideographs_Extension_C**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C
+ *      Alias for #COATL_UCD_BLK_CJK_EXT_C
+ * @var COATL_UCD_BLK_CJK_EXT_D
+ *      '**CJK_Ext_D**', '**CJK_Unified_Ideographs_Extension_D**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D
+ *      Alias for #COATL_UCD_BLK_CJK_EXT_D
+ * @var COATL_UCD_BLK_CJK_EXT_E
+ *      '**CJK_Ext_E**', '**CJK_Unified_Ideographs_Extension_E**'
+ * @var COATL_UCD_BLK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E
+ *      Alias for #COATL_UCD_BLK_CJK_EXT_E
+ * @var COATL_UCD_BLK_CJK_RADICALS_SUP
+ *      '**CJK_Radicals_Sup**', '**CJK_Radicals_Supplement**'
+ * @var COATL_UCD_BLK_CJK_RADICALS_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_CJK_RADICALS_SUP
+ * @var COATL_UCD_BLK_CJK_STROKES
+ *      '**CJK_Strokes**'
+ * @var COATL_UCD_BLK_CJK_SYMBOLS
+ *      '**CJK_Symbols**', '**CJK_Symbols_And_Punctuation**'
+ * @var COATL_UCD_BLK_CJK_SYMBOLS_AND_PUNCTUATION
+ *      Alias for #COATL_UCD_BLK_CJK_SYMBOLS
+ * @var COATL_UCD_BLK_COMPAT_JAMO
+ *      '**Compat_Jamo**', '**Hangul_Compatibility_Jamo**'
+ * @var COATL_UCD_BLK_HANGUL_COMPATIBILITY_JAMO
+ *      Alias for #COATL_UCD_BLK_COMPAT_JAMO
+ * @var COATL_UCD_BLK_CONTROL_PICTURES
+ *      '**Control_Pictures**'
+ * @var COATL_UCD_BLK_COPTIC
+ *      '**Coptic**'
+ * @var COATL_UCD_BLK_COPTIC_EPACT_NUMBERS
+ *      '**Coptic_Epact_Numbers**'
+ * @var COATL_UCD_BLK_COUNTING_ROD
+ *      '**Counting_Rod**', '**Counting_Rod_Numerals**'
+ * @var COATL_UCD_BLK_COUNTING_ROD_NUMERALS
+ *      Alias for #COATL_UCD_BLK_COUNTING_ROD
+ * @var COATL_UCD_BLK_CUNEIFORM
+ *      '**Cuneiform**'
+ * @var COATL_UCD_BLK_CUNEIFORM_NUMBERS
+ *      '**Cuneiform_Numbers**', '**Cuneiform_Numbers_And_Punctuation**'
+ * @var COATL_UCD_BLK_CUNEIFORM_NUMBERS_AND_PUNCTUATION
+ *      Alias for #COATL_UCD_BLK_CUNEIFORM_NUMBERS
+ * @var COATL_UCD_BLK_CURRENCY_SYMBOLS
+ *      '**Currency_Symbols**'
+ * @var COATL_UCD_BLK_CYPRIOT_SYLLABARY
+ *      '**Cypriot_Syllabary**'
+ * @var COATL_UCD_BLK_CYRILLIC
+ *      '**Cyrillic**'
+ * @var COATL_UCD_BLK_CYRILLIC_EXT_A
+ *      '**Cyrillic_Ext_A**', '**Cyrillic_Extended_A**'
+ * @var COATL_UCD_BLK_CYRILLIC_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_CYRILLIC_EXT_A
+ * @var COATL_UCD_BLK_CYRILLIC_EXT_B
+ *      '**Cyrillic_Ext_B**', '**Cyrillic_Extended_B**'
+ * @var COATL_UCD_BLK_CYRILLIC_EXTENDED_B
+ *      Alias for #COATL_UCD_BLK_CYRILLIC_EXT_B
+ * @var COATL_UCD_BLK_CYRILLIC_EXT_C
+ *      '**Cyrillic_Ext_C**', '**Cyrillic_Extended_C**'
+ * @var COATL_UCD_BLK_CYRILLIC_EXTENDED_C
+ *      Alias for #COATL_UCD_BLK_CYRILLIC_EXT_C
+ * @var COATL_UCD_BLK_CYRILLIC_SUP
+ *      '**Cyrillic_Sup**', '**Cyrillic_Supplement**', '**Cyrillic_Supplementary**'
+ * @var COATL_UCD_BLK_CYRILLIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_CYRILLIC_SUP
+ * @var COATL_UCD_BLK_CYRILLIC_SUPPLEMENTARY
+ *      Alias for #COATL_UCD_BLK_CYRILLIC_SUP
+ * @var COATL_UCD_BLK_DESERET
+ *      '**Deseret**'
+ * @var COATL_UCD_BLK_DEVANAGARI
+ *      '**Devanagari**'
+ * @var COATL_UCD_BLK_DEVANAGARI_EXT
+ *      '**Devanagari_Ext**', '**Devanagari_Extended**'
+ * @var COATL_UCD_BLK_DEVANAGARI_EXTENDED
+ *      Alias for #COATL_UCD_BLK_DEVANAGARI_EXT
+ * @var COATL_UCD_BLK_DIACRITICALS
+ *      '**Diacriticals**', '**Combining_Diacritical_Marks**'
+ * @var COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS
+ *      Alias for #COATL_UCD_BLK_DIACRITICALS
+ * @var COATL_UCD_BLK_DIACRITICALS_EXT
+ *      '**Diacriticals_Ext**', '**Combining_Diacritical_Marks_Extended**'
+ * @var COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_EXTENDED
+ *      Alias for #COATL_UCD_BLK_DIACRITICALS_EXT
+ * @var COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS
+ *      '**Diacriticals_For_Symbols**', '**Combining_Diacritical_Marks_For_Symbols**', '**Combining_Marks_For_Symbols**'
+ * @var COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_FOR_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS
+ * @var COATL_UCD_BLK_COMBINING_MARKS_FOR_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_DIACRITICALS_FOR_SYMBOLS
+ * @var COATL_UCD_BLK_DIACRITICALS_SUP
+ *      '**Diacriticals_Sup**', '**Combining_Diacritical_Marks_Supplement**'
+ * @var COATL_UCD_BLK_COMBINING_DIACRITICAL_MARKS_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_DIACRITICALS_SUP
+ * @var COATL_UCD_BLK_DINGBATS
+ *      '**Dingbats**'
+ * @var COATL_UCD_BLK_DOMINO
+ *      '**Domino**', '**Domino_Tiles**'
+ * @var COATL_UCD_BLK_DOMINO_TILES
+ *      Alias for #COATL_UCD_BLK_DOMINO
+ * @var COATL_UCD_BLK_DUPLOYAN
+ *      '**Duployan**'
+ * @var COATL_UCD_BLK_EARLY_DYNASTIC_CUNEIFORM
+ *      '**Early_Dynastic_Cuneiform**'
+ * @var COATL_UCD_BLK_EGYPTIAN_HIEROGLYPHS
+ *      '**Egyptian_Hieroglyphs**'
+ * @var COATL_UCD_BLK_ELBASAN
+ *      '**Elbasan**'
+ * @var COATL_UCD_BLK_EMOTICONS
+ *      '**Emoticons**'
+ * @var COATL_UCD_BLK_ENCLOSED_ALPHANUM
+ *      '**Enclosed_Alphanum**', '**Enclosed_Alphanumerics**'
+ * @var COATL_UCD_BLK_ENCLOSED_ALPHANUMERICS
+ *      Alias for #COATL_UCD_BLK_ENCLOSED_ALPHANUM
+ * @var COATL_UCD_BLK_ENCLOSED_ALPHANUM_SUP
+ *      '**Enclosed_Alphanum_Sup**', '**Enclosed_Alphanumeric_Supplement**'
+ * @var COATL_UCD_BLK_ENCLOSED_ALPHANUMERIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_ENCLOSED_ALPHANUM_SUP
+ * @var COATL_UCD_BLK_ENCLOSED_CJK
+ *      '**Enclosed_CJK**', '**Enclosed_CJK_Letters_And_Months**'
+ * @var COATL_UCD_BLK_ENCLOSED_CJK_LETTERS_AND_MONTHS
+ *      Alias for #COATL_UCD_BLK_ENCLOSED_CJK
+ * @var COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUP
+ *      '**Enclosed_Ideographic_Sup**', '**Enclosed_Ideographic_Supplement**'
+ * @var COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_ENCLOSED_IDEOGRAPHIC_SUP
+ * @var COATL_UCD_BLK_ETHIOPIC
+ *      '**Ethiopic**'
+ * @var COATL_UCD_BLK_ETHIOPIC_EXT
+ *      '**Ethiopic_Ext**', '**Ethiopic_Extended**'
+ * @var COATL_UCD_BLK_ETHIOPIC_EXTENDED
+ *      Alias for #COATL_UCD_BLK_ETHIOPIC_EXT
+ * @var COATL_UCD_BLK_ETHIOPIC_EXT_A
+ *      '**Ethiopic_Ext_A**', '**Ethiopic_Extended_A**'
+ * @var COATL_UCD_BLK_ETHIOPIC_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_ETHIOPIC_EXT_A
+ * @var COATL_UCD_BLK_ETHIOPIC_SUP
+ *      '**Ethiopic_Sup**', '**Ethiopic_Supplement**'
+ * @var COATL_UCD_BLK_ETHIOPIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_ETHIOPIC_SUP
+ * @var COATL_UCD_BLK_GEOMETRIC_SHAPES
+ *      '**Geometric_Shapes**'
+ * @var COATL_UCD_BLK_GEOMETRIC_SHAPES_EXT
+ *      '**Geometric_Shapes_Ext**', '**Geometric_Shapes_Extended**'
+ * @var COATL_UCD_BLK_GEOMETRIC_SHAPES_EXTENDED
+ *      Alias for #COATL_UCD_BLK_GEOMETRIC_SHAPES_EXT
+ * @var COATL_UCD_BLK_GEORGIAN
+ *      '**Georgian**'
+ * @var COATL_UCD_BLK_GEORGIAN_SUP
+ *      '**Georgian_Sup**', '**Georgian_Supplement**'
+ * @var COATL_UCD_BLK_GEORGIAN_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_GEORGIAN_SUP
+ * @var COATL_UCD_BLK_GLAGOLITIC
+ *      '**Glagolitic**'
+ * @var COATL_UCD_BLK_GLAGOLITIC_SUP
+ *      '**Glagolitic_Sup**', '**Glagolitic_Supplement**'
+ * @var COATL_UCD_BLK_GLAGOLITIC_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_GLAGOLITIC_SUP
+ * @var COATL_UCD_BLK_GOTHIC
+ *      '**Gothic**'
+ * @var COATL_UCD_BLK_GRANTHA
+ *      '**Grantha**'
+ * @var COATL_UCD_BLK_GREEK
+ *      '**Greek**', '**Greek_And_Coptic**'
+ * @var COATL_UCD_BLK_GREEK_AND_COPTIC
+ *      Alias for #COATL_UCD_BLK_GREEK
+ * @var COATL_UCD_BLK_GREEK_EXT
+ *      '**Greek_Ext**', '**Greek_Extended**'
+ * @var COATL_UCD_BLK_GREEK_EXTENDED
+ *      Alias for #COATL_UCD_BLK_GREEK_EXT
+ * @var COATL_UCD_BLK_GUJARATI
+ *      '**Gujarati**'
+ * @var COATL_UCD_BLK_GURMUKHI
+ *      '**Gurmukhi**'
+ * @var COATL_UCD_BLK_HALF_AND_FULL_FORMS
+ *      '**Half_And_Full_Forms**', '**Halfwidth_And_Fullwidth_Forms**'
+ * @var COATL_UCD_BLK_HALFWIDTH_AND_FULLWIDTH_FORMS
+ *      Alias for #COATL_UCD_BLK_HALF_AND_FULL_FORMS
+ * @var COATL_UCD_BLK_HALF_MARKS
+ *      '**Half_Marks**', '**Combining_Half_Marks**'
+ * @var COATL_UCD_BLK_COMBINING_HALF_MARKS
+ *      Alias for #COATL_UCD_BLK_HALF_MARKS
+ * @var COATL_UCD_BLK_HANGUL
+ *      '**Hangul**', '**Hangul_Syllables**'
+ * @var COATL_UCD_BLK_HANGUL_SYLLABLES
+ *      Alias for #COATL_UCD_BLK_HANGUL
+ * @var COATL_UCD_BLK_HANUNOO
+ *      '**Hanunoo**'
+ * @var COATL_UCD_BLK_HATRAN
+ *      '**Hatran**'
+ * @var COATL_UCD_BLK_HEBREW
+ *      '**Hebrew**'
+ * @var COATL_UCD_BLK_HIGH_PU_SURROGATES
+ *      '**High_PU_Surrogates**', '**High_Private_Use_Surrogates**'
+ * @var COATL_UCD_BLK_HIGH_PRIVATE_USE_SURROGATES
+ *      Alias for #COATL_UCD_BLK_HIGH_PU_SURROGATES
+ * @var COATL_UCD_BLK_HIGH_SURROGATES
+ *      '**High_Surrogates**'
+ * @var COATL_UCD_BLK_HIRAGANA
+ *      '**Hiragana**'
+ * @var COATL_UCD_BLK_IDC
+ *      '**IDC**', '**Ideographic_Description_Characters**'
+ * @var COATL_UCD_BLK_IDEOGRAPHIC_DESCRIPTION_CHARACTERS
+ *      Alias for #COATL_UCD_BLK_IDC
+ * @var COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS
+ *      '**Ideographic_Symbols**', '**Ideographic_Symbols_And_Punctuation**'
+ * @var COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION
+ *      Alias for #COATL_UCD_BLK_IDEOGRAPHIC_SYMBOLS
+ * @var COATL_UCD_BLK_IMPERIAL_ARAMAIC
+ *      '**Imperial_Aramaic**'
+ * @var COATL_UCD_BLK_INDIC_NUMBER_FORMS
+ *      '**Indic_Number_Forms**', '**Common_Indic_Number_Forms**'
+ * @var COATL_UCD_BLK_COMMON_INDIC_NUMBER_FORMS
+ *      Alias for #COATL_UCD_BLK_INDIC_NUMBER_FORMS
+ * @var COATL_UCD_BLK_INSCRIPTIONAL_PAHLAVI
+ *      '**Inscriptional_Pahlavi**'
+ * @var COATL_UCD_BLK_INSCRIPTIONAL_PARTHIAN
+ *      '**Inscriptional_Parthian**'
+ * @var COATL_UCD_BLK_IPA_EXT
+ *      '**IPA_Ext**', '**IPA_Extensions**'
+ * @var COATL_UCD_BLK_IPA_EXTENSIONS
+ *      Alias for #COATL_UCD_BLK_IPA_EXT
+ * @var COATL_UCD_BLK_JAMO
+ *      '**Jamo**', '**Hangul_Jamo**'
+ * @var COATL_UCD_BLK_HANGUL_JAMO
+ *      Alias for #COATL_UCD_BLK_JAMO
+ * @var COATL_UCD_BLK_JAMO_EXT_A
+ *      '**Jamo_Ext_A**', '**Hangul_Jamo_Extended_A**'
+ * @var COATL_UCD_BLK_HANGUL_JAMO_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_JAMO_EXT_A
+ * @var COATL_UCD_BLK_JAMO_EXT_B
+ *      '**Jamo_Ext_B**', '**Hangul_Jamo_Extended_B**'
+ * @var COATL_UCD_BLK_HANGUL_JAMO_EXTENDED_B
+ *      Alias for #COATL_UCD_BLK_JAMO_EXT_B
+ * @var COATL_UCD_BLK_JAVANESE
+ *      '**Javanese**'
+ * @var COATL_UCD_BLK_KAITHI
+ *      '**Kaithi**'
+ * @var COATL_UCD_BLK_KANA_SUP
+ *      '**Kana_Sup**', '**Kana_Supplement**'
+ * @var COATL_UCD_BLK_KANA_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_KANA_SUP
+ * @var COATL_UCD_BLK_KANBUN
+ *      '**Kanbun**'
+ * @var COATL_UCD_BLK_KANGXI
+ *      '**Kangxi**', '**Kangxi_Radicals**'
+ * @var COATL_UCD_BLK_KANGXI_RADICALS
+ *      Alias for #COATL_UCD_BLK_KANGXI
+ * @var COATL_UCD_BLK_KANNADA
+ *      '**Kannada**'
+ * @var COATL_UCD_BLK_KATAKANA
+ *      '**Katakana**'
+ * @var COATL_UCD_BLK_KATAKANA_EXT
+ *      '**Katakana_Ext**', '**Katakana_Phonetic_Extensions**'
+ * @var COATL_UCD_BLK_KATAKANA_PHONETIC_EXTENSIONS
+ *      Alias for #COATL_UCD_BLK_KATAKANA_EXT
+ * @var COATL_UCD_BLK_KAYAH_LI
+ *      '**Kayah_Li**'
+ * @var COATL_UCD_BLK_KHAROSHTHI
+ *      '**Kharoshthi**'
+ * @var COATL_UCD_BLK_KHMER
+ *      '**Khmer**'
+ * @var COATL_UCD_BLK_KHMER_SYMBOLS
+ *      '**Khmer_Symbols**'
+ * @var COATL_UCD_BLK_KHOJKI
+ *      '**Khojki**'
+ * @var COATL_UCD_BLK_KHUDAWADI
+ *      '**Khudawadi**'
+ * @var COATL_UCD_BLK_LAO
+ *      '**Lao**'
+ * @var COATL_UCD_BLK_LATIN_1_SUP
+ *      '**Latin_1_Sup**', '**Latin_1_Supplement**', '**Latin_1**'
+ * @var COATL_UCD_BLK_LATIN_1_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_LATIN_1_SUP
+ * @var COATL_UCD_BLK_LATIN_1
+ *      Alias for #COATL_UCD_BLK_LATIN_1_SUP
+ * @var COATL_UCD_BLK_LATIN_EXT_A
+ *      '**Latin_Ext_A**', '**Latin_Extended_A**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_A
+ * @var COATL_UCD_BLK_LATIN_EXT_ADDITIONAL
+ *      '**Latin_Ext_Additional**', '**Latin_Extended_Additional**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_ADDITIONAL
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_ADDITIONAL
+ * @var COATL_UCD_BLK_LATIN_EXT_B
+ *      '**Latin_Ext_B**', '**Latin_Extended_B**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_B
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_B
+ * @var COATL_UCD_BLK_LATIN_EXT_C
+ *      '**Latin_Ext_C**', '**Latin_Extended_C**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_C
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_C
+ * @var COATL_UCD_BLK_LATIN_EXT_D
+ *      '**Latin_Ext_D**', '**Latin_Extended_D**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_D
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_D
+ * @var COATL_UCD_BLK_LATIN_EXT_E
+ *      '**Latin_Ext_E**', '**Latin_Extended_E**'
+ * @var COATL_UCD_BLK_LATIN_EXTENDED_E
+ *      Alias for #COATL_UCD_BLK_LATIN_EXT_E
+ * @var COATL_UCD_BLK_LEPCHA
+ *      '**Lepcha**'
+ * @var COATL_UCD_BLK_LETTERLIKE_SYMBOLS
+ *      '**Letterlike_Symbols**'
+ * @var COATL_UCD_BLK_LIMBU
+ *      '**Limbu**'
+ * @var COATL_UCD_BLK_LINEAR_A
+ *      '**Linear_A**'
+ * @var COATL_UCD_BLK_LINEAR_B_IDEOGRAMS
+ *      '**Linear_B_Ideograms**'
+ * @var COATL_UCD_BLK_LINEAR_B_SYLLABARY
+ *      '**Linear_B_Syllabary**'
+ * @var COATL_UCD_BLK_LISU
+ *      '**Lisu**'
+ * @var COATL_UCD_BLK_LOW_SURROGATES
+ *      '**Low_Surrogates**'
+ * @var COATL_UCD_BLK_LYCIAN
+ *      '**Lycian**'
+ * @var COATL_UCD_BLK_LYDIAN
+ *      '**Lydian**'
+ * @var COATL_UCD_BLK_MAHAJANI
+ *      '**Mahajani**'
+ * @var COATL_UCD_BLK_MAHJONG
+ *      '**Mahjong**', '**Mahjong_Tiles**'
+ * @var COATL_UCD_BLK_MAHJONG_TILES
+ *      Alias for #COATL_UCD_BLK_MAHJONG
+ * @var COATL_UCD_BLK_MALAYALAM
+ *      '**Malayalam**'
+ * @var COATL_UCD_BLK_MANDAIC
+ *      '**Mandaic**'
+ * @var COATL_UCD_BLK_MANICHAEAN
+ *      '**Manichaean**'
+ * @var COATL_UCD_BLK_MARCHEN
+ *      '**Marchen**'
+ * @var COATL_UCD_BLK_MATH_ALPHANUM
+ *      '**Math_Alphanum**', '**Mathematical_Alphanumeric_Symbols**'
+ * @var COATL_UCD_BLK_MATHEMATICAL_ALPHANUMERIC_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_MATH_ALPHANUM
+ * @var COATL_UCD_BLK_MATH_OPERATORS
+ *      '**Math_Operators**', '**Mathematical_Operators**'
+ * @var COATL_UCD_BLK_MATHEMATICAL_OPERATORS
+ *      Alias for #COATL_UCD_BLK_MATH_OPERATORS
+ * @var COATL_UCD_BLK_MEETEI_MAYEK
+ *      '**Meetei_Mayek**'
+ * @var COATL_UCD_BLK_MEETEI_MAYEK_EXT
+ *      '**Meetei_Mayek_Ext**', '**Meetei_Mayek_Extensions**'
+ * @var COATL_UCD_BLK_MEETEI_MAYEK_EXTENSIONS
+ *      Alias for #COATL_UCD_BLK_MEETEI_MAYEK_EXT
+ * @var COATL_UCD_BLK_MENDE_KIKAKUI
+ *      '**Mende_Kikakui**'
+ * @var COATL_UCD_BLK_MEROITIC_CURSIVE
+ *      '**Meroitic_Cursive**'
+ * @var COATL_UCD_BLK_MEROITIC_HIEROGLYPHS
+ *      '**Meroitic_Hieroglyphs**'
+ * @var COATL_UCD_BLK_MIAO
+ *      '**Miao**'
+ * @var COATL_UCD_BLK_MISC_ARROWS
+ *      '**Misc_Arrows**', '**Miscellaneous_Symbols_And_Arrows**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS_AND_ARROWS
+ *      Alias for #COATL_UCD_BLK_MISC_ARROWS
+ * @var COATL_UCD_BLK_MISC_MATH_SYMBOLS_A
+ *      '**Misc_Math_Symbols_A**', '**Miscellaneous_Mathematical_Symbols_A**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A
+ *      Alias for #COATL_UCD_BLK_MISC_MATH_SYMBOLS_A
+ * @var COATL_UCD_BLK_MISC_MATH_SYMBOLS_B
+ *      '**Misc_Math_Symbols_B**', '**Miscellaneous_Mathematical_Symbols_B**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B
+ *      Alias for #COATL_UCD_BLK_MISC_MATH_SYMBOLS_B
+ * @var COATL_UCD_BLK_MISC_PICTOGRAPHS
+ *      '**Misc_Pictographs**', '**Miscellaneous_Symbols_And_Pictographs**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS
+ *      Alias for #COATL_UCD_BLK_MISC_PICTOGRAPHS
+ * @var COATL_UCD_BLK_MISC_SYMBOLS
+ *      '**Misc_Symbols**', '**Miscellaneous_Symbols**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_MISC_SYMBOLS
+ * @var COATL_UCD_BLK_MISC_TECHNICAL
+ *      '**Misc_Technical**', '**Miscellaneous_Technical**'
+ * @var COATL_UCD_BLK_MISCELLANEOUS_TECHNICAL
+ *      Alias for #COATL_UCD_BLK_MISC_TECHNICAL
+ * @var COATL_UCD_BLK_MODI
+ *      '**Modi**'
+ * @var COATL_UCD_BLK_MODIFIER_LETTERS
+ *      '**Modifier_Letters**', '**Spacing_Modifier_Letters**'
+ * @var COATL_UCD_BLK_SPACING_MODIFIER_LETTERS
+ *      Alias for #COATL_UCD_BLK_MODIFIER_LETTERS
+ * @var COATL_UCD_BLK_MODIFIER_TONE_LETTERS
+ *      '**Modifier_Tone_Letters**'
+ * @var COATL_UCD_BLK_MONGOLIAN
+ *      '**Mongolian**'
+ * @var COATL_UCD_BLK_MONGOLIAN_SUP
+ *      '**Mongolian_Sup**', '**Mongolian_Supplement**'
+ * @var COATL_UCD_BLK_MONGOLIAN_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_MONGOLIAN_SUP
+ * @var COATL_UCD_BLK_MRO
+ *      '**Mro**'
+ * @var COATL_UCD_BLK_MULTANI
+ *      '**Multani**'
+ * @var COATL_UCD_BLK_MUSIC
+ *      '**Music**', '**Musical_Symbols**'
+ * @var COATL_UCD_BLK_MUSICAL_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_MUSIC
+ * @var COATL_UCD_BLK_MYANMAR
+ *      '**Myanmar**'
+ * @var COATL_UCD_BLK_MYANMAR_EXT_A
+ *      '**Myanmar_Ext_A**', '**Myanmar_Extended_A**'
+ * @var COATL_UCD_BLK_MYANMAR_EXTENDED_A
+ *      Alias for #COATL_UCD_BLK_MYANMAR_EXT_A
+ * @var COATL_UCD_BLK_MYANMAR_EXT_B
+ *      '**Myanmar_Ext_B**', '**Myanmar_Extended_B**'
+ * @var COATL_UCD_BLK_MYANMAR_EXTENDED_B
+ *      Alias for #COATL_UCD_BLK_MYANMAR_EXT_B
+ * @var COATL_UCD_BLK_NABATAEAN
+ *      '**Nabataean**'
+ * @var COATL_UCD_BLK_NB
+ *      '**NB**', '**No_Block**'
+ * @var COATL_UCD_BLK_NO_BLOCK
+ *      Alias for #COATL_UCD_BLK_NB
+ * @var COATL_UCD_BLK_NEW_TAI_LUE
+ *      '**New_Tai_Lue**'
+ * @var COATL_UCD_BLK_NEWA
+ *      '**Newa**'
+ * @var COATL_UCD_BLK_NKO
+ *      '**NKo**'
+ * @var COATL_UCD_BLK_NUMBER_FORMS
+ *      '**Number_Forms**'
+ * @var COATL_UCD_BLK_OCR
+ *      '**OCR**', '**Optical_Character_Recognition**'
+ * @var COATL_UCD_BLK_OPTICAL_CHARACTER_RECOGNITION
+ *      Alias for #COATL_UCD_BLK_OCR
+ * @var COATL_UCD_BLK_OGHAM
+ *      '**Ogham**'
+ * @var COATL_UCD_BLK_OL_CHIKI
+ *      '**Ol_Chiki**'
+ * @var COATL_UCD_BLK_OLD_HUNGARIAN
+ *      '**Old_Hungarian**'
+ * @var COATL_UCD_BLK_OLD_ITALIC
+ *      '**Old_Italic**'
+ * @var COATL_UCD_BLK_OLD_NORTH_ARABIAN
+ *      '**Old_North_Arabian**'
+ * @var COATL_UCD_BLK_OLD_PERMIC
+ *      '**Old_Permic**'
+ * @var COATL_UCD_BLK_OLD_PERSIAN
+ *      '**Old_Persian**'
+ * @var COATL_UCD_BLK_OLD_SOUTH_ARABIAN
+ *      '**Old_South_Arabian**'
+ * @var COATL_UCD_BLK_OLD_TURKIC
+ *      '**Old_Turkic**'
+ * @var COATL_UCD_BLK_ORIYA
+ *      '**Oriya**'
+ * @var COATL_UCD_BLK_ORNAMENTAL_DINGBATS
+ *      '**Ornamental_Dingbats**'
+ * @var COATL_UCD_BLK_OSAGE
+ *      '**Osage**'
+ * @var COATL_UCD_BLK_OSMANYA
+ *      '**Osmanya**'
+ * @var COATL_UCD_BLK_PAHAWH_HMONG
+ *      '**Pahawh_Hmong**'
+ * @var COATL_UCD_BLK_PALMYRENE
+ *      '**Palmyrene**'
+ * @var COATL_UCD_BLK_PAU_CIN_HAU
+ *      '**Pau_Cin_Hau**'
+ * @var COATL_UCD_BLK_PHAGS_PA
+ *      '**Phags_Pa**'
+ * @var COATL_UCD_BLK_PHAISTOS
+ *      '**Phaistos**', '**Phaistos_Disc**'
+ * @var COATL_UCD_BLK_PHAISTOS_DISC
+ *      Alias for #COATL_UCD_BLK_PHAISTOS
+ * @var COATL_UCD_BLK_PHOENICIAN
+ *      '**Phoenician**'
+ * @var COATL_UCD_BLK_PHONETIC_EXT
+ *      '**Phonetic_Ext**', '**Phonetic_Extensions**'
+ * @var COATL_UCD_BLK_PHONETIC_EXTENSIONS
+ *      Alias for #COATL_UCD_BLK_PHONETIC_EXT
+ * @var COATL_UCD_BLK_PHONETIC_EXT_SUP
+ *      '**Phonetic_Ext_Sup**', '**Phonetic_Extensions_Supplement**'
+ * @var COATL_UCD_BLK_PHONETIC_EXTENSIONS_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_PHONETIC_EXT_SUP
+ * @var COATL_UCD_BLK_PLAYING_CARDS
+ *      '**Playing_Cards**'
+ * @var COATL_UCD_BLK_PSALTER_PAHLAVI
+ *      '**Psalter_Pahlavi**'
+ * @var COATL_UCD_BLK_PUA
+ *      '**PUA**', '**Private_Use_Area**', '**Private_Use**'
+ * @var COATL_UCD_BLK_PRIVATE_USE_AREA
+ *      Alias for #COATL_UCD_BLK_PUA
+ * @var COATL_UCD_BLK_PRIVATE_USE
+ *      Alias for #COATL_UCD_BLK_PUA
+ * @var COATL_UCD_BLK_PUNCTUATION
+ *      '**Punctuation**', '**General_Punctuation**'
+ * @var COATL_UCD_BLK_GENERAL_PUNCTUATION
+ *      Alias for #COATL_UCD_BLK_PUNCTUATION
+ * @var COATL_UCD_BLK_REJANG
+ *      '**Rejang**'
+ * @var COATL_UCD_BLK_RUMI
+ *      '**Rumi**', '**Rumi_Numeral_Symbols**'
+ * @var COATL_UCD_BLK_RUMI_NUMERAL_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_RUMI
+ * @var COATL_UCD_BLK_RUNIC
+ *      '**Runic**'
+ * @var COATL_UCD_BLK_SAMARITAN
+ *      '**Samaritan**'
+ * @var COATL_UCD_BLK_SAURASHTRA
+ *      '**Saurashtra**'
+ * @var COATL_UCD_BLK_SHARADA
+ *      '**Sharada**'
+ * @var COATL_UCD_BLK_SHAVIAN
+ *      '**Shavian**'
+ * @var COATL_UCD_BLK_SHORTHAND_FORMAT_CONTROLS
+ *      '**Shorthand_Format_Controls**'
+ * @var COATL_UCD_BLK_SIDDHAM
+ *      '**Siddham**'
+ * @var COATL_UCD_BLK_SINHALA
+ *      '**Sinhala**'
+ * @var COATL_UCD_BLK_SINHALA_ARCHAIC_NUMBERS
+ *      '**Sinhala_Archaic_Numbers**'
+ * @var COATL_UCD_BLK_SMALL_FORMS
+ *      '**Small_Forms**', '**Small_Form_Variants**'
+ * @var COATL_UCD_BLK_SMALL_FORM_VARIANTS
+ *      Alias for #COATL_UCD_BLK_SMALL_FORMS
+ * @var COATL_UCD_BLK_SORA_SOMPENG
+ *      '**Sora_Sompeng**'
+ * @var COATL_UCD_BLK_SPECIALS
+ *      '**Specials**'
+ * @var COATL_UCD_BLK_SUNDANESE
+ *      '**Sundanese**'
+ * @var COATL_UCD_BLK_SUNDANESE_SUP
+ *      '**Sundanese_Sup**', '**Sundanese_Supplement**'
+ * @var COATL_UCD_BLK_SUNDANESE_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_SUNDANESE_SUP
+ * @var COATL_UCD_BLK_SUP_ARROWS_A
+ *      '**Sup_Arrows_A**', '**Supplemental_Arrows_A**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_A
+ *      Alias for #COATL_UCD_BLK_SUP_ARROWS_A
+ * @var COATL_UCD_BLK_SUP_ARROWS_B
+ *      '**Sup_Arrows_B**', '**Supplemental_Arrows_B**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_B
+ *      Alias for #COATL_UCD_BLK_SUP_ARROWS_B
+ * @var COATL_UCD_BLK_SUP_ARROWS_C
+ *      '**Sup_Arrows_C**', '**Supplemental_Arrows_C**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_ARROWS_C
+ *      Alias for #COATL_UCD_BLK_SUP_ARROWS_C
+ * @var COATL_UCD_BLK_SUP_MATH_OPERATORS
+ *      '**Sup_Math_Operators**', '**Supplemental_Mathematical_Operators**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_MATHEMATICAL_OPERATORS
+ *      Alias for #COATL_UCD_BLK_SUP_MATH_OPERATORS
+ * @var COATL_UCD_BLK_SUP_PUA_A
+ *      '**Sup_PUA_A**', '**Supplementary_Private_Use_Area_A**'
+ * @var COATL_UCD_BLK_SUPPLEMENTARY_PRIVATE_USE_AREA_A
+ *      Alias for #COATL_UCD_BLK_SUP_PUA_A
+ * @var COATL_UCD_BLK_SUP_PUA_B
+ *      '**Sup_PUA_B**', '**Supplementary_Private_Use_Area_B**'
+ * @var COATL_UCD_BLK_SUPPLEMENTARY_PRIVATE_USE_AREA_B
+ *      Alias for #COATL_UCD_BLK_SUP_PUA_B
+ * @var COATL_UCD_BLK_SUP_PUNCTUATION
+ *      '**Sup_Punctuation**', '**Supplemental_Punctuation**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_PUNCTUATION
+ *      Alias for #COATL_UCD_BLK_SUP_PUNCTUATION
+ * @var COATL_UCD_BLK_SUP_SYMBOLS_AND_PICTOGRAPHS
+ *      '**Sup_Symbols_And_Pictographs**', '**Supplemental_Symbols_And_Pictographs**'
+ * @var COATL_UCD_BLK_SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS
+ *      Alias for #COATL_UCD_BLK_SUP_SYMBOLS_AND_PICTOGRAPHS
+ * @var COATL_UCD_BLK_SUPER_AND_SUB
+ *      '**Super_And_Sub**', '**Superscripts_And_Subscripts**'
+ * @var COATL_UCD_BLK_SUPERSCRIPTS_AND_SUBSCRIPTS
+ *      Alias for #COATL_UCD_BLK_SUPER_AND_SUB
+ * @var COATL_UCD_BLK_SUTTON_SIGNWRITING
+ *      '**Sutton_SignWriting**'
+ * @var COATL_UCD_BLK_SYLOTI_NAGRI
+ *      '**Syloti_Nagri**'
+ * @var COATL_UCD_BLK_SYRIAC
+ *      '**Syriac**'
+ * @var COATL_UCD_BLK_TAGALOG
+ *      '**Tagalog**'
+ * @var COATL_UCD_BLK_TAGBANWA
+ *      '**Tagbanwa**'
+ * @var COATL_UCD_BLK_TAGS
+ *      '**Tags**'
+ * @var COATL_UCD_BLK_TAI_LE
+ *      '**Tai_Le**'
+ * @var COATL_UCD_BLK_TAI_THAM
+ *      '**Tai_Tham**'
+ * @var COATL_UCD_BLK_TAI_VIET
+ *      '**Tai_Viet**'
+ * @var COATL_UCD_BLK_TAI_XUAN_JING
+ *      '**Tai_Xuan_Jing**', '**Tai_Xuan_Jing_Symbols**'
+ * @var COATL_UCD_BLK_TAI_XUAN_JING_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_TAI_XUAN_JING
+ * @var COATL_UCD_BLK_TAKRI
+ *      '**Takri**'
+ * @var COATL_UCD_BLK_TAMIL
+ *      '**Tamil**'
+ * @var COATL_UCD_BLK_TANGUT
+ *      '**Tangut**'
+ * @var COATL_UCD_BLK_TANGUT_COMPONENTS
+ *      '**Tangut_Components**'
+ * @var COATL_UCD_BLK_TELUGU
+ *      '**Telugu**'
+ * @var COATL_UCD_BLK_THAANA
+ *      '**Thaana**'
+ * @var COATL_UCD_BLK_THAI
+ *      '**Thai**'
+ * @var COATL_UCD_BLK_TIBETAN
+ *      '**Tibetan**'
+ * @var COATL_UCD_BLK_TIFINAGH
+ *      '**Tifinagh**'
+ * @var COATL_UCD_BLK_TIRHUTA
+ *      '**Tirhuta**'
+ * @var COATL_UCD_BLK_TRANSPORT_AND_MAP
+ *      '**Transport_And_Map**', '**Transport_And_Map_Symbols**'
+ * @var COATL_UCD_BLK_TRANSPORT_AND_MAP_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_TRANSPORT_AND_MAP
+ * @var COATL_UCD_BLK_UCAS
+ *      '**UCAS**', '**Unified_Canadian_Aboriginal_Syllabics**', '**Canadian_Syllabics**'
+ * @var COATL_UCD_BLK_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS
+ *      Alias for #COATL_UCD_BLK_UCAS
+ * @var COATL_UCD_BLK_CANADIAN_SYLLABICS
+ *      Alias for #COATL_UCD_BLK_UCAS
+ * @var COATL_UCD_BLK_UCAS_EXT
+ *      '**UCAS_Ext**', '**Unified_Canadian_Aboriginal_Syllabics_Extended**'
+ * @var COATL_UCD_BLK_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED
+ *      Alias for #COATL_UCD_BLK_UCAS_EXT
+ * @var COATL_UCD_BLK_UGARITIC
+ *      '**Ugaritic**'
+ * @var COATL_UCD_BLK_VAI
+ *      '**Vai**'
+ * @var COATL_UCD_BLK_VEDIC_EXT
+ *      '**Vedic_Ext**', '**Vedic_Extensions**'
+ * @var COATL_UCD_BLK_VEDIC_EXTENSIONS
+ *      Alias for #COATL_UCD_BLK_VEDIC_EXT
+ * @var COATL_UCD_BLK_VERTICAL_FORMS
+ *      '**Vertical_Forms**'
+ * @var COATL_UCD_BLK_VS
+ *      '**VS**', '**Variation_Selectors**'
+ * @var COATL_UCD_BLK_VARIATION_SELECTORS
+ *      Alias for #COATL_UCD_BLK_VS
+ * @var COATL_UCD_BLK_VS_SUP
+ *      '**VS_Sup**', '**Variation_Selectors_Supplement**'
+ * @var COATL_UCD_BLK_VARIATION_SELECTORS_SUPPLEMENT
+ *      Alias for #COATL_UCD_BLK_VS_SUP
+ * @var COATL_UCD_BLK_WARANG_CITI
+ *      '**Warang_Citi**'
+ * @var COATL_UCD_BLK_YI_RADICALS
+ *      '**Yi_Radicals**'
+ * @var COATL_UCD_BLK_YI_SYLLABLES
+ *      '**Yi_Syllables**'
+ * @var COATL_UCD_BLK_YIJING
+ *      '**Yijing**', '**Yijing_Hexagram_Symbols**'
+ * @var COATL_UCD_BLK_YIJING_HEXAGRAM_SYMBOLS
+ *      Alias for #COATL_UCD_BLK_YIJING
+ */
 typedef enum Coatl_Ucd_Blk {
     COATL_UCD_BLK_ADLAM=1,
     COATL_UCD_BLK_AEGEAN_NUMBERS=2,
@@ -1443,164 +2088,291 @@ typedef enum Coatl_Ucd_Blk {
 
 } Coatl_Ucd_Blk;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_BLK_NBVALUES
+/**
+ * Number of values for Unicode character property '*blk*'.
  *
- *      Number of values for Unicode character property '*blk*'.
- *
- * See also:
- *      <Coatl_Ucd_Blk>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Blk
+ */
 #define COATL_UCD_BLK_NBVALUES       274
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Ccc
- *
- *      Values for Unicode character property '*ccc*'.
+/**
+ * @enum Coatl_Ucd_Ccc
+ *      Values for Unicode character property '**ccc**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_CCC_0 - '*0*', '*NR*', '*Not_Reordered*'
- *  COATL_UCD_CCC_NR - Alias for <COATL_UCD_CCC_0>
- *  COATL_UCD_CCC_NOT_REORDERED - Alias for <COATL_UCD_CCC_0>
- *  COATL_UCD_CCC_1 - '*1*', '*OV*', '*Overlay*'
- *  COATL_UCD_CCC_OV - Alias for <COATL_UCD_CCC_1>
- *  COATL_UCD_CCC_OVERLAY - Alias for <COATL_UCD_CCC_1>
- *  COATL_UCD_CCC_7 - '*7*', '*NK*', '*Nukta*'
- *  COATL_UCD_CCC_NK - Alias for <COATL_UCD_CCC_7>
- *  COATL_UCD_CCC_NUKTA - Alias for <COATL_UCD_CCC_7>
- *  COATL_UCD_CCC_8 - '*8*', '*KV*', '*Kana_Voicing*'
- *  COATL_UCD_CCC_KV - Alias for <COATL_UCD_CCC_8>
- *  COATL_UCD_CCC_KANA_VOICING - Alias for <COATL_UCD_CCC_8>
- *  COATL_UCD_CCC_9 - '*9*', '*VR*', '*Virama*'
- *  COATL_UCD_CCC_VR - Alias for <COATL_UCD_CCC_9>
- *  COATL_UCD_CCC_VIRAMA - Alias for <COATL_UCD_CCC_9>
- *  COATL_UCD_CCC_10 - '*10*', '*CCC10*'
- *  COATL_UCD_CCC_CCC10 - Alias for <COATL_UCD_CCC_10>
- *  COATL_UCD_CCC_11 - '*11*', '*CCC11*'
- *  COATL_UCD_CCC_CCC11 - Alias for <COATL_UCD_CCC_11>
- *  COATL_UCD_CCC_12 - '*12*', '*CCC12*'
- *  COATL_UCD_CCC_CCC12 - Alias for <COATL_UCD_CCC_12>
- *  COATL_UCD_CCC_13 - '*13*', '*CCC13*'
- *  COATL_UCD_CCC_CCC13 - Alias for <COATL_UCD_CCC_13>
- *  COATL_UCD_CCC_14 - '*14*', '*CCC14*'
- *  COATL_UCD_CCC_CCC14 - Alias for <COATL_UCD_CCC_14>
- *  COATL_UCD_CCC_15 - '*15*', '*CCC15*'
- *  COATL_UCD_CCC_CCC15 - Alias for <COATL_UCD_CCC_15>
- *  COATL_UCD_CCC_16 - '*16*', '*CCC16*'
- *  COATL_UCD_CCC_CCC16 - Alias for <COATL_UCD_CCC_16>
- *  COATL_UCD_CCC_17 - '*17*', '*CCC17*'
- *  COATL_UCD_CCC_CCC17 - Alias for <COATL_UCD_CCC_17>
- *  COATL_UCD_CCC_18 - '*18*', '*CCC18*'
- *  COATL_UCD_CCC_CCC18 - Alias for <COATL_UCD_CCC_18>
- *  COATL_UCD_CCC_19 - '*19*', '*CCC19*'
- *  COATL_UCD_CCC_CCC19 - Alias for <COATL_UCD_CCC_19>
- *  COATL_UCD_CCC_20 - '*20*', '*CCC20*'
- *  COATL_UCD_CCC_CCC20 - Alias for <COATL_UCD_CCC_20>
- *  COATL_UCD_CCC_21 - '*21*', '*CCC21*'
- *  COATL_UCD_CCC_CCC21 - Alias for <COATL_UCD_CCC_21>
- *  COATL_UCD_CCC_22 - '*22*', '*CCC22*'
- *  COATL_UCD_CCC_CCC22 - Alias for <COATL_UCD_CCC_22>
- *  COATL_UCD_CCC_23 - '*23*', '*CCC23*'
- *  COATL_UCD_CCC_CCC23 - Alias for <COATL_UCD_CCC_23>
- *  COATL_UCD_CCC_24 - '*24*', '*CCC24*'
- *  COATL_UCD_CCC_CCC24 - Alias for <COATL_UCD_CCC_24>
- *  COATL_UCD_CCC_25 - '*25*', '*CCC25*'
- *  COATL_UCD_CCC_CCC25 - Alias for <COATL_UCD_CCC_25>
- *  COATL_UCD_CCC_26 - '*26*', '*CCC26*'
- *  COATL_UCD_CCC_CCC26 - Alias for <COATL_UCD_CCC_26>
- *  COATL_UCD_CCC_27 - '*27*', '*CCC27*'
- *  COATL_UCD_CCC_CCC27 - Alias for <COATL_UCD_CCC_27>
- *  COATL_UCD_CCC_28 - '*28*', '*CCC28*'
- *  COATL_UCD_CCC_CCC28 - Alias for <COATL_UCD_CCC_28>
- *  COATL_UCD_CCC_29 - '*29*', '*CCC29*'
- *  COATL_UCD_CCC_CCC29 - Alias for <COATL_UCD_CCC_29>
- *  COATL_UCD_CCC_30 - '*30*', '*CCC30*'
- *  COATL_UCD_CCC_CCC30 - Alias for <COATL_UCD_CCC_30>
- *  COATL_UCD_CCC_31 - '*31*', '*CCC31*'
- *  COATL_UCD_CCC_CCC31 - Alias for <COATL_UCD_CCC_31>
- *  COATL_UCD_CCC_32 - '*32*', '*CCC32*'
- *  COATL_UCD_CCC_CCC32 - Alias for <COATL_UCD_CCC_32>
- *  COATL_UCD_CCC_33 - '*33*', '*CCC33*'
- *  COATL_UCD_CCC_CCC33 - Alias for <COATL_UCD_CCC_33>
- *  COATL_UCD_CCC_34 - '*34*', '*CCC34*'
- *  COATL_UCD_CCC_CCC34 - Alias for <COATL_UCD_CCC_34>
- *  COATL_UCD_CCC_35 - '*35*', '*CCC35*'
- *  COATL_UCD_CCC_CCC35 - Alias for <COATL_UCD_CCC_35>
- *  COATL_UCD_CCC_36 - '*36*', '*CCC36*'
- *  COATL_UCD_CCC_CCC36 - Alias for <COATL_UCD_CCC_36>
- *  COATL_UCD_CCC_84 - '*84*', '*CCC84*'
- *  COATL_UCD_CCC_CCC84 - Alias for <COATL_UCD_CCC_84>
- *  COATL_UCD_CCC_91 - '*91*', '*CCC91*'
- *  COATL_UCD_CCC_CCC91 - Alias for <COATL_UCD_CCC_91>
- *  COATL_UCD_CCC_103 - '*103*', '*CCC103*'
- *  COATL_UCD_CCC_CCC103 - Alias for <COATL_UCD_CCC_103>
- *  COATL_UCD_CCC_107 - '*107*', '*CCC107*'
- *  COATL_UCD_CCC_CCC107 - Alias for <COATL_UCD_CCC_107>
- *  COATL_UCD_CCC_118 - '*118*', '*CCC118*'
- *  COATL_UCD_CCC_CCC118 - Alias for <COATL_UCD_CCC_118>
- *  COATL_UCD_CCC_122 - '*122*', '*CCC122*'
- *  COATL_UCD_CCC_CCC122 - Alias for <COATL_UCD_CCC_122>
- *  COATL_UCD_CCC_129 - '*129*', '*CCC129*'
- *  COATL_UCD_CCC_CCC129 - Alias for <COATL_UCD_CCC_129>
- *  COATL_UCD_CCC_130 - '*130*', '*CCC130*'
- *  COATL_UCD_CCC_CCC130 - Alias for <COATL_UCD_CCC_130>
- *  COATL_UCD_CCC_132 - '*132*', '*CCC132*'
- *  COATL_UCD_CCC_CCC132 - Alias for <COATL_UCD_CCC_132>
- *  COATL_UCD_CCC_133 - '*133*', '*CCC133*'
- *  COATL_UCD_CCC_CCC133 - Alias for <COATL_UCD_CCC_133>
- *  COATL_UCD_CCC_200 - '*200*', '*ATBL*', '*Attached_Below_Left*'
- *  COATL_UCD_CCC_ATBL - Alias for <COATL_UCD_CCC_200>
- *  COATL_UCD_CCC_ATTACHED_BELOW_LEFT - Alias for <COATL_UCD_CCC_200>
- *  COATL_UCD_CCC_202 - '*202*', '*ATB*', '*Attached_Below*'
- *  COATL_UCD_CCC_ATB - Alias for <COATL_UCD_CCC_202>
- *  COATL_UCD_CCC_ATTACHED_BELOW - Alias for <COATL_UCD_CCC_202>
- *  COATL_UCD_CCC_214 - '*214*', '*ATA*', '*Attached_Above*'
- *  COATL_UCD_CCC_ATA - Alias for <COATL_UCD_CCC_214>
- *  COATL_UCD_CCC_ATTACHED_ABOVE - Alias for <COATL_UCD_CCC_214>
- *  COATL_UCD_CCC_216 - '*216*', '*ATAR*', '*Attached_Above_Right*'
- *  COATL_UCD_CCC_ATAR - Alias for <COATL_UCD_CCC_216>
- *  COATL_UCD_CCC_ATTACHED_ABOVE_RIGHT - Alias for <COATL_UCD_CCC_216>
- *  COATL_UCD_CCC_218 - '*218*', '*BL*', '*Below_Left*'
- *  COATL_UCD_CCC_BL - Alias for <COATL_UCD_CCC_218>
- *  COATL_UCD_CCC_BELOW_LEFT - Alias for <COATL_UCD_CCC_218>
- *  COATL_UCD_CCC_220 - '*220*', '*B*', '*Below*'
- *  COATL_UCD_CCC_B - Alias for <COATL_UCD_CCC_220>
- *  COATL_UCD_CCC_BELOW - Alias for <COATL_UCD_CCC_220>
- *  COATL_UCD_CCC_222 - '*222*', '*BR*', '*Below_Right*'
- *  COATL_UCD_CCC_BR - Alias for <COATL_UCD_CCC_222>
- *  COATL_UCD_CCC_BELOW_RIGHT - Alias for <COATL_UCD_CCC_222>
- *  COATL_UCD_CCC_224 - '*224*', '*L*', '*Left*'
- *  COATL_UCD_CCC_L - Alias for <COATL_UCD_CCC_224>
- *  COATL_UCD_CCC_LEFT - Alias for <COATL_UCD_CCC_224>
- *  COATL_UCD_CCC_226 - '*226*', '*R*', '*Right*'
- *  COATL_UCD_CCC_R - Alias for <COATL_UCD_CCC_226>
- *  COATL_UCD_CCC_RIGHT - Alias for <COATL_UCD_CCC_226>
- *  COATL_UCD_CCC_228 - '*228*', '*AL*', '*Above_Left*'
- *  COATL_UCD_CCC_AL - Alias for <COATL_UCD_CCC_228>
- *  COATL_UCD_CCC_ABOVE_LEFT - Alias for <COATL_UCD_CCC_228>
- *  COATL_UCD_CCC_230 - '*230*', '*A*', '*Above*'
- *  COATL_UCD_CCC_A - Alias for <COATL_UCD_CCC_230>
- *  COATL_UCD_CCC_ABOVE - Alias for <COATL_UCD_CCC_230>
- *  COATL_UCD_CCC_232 - '*232*', '*AR*', '*Above_Right*'
- *  COATL_UCD_CCC_AR - Alias for <COATL_UCD_CCC_232>
- *  COATL_UCD_CCC_ABOVE_RIGHT - Alias for <COATL_UCD_CCC_232>
- *  COATL_UCD_CCC_233 - '*233*', '*DB*', '*Double_Below*'
- *  COATL_UCD_CCC_DB - Alias for <COATL_UCD_CCC_233>
- *  COATL_UCD_CCC_DOUBLE_BELOW - Alias for <COATL_UCD_CCC_233>
- *  COATL_UCD_CCC_234 - '*234*', '*DA*', '*Double_Above*'
- *  COATL_UCD_CCC_DA - Alias for <COATL_UCD_CCC_234>
- *  COATL_UCD_CCC_DOUBLE_ABOVE - Alias for <COATL_UCD_CCC_234>
- *  COATL_UCD_CCC_240 - '*240*', '*IS*', '*Iota_Subscript*'
- *  COATL_UCD_CCC_IS - Alias for <COATL_UCD_CCC_240>
- *  COATL_UCD_CCC_IOTA_SUBSCRIPT - Alias for <COATL_UCD_CCC_240>
+ * @see COATL_UCD_CCC
  *
- * See also:
- *      <COATL_UCD_CCC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_CCC_0
+ *      '**0**', '**NR**', '**Not_Reordered**'
+ * @var COATL_UCD_CCC_NR
+ *      Alias for #COATL_UCD_CCC_0
+ * @var COATL_UCD_CCC_NOT_REORDERED
+ *      Alias for #COATL_UCD_CCC_0
+ * @var COATL_UCD_CCC_1
+ *      '**1**', '**OV**', '**Overlay**'
+ * @var COATL_UCD_CCC_OV
+ *      Alias for #COATL_UCD_CCC_1
+ * @var COATL_UCD_CCC_OVERLAY
+ *      Alias for #COATL_UCD_CCC_1
+ * @var COATL_UCD_CCC_7
+ *      '**7**', '**NK**', '**Nukta**'
+ * @var COATL_UCD_CCC_NK
+ *      Alias for #COATL_UCD_CCC_7
+ * @var COATL_UCD_CCC_NUKTA
+ *      Alias for #COATL_UCD_CCC_7
+ * @var COATL_UCD_CCC_8
+ *      '**8**', '**KV**', '**Kana_Voicing**'
+ * @var COATL_UCD_CCC_KV
+ *      Alias for #COATL_UCD_CCC_8
+ * @var COATL_UCD_CCC_KANA_VOICING
+ *      Alias for #COATL_UCD_CCC_8
+ * @var COATL_UCD_CCC_9
+ *      '**9**', '**VR**', '**Virama**'
+ * @var COATL_UCD_CCC_VR
+ *      Alias for #COATL_UCD_CCC_9
+ * @var COATL_UCD_CCC_VIRAMA
+ *      Alias for #COATL_UCD_CCC_9
+ * @var COATL_UCD_CCC_10
+ *      '**10**', '**CCC10**'
+ * @var COATL_UCD_CCC_CCC10
+ *      Alias for #COATL_UCD_CCC_10
+ * @var COATL_UCD_CCC_11
+ *      '**11**', '**CCC11**'
+ * @var COATL_UCD_CCC_CCC11
+ *      Alias for #COATL_UCD_CCC_11
+ * @var COATL_UCD_CCC_12
+ *      '**12**', '**CCC12**'
+ * @var COATL_UCD_CCC_CCC12
+ *      Alias for #COATL_UCD_CCC_12
+ * @var COATL_UCD_CCC_13
+ *      '**13**', '**CCC13**'
+ * @var COATL_UCD_CCC_CCC13
+ *      Alias for #COATL_UCD_CCC_13
+ * @var COATL_UCD_CCC_14
+ *      '**14**', '**CCC14**'
+ * @var COATL_UCD_CCC_CCC14
+ *      Alias for #COATL_UCD_CCC_14
+ * @var COATL_UCD_CCC_15
+ *      '**15**', '**CCC15**'
+ * @var COATL_UCD_CCC_CCC15
+ *      Alias for #COATL_UCD_CCC_15
+ * @var COATL_UCD_CCC_16
+ *      '**16**', '**CCC16**'
+ * @var COATL_UCD_CCC_CCC16
+ *      Alias for #COATL_UCD_CCC_16
+ * @var COATL_UCD_CCC_17
+ *      '**17**', '**CCC17**'
+ * @var COATL_UCD_CCC_CCC17
+ *      Alias for #COATL_UCD_CCC_17
+ * @var COATL_UCD_CCC_18
+ *      '**18**', '**CCC18**'
+ * @var COATL_UCD_CCC_CCC18
+ *      Alias for #COATL_UCD_CCC_18
+ * @var COATL_UCD_CCC_19
+ *      '**19**', '**CCC19**'
+ * @var COATL_UCD_CCC_CCC19
+ *      Alias for #COATL_UCD_CCC_19
+ * @var COATL_UCD_CCC_20
+ *      '**20**', '**CCC20**'
+ * @var COATL_UCD_CCC_CCC20
+ *      Alias for #COATL_UCD_CCC_20
+ * @var COATL_UCD_CCC_21
+ *      '**21**', '**CCC21**'
+ * @var COATL_UCD_CCC_CCC21
+ *      Alias for #COATL_UCD_CCC_21
+ * @var COATL_UCD_CCC_22
+ *      '**22**', '**CCC22**'
+ * @var COATL_UCD_CCC_CCC22
+ *      Alias for #COATL_UCD_CCC_22
+ * @var COATL_UCD_CCC_23
+ *      '**23**', '**CCC23**'
+ * @var COATL_UCD_CCC_CCC23
+ *      Alias for #COATL_UCD_CCC_23
+ * @var COATL_UCD_CCC_24
+ *      '**24**', '**CCC24**'
+ * @var COATL_UCD_CCC_CCC24
+ *      Alias for #COATL_UCD_CCC_24
+ * @var COATL_UCD_CCC_25
+ *      '**25**', '**CCC25**'
+ * @var COATL_UCD_CCC_CCC25
+ *      Alias for #COATL_UCD_CCC_25
+ * @var COATL_UCD_CCC_26
+ *      '**26**', '**CCC26**'
+ * @var COATL_UCD_CCC_CCC26
+ *      Alias for #COATL_UCD_CCC_26
+ * @var COATL_UCD_CCC_27
+ *      '**27**', '**CCC27**'
+ * @var COATL_UCD_CCC_CCC27
+ *      Alias for #COATL_UCD_CCC_27
+ * @var COATL_UCD_CCC_28
+ *      '**28**', '**CCC28**'
+ * @var COATL_UCD_CCC_CCC28
+ *      Alias for #COATL_UCD_CCC_28
+ * @var COATL_UCD_CCC_29
+ *      '**29**', '**CCC29**'
+ * @var COATL_UCD_CCC_CCC29
+ *      Alias for #COATL_UCD_CCC_29
+ * @var COATL_UCD_CCC_30
+ *      '**30**', '**CCC30**'
+ * @var COATL_UCD_CCC_CCC30
+ *      Alias for #COATL_UCD_CCC_30
+ * @var COATL_UCD_CCC_31
+ *      '**31**', '**CCC31**'
+ * @var COATL_UCD_CCC_CCC31
+ *      Alias for #COATL_UCD_CCC_31
+ * @var COATL_UCD_CCC_32
+ *      '**32**', '**CCC32**'
+ * @var COATL_UCD_CCC_CCC32
+ *      Alias for #COATL_UCD_CCC_32
+ * @var COATL_UCD_CCC_33
+ *      '**33**', '**CCC33**'
+ * @var COATL_UCD_CCC_CCC33
+ *      Alias for #COATL_UCD_CCC_33
+ * @var COATL_UCD_CCC_34
+ *      '**34**', '**CCC34**'
+ * @var COATL_UCD_CCC_CCC34
+ *      Alias for #COATL_UCD_CCC_34
+ * @var COATL_UCD_CCC_35
+ *      '**35**', '**CCC35**'
+ * @var COATL_UCD_CCC_CCC35
+ *      Alias for #COATL_UCD_CCC_35
+ * @var COATL_UCD_CCC_36
+ *      '**36**', '**CCC36**'
+ * @var COATL_UCD_CCC_CCC36
+ *      Alias for #COATL_UCD_CCC_36
+ * @var COATL_UCD_CCC_84
+ *      '**84**', '**CCC84**'
+ * @var COATL_UCD_CCC_CCC84
+ *      Alias for #COATL_UCD_CCC_84
+ * @var COATL_UCD_CCC_91
+ *      '**91**', '**CCC91**'
+ * @var COATL_UCD_CCC_CCC91
+ *      Alias for #COATL_UCD_CCC_91
+ * @var COATL_UCD_CCC_103
+ *      '**103**', '**CCC103**'
+ * @var COATL_UCD_CCC_CCC103
+ *      Alias for #COATL_UCD_CCC_103
+ * @var COATL_UCD_CCC_107
+ *      '**107**', '**CCC107**'
+ * @var COATL_UCD_CCC_CCC107
+ *      Alias for #COATL_UCD_CCC_107
+ * @var COATL_UCD_CCC_118
+ *      '**118**', '**CCC118**'
+ * @var COATL_UCD_CCC_CCC118
+ *      Alias for #COATL_UCD_CCC_118
+ * @var COATL_UCD_CCC_122
+ *      '**122**', '**CCC122**'
+ * @var COATL_UCD_CCC_CCC122
+ *      Alias for #COATL_UCD_CCC_122
+ * @var COATL_UCD_CCC_129
+ *      '**129**', '**CCC129**'
+ * @var COATL_UCD_CCC_CCC129
+ *      Alias for #COATL_UCD_CCC_129
+ * @var COATL_UCD_CCC_130
+ *      '**130**', '**CCC130**'
+ * @var COATL_UCD_CCC_CCC130
+ *      Alias for #COATL_UCD_CCC_130
+ * @var COATL_UCD_CCC_132
+ *      '**132**', '**CCC132**'
+ * @var COATL_UCD_CCC_CCC132
+ *      Alias for #COATL_UCD_CCC_132
+ * @var COATL_UCD_CCC_133
+ *      '**133**', '**CCC133**'
+ * @var COATL_UCD_CCC_CCC133
+ *      Alias for #COATL_UCD_CCC_133
+ * @var COATL_UCD_CCC_200
+ *      '**200**', '**ATBL**', '**Attached_Below_Left**'
+ * @var COATL_UCD_CCC_ATBL
+ *      Alias for #COATL_UCD_CCC_200
+ * @var COATL_UCD_CCC_ATTACHED_BELOW_LEFT
+ *      Alias for #COATL_UCD_CCC_200
+ * @var COATL_UCD_CCC_202
+ *      '**202**', '**ATB**', '**Attached_Below**'
+ * @var COATL_UCD_CCC_ATB
+ *      Alias for #COATL_UCD_CCC_202
+ * @var COATL_UCD_CCC_ATTACHED_BELOW
+ *      Alias for #COATL_UCD_CCC_202
+ * @var COATL_UCD_CCC_214
+ *      '**214**', '**ATA**', '**Attached_Above**'
+ * @var COATL_UCD_CCC_ATA
+ *      Alias for #COATL_UCD_CCC_214
+ * @var COATL_UCD_CCC_ATTACHED_ABOVE
+ *      Alias for #COATL_UCD_CCC_214
+ * @var COATL_UCD_CCC_216
+ *      '**216**', '**ATAR**', '**Attached_Above_Right**'
+ * @var COATL_UCD_CCC_ATAR
+ *      Alias for #COATL_UCD_CCC_216
+ * @var COATL_UCD_CCC_ATTACHED_ABOVE_RIGHT
+ *      Alias for #COATL_UCD_CCC_216
+ * @var COATL_UCD_CCC_218
+ *      '**218**', '**BL**', '**Below_Left**'
+ * @var COATL_UCD_CCC_BL
+ *      Alias for #COATL_UCD_CCC_218
+ * @var COATL_UCD_CCC_BELOW_LEFT
+ *      Alias for #COATL_UCD_CCC_218
+ * @var COATL_UCD_CCC_220
+ *      '**220**', '**B**', '**Below**'
+ * @var COATL_UCD_CCC_B
+ *      Alias for #COATL_UCD_CCC_220
+ * @var COATL_UCD_CCC_BELOW
+ *      Alias for #COATL_UCD_CCC_220
+ * @var COATL_UCD_CCC_222
+ *      '**222**', '**BR**', '**Below_Right**'
+ * @var COATL_UCD_CCC_BR
+ *      Alias for #COATL_UCD_CCC_222
+ * @var COATL_UCD_CCC_BELOW_RIGHT
+ *      Alias for #COATL_UCD_CCC_222
+ * @var COATL_UCD_CCC_224
+ *      '**224**', '**L**', '**Left**'
+ * @var COATL_UCD_CCC_L
+ *      Alias for #COATL_UCD_CCC_224
+ * @var COATL_UCD_CCC_LEFT
+ *      Alias for #COATL_UCD_CCC_224
+ * @var COATL_UCD_CCC_226
+ *      '**226**', '**R**', '**Right**'
+ * @var COATL_UCD_CCC_R
+ *      Alias for #COATL_UCD_CCC_226
+ * @var COATL_UCD_CCC_RIGHT
+ *      Alias for #COATL_UCD_CCC_226
+ * @var COATL_UCD_CCC_228
+ *      '**228**', '**AL**', '**Above_Left**'
+ * @var COATL_UCD_CCC_AL
+ *      Alias for #COATL_UCD_CCC_228
+ * @var COATL_UCD_CCC_ABOVE_LEFT
+ *      Alias for #COATL_UCD_CCC_228
+ * @var COATL_UCD_CCC_230
+ *      '**230**', '**A**', '**Above**'
+ * @var COATL_UCD_CCC_A
+ *      Alias for #COATL_UCD_CCC_230
+ * @var COATL_UCD_CCC_ABOVE
+ *      Alias for #COATL_UCD_CCC_230
+ * @var COATL_UCD_CCC_232
+ *      '**232**', '**AR**', '**Above_Right**'
+ * @var COATL_UCD_CCC_AR
+ *      Alias for #COATL_UCD_CCC_232
+ * @var COATL_UCD_CCC_ABOVE_RIGHT
+ *      Alias for #COATL_UCD_CCC_232
+ * @var COATL_UCD_CCC_233
+ *      '**233**', '**DB**', '**Double_Below**'
+ * @var COATL_UCD_CCC_DB
+ *      Alias for #COATL_UCD_CCC_233
+ * @var COATL_UCD_CCC_DOUBLE_BELOW
+ *      Alias for #COATL_UCD_CCC_233
+ * @var COATL_UCD_CCC_234
+ *      '**234**', '**DA**', '**Double_Above**'
+ * @var COATL_UCD_CCC_DA
+ *      Alias for #COATL_UCD_CCC_234
+ * @var COATL_UCD_CCC_DOUBLE_ABOVE
+ *      Alias for #COATL_UCD_CCC_234
+ * @var COATL_UCD_CCC_240
+ *      '**240**', '**IS**', '**Iota_Subscript**'
+ * @var COATL_UCD_CCC_IS
+ *      Alias for #COATL_UCD_CCC_240
+ * @var COATL_UCD_CCC_IOTA_SUBSCRIPT
+ *      Alias for #COATL_UCD_CCC_240
+ */
 typedef enum Coatl_Ucd_Ccc {
     COATL_UCD_CCC_0=1,
         COATL_UCD_CCC_NR=COATL_UCD_CCC_0,
@@ -1739,62 +2511,87 @@ typedef enum Coatl_Ucd_Ccc {
 
 } Coatl_Ucd_Ccc;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_CCC_NBVALUES
+/**
+ * Number of values for Unicode character property '*ccc*'.
  *
- *      Number of values for Unicode character property '*ccc*'.
- *
- * See also:
- *      <Coatl_Ucd_Ccc>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Ccc
+ */
 #define COATL_UCD_CCC_NBVALUES       57
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Dt
- *
- *      Values for Unicode character property '*dt*'.
+/**
+ * @enum Coatl_Ucd_Dt
+ *      Values for Unicode character property '**dt**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_DT_CAN - '*Can*', '*Canonical*', '*can*'
- *  COATL_UCD_DT_CANONICAL - Alias for <COATL_UCD_DT_CAN>
- *  COATL_UCD_DT_COM - '*Com*', '*Compat*', '*com*'
- *  COATL_UCD_DT_COMPAT - Alias for <COATL_UCD_DT_COM>
- *  COATL_UCD_DT_ENC - '*Enc*', '*Circle*', '*enc*'
- *  COATL_UCD_DT_CIRCLE - Alias for <COATL_UCD_DT_ENC>
- *  COATL_UCD_DT_FIN - '*Fin*', '*Final*', '*fin*'
- *  COATL_UCD_DT_FINAL - Alias for <COATL_UCD_DT_FIN>
- *  COATL_UCD_DT_FONT - '*Font*', '*font*'
- *  COATL_UCD_DT_FRA - '*Fra*', '*Fraction*', '*fra*'
- *  COATL_UCD_DT_FRACTION - Alias for <COATL_UCD_DT_FRA>
- *  COATL_UCD_DT_INIT - '*Init*', '*Initial*', '*init*'
- *  COATL_UCD_DT_INITIAL - Alias for <COATL_UCD_DT_INIT>
- *  COATL_UCD_DT_ISO - '*Iso*', '*Isolated*', '*iso*'
- *  COATL_UCD_DT_ISOLATED - Alias for <COATL_UCD_DT_ISO>
- *  COATL_UCD_DT_MED - '*Med*', '*Medial*', '*med*'
- *  COATL_UCD_DT_MEDIAL - Alias for <COATL_UCD_DT_MED>
- *  COATL_UCD_DT_NAR - '*Nar*', '*Narrow*', '*nar*'
- *  COATL_UCD_DT_NARROW - Alias for <COATL_UCD_DT_NAR>
- *  COATL_UCD_DT_NB - '*Nb*', '*Nobreak*', '*nb*'
- *  COATL_UCD_DT_NOBREAK - Alias for <COATL_UCD_DT_NB>
- *  COATL_UCD_DT_NONE - '*None*', '*none*'
- *  COATL_UCD_DT_SML - '*Sml*', '*Small*', '*sml*'
- *  COATL_UCD_DT_SMALL - Alias for <COATL_UCD_DT_SML>
- *  COATL_UCD_DT_SQR - '*Sqr*', '*Square*', '*sqr*'
- *  COATL_UCD_DT_SQUARE - Alias for <COATL_UCD_DT_SQR>
- *  COATL_UCD_DT_SUB - '*Sub*', '*sub*'
- *  COATL_UCD_DT_SUP - '*Sup*', '*Super*', '*sup*'
- *  COATL_UCD_DT_SUPER - Alias for <COATL_UCD_DT_SUP>
- *  COATL_UCD_DT_VERT - '*Vert*', '*Vertical*', '*vert*'
- *  COATL_UCD_DT_VERTICAL - Alias for <COATL_UCD_DT_VERT>
- *  COATL_UCD_DT_WIDE - '*Wide*', '*wide*'
+ * @see COATL_UCD_DT
  *
- * See also:
- *      <COATL_UCD_DT>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_DT_CAN
+ *      '**Can**', '**Canonical**', '**can**'
+ * @var COATL_UCD_DT_CANONICAL
+ *      Alias for #COATL_UCD_DT_CAN
+ * @var COATL_UCD_DT_COM
+ *      '**Com**', '**Compat**', '**com**'
+ * @var COATL_UCD_DT_COMPAT
+ *      Alias for #COATL_UCD_DT_COM
+ * @var COATL_UCD_DT_ENC
+ *      '**Enc**', '**Circle**', '**enc**'
+ * @var COATL_UCD_DT_CIRCLE
+ *      Alias for #COATL_UCD_DT_ENC
+ * @var COATL_UCD_DT_FIN
+ *      '**Fin**', '**Final**', '**fin**'
+ * @var COATL_UCD_DT_FINAL
+ *      Alias for #COATL_UCD_DT_FIN
+ * @var COATL_UCD_DT_FONT
+ *      '**Font**', '**font**'
+ * @var COATL_UCD_DT_FRA
+ *      '**Fra**', '**Fraction**', '**fra**'
+ * @var COATL_UCD_DT_FRACTION
+ *      Alias for #COATL_UCD_DT_FRA
+ * @var COATL_UCD_DT_INIT
+ *      '**Init**', '**Initial**', '**init**'
+ * @var COATL_UCD_DT_INITIAL
+ *      Alias for #COATL_UCD_DT_INIT
+ * @var COATL_UCD_DT_ISO
+ *      '**Iso**', '**Isolated**', '**iso**'
+ * @var COATL_UCD_DT_ISOLATED
+ *      Alias for #COATL_UCD_DT_ISO
+ * @var COATL_UCD_DT_MED
+ *      '**Med**', '**Medial**', '**med**'
+ * @var COATL_UCD_DT_MEDIAL
+ *      Alias for #COATL_UCD_DT_MED
+ * @var COATL_UCD_DT_NAR
+ *      '**Nar**', '**Narrow**', '**nar**'
+ * @var COATL_UCD_DT_NARROW
+ *      Alias for #COATL_UCD_DT_NAR
+ * @var COATL_UCD_DT_NB
+ *      '**Nb**', '**Nobreak**', '**nb**'
+ * @var COATL_UCD_DT_NOBREAK
+ *      Alias for #COATL_UCD_DT_NB
+ * @var COATL_UCD_DT_NONE
+ *      '**None**', '**none**'
+ * @var COATL_UCD_DT_SML
+ *      '**Sml**', '**Small**', '**sml**'
+ * @var COATL_UCD_DT_SMALL
+ *      Alias for #COATL_UCD_DT_SML
+ * @var COATL_UCD_DT_SQR
+ *      '**Sqr**', '**Square**', '**sqr**'
+ * @var COATL_UCD_DT_SQUARE
+ *      Alias for #COATL_UCD_DT_SQR
+ * @var COATL_UCD_DT_SUB
+ *      '**Sub**', '**sub**'
+ * @var COATL_UCD_DT_SUP
+ *      '**Sup**', '**Super**', '**sup**'
+ * @var COATL_UCD_DT_SUPER
+ *      Alias for #COATL_UCD_DT_SUP
+ * @var COATL_UCD_DT_VERT
+ *      '**Vert**', '**Vertical**', '**vert**'
+ * @var COATL_UCD_DT_VERTICAL
+ *      Alias for #COATL_UCD_DT_VERT
+ * @var COATL_UCD_DT_WIDE
+ *      '**Wide**', '**wide**'
+ */
 typedef enum Coatl_Ucd_Dt {
     COATL_UCD_DT_CAN=1,
         COATL_UCD_DT_CANONICAL=COATL_UCD_DT_CAN,
@@ -1831,42 +2628,47 @@ typedef enum Coatl_Ucd_Dt {
 
 } Coatl_Ucd_Dt;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_DT_NBVALUES
+/**
+ * Number of values for Unicode character property '*dt*'.
  *
- *      Number of values for Unicode character property '*dt*'.
- *
- * See also:
- *      <Coatl_Ucd_Dt>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Dt
+ */
 #define COATL_UCD_DT_NBVALUES        18
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Ea
- *
- *      Values for Unicode character property '*ea*'.
+/**
+ * @enum Coatl_Ucd_Ea
+ *      Values for Unicode character property '**ea**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_EA_A - '*A*', '*Ambiguous*'
- *  COATL_UCD_EA_AMBIGUOUS - Alias for <COATL_UCD_EA_A>
- *  COATL_UCD_EA_F - '*F*', '*Fullwidth*'
- *  COATL_UCD_EA_FULLWIDTH - Alias for <COATL_UCD_EA_F>
- *  COATL_UCD_EA_H - '*H*', '*Halfwidth*'
- *  COATL_UCD_EA_HALFWIDTH - Alias for <COATL_UCD_EA_H>
- *  COATL_UCD_EA_N - '*N*', '*Neutral*'
- *  COATL_UCD_EA_NEUTRAL - Alias for <COATL_UCD_EA_N>
- *  COATL_UCD_EA_NA - '*Na*', '*Narrow*'
- *  COATL_UCD_EA_NARROW - Alias for <COATL_UCD_EA_NA>
- *  COATL_UCD_EA_W - '*W*', '*Wide*'
- *  COATL_UCD_EA_WIDE - Alias for <COATL_UCD_EA_W>
+ * @see COATL_UCD_EA
  *
- * See also:
- *      <COATL_UCD_EA>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_EA_A
+ *      '**A**', '**Ambiguous**'
+ * @var COATL_UCD_EA_AMBIGUOUS
+ *      Alias for #COATL_UCD_EA_A
+ * @var COATL_UCD_EA_F
+ *      '**F**', '**Fullwidth**'
+ * @var COATL_UCD_EA_FULLWIDTH
+ *      Alias for #COATL_UCD_EA_F
+ * @var COATL_UCD_EA_H
+ *      '**H**', '**Halfwidth**'
+ * @var COATL_UCD_EA_HALFWIDTH
+ *      Alias for #COATL_UCD_EA_H
+ * @var COATL_UCD_EA_N
+ *      '**N**', '**Neutral**'
+ * @var COATL_UCD_EA_NEUTRAL
+ *      Alias for #COATL_UCD_EA_N
+ * @var COATL_UCD_EA_NA
+ *      '**Na**', '**Narrow**'
+ * @var COATL_UCD_EA_NARROW
+ *      Alias for #COATL_UCD_EA_NA
+ * @var COATL_UCD_EA_W
+ *      '**W**', '**Wide**'
+ * @var COATL_UCD_EA_WIDE
+ *      Alias for #COATL_UCD_EA_W
+ */
 typedef enum Coatl_Ucd_Ea {
     COATL_UCD_EA_A=1,
         COATL_UCD_EA_AMBIGUOUS=COATL_UCD_EA_A,
@@ -1883,92 +2685,147 @@ typedef enum Coatl_Ucd_Ea {
 
 } Coatl_Ucd_Ea;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_EA_NBVALUES
+/**
+ * Number of values for Unicode character property '*ea*'.
  *
- *      Number of values for Unicode character property '*ea*'.
- *
- * See also:
- *      <Coatl_Ucd_Ea>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Ea
+ */
 #define COATL_UCD_EA_NBVALUES        6
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Gc
- *
- *      Values for Unicode character property '*gc*'.
+/**
+ * @enum Coatl_Ucd_Gc
+ *      Values for Unicode character property '**gc**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_GC_CC - '*Cc*', '*Control*', '*cntrl*'
- *  COATL_UCD_GC_CONTROL - Alias for <COATL_UCD_GC_CC>
- *  COATL_UCD_GC_CNTRL - Alias for <COATL_UCD_GC_CC>
- *  COATL_UCD_GC_CF - '*Cf*', '*Format*'
- *  COATL_UCD_GC_FORMAT - Alias for <COATL_UCD_GC_CF>
- *  COATL_UCD_GC_CN - '*Cn*', '*Unassigned*'
- *  COATL_UCD_GC_UNASSIGNED - Alias for <COATL_UCD_GC_CN>
- *  COATL_UCD_GC_CO - '*Co*', '*Private_Use*'
- *  COATL_UCD_GC_PRIVATE_USE - Alias for <COATL_UCD_GC_CO>
- *  COATL_UCD_GC_CS - '*Cs*', '*Surrogate*'
- *  COATL_UCD_GC_SURROGATE - Alias for <COATL_UCD_GC_CS>
- *  COATL_UCD_GC_LL - '*Ll*', '*Lowercase_Letter*'
- *  COATL_UCD_GC_LOWERCASE_LETTER - Alias for <COATL_UCD_GC_LL>
- *  COATL_UCD_GC_LM - '*Lm*', '*Modifier_Letter*'
- *  COATL_UCD_GC_MODIFIER_LETTER - Alias for <COATL_UCD_GC_LM>
- *  COATL_UCD_GC_LO - '*Lo*', '*Other_Letter*'
- *  COATL_UCD_GC_OTHER_LETTER - Alias for <COATL_UCD_GC_LO>
- *  COATL_UCD_GC_LT - '*Lt*', '*Titlecase_Letter*'
- *  COATL_UCD_GC_TITLECASE_LETTER - Alias for <COATL_UCD_GC_LT>
- *  COATL_UCD_GC_LU - '*Lu*', '*Uppercase_Letter*'
- *  COATL_UCD_GC_UPPERCASE_LETTER - Alias for <COATL_UCD_GC_LU>
- *  COATL_UCD_GC_MC - '*Mc*', '*Spacing_Mark*'
- *  COATL_UCD_GC_SPACING_MARK - Alias for <COATL_UCD_GC_MC>
- *  COATL_UCD_GC_ME - '*Me*', '*Enclosing_Mark*'
- *  COATL_UCD_GC_ENCLOSING_MARK - Alias for <COATL_UCD_GC_ME>
- *  COATL_UCD_GC_MN - '*Mn*', '*Nonspacing_Mark*'
- *  COATL_UCD_GC_NONSPACING_MARK - Alias for <COATL_UCD_GC_MN>
- *  COATL_UCD_GC_ND - '*Nd*', '*Decimal_Number*', '*digit*'
- *  COATL_UCD_GC_DECIMAL_NUMBER - Alias for <COATL_UCD_GC_ND>
- *  COATL_UCD_GC_DIGIT - Alias for <COATL_UCD_GC_ND>
- *  COATL_UCD_GC_NL - '*Nl*', '*Letter_Number*'
- *  COATL_UCD_GC_LETTER_NUMBER - Alias for <COATL_UCD_GC_NL>
- *  COATL_UCD_GC_NO - '*No*', '*Other_Number*'
- *  COATL_UCD_GC_OTHER_NUMBER - Alias for <COATL_UCD_GC_NO>
- *  COATL_UCD_GC_PC - '*Pc*', '*Connector_Punctuation*'
- *  COATL_UCD_GC_CONNECTOR_PUNCTUATION - Alias for <COATL_UCD_GC_PC>
- *  COATL_UCD_GC_PD - '*Pd*', '*Dash_Punctuation*'
- *  COATL_UCD_GC_DASH_PUNCTUATION - Alias for <COATL_UCD_GC_PD>
- *  COATL_UCD_GC_PE - '*Pe*', '*Close_Punctuation*'
- *  COATL_UCD_GC_CLOSE_PUNCTUATION - Alias for <COATL_UCD_GC_PE>
- *  COATL_UCD_GC_PF - '*Pf*', '*Final_Punctuation*'
- *  COATL_UCD_GC_FINAL_PUNCTUATION - Alias for <COATL_UCD_GC_PF>
- *  COATL_UCD_GC_PI - '*Pi*', '*Initial_Punctuation*'
- *  COATL_UCD_GC_INITIAL_PUNCTUATION - Alias for <COATL_UCD_GC_PI>
- *  COATL_UCD_GC_PO - '*Po*', '*Other_Punctuation*'
- *  COATL_UCD_GC_OTHER_PUNCTUATION - Alias for <COATL_UCD_GC_PO>
- *  COATL_UCD_GC_PS - '*Ps*', '*Open_Punctuation*'
- *  COATL_UCD_GC_OPEN_PUNCTUATION - Alias for <COATL_UCD_GC_PS>
- *  COATL_UCD_GC_SC - '*Sc*', '*Currency_Symbol*'
- *  COATL_UCD_GC_CURRENCY_SYMBOL - Alias for <COATL_UCD_GC_SC>
- *  COATL_UCD_GC_SK - '*Sk*', '*Modifier_Symbol*'
- *  COATL_UCD_GC_MODIFIER_SYMBOL - Alias for <COATL_UCD_GC_SK>
- *  COATL_UCD_GC_SM - '*Sm*', '*Math_Symbol*'
- *  COATL_UCD_GC_MATH_SYMBOL - Alias for <COATL_UCD_GC_SM>
- *  COATL_UCD_GC_SO - '*So*', '*Other_Symbol*'
- *  COATL_UCD_GC_OTHER_SYMBOL - Alias for <COATL_UCD_GC_SO>
- *  COATL_UCD_GC_ZL - '*Zl*', '*Line_Separator*'
- *  COATL_UCD_GC_LINE_SEPARATOR - Alias for <COATL_UCD_GC_ZL>
- *  COATL_UCD_GC_ZP - '*Zp*', '*Paragraph_Separator*'
- *  COATL_UCD_GC_PARAGRAPH_SEPARATOR - Alias for <COATL_UCD_GC_ZP>
- *  COATL_UCD_GC_ZS - '*Zs*', '*Space_Separator*'
- *  COATL_UCD_GC_SPACE_SEPARATOR - Alias for <COATL_UCD_GC_ZS>
+ * @see COATL_UCD_GC
  *
- * See also:
- *      <COATL_UCD_GC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_GC_CC
+ *      '**Cc**', '**Control**', '**cntrl**'
+ * @var COATL_UCD_GC_CONTROL
+ *      Alias for #COATL_UCD_GC_CC
+ * @var COATL_UCD_GC_CNTRL
+ *      Alias for #COATL_UCD_GC_CC
+ * @var COATL_UCD_GC_CF
+ *      '**Cf**', '**Format**'
+ * @var COATL_UCD_GC_FORMAT
+ *      Alias for #COATL_UCD_GC_CF
+ * @var COATL_UCD_GC_CN
+ *      '**Cn**', '**Unassigned**'
+ * @var COATL_UCD_GC_UNASSIGNED
+ *      Alias for #COATL_UCD_GC_CN
+ * @var COATL_UCD_GC_CO
+ *      '**Co**', '**Private_Use**'
+ * @var COATL_UCD_GC_PRIVATE_USE
+ *      Alias for #COATL_UCD_GC_CO
+ * @var COATL_UCD_GC_CS
+ *      '**Cs**', '**Surrogate**'
+ * @var COATL_UCD_GC_SURROGATE
+ *      Alias for #COATL_UCD_GC_CS
+ * @var COATL_UCD_GC_LL
+ *      '**Ll**', '**Lowercase_Letter**'
+ * @var COATL_UCD_GC_LOWERCASE_LETTER
+ *      Alias for #COATL_UCD_GC_LL
+ * @var COATL_UCD_GC_LM
+ *      '**Lm**', '**Modifier_Letter**'
+ * @var COATL_UCD_GC_MODIFIER_LETTER
+ *      Alias for #COATL_UCD_GC_LM
+ * @var COATL_UCD_GC_LO
+ *      '**Lo**', '**Other_Letter**'
+ * @var COATL_UCD_GC_OTHER_LETTER
+ *      Alias for #COATL_UCD_GC_LO
+ * @var COATL_UCD_GC_LT
+ *      '**Lt**', '**Titlecase_Letter**'
+ * @var COATL_UCD_GC_TITLECASE_LETTER
+ *      Alias for #COATL_UCD_GC_LT
+ * @var COATL_UCD_GC_LU
+ *      '**Lu**', '**Uppercase_Letter**'
+ * @var COATL_UCD_GC_UPPERCASE_LETTER
+ *      Alias for #COATL_UCD_GC_LU
+ * @var COATL_UCD_GC_MC
+ *      '**Mc**', '**Spacing_Mark**'
+ * @var COATL_UCD_GC_SPACING_MARK
+ *      Alias for #COATL_UCD_GC_MC
+ * @var COATL_UCD_GC_ME
+ *      '**Me**', '**Enclosing_Mark**'
+ * @var COATL_UCD_GC_ENCLOSING_MARK
+ *      Alias for #COATL_UCD_GC_ME
+ * @var COATL_UCD_GC_MN
+ *      '**Mn**', '**Nonspacing_Mark**'
+ * @var COATL_UCD_GC_NONSPACING_MARK
+ *      Alias for #COATL_UCD_GC_MN
+ * @var COATL_UCD_GC_ND
+ *      '**Nd**', '**Decimal_Number**', '**digit**'
+ * @var COATL_UCD_GC_DECIMAL_NUMBER
+ *      Alias for #COATL_UCD_GC_ND
+ * @var COATL_UCD_GC_DIGIT
+ *      Alias for #COATL_UCD_GC_ND
+ * @var COATL_UCD_GC_NL
+ *      '**Nl**', '**Letter_Number**'
+ * @var COATL_UCD_GC_LETTER_NUMBER
+ *      Alias for #COATL_UCD_GC_NL
+ * @var COATL_UCD_GC_NO
+ *      '**No**', '**Other_Number**'
+ * @var COATL_UCD_GC_OTHER_NUMBER
+ *      Alias for #COATL_UCD_GC_NO
+ * @var COATL_UCD_GC_PC
+ *      '**Pc**', '**Connector_Punctuation**'
+ * @var COATL_UCD_GC_CONNECTOR_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PC
+ * @var COATL_UCD_GC_PD
+ *      '**Pd**', '**Dash_Punctuation**'
+ * @var COATL_UCD_GC_DASH_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PD
+ * @var COATL_UCD_GC_PE
+ *      '**Pe**', '**Close_Punctuation**'
+ * @var COATL_UCD_GC_CLOSE_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PE
+ * @var COATL_UCD_GC_PF
+ *      '**Pf**', '**Final_Punctuation**'
+ * @var COATL_UCD_GC_FINAL_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PF
+ * @var COATL_UCD_GC_PI
+ *      '**Pi**', '**Initial_Punctuation**'
+ * @var COATL_UCD_GC_INITIAL_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PI
+ * @var COATL_UCD_GC_PO
+ *      '**Po**', '**Other_Punctuation**'
+ * @var COATL_UCD_GC_OTHER_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PO
+ * @var COATL_UCD_GC_PS
+ *      '**Ps**', '**Open_Punctuation**'
+ * @var COATL_UCD_GC_OPEN_PUNCTUATION
+ *      Alias for #COATL_UCD_GC_PS
+ * @var COATL_UCD_GC_SC
+ *      '**Sc**', '**Currency_Symbol**'
+ * @var COATL_UCD_GC_CURRENCY_SYMBOL
+ *      Alias for #COATL_UCD_GC_SC
+ * @var COATL_UCD_GC_SK
+ *      '**Sk**', '**Modifier_Symbol**'
+ * @var COATL_UCD_GC_MODIFIER_SYMBOL
+ *      Alias for #COATL_UCD_GC_SK
+ * @var COATL_UCD_GC_SM
+ *      '**Sm**', '**Math_Symbol**'
+ * @var COATL_UCD_GC_MATH_SYMBOL
+ *      Alias for #COATL_UCD_GC_SM
+ * @var COATL_UCD_GC_SO
+ *      '**So**', '**Other_Symbol**'
+ * @var COATL_UCD_GC_OTHER_SYMBOL
+ *      Alias for #COATL_UCD_GC_SO
+ * @var COATL_UCD_GC_ZL
+ *      '**Zl**', '**Line_Separator**'
+ * @var COATL_UCD_GC_LINE_SEPARATOR
+ *      Alias for #COATL_UCD_GC_ZL
+ * @var COATL_UCD_GC_ZP
+ *      '**Zp**', '**Paragraph_Separator**'
+ * @var COATL_UCD_GC_PARAGRAPH_SEPARATOR
+ *      Alias for #COATL_UCD_GC_ZP
+ * @var COATL_UCD_GC_ZS
+ *      '**Zs**', '**Space_Separator**'
+ * @var COATL_UCD_GC_SPACE_SEPARATOR
+ *      Alias for #COATL_UCD_GC_ZS
+ */
 typedef enum Coatl_Ucd_Gc {
     COATL_UCD_GC_CC=1,
         COATL_UCD_GC_CONTROL=COATL_UCD_GC_CC,
@@ -2035,58 +2892,79 @@ typedef enum Coatl_Ucd_Gc {
 
 } Coatl_Ucd_Gc;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_GC_NBVALUES
+/**
+ * Number of values for Unicode character property '*gc*'.
  *
- *      Number of values for Unicode character property '*gc*'.
- *
- * See also:
- *      <Coatl_Ucd_Gc>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Gc
+ */
 #define COATL_UCD_GC_NBVALUES        30
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_GCB
- *
- *      Values for Unicode character property '*GCB*'.
+/**
+ * @enum Coatl_Ucd_GCB
+ *      Values for Unicode character property '**GCB**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_GCB_CN - '*CN*', '*Control*'
- *  COATL_UCD_GCB_CONTROL - Alias for <COATL_UCD_GCB_CN>
- *  COATL_UCD_GCB_CR - '*CR*'
- *  COATL_UCD_GCB_EB - '*EB*', '*E_Base*'
- *  COATL_UCD_GCB_E_BASE - Alias for <COATL_UCD_GCB_EB>
- *  COATL_UCD_GCB_EBG - '*EBG*', '*E_Base_GAZ*'
- *  COATL_UCD_GCB_E_BASE_GAZ - Alias for <COATL_UCD_GCB_EBG>
- *  COATL_UCD_GCB_EM - '*EM*', '*E_Modifier*'
- *  COATL_UCD_GCB_E_MODIFIER - Alias for <COATL_UCD_GCB_EM>
- *  COATL_UCD_GCB_EX - '*EX*', '*Extend*'
- *  COATL_UCD_GCB_EXTEND - Alias for <COATL_UCD_GCB_EX>
- *  COATL_UCD_GCB_GAZ - '*GAZ*', '*Glue_After_Zwj*'
- *  COATL_UCD_GCB_GLUE_AFTER_ZWJ - Alias for <COATL_UCD_GCB_GAZ>
- *  COATL_UCD_GCB_L - '*L*'
- *  COATL_UCD_GCB_LF - '*LF*'
- *  COATL_UCD_GCB_LV - '*LV*'
- *  COATL_UCD_GCB_LVT - '*LVT*'
- *  COATL_UCD_GCB_PP - '*PP*', '*Prepend*'
- *  COATL_UCD_GCB_PREPEND - Alias for <COATL_UCD_GCB_PP>
- *  COATL_UCD_GCB_RI - '*RI*', '*Regional_Indicator*'
- *  COATL_UCD_GCB_REGIONAL_INDICATOR - Alias for <COATL_UCD_GCB_RI>
- *  COATL_UCD_GCB_SM - '*SM*', '*SpacingMark*'
- *  COATL_UCD_GCB_SPACINGMARK - Alias for <COATL_UCD_GCB_SM>
- *  COATL_UCD_GCB_T - '*T*'
- *  COATL_UCD_GCB_V - '*V*'
- *  COATL_UCD_GCB_XX - '*XX*', '*Other*'
- *  COATL_UCD_GCB_OTHER - Alias for <COATL_UCD_GCB_XX>
- *  COATL_UCD_GCB_ZWJ - '*ZWJ*'
+ * @see COATL_UCD_GCB
  *
- * See also:
- *      <COATL_UCD_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_GCB_CN
+ *      '**CN**', '**Control**'
+ * @var COATL_UCD_GCB_CONTROL
+ *      Alias for #COATL_UCD_GCB_CN
+ * @var COATL_UCD_GCB_CR
+ *      '**CR**'
+ * @var COATL_UCD_GCB_EB
+ *      '**EB**', '**E_Base**'
+ * @var COATL_UCD_GCB_E_BASE
+ *      Alias for #COATL_UCD_GCB_EB
+ * @var COATL_UCD_GCB_EBG
+ *      '**EBG**', '**E_Base_GAZ**'
+ * @var COATL_UCD_GCB_E_BASE_GAZ
+ *      Alias for #COATL_UCD_GCB_EBG
+ * @var COATL_UCD_GCB_EM
+ *      '**EM**', '**E_Modifier**'
+ * @var COATL_UCD_GCB_E_MODIFIER
+ *      Alias for #COATL_UCD_GCB_EM
+ * @var COATL_UCD_GCB_EX
+ *      '**EX**', '**Extend**'
+ * @var COATL_UCD_GCB_EXTEND
+ *      Alias for #COATL_UCD_GCB_EX
+ * @var COATL_UCD_GCB_GAZ
+ *      '**GAZ**', '**Glue_After_Zwj**'
+ * @var COATL_UCD_GCB_GLUE_AFTER_ZWJ
+ *      Alias for #COATL_UCD_GCB_GAZ
+ * @var COATL_UCD_GCB_L
+ *      '**L**'
+ * @var COATL_UCD_GCB_LF
+ *      '**LF**'
+ * @var COATL_UCD_GCB_LV
+ *      '**LV**'
+ * @var COATL_UCD_GCB_LVT
+ *      '**LVT**'
+ * @var COATL_UCD_GCB_PP
+ *      '**PP**', '**Prepend**'
+ * @var COATL_UCD_GCB_PREPEND
+ *      Alias for #COATL_UCD_GCB_PP
+ * @var COATL_UCD_GCB_RI
+ *      '**RI**', '**Regional_Indicator**'
+ * @var COATL_UCD_GCB_REGIONAL_INDICATOR
+ *      Alias for #COATL_UCD_GCB_RI
+ * @var COATL_UCD_GCB_SM
+ *      '**SM**', '**SpacingMark**'
+ * @var COATL_UCD_GCB_SPACINGMARK
+ *      Alias for #COATL_UCD_GCB_SM
+ * @var COATL_UCD_GCB_T
+ *      '**T**'
+ * @var COATL_UCD_GCB_V
+ *      '**V**'
+ * @var COATL_UCD_GCB_XX
+ *      '**XX**', '**Other**'
+ * @var COATL_UCD_GCB_OTHER
+ *      Alias for #COATL_UCD_GCB_XX
+ * @var COATL_UCD_GCB_ZWJ
+ *      '**ZWJ**'
+ */
 typedef enum Coatl_Ucd_GCB {
     COATL_UCD_GCB_CN=1,
         COATL_UCD_GCB_CONTROL=COATL_UCD_GCB_CN,
@@ -2119,42 +2997,47 @@ typedef enum Coatl_Ucd_GCB {
 
 } Coatl_Ucd_GCB;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_GCB_NBVALUES
+/**
+ * Number of values for Unicode character property '*GCB*'.
  *
- *      Number of values for Unicode character property '*GCB*'.
- *
- * See also:
- *      <Coatl_Ucd_GCB>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_GCB
+ */
 #define COATL_UCD_GCB_NBVALUES       18
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Hst
- *
- *      Values for Unicode character property '*hst*'.
+/**
+ * @enum Coatl_Ucd_Hst
+ *      Values for Unicode character property '**hst**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_HST_L - '*L*', '*Leading_Jamo*'
- *  COATL_UCD_HST_LEADING_JAMO - Alias for <COATL_UCD_HST_L>
- *  COATL_UCD_HST_LV - '*LV*', '*LV_Syllable*'
- *  COATL_UCD_HST_LV_SYLLABLE - Alias for <COATL_UCD_HST_LV>
- *  COATL_UCD_HST_LVT - '*LVT*', '*LVT_Syllable*'
- *  COATL_UCD_HST_LVT_SYLLABLE - Alias for <COATL_UCD_HST_LVT>
- *  COATL_UCD_HST_NA - '*NA*', '*Not_Applicable*'
- *  COATL_UCD_HST_NOT_APPLICABLE - Alias for <COATL_UCD_HST_NA>
- *  COATL_UCD_HST_T - '*T*', '*Trailing_Jamo*'
- *  COATL_UCD_HST_TRAILING_JAMO - Alias for <COATL_UCD_HST_T>
- *  COATL_UCD_HST_V - '*V*', '*Vowel_Jamo*'
- *  COATL_UCD_HST_VOWEL_JAMO - Alias for <COATL_UCD_HST_V>
+ * @see COATL_UCD_HST
  *
- * See also:
- *      <COATL_UCD_HST>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_HST_L
+ *      '**L**', '**Leading_Jamo**'
+ * @var COATL_UCD_HST_LEADING_JAMO
+ *      Alias for #COATL_UCD_HST_L
+ * @var COATL_UCD_HST_LV
+ *      '**LV**', '**LV_Syllable**'
+ * @var COATL_UCD_HST_LV_SYLLABLE
+ *      Alias for #COATL_UCD_HST_LV
+ * @var COATL_UCD_HST_LVT
+ *      '**LVT**', '**LVT_Syllable**'
+ * @var COATL_UCD_HST_LVT_SYLLABLE
+ *      Alias for #COATL_UCD_HST_LVT
+ * @var COATL_UCD_HST_NA
+ *      '**NA**', '**Not_Applicable**'
+ * @var COATL_UCD_HST_NOT_APPLICABLE
+ *      Alias for #COATL_UCD_HST_NA
+ * @var COATL_UCD_HST_T
+ *      '**T**', '**Trailing_Jamo**'
+ * @var COATL_UCD_HST_TRAILING_JAMO
+ *      Alias for #COATL_UCD_HST_T
+ * @var COATL_UCD_HST_V
+ *      '**V**', '**Vowel_Jamo**'
+ * @var COATL_UCD_HST_VOWEL_JAMO
+ *      Alias for #COATL_UCD_HST_V
+ */
 typedef enum Coatl_Ucd_Hst {
     COATL_UCD_HST_L=1,
         COATL_UCD_HST_LEADING_JAMO=COATL_UCD_HST_L,
@@ -2171,44 +3054,51 @@ typedef enum Coatl_Ucd_Hst {
 
 } Coatl_Ucd_Hst;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_HST_NBVALUES
+/**
+ * Number of values for Unicode character property '*hst*'.
  *
- *      Number of values for Unicode character property '*hst*'.
- *
- * See also:
- *      <Coatl_Ucd_Hst>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Hst
+ */
 #define COATL_UCD_HST_NBVALUES       6
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_InPC
- *
- *      Values for Unicode character property '*InPC*'.
+/**
+ * @enum Coatl_Ucd_InPC
+ *      Values for Unicode character property '**InPC**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_INPC_BOTTOM - '*Bottom*'
- *  COATL_UCD_INPC_BOTTOM_AND_RIGHT - '*Bottom_And_Right*'
- *  COATL_UCD_INPC_LEFT - '*Left*'
- *  COATL_UCD_INPC_LEFT_AND_RIGHT - '*Left_And_Right*'
- *  COATL_UCD_INPC_NA - '*NA*'
- *  COATL_UCD_INPC_OVERSTRUCK - '*Overstruck*'
- *  COATL_UCD_INPC_RIGHT - '*Right*'
- *  COATL_UCD_INPC_TOP - '*Top*'
- *  COATL_UCD_INPC_TOP_AND_BOTTOM - '*Top_And_Bottom*'
- *  COATL_UCD_INPC_TOP_AND_BOTTOM_AND_RIGHT - '*Top_And_Bottom_And_Right*'
- *  COATL_UCD_INPC_TOP_AND_LEFT - '*Top_And_Left*'
- *  COATL_UCD_INPC_TOP_AND_LEFT_AND_RIGHT - '*Top_And_Left_And_Right*'
- *  COATL_UCD_INPC_TOP_AND_RIGHT - '*Top_And_Right*'
- *  COATL_UCD_INPC_VISUAL_ORDER_LEFT - '*Visual_Order_Left*'
+ * @see COATL_UCD_INPC
  *
- * See also:
- *      <COATL_UCD_INPC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_INPC_BOTTOM
+ *      '**Bottom**'
+ * @var COATL_UCD_INPC_BOTTOM_AND_RIGHT
+ *      '**Bottom_And_Right**'
+ * @var COATL_UCD_INPC_LEFT
+ *      '**Left**'
+ * @var COATL_UCD_INPC_LEFT_AND_RIGHT
+ *      '**Left_And_Right**'
+ * @var COATL_UCD_INPC_NA
+ *      '**NA**'
+ * @var COATL_UCD_INPC_OVERSTRUCK
+ *      '**Overstruck**'
+ * @var COATL_UCD_INPC_RIGHT
+ *      '**Right**'
+ * @var COATL_UCD_INPC_TOP
+ *      '**Top**'
+ * @var COATL_UCD_INPC_TOP_AND_BOTTOM
+ *      '**Top_And_Bottom**'
+ * @var COATL_UCD_INPC_TOP_AND_BOTTOM_AND_RIGHT
+ *      '**Top_And_Bottom_And_Right**'
+ * @var COATL_UCD_INPC_TOP_AND_LEFT
+ *      '**Top_And_Left**'
+ * @var COATL_UCD_INPC_TOP_AND_LEFT_AND_RIGHT
+ *      '**Top_And_Left_And_Right**'
+ * @var COATL_UCD_INPC_TOP_AND_RIGHT
+ *      '**Top_And_Right**'
+ * @var COATL_UCD_INPC_VISUAL_ORDER_LEFT
+ *      '**Visual_Order_Left**'
+ */
 typedef enum Coatl_Ucd_InPC {
     COATL_UCD_INPC_BOTTOM=1,
     COATL_UCD_INPC_BOTTOM_AND_RIGHT=2,
@@ -2227,65 +3117,93 @@ typedef enum Coatl_Ucd_InPC {
 
 } Coatl_Ucd_InPC;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_INPC_NBVALUES
+/**
+ * Number of values for Unicode character property '*InPC*'.
  *
- *      Number of values for Unicode character property '*InPC*'.
- *
- * See also:
- *      <Coatl_Ucd_InPC>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_InPC
+ */
 #define COATL_UCD_INPC_NBVALUES      14
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_InSC
- *
- *      Values for Unicode character property '*InSC*'.
+/**
+ * @enum Coatl_Ucd_InSC
+ *      Values for Unicode character property '**InSC**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_INSC_AVAGRAHA - '*Avagraha*'
- *  COATL_UCD_INSC_BINDU - '*Bindu*'
- *  COATL_UCD_INSC_BRAHMI_JOINING_NUMBER - '*Brahmi_Joining_Number*'
- *  COATL_UCD_INSC_CANTILLATION_MARK - '*Cantillation_Mark*'
- *  COATL_UCD_INSC_CONSONANT - '*Consonant*'
- *  COATL_UCD_INSC_CONSONANT_DEAD - '*Consonant_Dead*'
- *  COATL_UCD_INSC_CONSONANT_FINAL - '*Consonant_Final*'
- *  COATL_UCD_INSC_CONSONANT_HEAD_LETTER - '*Consonant_Head_Letter*'
- *  COATL_UCD_INSC_CONSONANT_KILLER - '*Consonant_Killer*'
- *  COATL_UCD_INSC_CONSONANT_MEDIAL - '*Consonant_Medial*'
- *  COATL_UCD_INSC_CONSONANT_PLACEHOLDER - '*Consonant_Placeholder*'
- *  COATL_UCD_INSC_CONSONANT_PRECEDING_REPHA - '*Consonant_Preceding_Repha*'
- *  COATL_UCD_INSC_CONSONANT_PREFIXED - '*Consonant_Prefixed*'
- *  COATL_UCD_INSC_CONSONANT_SUBJOINED - '*Consonant_Subjoined*'
- *  COATL_UCD_INSC_CONSONANT_SUCCEEDING_REPHA - '*Consonant_Succeeding_Repha*'
- *  COATL_UCD_INSC_CONSONANT_WITH_STACKER - '*Consonant_With_Stacker*'
- *  COATL_UCD_INSC_GEMINATION_MARK - '*Gemination_Mark*'
- *  COATL_UCD_INSC_INVISIBLE_STACKER - '*Invisible_Stacker*'
- *  COATL_UCD_INSC_JOINER - '*Joiner*'
- *  COATL_UCD_INSC_MODIFYING_LETTER - '*Modifying_Letter*'
- *  COATL_UCD_INSC_NON_JOINER - '*Non_Joiner*'
- *  COATL_UCD_INSC_NUKTA - '*Nukta*'
- *  COATL_UCD_INSC_NUMBER - '*Number*'
- *  COATL_UCD_INSC_NUMBER_JOINER - '*Number_Joiner*'
- *  COATL_UCD_INSC_OTHER - '*Other*'
- *  COATL_UCD_INSC_PURE_KILLER - '*Pure_Killer*'
- *  COATL_UCD_INSC_REGISTER_SHIFTER - '*Register_Shifter*'
- *  COATL_UCD_INSC_SYLLABLE_MODIFIER - '*Syllable_Modifier*'
- *  COATL_UCD_INSC_TONE_LETTER - '*Tone_Letter*'
- *  COATL_UCD_INSC_TONE_MARK - '*Tone_Mark*'
- *  COATL_UCD_INSC_VIRAMA - '*Virama*'
- *  COATL_UCD_INSC_VISARGA - '*Visarga*'
- *  COATL_UCD_INSC_VOWEL - '*Vowel*'
- *  COATL_UCD_INSC_VOWEL_DEPENDENT - '*Vowel_Dependent*'
- *  COATL_UCD_INSC_VOWEL_INDEPENDENT - '*Vowel_Independent*'
+ * @see COATL_UCD_INSC
  *
- * See also:
- *      <COATL_UCD_INSC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_INSC_AVAGRAHA
+ *      '**Avagraha**'
+ * @var COATL_UCD_INSC_BINDU
+ *      '**Bindu**'
+ * @var COATL_UCD_INSC_BRAHMI_JOINING_NUMBER
+ *      '**Brahmi_Joining_Number**'
+ * @var COATL_UCD_INSC_CANTILLATION_MARK
+ *      '**Cantillation_Mark**'
+ * @var COATL_UCD_INSC_CONSONANT
+ *      '**Consonant**'
+ * @var COATL_UCD_INSC_CONSONANT_DEAD
+ *      '**Consonant_Dead**'
+ * @var COATL_UCD_INSC_CONSONANT_FINAL
+ *      '**Consonant_Final**'
+ * @var COATL_UCD_INSC_CONSONANT_HEAD_LETTER
+ *      '**Consonant_Head_Letter**'
+ * @var COATL_UCD_INSC_CONSONANT_KILLER
+ *      '**Consonant_Killer**'
+ * @var COATL_UCD_INSC_CONSONANT_MEDIAL
+ *      '**Consonant_Medial**'
+ * @var COATL_UCD_INSC_CONSONANT_PLACEHOLDER
+ *      '**Consonant_Placeholder**'
+ * @var COATL_UCD_INSC_CONSONANT_PRECEDING_REPHA
+ *      '**Consonant_Preceding_Repha**'
+ * @var COATL_UCD_INSC_CONSONANT_PREFIXED
+ *      '**Consonant_Prefixed**'
+ * @var COATL_UCD_INSC_CONSONANT_SUBJOINED
+ *      '**Consonant_Subjoined**'
+ * @var COATL_UCD_INSC_CONSONANT_SUCCEEDING_REPHA
+ *      '**Consonant_Succeeding_Repha**'
+ * @var COATL_UCD_INSC_CONSONANT_WITH_STACKER
+ *      '**Consonant_With_Stacker**'
+ * @var COATL_UCD_INSC_GEMINATION_MARK
+ *      '**Gemination_Mark**'
+ * @var COATL_UCD_INSC_INVISIBLE_STACKER
+ *      '**Invisible_Stacker**'
+ * @var COATL_UCD_INSC_JOINER
+ *      '**Joiner**'
+ * @var COATL_UCD_INSC_MODIFYING_LETTER
+ *      '**Modifying_Letter**'
+ * @var COATL_UCD_INSC_NON_JOINER
+ *      '**Non_Joiner**'
+ * @var COATL_UCD_INSC_NUKTA
+ *      '**Nukta**'
+ * @var COATL_UCD_INSC_NUMBER
+ *      '**Number**'
+ * @var COATL_UCD_INSC_NUMBER_JOINER
+ *      '**Number_Joiner**'
+ * @var COATL_UCD_INSC_OTHER
+ *      '**Other**'
+ * @var COATL_UCD_INSC_PURE_KILLER
+ *      '**Pure_Killer**'
+ * @var COATL_UCD_INSC_REGISTER_SHIFTER
+ *      '**Register_Shifter**'
+ * @var COATL_UCD_INSC_SYLLABLE_MODIFIER
+ *      '**Syllable_Modifier**'
+ * @var COATL_UCD_INSC_TONE_LETTER
+ *      '**Tone_Letter**'
+ * @var COATL_UCD_INSC_TONE_MARK
+ *      '**Tone_Mark**'
+ * @var COATL_UCD_INSC_VIRAMA
+ *      '**Virama**'
+ * @var COATL_UCD_INSC_VISARGA
+ *      '**Visarga**'
+ * @var COATL_UCD_INSC_VOWEL
+ *      '**Vowel**'
+ * @var COATL_UCD_INSC_VOWEL_DEPENDENT
+ *      '**Vowel_Dependent**'
+ * @var COATL_UCD_INSC_VOWEL_INDEPENDENT
+ *      '**Vowel_Independent**'
+ */
 typedef enum Coatl_Ucd_InSC {
     COATL_UCD_INSC_AVAGRAHA=1,
     COATL_UCD_INSC_BINDU=2,
@@ -2325,120 +3243,203 @@ typedef enum Coatl_Ucd_InSC {
 
 } Coatl_Ucd_InSC;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_INSC_NBVALUES
+/**
+ * Number of values for Unicode character property '*InSC*'.
  *
- *      Number of values for Unicode character property '*InSC*'.
- *
- * See also:
- *      <Coatl_Ucd_InSC>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_InSC
+ */
 #define COATL_UCD_INSC_NBVALUES      35
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Jg
- *
- *      Values for Unicode character property '*jg*'.
+/**
+ * @enum Coatl_Ucd_Jg
+ *      Values for Unicode character property '**jg**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_JG_AFRICAN_FEH - '*African_Feh*'
- *  COATL_UCD_JG_AFRICAN_NOON - '*African_Noon*'
- *  COATL_UCD_JG_AFRICAN_QAF - '*African_Qaf*'
- *  COATL_UCD_JG_AIN - '*Ain*'
- *  COATL_UCD_JG_ALAPH - '*Alaph*'
- *  COATL_UCD_JG_ALEF - '*Alef*'
- *  COATL_UCD_JG_BEH - '*Beh*'
- *  COATL_UCD_JG_BETH - '*Beth*'
- *  COATL_UCD_JG_BURUSHASKI_YEH_BARREE - '*Burushaski_Yeh_Barree*'
- *  COATL_UCD_JG_DAL - '*Dal*'
- *  COATL_UCD_JG_DALATH_RISH - '*Dalath_Rish*'
- *  COATL_UCD_JG_E - '*E*'
- *  COATL_UCD_JG_FARSI_YEH - '*Farsi_Yeh*'
- *  COATL_UCD_JG_FE - '*Fe*'
- *  COATL_UCD_JG_FEH - '*Feh*'
- *  COATL_UCD_JG_FINAL_SEMKATH - '*Final_Semkath*'
- *  COATL_UCD_JG_GAF - '*Gaf*'
- *  COATL_UCD_JG_GAMAL - '*Gamal*'
- *  COATL_UCD_JG_HAH - '*Hah*'
- *  COATL_UCD_JG_HE - '*He*'
- *  COATL_UCD_JG_HEH - '*Heh*'
- *  COATL_UCD_JG_HEH_GOAL - '*Heh_Goal*'
- *  COATL_UCD_JG_HETH - '*Heth*'
- *  COATL_UCD_JG_KAF - '*Kaf*'
- *  COATL_UCD_JG_KAPH - '*Kaph*'
- *  COATL_UCD_JG_KHAPH - '*Khaph*'
- *  COATL_UCD_JG_KNOTTED_HEH - '*Knotted_Heh*'
- *  COATL_UCD_JG_LAM - '*Lam*'
- *  COATL_UCD_JG_LAMADH - '*Lamadh*'
- *  COATL_UCD_JG_MANICHAEAN_ALEPH - '*Manichaean_Aleph*'
- *  COATL_UCD_JG_MANICHAEAN_AYIN - '*Manichaean_Ayin*'
- *  COATL_UCD_JG_MANICHAEAN_BETH - '*Manichaean_Beth*'
- *  COATL_UCD_JG_MANICHAEAN_DALETH - '*Manichaean_Daleth*'
- *  COATL_UCD_JG_MANICHAEAN_DHAMEDH - '*Manichaean_Dhamedh*'
- *  COATL_UCD_JG_MANICHAEAN_FIVE - '*Manichaean_Five*'
- *  COATL_UCD_JG_MANICHAEAN_GIMEL - '*Manichaean_Gimel*'
- *  COATL_UCD_JG_MANICHAEAN_HETH - '*Manichaean_Heth*'
- *  COATL_UCD_JG_MANICHAEAN_HUNDRED - '*Manichaean_Hundred*'
- *  COATL_UCD_JG_MANICHAEAN_KAPH - '*Manichaean_Kaph*'
- *  COATL_UCD_JG_MANICHAEAN_LAMEDH - '*Manichaean_Lamedh*'
- *  COATL_UCD_JG_MANICHAEAN_MEM - '*Manichaean_Mem*'
- *  COATL_UCD_JG_MANICHAEAN_NUN - '*Manichaean_Nun*'
- *  COATL_UCD_JG_MANICHAEAN_ONE - '*Manichaean_One*'
- *  COATL_UCD_JG_MANICHAEAN_PE - '*Manichaean_Pe*'
- *  COATL_UCD_JG_MANICHAEAN_QOPH - '*Manichaean_Qoph*'
- *  COATL_UCD_JG_MANICHAEAN_RESH - '*Manichaean_Resh*'
- *  COATL_UCD_JG_MANICHAEAN_SADHE - '*Manichaean_Sadhe*'
- *  COATL_UCD_JG_MANICHAEAN_SAMEKH - '*Manichaean_Samekh*'
- *  COATL_UCD_JG_MANICHAEAN_TAW - '*Manichaean_Taw*'
- *  COATL_UCD_JG_MANICHAEAN_TEN - '*Manichaean_Ten*'
- *  COATL_UCD_JG_MANICHAEAN_TETH - '*Manichaean_Teth*'
- *  COATL_UCD_JG_MANICHAEAN_THAMEDH - '*Manichaean_Thamedh*'
- *  COATL_UCD_JG_MANICHAEAN_TWENTY - '*Manichaean_Twenty*'
- *  COATL_UCD_JG_MANICHAEAN_WAW - '*Manichaean_Waw*'
- *  COATL_UCD_JG_MANICHAEAN_YODH - '*Manichaean_Yodh*'
- *  COATL_UCD_JG_MANICHAEAN_ZAYIN - '*Manichaean_Zayin*'
- *  COATL_UCD_JG_MEEM - '*Meem*'
- *  COATL_UCD_JG_MIM - '*Mim*'
- *  COATL_UCD_JG_NO_JOINING_GROUP - '*No_Joining_Group*'
- *  COATL_UCD_JG_NOON - '*Noon*'
- *  COATL_UCD_JG_NUN - '*Nun*'
- *  COATL_UCD_JG_NYA - '*Nya*'
- *  COATL_UCD_JG_PE - '*Pe*'
- *  COATL_UCD_JG_QAF - '*Qaf*'
- *  COATL_UCD_JG_QAPH - '*Qaph*'
- *  COATL_UCD_JG_REH - '*Reh*'
- *  COATL_UCD_JG_REVERSED_PE - '*Reversed_Pe*'
- *  COATL_UCD_JG_ROHINGYA_YEH - '*Rohingya_Yeh*'
- *  COATL_UCD_JG_SAD - '*Sad*'
- *  COATL_UCD_JG_SADHE - '*Sadhe*'
- *  COATL_UCD_JG_SEEN - '*Seen*'
- *  COATL_UCD_JG_SEMKATH - '*Semkath*'
- *  COATL_UCD_JG_SHIN - '*Shin*'
- *  COATL_UCD_JG_STRAIGHT_WAW - '*Straight_Waw*'
- *  COATL_UCD_JG_SWASH_KAF - '*Swash_Kaf*'
- *  COATL_UCD_JG_SYRIAC_WAW - '*Syriac_Waw*'
- *  COATL_UCD_JG_TAH - '*Tah*'
- *  COATL_UCD_JG_TAW - '*Taw*'
- *  COATL_UCD_JG_TEH_MARBUTA - '*Teh_Marbuta*'
- *  COATL_UCD_JG_TEH_MARBUTA_GOAL - '*Teh_Marbuta_Goal*', '*Hamza_On_Heh_Goal*'
- *  COATL_UCD_JG_HAMZA_ON_HEH_GOAL - Alias for <COATL_UCD_JG_TEH_MARBUTA_GOAL>
- *  COATL_UCD_JG_TETH - '*Teth*'
- *  COATL_UCD_JG_WAW - '*Waw*'
- *  COATL_UCD_JG_YEH - '*Yeh*'
- *  COATL_UCD_JG_YEH_BARREE - '*Yeh_Barree*'
- *  COATL_UCD_JG_YEH_WITH_TAIL - '*Yeh_With_Tail*'
- *  COATL_UCD_JG_YUDH - '*Yudh*'
- *  COATL_UCD_JG_YUDH_HE - '*Yudh_He*'
- *  COATL_UCD_JG_ZAIN - '*Zain*'
- *  COATL_UCD_JG_ZHAIN - '*Zhain*'
+ * @see COATL_UCD_JG
  *
- * See also:
- *      <COATL_UCD_JG>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_JG_AFRICAN_FEH
+ *      '**African_Feh**'
+ * @var COATL_UCD_JG_AFRICAN_NOON
+ *      '**African_Noon**'
+ * @var COATL_UCD_JG_AFRICAN_QAF
+ *      '**African_Qaf**'
+ * @var COATL_UCD_JG_AIN
+ *      '**Ain**'
+ * @var COATL_UCD_JG_ALAPH
+ *      '**Alaph**'
+ * @var COATL_UCD_JG_ALEF
+ *      '**Alef**'
+ * @var COATL_UCD_JG_BEH
+ *      '**Beh**'
+ * @var COATL_UCD_JG_BETH
+ *      '**Beth**'
+ * @var COATL_UCD_JG_BURUSHASKI_YEH_BARREE
+ *      '**Burushaski_Yeh_Barree**'
+ * @var COATL_UCD_JG_DAL
+ *      '**Dal**'
+ * @var COATL_UCD_JG_DALATH_RISH
+ *      '**Dalath_Rish**'
+ * @var COATL_UCD_JG_E
+ *      '**E**'
+ * @var COATL_UCD_JG_FARSI_YEH
+ *      '**Farsi_Yeh**'
+ * @var COATL_UCD_JG_FE
+ *      '**Fe**'
+ * @var COATL_UCD_JG_FEH
+ *      '**Feh**'
+ * @var COATL_UCD_JG_FINAL_SEMKATH
+ *      '**Final_Semkath**'
+ * @var COATL_UCD_JG_GAF
+ *      '**Gaf**'
+ * @var COATL_UCD_JG_GAMAL
+ *      '**Gamal**'
+ * @var COATL_UCD_JG_HAH
+ *      '**Hah**'
+ * @var COATL_UCD_JG_HE
+ *      '**He**'
+ * @var COATL_UCD_JG_HEH
+ *      '**Heh**'
+ * @var COATL_UCD_JG_HEH_GOAL
+ *      '**Heh_Goal**'
+ * @var COATL_UCD_JG_HETH
+ *      '**Heth**'
+ * @var COATL_UCD_JG_KAF
+ *      '**Kaf**'
+ * @var COATL_UCD_JG_KAPH
+ *      '**Kaph**'
+ * @var COATL_UCD_JG_KHAPH
+ *      '**Khaph**'
+ * @var COATL_UCD_JG_KNOTTED_HEH
+ *      '**Knotted_Heh**'
+ * @var COATL_UCD_JG_LAM
+ *      '**Lam**'
+ * @var COATL_UCD_JG_LAMADH
+ *      '**Lamadh**'
+ * @var COATL_UCD_JG_MANICHAEAN_ALEPH
+ *      '**Manichaean_Aleph**'
+ * @var COATL_UCD_JG_MANICHAEAN_AYIN
+ *      '**Manichaean_Ayin**'
+ * @var COATL_UCD_JG_MANICHAEAN_BETH
+ *      '**Manichaean_Beth**'
+ * @var COATL_UCD_JG_MANICHAEAN_DALETH
+ *      '**Manichaean_Daleth**'
+ * @var COATL_UCD_JG_MANICHAEAN_DHAMEDH
+ *      '**Manichaean_Dhamedh**'
+ * @var COATL_UCD_JG_MANICHAEAN_FIVE
+ *      '**Manichaean_Five**'
+ * @var COATL_UCD_JG_MANICHAEAN_GIMEL
+ *      '**Manichaean_Gimel**'
+ * @var COATL_UCD_JG_MANICHAEAN_HETH
+ *      '**Manichaean_Heth**'
+ * @var COATL_UCD_JG_MANICHAEAN_HUNDRED
+ *      '**Manichaean_Hundred**'
+ * @var COATL_UCD_JG_MANICHAEAN_KAPH
+ *      '**Manichaean_Kaph**'
+ * @var COATL_UCD_JG_MANICHAEAN_LAMEDH
+ *      '**Manichaean_Lamedh**'
+ * @var COATL_UCD_JG_MANICHAEAN_MEM
+ *      '**Manichaean_Mem**'
+ * @var COATL_UCD_JG_MANICHAEAN_NUN
+ *      '**Manichaean_Nun**'
+ * @var COATL_UCD_JG_MANICHAEAN_ONE
+ *      '**Manichaean_One**'
+ * @var COATL_UCD_JG_MANICHAEAN_PE
+ *      '**Manichaean_Pe**'
+ * @var COATL_UCD_JG_MANICHAEAN_QOPH
+ *      '**Manichaean_Qoph**'
+ * @var COATL_UCD_JG_MANICHAEAN_RESH
+ *      '**Manichaean_Resh**'
+ * @var COATL_UCD_JG_MANICHAEAN_SADHE
+ *      '**Manichaean_Sadhe**'
+ * @var COATL_UCD_JG_MANICHAEAN_SAMEKH
+ *      '**Manichaean_Samekh**'
+ * @var COATL_UCD_JG_MANICHAEAN_TAW
+ *      '**Manichaean_Taw**'
+ * @var COATL_UCD_JG_MANICHAEAN_TEN
+ *      '**Manichaean_Ten**'
+ * @var COATL_UCD_JG_MANICHAEAN_TETH
+ *      '**Manichaean_Teth**'
+ * @var COATL_UCD_JG_MANICHAEAN_THAMEDH
+ *      '**Manichaean_Thamedh**'
+ * @var COATL_UCD_JG_MANICHAEAN_TWENTY
+ *      '**Manichaean_Twenty**'
+ * @var COATL_UCD_JG_MANICHAEAN_WAW
+ *      '**Manichaean_Waw**'
+ * @var COATL_UCD_JG_MANICHAEAN_YODH
+ *      '**Manichaean_Yodh**'
+ * @var COATL_UCD_JG_MANICHAEAN_ZAYIN
+ *      '**Manichaean_Zayin**'
+ * @var COATL_UCD_JG_MEEM
+ *      '**Meem**'
+ * @var COATL_UCD_JG_MIM
+ *      '**Mim**'
+ * @var COATL_UCD_JG_NO_JOINING_GROUP
+ *      '**No_Joining_Group**'
+ * @var COATL_UCD_JG_NOON
+ *      '**Noon**'
+ * @var COATL_UCD_JG_NUN
+ *      '**Nun**'
+ * @var COATL_UCD_JG_NYA
+ *      '**Nya**'
+ * @var COATL_UCD_JG_PE
+ *      '**Pe**'
+ * @var COATL_UCD_JG_QAF
+ *      '**Qaf**'
+ * @var COATL_UCD_JG_QAPH
+ *      '**Qaph**'
+ * @var COATL_UCD_JG_REH
+ *      '**Reh**'
+ * @var COATL_UCD_JG_REVERSED_PE
+ *      '**Reversed_Pe**'
+ * @var COATL_UCD_JG_ROHINGYA_YEH
+ *      '**Rohingya_Yeh**'
+ * @var COATL_UCD_JG_SAD
+ *      '**Sad**'
+ * @var COATL_UCD_JG_SADHE
+ *      '**Sadhe**'
+ * @var COATL_UCD_JG_SEEN
+ *      '**Seen**'
+ * @var COATL_UCD_JG_SEMKATH
+ *      '**Semkath**'
+ * @var COATL_UCD_JG_SHIN
+ *      '**Shin**'
+ * @var COATL_UCD_JG_STRAIGHT_WAW
+ *      '**Straight_Waw**'
+ * @var COATL_UCD_JG_SWASH_KAF
+ *      '**Swash_Kaf**'
+ * @var COATL_UCD_JG_SYRIAC_WAW
+ *      '**Syriac_Waw**'
+ * @var COATL_UCD_JG_TAH
+ *      '**Tah**'
+ * @var COATL_UCD_JG_TAW
+ *      '**Taw**'
+ * @var COATL_UCD_JG_TEH_MARBUTA
+ *      '**Teh_Marbuta**'
+ * @var COATL_UCD_JG_TEH_MARBUTA_GOAL
+ *      '**Teh_Marbuta_Goal**', '**Hamza_On_Heh_Goal**'
+ * @var COATL_UCD_JG_HAMZA_ON_HEH_GOAL
+ *      Alias for #COATL_UCD_JG_TEH_MARBUTA_GOAL
+ * @var COATL_UCD_JG_TETH
+ *      '**Teth**'
+ * @var COATL_UCD_JG_WAW
+ *      '**Waw**'
+ * @var COATL_UCD_JG_YEH
+ *      '**Yeh**'
+ * @var COATL_UCD_JG_YEH_BARREE
+ *      '**Yeh_Barree**'
+ * @var COATL_UCD_JG_YEH_WITH_TAIL
+ *      '**Yeh_With_Tail**'
+ * @var COATL_UCD_JG_YUDH
+ *      '**Yudh**'
+ * @var COATL_UCD_JG_YUDH_HE
+ *      '**Yudh_He**'
+ * @var COATL_UCD_JG_ZAIN
+ *      '**Zain**'
+ * @var COATL_UCD_JG_ZHAIN
+ *      '**Zhain**'
+ */
 typedef enum Coatl_Ucd_Jg {
     COATL_UCD_JG_AFRICAN_FEH=1,
     COATL_UCD_JG_AFRICAN_NOON=2,
@@ -2533,42 +3534,47 @@ typedef enum Coatl_Ucd_Jg {
 
 } Coatl_Ucd_Jg;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_JG_NBVALUES
+/**
+ * Number of values for Unicode character property '*jg*'.
  *
- *      Number of values for Unicode character property '*jg*'.
- *
- * See also:
- *      <Coatl_Ucd_Jg>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Jg
+ */
 #define COATL_UCD_JG_NBVALUES        89
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Jt
- *
- *      Values for Unicode character property '*jt*'.
+/**
+ * @enum Coatl_Ucd_Jt
+ *      Values for Unicode character property '**jt**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_JT_C - '*C*', '*Join_Causing*'
- *  COATL_UCD_JT_JOIN_CAUSING - Alias for <COATL_UCD_JT_C>
- *  COATL_UCD_JT_D - '*D*', '*Dual_Joining*'
- *  COATL_UCD_JT_DUAL_JOINING - Alias for <COATL_UCD_JT_D>
- *  COATL_UCD_JT_L - '*L*', '*Left_Joining*'
- *  COATL_UCD_JT_LEFT_JOINING - Alias for <COATL_UCD_JT_L>
- *  COATL_UCD_JT_R - '*R*', '*Right_Joining*'
- *  COATL_UCD_JT_RIGHT_JOINING - Alias for <COATL_UCD_JT_R>
- *  COATL_UCD_JT_T - '*T*', '*Transparent*'
- *  COATL_UCD_JT_TRANSPARENT - Alias for <COATL_UCD_JT_T>
- *  COATL_UCD_JT_U - '*U*', '*Non_Joining*'
- *  COATL_UCD_JT_NON_JOINING - Alias for <COATL_UCD_JT_U>
+ * @see COATL_UCD_JT
  *
- * See also:
- *      <COATL_UCD_JT>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_JT_C
+ *      '**C**', '**Join_Causing**'
+ * @var COATL_UCD_JT_JOIN_CAUSING
+ *      Alias for #COATL_UCD_JT_C
+ * @var COATL_UCD_JT_D
+ *      '**D**', '**Dual_Joining**'
+ * @var COATL_UCD_JT_DUAL_JOINING
+ *      Alias for #COATL_UCD_JT_D
+ * @var COATL_UCD_JT_L
+ *      '**L**', '**Left_Joining**'
+ * @var COATL_UCD_JT_LEFT_JOINING
+ *      Alias for #COATL_UCD_JT_L
+ * @var COATL_UCD_JT_R
+ *      '**R**', '**Right_Joining**'
+ * @var COATL_UCD_JT_RIGHT_JOINING
+ *      Alias for #COATL_UCD_JT_R
+ * @var COATL_UCD_JT_T
+ *      '**T**', '**Transparent**'
+ * @var COATL_UCD_JT_TRANSPARENT
+ *      Alias for #COATL_UCD_JT_T
+ * @var COATL_UCD_JT_U
+ *      '**U**', '**Non_Joining**'
+ * @var COATL_UCD_JT_NON_JOINING
+ *      Alias for #COATL_UCD_JT_U
+ */
 typedef enum Coatl_Ucd_Jt {
     COATL_UCD_JT_C=1,
         COATL_UCD_JT_JOIN_CAUSING=COATL_UCD_JT_C,
@@ -2585,111 +3591,185 @@ typedef enum Coatl_Ucd_Jt {
 
 } Coatl_Ucd_Jt;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_JT_NBVALUES
+/**
+ * Number of values for Unicode character property '*jt*'.
  *
- *      Number of values for Unicode character property '*jt*'.
- *
- * See also:
- *      <Coatl_Ucd_Jt>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Jt
+ */
 #define COATL_UCD_JT_NBVALUES        6
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Lb
- *
- *      Values for Unicode character property '*lb*'.
+/**
+ * @enum Coatl_Ucd_Lb
+ *      Values for Unicode character property '**lb**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_LB_AI - '*AI*', '*Ambiguous*'
- *  COATL_UCD_LB_AMBIGUOUS - Alias for <COATL_UCD_LB_AI>
- *  COATL_UCD_LB_AL - '*AL*', '*Alphabetic*'
- *  COATL_UCD_LB_ALPHABETIC - Alias for <COATL_UCD_LB_AL>
- *  COATL_UCD_LB_B2 - '*B2*', '*Break_Both*'
- *  COATL_UCD_LB_BREAK_BOTH - Alias for <COATL_UCD_LB_B2>
- *  COATL_UCD_LB_BA - '*BA*', '*Break_After*'
- *  COATL_UCD_LB_BREAK_AFTER - Alias for <COATL_UCD_LB_BA>
- *  COATL_UCD_LB_BB - '*BB*', '*Break_Before*'
- *  COATL_UCD_LB_BREAK_BEFORE - Alias for <COATL_UCD_LB_BB>
- *  COATL_UCD_LB_BK - '*BK*', '*Mandatory_Break*'
- *  COATL_UCD_LB_MANDATORY_BREAK - Alias for <COATL_UCD_LB_BK>
- *  COATL_UCD_LB_CB - '*CB*', '*Contingent_Break*'
- *  COATL_UCD_LB_CONTINGENT_BREAK - Alias for <COATL_UCD_LB_CB>
- *  COATL_UCD_LB_CJ - '*CJ*', '*Conditional_Japanese_Starter*'
- *  COATL_UCD_LB_CONDITIONAL_JAPANESE_STARTER - Alias for <COATL_UCD_LB_CJ>
- *  COATL_UCD_LB_CL - '*CL*', '*Close_Punctuation*'
- *  COATL_UCD_LB_CLOSE_PUNCTUATION - Alias for <COATL_UCD_LB_CL>
- *  COATL_UCD_LB_CM - '*CM*', '*Combining_Mark*'
- *  COATL_UCD_LB_COMBINING_MARK - Alias for <COATL_UCD_LB_CM>
- *  COATL_UCD_LB_CP - '*CP*', '*Close_Parenthesis*'
- *  COATL_UCD_LB_CLOSE_PARENTHESIS - Alias for <COATL_UCD_LB_CP>
- *  COATL_UCD_LB_CR - '*CR*', '*Carriage_Return*'
- *  COATL_UCD_LB_CARRIAGE_RETURN - Alias for <COATL_UCD_LB_CR>
- *  COATL_UCD_LB_EB - '*EB*', '*E_Base*'
- *  COATL_UCD_LB_E_BASE - Alias for <COATL_UCD_LB_EB>
- *  COATL_UCD_LB_EM - '*EM*', '*E_Modifier*'
- *  COATL_UCD_LB_E_MODIFIER - Alias for <COATL_UCD_LB_EM>
- *  COATL_UCD_LB_EX - '*EX*', '*Exclamation*'
- *  COATL_UCD_LB_EXCLAMATION - Alias for <COATL_UCD_LB_EX>
- *  COATL_UCD_LB_GL - '*GL*', '*Glue*'
- *  COATL_UCD_LB_GLUE - Alias for <COATL_UCD_LB_GL>
- *  COATL_UCD_LB_H2 - '*H2*'
- *  COATL_UCD_LB_H3 - '*H3*'
- *  COATL_UCD_LB_HL - '*HL*', '*Hebrew_Letter*'
- *  COATL_UCD_LB_HEBREW_LETTER - Alias for <COATL_UCD_LB_HL>
- *  COATL_UCD_LB_HY - '*HY*', '*Hyphen*'
- *  COATL_UCD_LB_HYPHEN - Alias for <COATL_UCD_LB_HY>
- *  COATL_UCD_LB_ID - '*ID*', '*Ideographic*'
- *  COATL_UCD_LB_IDEOGRAPHIC - Alias for <COATL_UCD_LB_ID>
- *  COATL_UCD_LB_IN - '*IN*', '*Inseparable*', '*Inseperable*'
- *  COATL_UCD_LB_INSEPARABLE - Alias for <COATL_UCD_LB_IN>
- *  COATL_UCD_LB_INSEPERABLE - Alias for <COATL_UCD_LB_IN>
- *  COATL_UCD_LB_IS - '*IS*', '*Infix_Numeric*'
- *  COATL_UCD_LB_INFIX_NUMERIC - Alias for <COATL_UCD_LB_IS>
- *  COATL_UCD_LB_JL - '*JL*'
- *  COATL_UCD_LB_JT - '*JT*'
- *  COATL_UCD_LB_JV - '*JV*'
- *  COATL_UCD_LB_LF - '*LF*', '*Line_Feed*'
- *  COATL_UCD_LB_LINE_FEED - Alias for <COATL_UCD_LB_LF>
- *  COATL_UCD_LB_NL - '*NL*', '*Next_Line*'
- *  COATL_UCD_LB_NEXT_LINE - Alias for <COATL_UCD_LB_NL>
- *  COATL_UCD_LB_NS - '*NS*', '*Nonstarter*'
- *  COATL_UCD_LB_NONSTARTER - Alias for <COATL_UCD_LB_NS>
- *  COATL_UCD_LB_NU - '*NU*', '*Numeric*'
- *  COATL_UCD_LB_NUMERIC - Alias for <COATL_UCD_LB_NU>
- *  COATL_UCD_LB_OP - '*OP*', '*Open_Punctuation*'
- *  COATL_UCD_LB_OPEN_PUNCTUATION - Alias for <COATL_UCD_LB_OP>
- *  COATL_UCD_LB_PO - '*PO*', '*Postfix_Numeric*'
- *  COATL_UCD_LB_POSTFIX_NUMERIC - Alias for <COATL_UCD_LB_PO>
- *  COATL_UCD_LB_PR - '*PR*', '*Prefix_Numeric*'
- *  COATL_UCD_LB_PREFIX_NUMERIC - Alias for <COATL_UCD_LB_PR>
- *  COATL_UCD_LB_QU - '*QU*', '*Quotation*'
- *  COATL_UCD_LB_QUOTATION - Alias for <COATL_UCD_LB_QU>
- *  COATL_UCD_LB_RI - '*RI*', '*Regional_Indicator*'
- *  COATL_UCD_LB_REGIONAL_INDICATOR - Alias for <COATL_UCD_LB_RI>
- *  COATL_UCD_LB_SA - '*SA*', '*Complex_Context*'
- *  COATL_UCD_LB_COMPLEX_CONTEXT - Alias for <COATL_UCD_LB_SA>
- *  COATL_UCD_LB_SG - '*SG*', '*Surrogate*'
- *  COATL_UCD_LB_SURROGATE - Alias for <COATL_UCD_LB_SG>
- *  COATL_UCD_LB_SP - '*SP*', '*Space*'
- *  COATL_UCD_LB_SPACE - Alias for <COATL_UCD_LB_SP>
- *  COATL_UCD_LB_SY - '*SY*', '*Break_Symbols*'
- *  COATL_UCD_LB_BREAK_SYMBOLS - Alias for <COATL_UCD_LB_SY>
- *  COATL_UCD_LB_WJ - '*WJ*', '*Word_Joiner*'
- *  COATL_UCD_LB_WORD_JOINER - Alias for <COATL_UCD_LB_WJ>
- *  COATL_UCD_LB_XX - '*XX*', '*Unknown*'
- *  COATL_UCD_LB_UNKNOWN - Alias for <COATL_UCD_LB_XX>
- *  COATL_UCD_LB_ZW - '*ZW*', '*ZWSpace*'
- *  COATL_UCD_LB_ZWSPACE - Alias for <COATL_UCD_LB_ZW>
- *  COATL_UCD_LB_ZWJ - '*ZWJ*'
+ * @see COATL_UCD_LB
  *
- * See also:
- *      <COATL_UCD_LB>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_LB_AI
+ *      '**AI**', '**Ambiguous**'
+ * @var COATL_UCD_LB_AMBIGUOUS
+ *      Alias for #COATL_UCD_LB_AI
+ * @var COATL_UCD_LB_AL
+ *      '**AL**', '**Alphabetic**'
+ * @var COATL_UCD_LB_ALPHABETIC
+ *      Alias for #COATL_UCD_LB_AL
+ * @var COATL_UCD_LB_B2
+ *      '**B2**', '**Break_Both**'
+ * @var COATL_UCD_LB_BREAK_BOTH
+ *      Alias for #COATL_UCD_LB_B2
+ * @var COATL_UCD_LB_BA
+ *      '**BA**', '**Break_After**'
+ * @var COATL_UCD_LB_BREAK_AFTER
+ *      Alias for #COATL_UCD_LB_BA
+ * @var COATL_UCD_LB_BB
+ *      '**BB**', '**Break_Before**'
+ * @var COATL_UCD_LB_BREAK_BEFORE
+ *      Alias for #COATL_UCD_LB_BB
+ * @var COATL_UCD_LB_BK
+ *      '**BK**', '**Mandatory_Break**'
+ * @var COATL_UCD_LB_MANDATORY_BREAK
+ *      Alias for #COATL_UCD_LB_BK
+ * @var COATL_UCD_LB_CB
+ *      '**CB**', '**Contingent_Break**'
+ * @var COATL_UCD_LB_CONTINGENT_BREAK
+ *      Alias for #COATL_UCD_LB_CB
+ * @var COATL_UCD_LB_CJ
+ *      '**CJ**', '**Conditional_Japanese_Starter**'
+ * @var COATL_UCD_LB_CONDITIONAL_JAPANESE_STARTER
+ *      Alias for #COATL_UCD_LB_CJ
+ * @var COATL_UCD_LB_CL
+ *      '**CL**', '**Close_Punctuation**'
+ * @var COATL_UCD_LB_CLOSE_PUNCTUATION
+ *      Alias for #COATL_UCD_LB_CL
+ * @var COATL_UCD_LB_CM
+ *      '**CM**', '**Combining_Mark**'
+ * @var COATL_UCD_LB_COMBINING_MARK
+ *      Alias for #COATL_UCD_LB_CM
+ * @var COATL_UCD_LB_CP
+ *      '**CP**', '**Close_Parenthesis**'
+ * @var COATL_UCD_LB_CLOSE_PARENTHESIS
+ *      Alias for #COATL_UCD_LB_CP
+ * @var COATL_UCD_LB_CR
+ *      '**CR**', '**Carriage_Return**'
+ * @var COATL_UCD_LB_CARRIAGE_RETURN
+ *      Alias for #COATL_UCD_LB_CR
+ * @var COATL_UCD_LB_EB
+ *      '**EB**', '**E_Base**'
+ * @var COATL_UCD_LB_E_BASE
+ *      Alias for #COATL_UCD_LB_EB
+ * @var COATL_UCD_LB_EM
+ *      '**EM**', '**E_Modifier**'
+ * @var COATL_UCD_LB_E_MODIFIER
+ *      Alias for #COATL_UCD_LB_EM
+ * @var COATL_UCD_LB_EX
+ *      '**EX**', '**Exclamation**'
+ * @var COATL_UCD_LB_EXCLAMATION
+ *      Alias for #COATL_UCD_LB_EX
+ * @var COATL_UCD_LB_GL
+ *      '**GL**', '**Glue**'
+ * @var COATL_UCD_LB_GLUE
+ *      Alias for #COATL_UCD_LB_GL
+ * @var COATL_UCD_LB_H2
+ *      '**H2**'
+ * @var COATL_UCD_LB_H3
+ *      '**H3**'
+ * @var COATL_UCD_LB_HL
+ *      '**HL**', '**Hebrew_Letter**'
+ * @var COATL_UCD_LB_HEBREW_LETTER
+ *      Alias for #COATL_UCD_LB_HL
+ * @var COATL_UCD_LB_HY
+ *      '**HY**', '**Hyphen**'
+ * @var COATL_UCD_LB_HYPHEN
+ *      Alias for #COATL_UCD_LB_HY
+ * @var COATL_UCD_LB_ID
+ *      '**ID**', '**Ideographic**'
+ * @var COATL_UCD_LB_IDEOGRAPHIC
+ *      Alias for #COATL_UCD_LB_ID
+ * @var COATL_UCD_LB_IN
+ *      '**IN**', '**Inseparable**', '**Inseperable**'
+ * @var COATL_UCD_LB_INSEPARABLE
+ *      Alias for #COATL_UCD_LB_IN
+ * @var COATL_UCD_LB_INSEPERABLE
+ *      Alias for #COATL_UCD_LB_IN
+ * @var COATL_UCD_LB_IS
+ *      '**IS**', '**Infix_Numeric**'
+ * @var COATL_UCD_LB_INFIX_NUMERIC
+ *      Alias for #COATL_UCD_LB_IS
+ * @var COATL_UCD_LB_JL
+ *      '**JL**'
+ * @var COATL_UCD_LB_JT
+ *      '**JT**'
+ * @var COATL_UCD_LB_JV
+ *      '**JV**'
+ * @var COATL_UCD_LB_LF
+ *      '**LF**', '**Line_Feed**'
+ * @var COATL_UCD_LB_LINE_FEED
+ *      Alias for #COATL_UCD_LB_LF
+ * @var COATL_UCD_LB_NL
+ *      '**NL**', '**Next_Line**'
+ * @var COATL_UCD_LB_NEXT_LINE
+ *      Alias for #COATL_UCD_LB_NL
+ * @var COATL_UCD_LB_NS
+ *      '**NS**', '**Nonstarter**'
+ * @var COATL_UCD_LB_NONSTARTER
+ *      Alias for #COATL_UCD_LB_NS
+ * @var COATL_UCD_LB_NU
+ *      '**NU**', '**Numeric**'
+ * @var COATL_UCD_LB_NUMERIC
+ *      Alias for #COATL_UCD_LB_NU
+ * @var COATL_UCD_LB_OP
+ *      '**OP**', '**Open_Punctuation**'
+ * @var COATL_UCD_LB_OPEN_PUNCTUATION
+ *      Alias for #COATL_UCD_LB_OP
+ * @var COATL_UCD_LB_PO
+ *      '**PO**', '**Postfix_Numeric**'
+ * @var COATL_UCD_LB_POSTFIX_NUMERIC
+ *      Alias for #COATL_UCD_LB_PO
+ * @var COATL_UCD_LB_PR
+ *      '**PR**', '**Prefix_Numeric**'
+ * @var COATL_UCD_LB_PREFIX_NUMERIC
+ *      Alias for #COATL_UCD_LB_PR
+ * @var COATL_UCD_LB_QU
+ *      '**QU**', '**Quotation**'
+ * @var COATL_UCD_LB_QUOTATION
+ *      Alias for #COATL_UCD_LB_QU
+ * @var COATL_UCD_LB_RI
+ *      '**RI**', '**Regional_Indicator**'
+ * @var COATL_UCD_LB_REGIONAL_INDICATOR
+ *      Alias for #COATL_UCD_LB_RI
+ * @var COATL_UCD_LB_SA
+ *      '**SA**', '**Complex_Context**'
+ * @var COATL_UCD_LB_COMPLEX_CONTEXT
+ *      Alias for #COATL_UCD_LB_SA
+ * @var COATL_UCD_LB_SG
+ *      '**SG**', '**Surrogate**'
+ * @var COATL_UCD_LB_SURROGATE
+ *      Alias for #COATL_UCD_LB_SG
+ * @var COATL_UCD_LB_SP
+ *      '**SP**', '**Space**'
+ * @var COATL_UCD_LB_SPACE
+ *      Alias for #COATL_UCD_LB_SP
+ * @var COATL_UCD_LB_SY
+ *      '**SY**', '**Break_Symbols**'
+ * @var COATL_UCD_LB_BREAK_SYMBOLS
+ *      Alias for #COATL_UCD_LB_SY
+ * @var COATL_UCD_LB_WJ
+ *      '**WJ**', '**Word_Joiner**'
+ * @var COATL_UCD_LB_WORD_JOINER
+ *      Alias for #COATL_UCD_LB_WJ
+ * @var COATL_UCD_LB_XX
+ *      '**XX**', '**Unknown**'
+ * @var COATL_UCD_LB_UNKNOWN
+ *      Alias for #COATL_UCD_LB_XX
+ * @var COATL_UCD_LB_ZW
+ *      '**ZW**', '**ZWSpace**'
+ * @var COATL_UCD_LB_ZWSPACE
+ *      Alias for #COATL_UCD_LB_ZW
+ * @var COATL_UCD_LB_ZWJ
+ *      '**ZWJ**'
+ */
 typedef enum Coatl_Ucd_Lb {
     COATL_UCD_LB_AI=1,
         COATL_UCD_LB_AMBIGUOUS=COATL_UCD_LB_AI,
@@ -2775,36 +3855,35 @@ typedef enum Coatl_Ucd_Lb {
 
 } Coatl_Ucd_Lb;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_LB_NBVALUES
+/**
+ * Number of values for Unicode character property '*lb*'.
  *
- *      Number of values for Unicode character property '*lb*'.
- *
- * See also:
- *      <Coatl_Ucd_Lb>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Lb
+ */
 #define COATL_UCD_LB_NBVALUES        43
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_NFC_QC
- *
- *      Values for Unicode character property '*NFC_QC*'.
+/**
+ * @enum Coatl_Ucd_NFC_QC
+ *      Values for Unicode character property '**NFC_QC**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_NFC_QC_M - '*M*', '*Maybe*'
- *  COATL_UCD_NFC_QC_MAYBE - Alias for <COATL_UCD_NFC_QC_M>
- *  COATL_UCD_NFC_QC_N - '*N*', '*No*'
- *  COATL_UCD_NFC_QC_NO - Alias for <COATL_UCD_NFC_QC_N>
- *  COATL_UCD_NFC_QC_Y - '*Y*', '*Yes*'
- *  COATL_UCD_NFC_QC_YES - Alias for <COATL_UCD_NFC_QC_Y>
+ * @see COATL_UCD_NFC_QC
  *
- * See also:
- *      <COATL_UCD_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_NFC_QC_M
+ *      '**M**', '**Maybe**'
+ * @var COATL_UCD_NFC_QC_MAYBE
+ *      Alias for #COATL_UCD_NFC_QC_M
+ * @var COATL_UCD_NFC_QC_N
+ *      '**N**', '**No**'
+ * @var COATL_UCD_NFC_QC_NO
+ *      Alias for #COATL_UCD_NFC_QC_N
+ * @var COATL_UCD_NFC_QC_Y
+ *      '**Y**', '**Yes**'
+ * @var COATL_UCD_NFC_QC_YES
+ *      Alias for #COATL_UCD_NFC_QC_Y
+ */
 typedef enum Coatl_Ucd_NFC_QC {
     COATL_UCD_NFC_QC_M=1,
         COATL_UCD_NFC_QC_MAYBE=COATL_UCD_NFC_QC_M,
@@ -2815,36 +3894,35 @@ typedef enum Coatl_Ucd_NFC_QC {
 
 } Coatl_Ucd_NFC_QC;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_NFC_QC_NBVALUES
+/**
+ * Number of values for Unicode character property '*NFC_QC*'.
  *
- *      Number of values for Unicode character property '*NFC_QC*'.
- *
- * See also:
- *      <Coatl_Ucd_NFC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_NFC_QC
+ */
 #define COATL_UCD_NFC_QC_NBVALUES    3
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_NFKC_QC
- *
- *      Values for Unicode character property '*NFKC_QC*'.
+/**
+ * @enum Coatl_Ucd_NFKC_QC
+ *      Values for Unicode character property '**NFKC_QC**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_NFKC_QC_M - '*M*', '*Maybe*'
- *  COATL_UCD_NFKC_QC_MAYBE - Alias for <COATL_UCD_NFKC_QC_M>
- *  COATL_UCD_NFKC_QC_N - '*N*', '*No*'
- *  COATL_UCD_NFKC_QC_NO - Alias for <COATL_UCD_NFKC_QC_N>
- *  COATL_UCD_NFKC_QC_Y - '*Y*', '*Yes*'
- *  COATL_UCD_NFKC_QC_YES - Alias for <COATL_UCD_NFKC_QC_Y>
+ * @see COATL_UCD_NFKC_QC
  *
- * See also:
- *      <COATL_UCD_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_NFKC_QC_M
+ *      '**M**', '**Maybe**'
+ * @var COATL_UCD_NFKC_QC_MAYBE
+ *      Alias for #COATL_UCD_NFKC_QC_M
+ * @var COATL_UCD_NFKC_QC_N
+ *      '**N**', '**No**'
+ * @var COATL_UCD_NFKC_QC_NO
+ *      Alias for #COATL_UCD_NFKC_QC_N
+ * @var COATL_UCD_NFKC_QC_Y
+ *      '**Y**', '**Yes**'
+ * @var COATL_UCD_NFKC_QC_YES
+ *      Alias for #COATL_UCD_NFKC_QC_Y
+ */
 typedef enum Coatl_Ucd_NFKC_QC {
     COATL_UCD_NFKC_QC_M=1,
         COATL_UCD_NFKC_QC_MAYBE=COATL_UCD_NFKC_QC_M,
@@ -2855,37 +3933,37 @@ typedef enum Coatl_Ucd_NFKC_QC {
 
 } Coatl_Ucd_NFKC_QC;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_NFKC_QC_NBVALUES
+/**
+ * Number of values for Unicode character property '*NFKC_QC*'.
  *
- *      Number of values for Unicode character property '*NFKC_QC*'.
- *
- * See also:
- *      <Coatl_Ucd_NFKC_QC>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_NFKC_QC
+ */
 #define COATL_UCD_NFKC_QC_NBVALUES   3
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Nt
- *
- *      Values for Unicode character property '*nt*'.
+/**
+ * @enum Coatl_Ucd_Nt
+ *      Values for Unicode character property '**nt**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_NT_DE - '*De*', '*Decimal*'
- *  COATL_UCD_NT_DECIMAL - Alias for <COATL_UCD_NT_DE>
- *  COATL_UCD_NT_DI - '*Di*', '*Digit*'
- *  COATL_UCD_NT_DIGIT - Alias for <COATL_UCD_NT_DI>
- *  COATL_UCD_NT_NONE - '*None*'
- *  COATL_UCD_NT_NU - '*Nu*', '*Numeric*'
- *  COATL_UCD_NT_NUMERIC - Alias for <COATL_UCD_NT_NU>
+ * @see COATL_UCD_NT
  *
- * See also:
- *      <COATL_UCD_NT>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_NT_DE
+ *      '**De**', '**Decimal**'
+ * @var COATL_UCD_NT_DECIMAL
+ *      Alias for #COATL_UCD_NT_DE
+ * @var COATL_UCD_NT_DI
+ *      '**Di**', '**Digit**'
+ * @var COATL_UCD_NT_DIGIT
+ *      Alias for #COATL_UCD_NT_DI
+ * @var COATL_UCD_NT_NONE
+ *      '**None**'
+ * @var COATL_UCD_NT_NU
+ *      '**Nu**', '**Numeric**'
+ * @var COATL_UCD_NT_NUMERIC
+ *      Alias for #COATL_UCD_NT_NU
+ */
 typedef enum Coatl_Ucd_Nt {
     COATL_UCD_NT_DE=1,
         COATL_UCD_NT_DECIMAL=COATL_UCD_NT_DE,
@@ -2897,57 +3975,77 @@ typedef enum Coatl_Ucd_Nt {
 
 } Coatl_Ucd_Nt;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_NT_NBVALUES
+/**
+ * Number of values for Unicode character property '*nt*'.
  *
- *      Number of values for Unicode character property '*nt*'.
- *
- * See also:
- *      <Coatl_Ucd_Nt>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Nt
+ */
 #define COATL_UCD_NT_NBVALUES        4
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_SB
- *
- *      Values for Unicode character property '*SB*'.
+/**
+ * @enum Coatl_Ucd_SB
+ *      Values for Unicode character property '**SB**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_SB_AT - '*AT*', '*ATerm*'
- *  COATL_UCD_SB_ATERM - Alias for <COATL_UCD_SB_AT>
- *  COATL_UCD_SB_CL - '*CL*', '*Close*'
- *  COATL_UCD_SB_CLOSE - Alias for <COATL_UCD_SB_CL>
- *  COATL_UCD_SB_CR - '*CR*'
- *  COATL_UCD_SB_EX - '*EX*', '*Extend*'
- *  COATL_UCD_SB_EXTEND - Alias for <COATL_UCD_SB_EX>
- *  COATL_UCD_SB_FO - '*FO*', '*Format*'
- *  COATL_UCD_SB_FORMAT - Alias for <COATL_UCD_SB_FO>
- *  COATL_UCD_SB_LE - '*LE*', '*OLetter*'
- *  COATL_UCD_SB_OLETTER - Alias for <COATL_UCD_SB_LE>
- *  COATL_UCD_SB_LF - '*LF*'
- *  COATL_UCD_SB_LO - '*LO*', '*Lower*'
- *  COATL_UCD_SB_LOWER - Alias for <COATL_UCD_SB_LO>
- *  COATL_UCD_SB_NU - '*NU*', '*Numeric*'
- *  COATL_UCD_SB_NUMERIC - Alias for <COATL_UCD_SB_NU>
- *  COATL_UCD_SB_SC - '*SC*', '*SContinue*'
- *  COATL_UCD_SB_SCONTINUE - Alias for <COATL_UCD_SB_SC>
- *  COATL_UCD_SB_SE - '*SE*', '*Sep*'
- *  COATL_UCD_SB_SEP - Alias for <COATL_UCD_SB_SE>
- *  COATL_UCD_SB_SP - '*SP*', '*Sp*'
- *  COATL_UCD_SB_ST - '*ST*', '*STerm*'
- *  COATL_UCD_SB_STERM - Alias for <COATL_UCD_SB_ST>
- *  COATL_UCD_SB_UP - '*UP*', '*Upper*'
- *  COATL_UCD_SB_UPPER - Alias for <COATL_UCD_SB_UP>
- *  COATL_UCD_SB_XX - '*XX*', '*Other*'
- *  COATL_UCD_SB_OTHER - Alias for <COATL_UCD_SB_XX>
+ * @see COATL_UCD_SB
  *
- * See also:
- *      <COATL_UCD_SB>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_SB_AT
+ *      '**AT**', '**ATerm**'
+ * @var COATL_UCD_SB_ATERM
+ *      Alias for #COATL_UCD_SB_AT
+ * @var COATL_UCD_SB_CL
+ *      '**CL**', '**Close**'
+ * @var COATL_UCD_SB_CLOSE
+ *      Alias for #COATL_UCD_SB_CL
+ * @var COATL_UCD_SB_CR
+ *      '**CR**'
+ * @var COATL_UCD_SB_EX
+ *      '**EX**', '**Extend**'
+ * @var COATL_UCD_SB_EXTEND
+ *      Alias for #COATL_UCD_SB_EX
+ * @var COATL_UCD_SB_FO
+ *      '**FO**', '**Format**'
+ * @var COATL_UCD_SB_FORMAT
+ *      Alias for #COATL_UCD_SB_FO
+ * @var COATL_UCD_SB_LE
+ *      '**LE**', '**OLetter**'
+ * @var COATL_UCD_SB_OLETTER
+ *      Alias for #COATL_UCD_SB_LE
+ * @var COATL_UCD_SB_LF
+ *      '**LF**'
+ * @var COATL_UCD_SB_LO
+ *      '**LO**', '**Lower**'
+ * @var COATL_UCD_SB_LOWER
+ *      Alias for #COATL_UCD_SB_LO
+ * @var COATL_UCD_SB_NU
+ *      '**NU**', '**Numeric**'
+ * @var COATL_UCD_SB_NUMERIC
+ *      Alias for #COATL_UCD_SB_NU
+ * @var COATL_UCD_SB_SC
+ *      '**SC**', '**SContinue**'
+ * @var COATL_UCD_SB_SCONTINUE
+ *      Alias for #COATL_UCD_SB_SC
+ * @var COATL_UCD_SB_SE
+ *      '**SE**', '**Sep**'
+ * @var COATL_UCD_SB_SEP
+ *      Alias for #COATL_UCD_SB_SE
+ * @var COATL_UCD_SB_SP
+ *      '**SP**', '**Sp**'
+ * @var COATL_UCD_SB_ST
+ *      '**ST**', '**STerm**'
+ * @var COATL_UCD_SB_STERM
+ *      Alias for #COATL_UCD_SB_ST
+ * @var COATL_UCD_SB_UP
+ *      '**UP**', '**Upper**'
+ * @var COATL_UCD_SB_UPPER
+ *      Alias for #COATL_UCD_SB_UP
+ * @var COATL_UCD_SB_XX
+ *      '**XX**', '**Other**'
+ * @var COATL_UCD_SB_OTHER
+ *      Alias for #COATL_UCD_SB_XX
+ */
 typedef enum Coatl_Ucd_SB {
     COATL_UCD_SB_AT=1,
         COATL_UCD_SB_ATERM=COATL_UCD_SB_AT,
@@ -2979,304 +4077,571 @@ typedef enum Coatl_Ucd_SB {
 
 } Coatl_Ucd_SB;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_SB_NBVALUES
+/**
+ * Number of values for Unicode character property '*SB*'.
  *
- *      Number of values for Unicode character property '*SB*'.
- *
- * See also:
- *      <Coatl_Ucd_SB>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_SB
+ */
 #define COATL_UCD_SB_NBVALUES        15
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Sc
- *
- *      Values for Unicode character property '*sc*'.
+/**
+ * @enum Coatl_Ucd_Sc
+ *      Values for Unicode character property '**sc**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_SC_ADLM - '*Adlm*', '*Adlam*'
- *  COATL_UCD_SC_ADLAM - Alias for <COATL_UCD_SC_ADLM>
- *  COATL_UCD_SC_AGHB - '*Aghb*', '*Caucasian_Albanian*'
- *  COATL_UCD_SC_CAUCASIAN_ALBANIAN - Alias for <COATL_UCD_SC_AGHB>
- *  COATL_UCD_SC_AHOM - '*Ahom*'
- *  COATL_UCD_SC_ARAB - '*Arab*', '*Arabic*'
- *  COATL_UCD_SC_ARABIC - Alias for <COATL_UCD_SC_ARAB>
- *  COATL_UCD_SC_ARMI - '*Armi*', '*Imperial_Aramaic*'
- *  COATL_UCD_SC_IMPERIAL_ARAMAIC - Alias for <COATL_UCD_SC_ARMI>
- *  COATL_UCD_SC_ARMN - '*Armn*', '*Armenian*'
- *  COATL_UCD_SC_ARMENIAN - Alias for <COATL_UCD_SC_ARMN>
- *  COATL_UCD_SC_AVST - '*Avst*', '*Avestan*'
- *  COATL_UCD_SC_AVESTAN - Alias for <COATL_UCD_SC_AVST>
- *  COATL_UCD_SC_BALI - '*Bali*', '*Balinese*'
- *  COATL_UCD_SC_BALINESE - Alias for <COATL_UCD_SC_BALI>
- *  COATL_UCD_SC_BAMU - '*Bamu*', '*Bamum*'
- *  COATL_UCD_SC_BAMUM - Alias for <COATL_UCD_SC_BAMU>
- *  COATL_UCD_SC_BASS - '*Bass*', '*Bassa_Vah*'
- *  COATL_UCD_SC_BASSA_VAH - Alias for <COATL_UCD_SC_BASS>
- *  COATL_UCD_SC_BATK - '*Batk*', '*Batak*'
- *  COATL_UCD_SC_BATAK - Alias for <COATL_UCD_SC_BATK>
- *  COATL_UCD_SC_BENG - '*Beng*', '*Bengali*'
- *  COATL_UCD_SC_BENGALI - Alias for <COATL_UCD_SC_BENG>
- *  COATL_UCD_SC_BHKS - '*Bhks*', '*Bhaiksuki*'
- *  COATL_UCD_SC_BHAIKSUKI - Alias for <COATL_UCD_SC_BHKS>
- *  COATL_UCD_SC_BOPO - '*Bopo*', '*Bopomofo*'
- *  COATL_UCD_SC_BOPOMOFO - Alias for <COATL_UCD_SC_BOPO>
- *  COATL_UCD_SC_BRAH - '*Brah*', '*Brahmi*'
- *  COATL_UCD_SC_BRAHMI - Alias for <COATL_UCD_SC_BRAH>
- *  COATL_UCD_SC_BRAI - '*Brai*', '*Braille*'
- *  COATL_UCD_SC_BRAILLE - Alias for <COATL_UCD_SC_BRAI>
- *  COATL_UCD_SC_BUGI - '*Bugi*', '*Buginese*'
- *  COATL_UCD_SC_BUGINESE - Alias for <COATL_UCD_SC_BUGI>
- *  COATL_UCD_SC_BUHD - '*Buhd*', '*Buhid*'
- *  COATL_UCD_SC_BUHID - Alias for <COATL_UCD_SC_BUHD>
- *  COATL_UCD_SC_CAKM - '*Cakm*', '*Chakma*'
- *  COATL_UCD_SC_CHAKMA - Alias for <COATL_UCD_SC_CAKM>
- *  COATL_UCD_SC_CANS - '*Cans*', '*Canadian_Aboriginal*'
- *  COATL_UCD_SC_CANADIAN_ABORIGINAL - Alias for <COATL_UCD_SC_CANS>
- *  COATL_UCD_SC_CARI - '*Cari*', '*Carian*'
- *  COATL_UCD_SC_CARIAN - Alias for <COATL_UCD_SC_CARI>
- *  COATL_UCD_SC_CHAM - '*Cham*'
- *  COATL_UCD_SC_CHER - '*Cher*', '*Cherokee*'
- *  COATL_UCD_SC_CHEROKEE - Alias for <COATL_UCD_SC_CHER>
- *  COATL_UCD_SC_COPT - '*Copt*', '*Coptic*', '*Qaac*'
- *  COATL_UCD_SC_COPTIC - Alias for <COATL_UCD_SC_COPT>
- *  COATL_UCD_SC_QAAC - Alias for <COATL_UCD_SC_COPT>
- *  COATL_UCD_SC_CPRT - '*Cprt*', '*Cypriot*'
- *  COATL_UCD_SC_CYPRIOT - Alias for <COATL_UCD_SC_CPRT>
- *  COATL_UCD_SC_CYRL - '*Cyrl*', '*Cyrillic*'
- *  COATL_UCD_SC_CYRILLIC - Alias for <COATL_UCD_SC_CYRL>
- *  COATL_UCD_SC_DEVA - '*Deva*', '*Devanagari*'
- *  COATL_UCD_SC_DEVANAGARI - Alias for <COATL_UCD_SC_DEVA>
- *  COATL_UCD_SC_DSRT - '*Dsrt*', '*Deseret*'
- *  COATL_UCD_SC_DESERET - Alias for <COATL_UCD_SC_DSRT>
- *  COATL_UCD_SC_DUPL - '*Dupl*', '*Duployan*'
- *  COATL_UCD_SC_DUPLOYAN - Alias for <COATL_UCD_SC_DUPL>
- *  COATL_UCD_SC_EGYP - '*Egyp*', '*Egyptian_Hieroglyphs*'
- *  COATL_UCD_SC_EGYPTIAN_HIEROGLYPHS - Alias for <COATL_UCD_SC_EGYP>
- *  COATL_UCD_SC_ELBA - '*Elba*', '*Elbasan*'
- *  COATL_UCD_SC_ELBASAN - Alias for <COATL_UCD_SC_ELBA>
- *  COATL_UCD_SC_ETHI - '*Ethi*', '*Ethiopic*'
- *  COATL_UCD_SC_ETHIOPIC - Alias for <COATL_UCD_SC_ETHI>
- *  COATL_UCD_SC_GEOR - '*Geor*', '*Georgian*'
- *  COATL_UCD_SC_GEORGIAN - Alias for <COATL_UCD_SC_GEOR>
- *  COATL_UCD_SC_GLAG - '*Glag*', '*Glagolitic*'
- *  COATL_UCD_SC_GLAGOLITIC - Alias for <COATL_UCD_SC_GLAG>
- *  COATL_UCD_SC_GOTH - '*Goth*', '*Gothic*'
- *  COATL_UCD_SC_GOTHIC - Alias for <COATL_UCD_SC_GOTH>
- *  COATL_UCD_SC_GRAN - '*Gran*', '*Grantha*'
- *  COATL_UCD_SC_GRANTHA - Alias for <COATL_UCD_SC_GRAN>
- *  COATL_UCD_SC_GREK - '*Grek*', '*Greek*'
- *  COATL_UCD_SC_GREEK - Alias for <COATL_UCD_SC_GREK>
- *  COATL_UCD_SC_GUJR - '*Gujr*', '*Gujarati*'
- *  COATL_UCD_SC_GUJARATI - Alias for <COATL_UCD_SC_GUJR>
- *  COATL_UCD_SC_GURU - '*Guru*', '*Gurmukhi*'
- *  COATL_UCD_SC_GURMUKHI - Alias for <COATL_UCD_SC_GURU>
- *  COATL_UCD_SC_HANG - '*Hang*', '*Hangul*'
- *  COATL_UCD_SC_HANGUL - Alias for <COATL_UCD_SC_HANG>
- *  COATL_UCD_SC_HANI - '*Hani*', '*Han*'
- *  COATL_UCD_SC_HAN - Alias for <COATL_UCD_SC_HANI>
- *  COATL_UCD_SC_HANO - '*Hano*', '*Hanunoo*'
- *  COATL_UCD_SC_HANUNOO - Alias for <COATL_UCD_SC_HANO>
- *  COATL_UCD_SC_HATR - '*Hatr*', '*Hatran*'
- *  COATL_UCD_SC_HATRAN - Alias for <COATL_UCD_SC_HATR>
- *  COATL_UCD_SC_HEBR - '*Hebr*', '*Hebrew*'
- *  COATL_UCD_SC_HEBREW - Alias for <COATL_UCD_SC_HEBR>
- *  COATL_UCD_SC_HIRA - '*Hira*', '*Hiragana*'
- *  COATL_UCD_SC_HIRAGANA - Alias for <COATL_UCD_SC_HIRA>
- *  COATL_UCD_SC_HLUW - '*Hluw*', '*Anatolian_Hieroglyphs*'
- *  COATL_UCD_SC_ANATOLIAN_HIEROGLYPHS - Alias for <COATL_UCD_SC_HLUW>
- *  COATL_UCD_SC_HMNG - '*Hmng*', '*Pahawh_Hmong*'
- *  COATL_UCD_SC_PAHAWH_HMONG - Alias for <COATL_UCD_SC_HMNG>
- *  COATL_UCD_SC_HRKT - '*Hrkt*', '*Katakana_Or_Hiragana*'
- *  COATL_UCD_SC_KATAKANA_OR_HIRAGANA - Alias for <COATL_UCD_SC_HRKT>
- *  COATL_UCD_SC_HUNG - '*Hung*', '*Old_Hungarian*'
- *  COATL_UCD_SC_OLD_HUNGARIAN - Alias for <COATL_UCD_SC_HUNG>
- *  COATL_UCD_SC_ITAL - '*Ital*', '*Old_Italic*'
- *  COATL_UCD_SC_OLD_ITALIC - Alias for <COATL_UCD_SC_ITAL>
- *  COATL_UCD_SC_JAVA - '*Java*', '*Javanese*'
- *  COATL_UCD_SC_JAVANESE - Alias for <COATL_UCD_SC_JAVA>
- *  COATL_UCD_SC_KALI - '*Kali*', '*Kayah_Li*'
- *  COATL_UCD_SC_KAYAH_LI - Alias for <COATL_UCD_SC_KALI>
- *  COATL_UCD_SC_KANA - '*Kana*', '*Katakana*'
- *  COATL_UCD_SC_KATAKANA - Alias for <COATL_UCD_SC_KANA>
- *  COATL_UCD_SC_KHAR - '*Khar*', '*Kharoshthi*'
- *  COATL_UCD_SC_KHAROSHTHI - Alias for <COATL_UCD_SC_KHAR>
- *  COATL_UCD_SC_KHMR - '*Khmr*', '*Khmer*'
- *  COATL_UCD_SC_KHMER - Alias for <COATL_UCD_SC_KHMR>
- *  COATL_UCD_SC_KHOJ - '*Khoj*', '*Khojki*'
- *  COATL_UCD_SC_KHOJKI - Alias for <COATL_UCD_SC_KHOJ>
- *  COATL_UCD_SC_KNDA - '*Knda*', '*Kannada*'
- *  COATL_UCD_SC_KANNADA - Alias for <COATL_UCD_SC_KNDA>
- *  COATL_UCD_SC_KTHI - '*Kthi*', '*Kaithi*'
- *  COATL_UCD_SC_KAITHI - Alias for <COATL_UCD_SC_KTHI>
- *  COATL_UCD_SC_LANA - '*Lana*', '*Tai_Tham*'
- *  COATL_UCD_SC_TAI_THAM - Alias for <COATL_UCD_SC_LANA>
- *  COATL_UCD_SC_LAOO - '*Laoo*', '*Lao*'
- *  COATL_UCD_SC_LAO - Alias for <COATL_UCD_SC_LAOO>
- *  COATL_UCD_SC_LATN - '*Latn*', '*Latin*'
- *  COATL_UCD_SC_LATIN - Alias for <COATL_UCD_SC_LATN>
- *  COATL_UCD_SC_LEPC - '*Lepc*', '*Lepcha*'
- *  COATL_UCD_SC_LEPCHA - Alias for <COATL_UCD_SC_LEPC>
- *  COATL_UCD_SC_LIMB - '*Limb*', '*Limbu*'
- *  COATL_UCD_SC_LIMBU - Alias for <COATL_UCD_SC_LIMB>
- *  COATL_UCD_SC_LINA - '*Lina*', '*Linear_A*'
- *  COATL_UCD_SC_LINEAR_A - Alias for <COATL_UCD_SC_LINA>
- *  COATL_UCD_SC_LINB - '*Linb*', '*Linear_B*'
- *  COATL_UCD_SC_LINEAR_B - Alias for <COATL_UCD_SC_LINB>
- *  COATL_UCD_SC_LISU - '*Lisu*'
- *  COATL_UCD_SC_LYCI - '*Lyci*', '*Lycian*'
- *  COATL_UCD_SC_LYCIAN - Alias for <COATL_UCD_SC_LYCI>
- *  COATL_UCD_SC_LYDI - '*Lydi*', '*Lydian*'
- *  COATL_UCD_SC_LYDIAN - Alias for <COATL_UCD_SC_LYDI>
- *  COATL_UCD_SC_MAHJ - '*Mahj*', '*Mahajani*'
- *  COATL_UCD_SC_MAHAJANI - Alias for <COATL_UCD_SC_MAHJ>
- *  COATL_UCD_SC_MAND - '*Mand*', '*Mandaic*'
- *  COATL_UCD_SC_MANDAIC - Alias for <COATL_UCD_SC_MAND>
- *  COATL_UCD_SC_MANI - '*Mani*', '*Manichaean*'
- *  COATL_UCD_SC_MANICHAEAN - Alias for <COATL_UCD_SC_MANI>
- *  COATL_UCD_SC_MARC - '*Marc*', '*Marchen*'
- *  COATL_UCD_SC_MARCHEN - Alias for <COATL_UCD_SC_MARC>
- *  COATL_UCD_SC_MEND - '*Mend*', '*Mende_Kikakui*'
- *  COATL_UCD_SC_MENDE_KIKAKUI - Alias for <COATL_UCD_SC_MEND>
- *  COATL_UCD_SC_MERC - '*Merc*', '*Meroitic_Cursive*'
- *  COATL_UCD_SC_MEROITIC_CURSIVE - Alias for <COATL_UCD_SC_MERC>
- *  COATL_UCD_SC_MERO - '*Mero*', '*Meroitic_Hieroglyphs*'
- *  COATL_UCD_SC_MEROITIC_HIEROGLYPHS - Alias for <COATL_UCD_SC_MERO>
- *  COATL_UCD_SC_MLYM - '*Mlym*', '*Malayalam*'
- *  COATL_UCD_SC_MALAYALAM - Alias for <COATL_UCD_SC_MLYM>
- *  COATL_UCD_SC_MODI - '*Modi*'
- *  COATL_UCD_SC_MONG - '*Mong*', '*Mongolian*'
- *  COATL_UCD_SC_MONGOLIAN - Alias for <COATL_UCD_SC_MONG>
- *  COATL_UCD_SC_MROO - '*Mroo*', '*Mro*'
- *  COATL_UCD_SC_MRO - Alias for <COATL_UCD_SC_MROO>
- *  COATL_UCD_SC_MTEI - '*Mtei*', '*Meetei_Mayek*'
- *  COATL_UCD_SC_MEETEI_MAYEK - Alias for <COATL_UCD_SC_MTEI>
- *  COATL_UCD_SC_MULT - '*Mult*', '*Multani*'
- *  COATL_UCD_SC_MULTANI - Alias for <COATL_UCD_SC_MULT>
- *  COATL_UCD_SC_MYMR - '*Mymr*', '*Myanmar*'
- *  COATL_UCD_SC_MYANMAR - Alias for <COATL_UCD_SC_MYMR>
- *  COATL_UCD_SC_NARB - '*Narb*', '*Old_North_Arabian*'
- *  COATL_UCD_SC_OLD_NORTH_ARABIAN - Alias for <COATL_UCD_SC_NARB>
- *  COATL_UCD_SC_NBAT - '*Nbat*', '*Nabataean*'
- *  COATL_UCD_SC_NABATAEAN - Alias for <COATL_UCD_SC_NBAT>
- *  COATL_UCD_SC_NEWA - '*Newa*'
- *  COATL_UCD_SC_NKOO - '*Nkoo*', '*Nko*'
- *  COATL_UCD_SC_NKO - Alias for <COATL_UCD_SC_NKOO>
- *  COATL_UCD_SC_OGAM - '*Ogam*', '*Ogham*'
- *  COATL_UCD_SC_OGHAM - Alias for <COATL_UCD_SC_OGAM>
- *  COATL_UCD_SC_OLCK - '*Olck*', '*Ol_Chiki*'
- *  COATL_UCD_SC_OL_CHIKI - Alias for <COATL_UCD_SC_OLCK>
- *  COATL_UCD_SC_ORKH - '*Orkh*', '*Old_Turkic*'
- *  COATL_UCD_SC_OLD_TURKIC - Alias for <COATL_UCD_SC_ORKH>
- *  COATL_UCD_SC_ORYA - '*Orya*', '*Oriya*'
- *  COATL_UCD_SC_ORIYA - Alias for <COATL_UCD_SC_ORYA>
- *  COATL_UCD_SC_OSGE - '*Osge*', '*Osage*'
- *  COATL_UCD_SC_OSAGE - Alias for <COATL_UCD_SC_OSGE>
- *  COATL_UCD_SC_OSMA - '*Osma*', '*Osmanya*'
- *  COATL_UCD_SC_OSMANYA - Alias for <COATL_UCD_SC_OSMA>
- *  COATL_UCD_SC_PALM - '*Palm*', '*Palmyrene*'
- *  COATL_UCD_SC_PALMYRENE - Alias for <COATL_UCD_SC_PALM>
- *  COATL_UCD_SC_PAUC - '*Pauc*', '*Pau_Cin_Hau*'
- *  COATL_UCD_SC_PAU_CIN_HAU - Alias for <COATL_UCD_SC_PAUC>
- *  COATL_UCD_SC_PERM - '*Perm*', '*Old_Permic*'
- *  COATL_UCD_SC_OLD_PERMIC - Alias for <COATL_UCD_SC_PERM>
- *  COATL_UCD_SC_PHAG - '*Phag*', '*Phags_Pa*'
- *  COATL_UCD_SC_PHAGS_PA - Alias for <COATL_UCD_SC_PHAG>
- *  COATL_UCD_SC_PHLI - '*Phli*', '*Inscriptional_Pahlavi*'
- *  COATL_UCD_SC_INSCRIPTIONAL_PAHLAVI - Alias for <COATL_UCD_SC_PHLI>
- *  COATL_UCD_SC_PHLP - '*Phlp*', '*Psalter_Pahlavi*'
- *  COATL_UCD_SC_PSALTER_PAHLAVI - Alias for <COATL_UCD_SC_PHLP>
- *  COATL_UCD_SC_PHNX - '*Phnx*', '*Phoenician*'
- *  COATL_UCD_SC_PHOENICIAN - Alias for <COATL_UCD_SC_PHNX>
- *  COATL_UCD_SC_PLRD - '*Plrd*', '*Miao*'
- *  COATL_UCD_SC_MIAO - Alias for <COATL_UCD_SC_PLRD>
- *  COATL_UCD_SC_PRTI - '*Prti*', '*Inscriptional_Parthian*'
- *  COATL_UCD_SC_INSCRIPTIONAL_PARTHIAN - Alias for <COATL_UCD_SC_PRTI>
- *  COATL_UCD_SC_RJNG - '*Rjng*', '*Rejang*'
- *  COATL_UCD_SC_REJANG - Alias for <COATL_UCD_SC_RJNG>
- *  COATL_UCD_SC_RUNR - '*Runr*', '*Runic*'
- *  COATL_UCD_SC_RUNIC - Alias for <COATL_UCD_SC_RUNR>
- *  COATL_UCD_SC_SAMR - '*Samr*', '*Samaritan*'
- *  COATL_UCD_SC_SAMARITAN - Alias for <COATL_UCD_SC_SAMR>
- *  COATL_UCD_SC_SARB - '*Sarb*', '*Old_South_Arabian*'
- *  COATL_UCD_SC_OLD_SOUTH_ARABIAN - Alias for <COATL_UCD_SC_SARB>
- *  COATL_UCD_SC_SAUR - '*Saur*', '*Saurashtra*'
- *  COATL_UCD_SC_SAURASHTRA - Alias for <COATL_UCD_SC_SAUR>
- *  COATL_UCD_SC_SGNW - '*Sgnw*', '*SignWriting*'
- *  COATL_UCD_SC_SIGNWRITING - Alias for <COATL_UCD_SC_SGNW>
- *  COATL_UCD_SC_SHAW - '*Shaw*', '*Shavian*'
- *  COATL_UCD_SC_SHAVIAN - Alias for <COATL_UCD_SC_SHAW>
- *  COATL_UCD_SC_SHRD - '*Shrd*', '*Sharada*'
- *  COATL_UCD_SC_SHARADA - Alias for <COATL_UCD_SC_SHRD>
- *  COATL_UCD_SC_SIDD - '*Sidd*', '*Siddham*'
- *  COATL_UCD_SC_SIDDHAM - Alias for <COATL_UCD_SC_SIDD>
- *  COATL_UCD_SC_SIND - '*Sind*', '*Khudawadi*'
- *  COATL_UCD_SC_KHUDAWADI - Alias for <COATL_UCD_SC_SIND>
- *  COATL_UCD_SC_SINH - '*Sinh*', '*Sinhala*'
- *  COATL_UCD_SC_SINHALA - Alias for <COATL_UCD_SC_SINH>
- *  COATL_UCD_SC_SORA - '*Sora*', '*Sora_Sompeng*'
- *  COATL_UCD_SC_SORA_SOMPENG - Alias for <COATL_UCD_SC_SORA>
- *  COATL_UCD_SC_SUND - '*Sund*', '*Sundanese*'
- *  COATL_UCD_SC_SUNDANESE - Alias for <COATL_UCD_SC_SUND>
- *  COATL_UCD_SC_SYLO - '*Sylo*', '*Syloti_Nagri*'
- *  COATL_UCD_SC_SYLOTI_NAGRI - Alias for <COATL_UCD_SC_SYLO>
- *  COATL_UCD_SC_SYRC - '*Syrc*', '*Syriac*'
- *  COATL_UCD_SC_SYRIAC - Alias for <COATL_UCD_SC_SYRC>
- *  COATL_UCD_SC_TAGB - '*Tagb*', '*Tagbanwa*'
- *  COATL_UCD_SC_TAGBANWA - Alias for <COATL_UCD_SC_TAGB>
- *  COATL_UCD_SC_TAKR - '*Takr*', '*Takri*'
- *  COATL_UCD_SC_TAKRI - Alias for <COATL_UCD_SC_TAKR>
- *  COATL_UCD_SC_TALE - '*Tale*', '*Tai_Le*'
- *  COATL_UCD_SC_TAI_LE - Alias for <COATL_UCD_SC_TALE>
- *  COATL_UCD_SC_TALU - '*Talu*', '*New_Tai_Lue*'
- *  COATL_UCD_SC_NEW_TAI_LUE - Alias for <COATL_UCD_SC_TALU>
- *  COATL_UCD_SC_TAML - '*Taml*', '*Tamil*'
- *  COATL_UCD_SC_TAMIL - Alias for <COATL_UCD_SC_TAML>
- *  COATL_UCD_SC_TANG - '*Tang*', '*Tangut*'
- *  COATL_UCD_SC_TANGUT - Alias for <COATL_UCD_SC_TANG>
- *  COATL_UCD_SC_TAVT - '*Tavt*', '*Tai_Viet*'
- *  COATL_UCD_SC_TAI_VIET - Alias for <COATL_UCD_SC_TAVT>
- *  COATL_UCD_SC_TELU - '*Telu*', '*Telugu*'
- *  COATL_UCD_SC_TELUGU - Alias for <COATL_UCD_SC_TELU>
- *  COATL_UCD_SC_TFNG - '*Tfng*', '*Tifinagh*'
- *  COATL_UCD_SC_TIFINAGH - Alias for <COATL_UCD_SC_TFNG>
- *  COATL_UCD_SC_TGLG - '*Tglg*', '*Tagalog*'
- *  COATL_UCD_SC_TAGALOG - Alias for <COATL_UCD_SC_TGLG>
- *  COATL_UCD_SC_THAA - '*Thaa*', '*Thaana*'
- *  COATL_UCD_SC_THAANA - Alias for <COATL_UCD_SC_THAA>
- *  COATL_UCD_SC_THAI - '*Thai*'
- *  COATL_UCD_SC_TIBT - '*Tibt*', '*Tibetan*'
- *  COATL_UCD_SC_TIBETAN - Alias for <COATL_UCD_SC_TIBT>
- *  COATL_UCD_SC_TIRH - '*Tirh*', '*Tirhuta*'
- *  COATL_UCD_SC_TIRHUTA - Alias for <COATL_UCD_SC_TIRH>
- *  COATL_UCD_SC_UGAR - '*Ugar*', '*Ugaritic*'
- *  COATL_UCD_SC_UGARITIC - Alias for <COATL_UCD_SC_UGAR>
- *  COATL_UCD_SC_VAII - '*Vaii*', '*Vai*'
- *  COATL_UCD_SC_VAI - Alias for <COATL_UCD_SC_VAII>
- *  COATL_UCD_SC_WARA - '*Wara*', '*Warang_Citi*'
- *  COATL_UCD_SC_WARANG_CITI - Alias for <COATL_UCD_SC_WARA>
- *  COATL_UCD_SC_XPEO - '*Xpeo*', '*Old_Persian*'
- *  COATL_UCD_SC_OLD_PERSIAN - Alias for <COATL_UCD_SC_XPEO>
- *  COATL_UCD_SC_XSUX - '*Xsux*', '*Cuneiform*'
- *  COATL_UCD_SC_CUNEIFORM - Alias for <COATL_UCD_SC_XSUX>
- *  COATL_UCD_SC_YIII - '*Yiii*', '*Yi*'
- *  COATL_UCD_SC_YI - Alias for <COATL_UCD_SC_YIII>
- *  COATL_UCD_SC_ZINH - '*Zinh*', '*Inherited*', '*Qaai*'
- *  COATL_UCD_SC_INHERITED - Alias for <COATL_UCD_SC_ZINH>
- *  COATL_UCD_SC_QAAI - Alias for <COATL_UCD_SC_ZINH>
- *  COATL_UCD_SC_ZYYY - '*Zyyy*', '*Common*'
- *  COATL_UCD_SC_COMMON - Alias for <COATL_UCD_SC_ZYYY>
- *  COATL_UCD_SC_ZZZZ - '*Zzzz*', '*Unknown*'
- *  COATL_UCD_SC_UNKNOWN - Alias for <COATL_UCD_SC_ZZZZ>
+ * @see COATL_UCD_SC
  *
- * See also:
- *      <COATL_UCD_SC>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_SC_ADLM
+ *      '**Adlm**', '**Adlam**'
+ * @var COATL_UCD_SC_ADLAM
+ *      Alias for #COATL_UCD_SC_ADLM
+ * @var COATL_UCD_SC_AGHB
+ *      '**Aghb**', '**Caucasian_Albanian**'
+ * @var COATL_UCD_SC_CAUCASIAN_ALBANIAN
+ *      Alias for #COATL_UCD_SC_AGHB
+ * @var COATL_UCD_SC_AHOM
+ *      '**Ahom**'
+ * @var COATL_UCD_SC_ARAB
+ *      '**Arab**', '**Arabic**'
+ * @var COATL_UCD_SC_ARABIC
+ *      Alias for #COATL_UCD_SC_ARAB
+ * @var COATL_UCD_SC_ARMI
+ *      '**Armi**', '**Imperial_Aramaic**'
+ * @var COATL_UCD_SC_IMPERIAL_ARAMAIC
+ *      Alias for #COATL_UCD_SC_ARMI
+ * @var COATL_UCD_SC_ARMN
+ *      '**Armn**', '**Armenian**'
+ * @var COATL_UCD_SC_ARMENIAN
+ *      Alias for #COATL_UCD_SC_ARMN
+ * @var COATL_UCD_SC_AVST
+ *      '**Avst**', '**Avestan**'
+ * @var COATL_UCD_SC_AVESTAN
+ *      Alias for #COATL_UCD_SC_AVST
+ * @var COATL_UCD_SC_BALI
+ *      '**Bali**', '**Balinese**'
+ * @var COATL_UCD_SC_BALINESE
+ *      Alias for #COATL_UCD_SC_BALI
+ * @var COATL_UCD_SC_BAMU
+ *      '**Bamu**', '**Bamum**'
+ * @var COATL_UCD_SC_BAMUM
+ *      Alias for #COATL_UCD_SC_BAMU
+ * @var COATL_UCD_SC_BASS
+ *      '**Bass**', '**Bassa_Vah**'
+ * @var COATL_UCD_SC_BASSA_VAH
+ *      Alias for #COATL_UCD_SC_BASS
+ * @var COATL_UCD_SC_BATK
+ *      '**Batk**', '**Batak**'
+ * @var COATL_UCD_SC_BATAK
+ *      Alias for #COATL_UCD_SC_BATK
+ * @var COATL_UCD_SC_BENG
+ *      '**Beng**', '**Bengali**'
+ * @var COATL_UCD_SC_BENGALI
+ *      Alias for #COATL_UCD_SC_BENG
+ * @var COATL_UCD_SC_BHKS
+ *      '**Bhks**', '**Bhaiksuki**'
+ * @var COATL_UCD_SC_BHAIKSUKI
+ *      Alias for #COATL_UCD_SC_BHKS
+ * @var COATL_UCD_SC_BOPO
+ *      '**Bopo**', '**Bopomofo**'
+ * @var COATL_UCD_SC_BOPOMOFO
+ *      Alias for #COATL_UCD_SC_BOPO
+ * @var COATL_UCD_SC_BRAH
+ *      '**Brah**', '**Brahmi**'
+ * @var COATL_UCD_SC_BRAHMI
+ *      Alias for #COATL_UCD_SC_BRAH
+ * @var COATL_UCD_SC_BRAI
+ *      '**Brai**', '**Braille**'
+ * @var COATL_UCD_SC_BRAILLE
+ *      Alias for #COATL_UCD_SC_BRAI
+ * @var COATL_UCD_SC_BUGI
+ *      '**Bugi**', '**Buginese**'
+ * @var COATL_UCD_SC_BUGINESE
+ *      Alias for #COATL_UCD_SC_BUGI
+ * @var COATL_UCD_SC_BUHD
+ *      '**Buhd**', '**Buhid**'
+ * @var COATL_UCD_SC_BUHID
+ *      Alias for #COATL_UCD_SC_BUHD
+ * @var COATL_UCD_SC_CAKM
+ *      '**Cakm**', '**Chakma**'
+ * @var COATL_UCD_SC_CHAKMA
+ *      Alias for #COATL_UCD_SC_CAKM
+ * @var COATL_UCD_SC_CANS
+ *      '**Cans**', '**Canadian_Aboriginal**'
+ * @var COATL_UCD_SC_CANADIAN_ABORIGINAL
+ *      Alias for #COATL_UCD_SC_CANS
+ * @var COATL_UCD_SC_CARI
+ *      '**Cari**', '**Carian**'
+ * @var COATL_UCD_SC_CARIAN
+ *      Alias for #COATL_UCD_SC_CARI
+ * @var COATL_UCD_SC_CHAM
+ *      '**Cham**'
+ * @var COATL_UCD_SC_CHER
+ *      '**Cher**', '**Cherokee**'
+ * @var COATL_UCD_SC_CHEROKEE
+ *      Alias for #COATL_UCD_SC_CHER
+ * @var COATL_UCD_SC_COPT
+ *      '**Copt**', '**Coptic**', '**Qaac**'
+ * @var COATL_UCD_SC_COPTIC
+ *      Alias for #COATL_UCD_SC_COPT
+ * @var COATL_UCD_SC_QAAC
+ *      Alias for #COATL_UCD_SC_COPT
+ * @var COATL_UCD_SC_CPRT
+ *      '**Cprt**', '**Cypriot**'
+ * @var COATL_UCD_SC_CYPRIOT
+ *      Alias for #COATL_UCD_SC_CPRT
+ * @var COATL_UCD_SC_CYRL
+ *      '**Cyrl**', '**Cyrillic**'
+ * @var COATL_UCD_SC_CYRILLIC
+ *      Alias for #COATL_UCD_SC_CYRL
+ * @var COATL_UCD_SC_DEVA
+ *      '**Deva**', '**Devanagari**'
+ * @var COATL_UCD_SC_DEVANAGARI
+ *      Alias for #COATL_UCD_SC_DEVA
+ * @var COATL_UCD_SC_DSRT
+ *      '**Dsrt**', '**Deseret**'
+ * @var COATL_UCD_SC_DESERET
+ *      Alias for #COATL_UCD_SC_DSRT
+ * @var COATL_UCD_SC_DUPL
+ *      '**Dupl**', '**Duployan**'
+ * @var COATL_UCD_SC_DUPLOYAN
+ *      Alias for #COATL_UCD_SC_DUPL
+ * @var COATL_UCD_SC_EGYP
+ *      '**Egyp**', '**Egyptian_Hieroglyphs**'
+ * @var COATL_UCD_SC_EGYPTIAN_HIEROGLYPHS
+ *      Alias for #COATL_UCD_SC_EGYP
+ * @var COATL_UCD_SC_ELBA
+ *      '**Elba**', '**Elbasan**'
+ * @var COATL_UCD_SC_ELBASAN
+ *      Alias for #COATL_UCD_SC_ELBA
+ * @var COATL_UCD_SC_ETHI
+ *      '**Ethi**', '**Ethiopic**'
+ * @var COATL_UCD_SC_ETHIOPIC
+ *      Alias for #COATL_UCD_SC_ETHI
+ * @var COATL_UCD_SC_GEOR
+ *      '**Geor**', '**Georgian**'
+ * @var COATL_UCD_SC_GEORGIAN
+ *      Alias for #COATL_UCD_SC_GEOR
+ * @var COATL_UCD_SC_GLAG
+ *      '**Glag**', '**Glagolitic**'
+ * @var COATL_UCD_SC_GLAGOLITIC
+ *      Alias for #COATL_UCD_SC_GLAG
+ * @var COATL_UCD_SC_GOTH
+ *      '**Goth**', '**Gothic**'
+ * @var COATL_UCD_SC_GOTHIC
+ *      Alias for #COATL_UCD_SC_GOTH
+ * @var COATL_UCD_SC_GRAN
+ *      '**Gran**', '**Grantha**'
+ * @var COATL_UCD_SC_GRANTHA
+ *      Alias for #COATL_UCD_SC_GRAN
+ * @var COATL_UCD_SC_GREK
+ *      '**Grek**', '**Greek**'
+ * @var COATL_UCD_SC_GREEK
+ *      Alias for #COATL_UCD_SC_GREK
+ * @var COATL_UCD_SC_GUJR
+ *      '**Gujr**', '**Gujarati**'
+ * @var COATL_UCD_SC_GUJARATI
+ *      Alias for #COATL_UCD_SC_GUJR
+ * @var COATL_UCD_SC_GURU
+ *      '**Guru**', '**Gurmukhi**'
+ * @var COATL_UCD_SC_GURMUKHI
+ *      Alias for #COATL_UCD_SC_GURU
+ * @var COATL_UCD_SC_HANG
+ *      '**Hang**', '**Hangul**'
+ * @var COATL_UCD_SC_HANGUL
+ *      Alias for #COATL_UCD_SC_HANG
+ * @var COATL_UCD_SC_HANI
+ *      '**Hani**', '**Han**'
+ * @var COATL_UCD_SC_HAN
+ *      Alias for #COATL_UCD_SC_HANI
+ * @var COATL_UCD_SC_HANO
+ *      '**Hano**', '**Hanunoo**'
+ * @var COATL_UCD_SC_HANUNOO
+ *      Alias for #COATL_UCD_SC_HANO
+ * @var COATL_UCD_SC_HATR
+ *      '**Hatr**', '**Hatran**'
+ * @var COATL_UCD_SC_HATRAN
+ *      Alias for #COATL_UCD_SC_HATR
+ * @var COATL_UCD_SC_HEBR
+ *      '**Hebr**', '**Hebrew**'
+ * @var COATL_UCD_SC_HEBREW
+ *      Alias for #COATL_UCD_SC_HEBR
+ * @var COATL_UCD_SC_HIRA
+ *      '**Hira**', '**Hiragana**'
+ * @var COATL_UCD_SC_HIRAGANA
+ *      Alias for #COATL_UCD_SC_HIRA
+ * @var COATL_UCD_SC_HLUW
+ *      '**Hluw**', '**Anatolian_Hieroglyphs**'
+ * @var COATL_UCD_SC_ANATOLIAN_HIEROGLYPHS
+ *      Alias for #COATL_UCD_SC_HLUW
+ * @var COATL_UCD_SC_HMNG
+ *      '**Hmng**', '**Pahawh_Hmong**'
+ * @var COATL_UCD_SC_PAHAWH_HMONG
+ *      Alias for #COATL_UCD_SC_HMNG
+ * @var COATL_UCD_SC_HRKT
+ *      '**Hrkt**', '**Katakana_Or_Hiragana**'
+ * @var COATL_UCD_SC_KATAKANA_OR_HIRAGANA
+ *      Alias for #COATL_UCD_SC_HRKT
+ * @var COATL_UCD_SC_HUNG
+ *      '**Hung**', '**Old_Hungarian**'
+ * @var COATL_UCD_SC_OLD_HUNGARIAN
+ *      Alias for #COATL_UCD_SC_HUNG
+ * @var COATL_UCD_SC_ITAL
+ *      '**Ital**', '**Old_Italic**'
+ * @var COATL_UCD_SC_OLD_ITALIC
+ *      Alias for #COATL_UCD_SC_ITAL
+ * @var COATL_UCD_SC_JAVA
+ *      '**Java**', '**Javanese**'
+ * @var COATL_UCD_SC_JAVANESE
+ *      Alias for #COATL_UCD_SC_JAVA
+ * @var COATL_UCD_SC_KALI
+ *      '**Kali**', '**Kayah_Li**'
+ * @var COATL_UCD_SC_KAYAH_LI
+ *      Alias for #COATL_UCD_SC_KALI
+ * @var COATL_UCD_SC_KANA
+ *      '**Kana**', '**Katakana**'
+ * @var COATL_UCD_SC_KATAKANA
+ *      Alias for #COATL_UCD_SC_KANA
+ * @var COATL_UCD_SC_KHAR
+ *      '**Khar**', '**Kharoshthi**'
+ * @var COATL_UCD_SC_KHAROSHTHI
+ *      Alias for #COATL_UCD_SC_KHAR
+ * @var COATL_UCD_SC_KHMR
+ *      '**Khmr**', '**Khmer**'
+ * @var COATL_UCD_SC_KHMER
+ *      Alias for #COATL_UCD_SC_KHMR
+ * @var COATL_UCD_SC_KHOJ
+ *      '**Khoj**', '**Khojki**'
+ * @var COATL_UCD_SC_KHOJKI
+ *      Alias for #COATL_UCD_SC_KHOJ
+ * @var COATL_UCD_SC_KNDA
+ *      '**Knda**', '**Kannada**'
+ * @var COATL_UCD_SC_KANNADA
+ *      Alias for #COATL_UCD_SC_KNDA
+ * @var COATL_UCD_SC_KTHI
+ *      '**Kthi**', '**Kaithi**'
+ * @var COATL_UCD_SC_KAITHI
+ *      Alias for #COATL_UCD_SC_KTHI
+ * @var COATL_UCD_SC_LANA
+ *      '**Lana**', '**Tai_Tham**'
+ * @var COATL_UCD_SC_TAI_THAM
+ *      Alias for #COATL_UCD_SC_LANA
+ * @var COATL_UCD_SC_LAOO
+ *      '**Laoo**', '**Lao**'
+ * @var COATL_UCD_SC_LAO
+ *      Alias for #COATL_UCD_SC_LAOO
+ * @var COATL_UCD_SC_LATN
+ *      '**Latn**', '**Latin**'
+ * @var COATL_UCD_SC_LATIN
+ *      Alias for #COATL_UCD_SC_LATN
+ * @var COATL_UCD_SC_LEPC
+ *      '**Lepc**', '**Lepcha**'
+ * @var COATL_UCD_SC_LEPCHA
+ *      Alias for #COATL_UCD_SC_LEPC
+ * @var COATL_UCD_SC_LIMB
+ *      '**Limb**', '**Limbu**'
+ * @var COATL_UCD_SC_LIMBU
+ *      Alias for #COATL_UCD_SC_LIMB
+ * @var COATL_UCD_SC_LINA
+ *      '**Lina**', '**Linear_A**'
+ * @var COATL_UCD_SC_LINEAR_A
+ *      Alias for #COATL_UCD_SC_LINA
+ * @var COATL_UCD_SC_LINB
+ *      '**Linb**', '**Linear_B**'
+ * @var COATL_UCD_SC_LINEAR_B
+ *      Alias for #COATL_UCD_SC_LINB
+ * @var COATL_UCD_SC_LISU
+ *      '**Lisu**'
+ * @var COATL_UCD_SC_LYCI
+ *      '**Lyci**', '**Lycian**'
+ * @var COATL_UCD_SC_LYCIAN
+ *      Alias for #COATL_UCD_SC_LYCI
+ * @var COATL_UCD_SC_LYDI
+ *      '**Lydi**', '**Lydian**'
+ * @var COATL_UCD_SC_LYDIAN
+ *      Alias for #COATL_UCD_SC_LYDI
+ * @var COATL_UCD_SC_MAHJ
+ *      '**Mahj**', '**Mahajani**'
+ * @var COATL_UCD_SC_MAHAJANI
+ *      Alias for #COATL_UCD_SC_MAHJ
+ * @var COATL_UCD_SC_MAND
+ *      '**Mand**', '**Mandaic**'
+ * @var COATL_UCD_SC_MANDAIC
+ *      Alias for #COATL_UCD_SC_MAND
+ * @var COATL_UCD_SC_MANI
+ *      '**Mani**', '**Manichaean**'
+ * @var COATL_UCD_SC_MANICHAEAN
+ *      Alias for #COATL_UCD_SC_MANI
+ * @var COATL_UCD_SC_MARC
+ *      '**Marc**', '**Marchen**'
+ * @var COATL_UCD_SC_MARCHEN
+ *      Alias for #COATL_UCD_SC_MARC
+ * @var COATL_UCD_SC_MEND
+ *      '**Mend**', '**Mende_Kikakui**'
+ * @var COATL_UCD_SC_MENDE_KIKAKUI
+ *      Alias for #COATL_UCD_SC_MEND
+ * @var COATL_UCD_SC_MERC
+ *      '**Merc**', '**Meroitic_Cursive**'
+ * @var COATL_UCD_SC_MEROITIC_CURSIVE
+ *      Alias for #COATL_UCD_SC_MERC
+ * @var COATL_UCD_SC_MERO
+ *      '**Mero**', '**Meroitic_Hieroglyphs**'
+ * @var COATL_UCD_SC_MEROITIC_HIEROGLYPHS
+ *      Alias for #COATL_UCD_SC_MERO
+ * @var COATL_UCD_SC_MLYM
+ *      '**Mlym**', '**Malayalam**'
+ * @var COATL_UCD_SC_MALAYALAM
+ *      Alias for #COATL_UCD_SC_MLYM
+ * @var COATL_UCD_SC_MODI
+ *      '**Modi**'
+ * @var COATL_UCD_SC_MONG
+ *      '**Mong**', '**Mongolian**'
+ * @var COATL_UCD_SC_MONGOLIAN
+ *      Alias for #COATL_UCD_SC_MONG
+ * @var COATL_UCD_SC_MROO
+ *      '**Mroo**', '**Mro**'
+ * @var COATL_UCD_SC_MRO
+ *      Alias for #COATL_UCD_SC_MROO
+ * @var COATL_UCD_SC_MTEI
+ *      '**Mtei**', '**Meetei_Mayek**'
+ * @var COATL_UCD_SC_MEETEI_MAYEK
+ *      Alias for #COATL_UCD_SC_MTEI
+ * @var COATL_UCD_SC_MULT
+ *      '**Mult**', '**Multani**'
+ * @var COATL_UCD_SC_MULTANI
+ *      Alias for #COATL_UCD_SC_MULT
+ * @var COATL_UCD_SC_MYMR
+ *      '**Mymr**', '**Myanmar**'
+ * @var COATL_UCD_SC_MYANMAR
+ *      Alias for #COATL_UCD_SC_MYMR
+ * @var COATL_UCD_SC_NARB
+ *      '**Narb**', '**Old_North_Arabian**'
+ * @var COATL_UCD_SC_OLD_NORTH_ARABIAN
+ *      Alias for #COATL_UCD_SC_NARB
+ * @var COATL_UCD_SC_NBAT
+ *      '**Nbat**', '**Nabataean**'
+ * @var COATL_UCD_SC_NABATAEAN
+ *      Alias for #COATL_UCD_SC_NBAT
+ * @var COATL_UCD_SC_NEWA
+ *      '**Newa**'
+ * @var COATL_UCD_SC_NKOO
+ *      '**Nkoo**', '**Nko**'
+ * @var COATL_UCD_SC_NKO
+ *      Alias for #COATL_UCD_SC_NKOO
+ * @var COATL_UCD_SC_OGAM
+ *      '**Ogam**', '**Ogham**'
+ * @var COATL_UCD_SC_OGHAM
+ *      Alias for #COATL_UCD_SC_OGAM
+ * @var COATL_UCD_SC_OLCK
+ *      '**Olck**', '**Ol_Chiki**'
+ * @var COATL_UCD_SC_OL_CHIKI
+ *      Alias for #COATL_UCD_SC_OLCK
+ * @var COATL_UCD_SC_ORKH
+ *      '**Orkh**', '**Old_Turkic**'
+ * @var COATL_UCD_SC_OLD_TURKIC
+ *      Alias for #COATL_UCD_SC_ORKH
+ * @var COATL_UCD_SC_ORYA
+ *      '**Orya**', '**Oriya**'
+ * @var COATL_UCD_SC_ORIYA
+ *      Alias for #COATL_UCD_SC_ORYA
+ * @var COATL_UCD_SC_OSGE
+ *      '**Osge**', '**Osage**'
+ * @var COATL_UCD_SC_OSAGE
+ *      Alias for #COATL_UCD_SC_OSGE
+ * @var COATL_UCD_SC_OSMA
+ *      '**Osma**', '**Osmanya**'
+ * @var COATL_UCD_SC_OSMANYA
+ *      Alias for #COATL_UCD_SC_OSMA
+ * @var COATL_UCD_SC_PALM
+ *      '**Palm**', '**Palmyrene**'
+ * @var COATL_UCD_SC_PALMYRENE
+ *      Alias for #COATL_UCD_SC_PALM
+ * @var COATL_UCD_SC_PAUC
+ *      '**Pauc**', '**Pau_Cin_Hau**'
+ * @var COATL_UCD_SC_PAU_CIN_HAU
+ *      Alias for #COATL_UCD_SC_PAUC
+ * @var COATL_UCD_SC_PERM
+ *      '**Perm**', '**Old_Permic**'
+ * @var COATL_UCD_SC_OLD_PERMIC
+ *      Alias for #COATL_UCD_SC_PERM
+ * @var COATL_UCD_SC_PHAG
+ *      '**Phag**', '**Phags_Pa**'
+ * @var COATL_UCD_SC_PHAGS_PA
+ *      Alias for #COATL_UCD_SC_PHAG
+ * @var COATL_UCD_SC_PHLI
+ *      '**Phli**', '**Inscriptional_Pahlavi**'
+ * @var COATL_UCD_SC_INSCRIPTIONAL_PAHLAVI
+ *      Alias for #COATL_UCD_SC_PHLI
+ * @var COATL_UCD_SC_PHLP
+ *      '**Phlp**', '**Psalter_Pahlavi**'
+ * @var COATL_UCD_SC_PSALTER_PAHLAVI
+ *      Alias for #COATL_UCD_SC_PHLP
+ * @var COATL_UCD_SC_PHNX
+ *      '**Phnx**', '**Phoenician**'
+ * @var COATL_UCD_SC_PHOENICIAN
+ *      Alias for #COATL_UCD_SC_PHNX
+ * @var COATL_UCD_SC_PLRD
+ *      '**Plrd**', '**Miao**'
+ * @var COATL_UCD_SC_MIAO
+ *      Alias for #COATL_UCD_SC_PLRD
+ * @var COATL_UCD_SC_PRTI
+ *      '**Prti**', '**Inscriptional_Parthian**'
+ * @var COATL_UCD_SC_INSCRIPTIONAL_PARTHIAN
+ *      Alias for #COATL_UCD_SC_PRTI
+ * @var COATL_UCD_SC_RJNG
+ *      '**Rjng**', '**Rejang**'
+ * @var COATL_UCD_SC_REJANG
+ *      Alias for #COATL_UCD_SC_RJNG
+ * @var COATL_UCD_SC_RUNR
+ *      '**Runr**', '**Runic**'
+ * @var COATL_UCD_SC_RUNIC
+ *      Alias for #COATL_UCD_SC_RUNR
+ * @var COATL_UCD_SC_SAMR
+ *      '**Samr**', '**Samaritan**'
+ * @var COATL_UCD_SC_SAMARITAN
+ *      Alias for #COATL_UCD_SC_SAMR
+ * @var COATL_UCD_SC_SARB
+ *      '**Sarb**', '**Old_South_Arabian**'
+ * @var COATL_UCD_SC_OLD_SOUTH_ARABIAN
+ *      Alias for #COATL_UCD_SC_SARB
+ * @var COATL_UCD_SC_SAUR
+ *      '**Saur**', '**Saurashtra**'
+ * @var COATL_UCD_SC_SAURASHTRA
+ *      Alias for #COATL_UCD_SC_SAUR
+ * @var COATL_UCD_SC_SGNW
+ *      '**Sgnw**', '**SignWriting**'
+ * @var COATL_UCD_SC_SIGNWRITING
+ *      Alias for #COATL_UCD_SC_SGNW
+ * @var COATL_UCD_SC_SHAW
+ *      '**Shaw**', '**Shavian**'
+ * @var COATL_UCD_SC_SHAVIAN
+ *      Alias for #COATL_UCD_SC_SHAW
+ * @var COATL_UCD_SC_SHRD
+ *      '**Shrd**', '**Sharada**'
+ * @var COATL_UCD_SC_SHARADA
+ *      Alias for #COATL_UCD_SC_SHRD
+ * @var COATL_UCD_SC_SIDD
+ *      '**Sidd**', '**Siddham**'
+ * @var COATL_UCD_SC_SIDDHAM
+ *      Alias for #COATL_UCD_SC_SIDD
+ * @var COATL_UCD_SC_SIND
+ *      '**Sind**', '**Khudawadi**'
+ * @var COATL_UCD_SC_KHUDAWADI
+ *      Alias for #COATL_UCD_SC_SIND
+ * @var COATL_UCD_SC_SINH
+ *      '**Sinh**', '**Sinhala**'
+ * @var COATL_UCD_SC_SINHALA
+ *      Alias for #COATL_UCD_SC_SINH
+ * @var COATL_UCD_SC_SORA
+ *      '**Sora**', '**Sora_Sompeng**'
+ * @var COATL_UCD_SC_SORA_SOMPENG
+ *      Alias for #COATL_UCD_SC_SORA
+ * @var COATL_UCD_SC_SUND
+ *      '**Sund**', '**Sundanese**'
+ * @var COATL_UCD_SC_SUNDANESE
+ *      Alias for #COATL_UCD_SC_SUND
+ * @var COATL_UCD_SC_SYLO
+ *      '**Sylo**', '**Syloti_Nagri**'
+ * @var COATL_UCD_SC_SYLOTI_NAGRI
+ *      Alias for #COATL_UCD_SC_SYLO
+ * @var COATL_UCD_SC_SYRC
+ *      '**Syrc**', '**Syriac**'
+ * @var COATL_UCD_SC_SYRIAC
+ *      Alias for #COATL_UCD_SC_SYRC
+ * @var COATL_UCD_SC_TAGB
+ *      '**Tagb**', '**Tagbanwa**'
+ * @var COATL_UCD_SC_TAGBANWA
+ *      Alias for #COATL_UCD_SC_TAGB
+ * @var COATL_UCD_SC_TAKR
+ *      '**Takr**', '**Takri**'
+ * @var COATL_UCD_SC_TAKRI
+ *      Alias for #COATL_UCD_SC_TAKR
+ * @var COATL_UCD_SC_TALE
+ *      '**Tale**', '**Tai_Le**'
+ * @var COATL_UCD_SC_TAI_LE
+ *      Alias for #COATL_UCD_SC_TALE
+ * @var COATL_UCD_SC_TALU
+ *      '**Talu**', '**New_Tai_Lue**'
+ * @var COATL_UCD_SC_NEW_TAI_LUE
+ *      Alias for #COATL_UCD_SC_TALU
+ * @var COATL_UCD_SC_TAML
+ *      '**Taml**', '**Tamil**'
+ * @var COATL_UCD_SC_TAMIL
+ *      Alias for #COATL_UCD_SC_TAML
+ * @var COATL_UCD_SC_TANG
+ *      '**Tang**', '**Tangut**'
+ * @var COATL_UCD_SC_TANGUT
+ *      Alias for #COATL_UCD_SC_TANG
+ * @var COATL_UCD_SC_TAVT
+ *      '**Tavt**', '**Tai_Viet**'
+ * @var COATL_UCD_SC_TAI_VIET
+ *      Alias for #COATL_UCD_SC_TAVT
+ * @var COATL_UCD_SC_TELU
+ *      '**Telu**', '**Telugu**'
+ * @var COATL_UCD_SC_TELUGU
+ *      Alias for #COATL_UCD_SC_TELU
+ * @var COATL_UCD_SC_TFNG
+ *      '**Tfng**', '**Tifinagh**'
+ * @var COATL_UCD_SC_TIFINAGH
+ *      Alias for #COATL_UCD_SC_TFNG
+ * @var COATL_UCD_SC_TGLG
+ *      '**Tglg**', '**Tagalog**'
+ * @var COATL_UCD_SC_TAGALOG
+ *      Alias for #COATL_UCD_SC_TGLG
+ * @var COATL_UCD_SC_THAA
+ *      '**Thaa**', '**Thaana**'
+ * @var COATL_UCD_SC_THAANA
+ *      Alias for #COATL_UCD_SC_THAA
+ * @var COATL_UCD_SC_THAI
+ *      '**Thai**'
+ * @var COATL_UCD_SC_TIBT
+ *      '**Tibt**', '**Tibetan**'
+ * @var COATL_UCD_SC_TIBETAN
+ *      Alias for #COATL_UCD_SC_TIBT
+ * @var COATL_UCD_SC_TIRH
+ *      '**Tirh**', '**Tirhuta**'
+ * @var COATL_UCD_SC_TIRHUTA
+ *      Alias for #COATL_UCD_SC_TIRH
+ * @var COATL_UCD_SC_UGAR
+ *      '**Ugar**', '**Ugaritic**'
+ * @var COATL_UCD_SC_UGARITIC
+ *      Alias for #COATL_UCD_SC_UGAR
+ * @var COATL_UCD_SC_VAII
+ *      '**Vaii**', '**Vai**'
+ * @var COATL_UCD_SC_VAI
+ *      Alias for #COATL_UCD_SC_VAII
+ * @var COATL_UCD_SC_WARA
+ *      '**Wara**', '**Warang_Citi**'
+ * @var COATL_UCD_SC_WARANG_CITI
+ *      Alias for #COATL_UCD_SC_WARA
+ * @var COATL_UCD_SC_XPEO
+ *      '**Xpeo**', '**Old_Persian**'
+ * @var COATL_UCD_SC_OLD_PERSIAN
+ *      Alias for #COATL_UCD_SC_XPEO
+ * @var COATL_UCD_SC_XSUX
+ *      '**Xsux**', '**Cuneiform**'
+ * @var COATL_UCD_SC_CUNEIFORM
+ *      Alias for #COATL_UCD_SC_XSUX
+ * @var COATL_UCD_SC_YIII
+ *      '**Yiii**', '**Yi**'
+ * @var COATL_UCD_SC_YI
+ *      Alias for #COATL_UCD_SC_YIII
+ * @var COATL_UCD_SC_ZINH
+ *      '**Zinh**', '**Inherited**', '**Qaai**'
+ * @var COATL_UCD_SC_INHERITED
+ *      Alias for #COATL_UCD_SC_ZINH
+ * @var COATL_UCD_SC_QAAI
+ *      Alias for #COATL_UCD_SC_ZINH
+ * @var COATL_UCD_SC_ZYYY
+ *      '**Zyyy**', '**Common**'
+ * @var COATL_UCD_SC_COMMON
+ *      Alias for #COATL_UCD_SC_ZYYY
+ * @var COATL_UCD_SC_ZZZZ
+ *      '**Zzzz**', '**Unknown**'
+ * @var COATL_UCD_SC_UNKNOWN
+ *      Alias for #COATL_UCD_SC_ZZZZ
+ */
 typedef enum Coatl_Ucd_Sc {
     COATL_UCD_SC_ADLM=1,
         COATL_UCD_SC_ADLAM=COATL_UCD_SC_ADLM,
@@ -3555,70 +4920,103 @@ typedef enum Coatl_Ucd_Sc {
 
 } Coatl_Ucd_Sc;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_SC_NBVALUES
+/**
+ * Number of values for Unicode character property '*sc*'.
  *
- *      Number of values for Unicode character property '*sc*'.
- *
- * See also:
- *      <Coatl_Ucd_Sc>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Sc
+ */
 #define COATL_UCD_SC_NBVALUES        139
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_WB
- *
- *      Values for Unicode character property '*WB*'.
+/**
+ * @enum Coatl_Ucd_WB
+ *      Values for Unicode character property '**WB**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_WB_CR - '*CR*'
- *  COATL_UCD_WB_DQ - '*DQ*', '*Double_Quote*'
- *  COATL_UCD_WB_DOUBLE_QUOTE - Alias for <COATL_UCD_WB_DQ>
- *  COATL_UCD_WB_EB - '*EB*', '*E_Base*'
- *  COATL_UCD_WB_E_BASE - Alias for <COATL_UCD_WB_EB>
- *  COATL_UCD_WB_EBG - '*EBG*', '*E_Base_GAZ*'
- *  COATL_UCD_WB_E_BASE_GAZ - Alias for <COATL_UCD_WB_EBG>
- *  COATL_UCD_WB_EM - '*EM*', '*E_Modifier*'
- *  COATL_UCD_WB_E_MODIFIER - Alias for <COATL_UCD_WB_EM>
- *  COATL_UCD_WB_EX - '*EX*', '*ExtendNumLet*'
- *  COATL_UCD_WB_EXTENDNUMLET - Alias for <COATL_UCD_WB_EX>
- *  COATL_UCD_WB_EXTEND - '*Extend*'
- *  COATL_UCD_WB_FO - '*FO*', '*Format*'
- *  COATL_UCD_WB_FORMAT - Alias for <COATL_UCD_WB_FO>
- *  COATL_UCD_WB_GAZ - '*GAZ*', '*Glue_After_Zwj*'
- *  COATL_UCD_WB_GLUE_AFTER_ZWJ - Alias for <COATL_UCD_WB_GAZ>
- *  COATL_UCD_WB_HL - '*HL*', '*Hebrew_Letter*'
- *  COATL_UCD_WB_HEBREW_LETTER - Alias for <COATL_UCD_WB_HL>
- *  COATL_UCD_WB_KA - '*KA*', '*Katakana*'
- *  COATL_UCD_WB_KATAKANA - Alias for <COATL_UCD_WB_KA>
- *  COATL_UCD_WB_LE - '*LE*', '*ALetter*'
- *  COATL_UCD_WB_ALETTER - Alias for <COATL_UCD_WB_LE>
- *  COATL_UCD_WB_LF - '*LF*'
- *  COATL_UCD_WB_MB - '*MB*', '*MidNumLet*'
- *  COATL_UCD_WB_MIDNUMLET - Alias for <COATL_UCD_WB_MB>
- *  COATL_UCD_WB_ML - '*ML*', '*MidLetter*'
- *  COATL_UCD_WB_MIDLETTER - Alias for <COATL_UCD_WB_ML>
- *  COATL_UCD_WB_MN - '*MN*', '*MidNum*'
- *  COATL_UCD_WB_MIDNUM - Alias for <COATL_UCD_WB_MN>
- *  COATL_UCD_WB_NL - '*NL*', '*Newline*'
- *  COATL_UCD_WB_NEWLINE - Alias for <COATL_UCD_WB_NL>
- *  COATL_UCD_WB_NU - '*NU*', '*Numeric*'
- *  COATL_UCD_WB_NUMERIC - Alias for <COATL_UCD_WB_NU>
- *  COATL_UCD_WB_RI - '*RI*', '*Regional_Indicator*'
- *  COATL_UCD_WB_REGIONAL_INDICATOR - Alias for <COATL_UCD_WB_RI>
- *  COATL_UCD_WB_SQ - '*SQ*', '*Single_Quote*'
- *  COATL_UCD_WB_SINGLE_QUOTE - Alias for <COATL_UCD_WB_SQ>
- *  COATL_UCD_WB_XX - '*XX*', '*Other*'
- *  COATL_UCD_WB_OTHER - Alias for <COATL_UCD_WB_XX>
- *  COATL_UCD_WB_ZWJ - '*ZWJ*'
+ * @see COATL_UCD_WB
  *
- * See also:
- *      <COATL_UCD_WB>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_WB_CR
+ *      '**CR**'
+ * @var COATL_UCD_WB_DQ
+ *      '**DQ**', '**Double_Quote**'
+ * @var COATL_UCD_WB_DOUBLE_QUOTE
+ *      Alias for #COATL_UCD_WB_DQ
+ * @var COATL_UCD_WB_EB
+ *      '**EB**', '**E_Base**'
+ * @var COATL_UCD_WB_E_BASE
+ *      Alias for #COATL_UCD_WB_EB
+ * @var COATL_UCD_WB_EBG
+ *      '**EBG**', '**E_Base_GAZ**'
+ * @var COATL_UCD_WB_E_BASE_GAZ
+ *      Alias for #COATL_UCD_WB_EBG
+ * @var COATL_UCD_WB_EM
+ *      '**EM**', '**E_Modifier**'
+ * @var COATL_UCD_WB_E_MODIFIER
+ *      Alias for #COATL_UCD_WB_EM
+ * @var COATL_UCD_WB_EX
+ *      '**EX**', '**ExtendNumLet**'
+ * @var COATL_UCD_WB_EXTENDNUMLET
+ *      Alias for #COATL_UCD_WB_EX
+ * @var COATL_UCD_WB_EXTEND
+ *      '**Extend**'
+ * @var COATL_UCD_WB_FO
+ *      '**FO**', '**Format**'
+ * @var COATL_UCD_WB_FORMAT
+ *      Alias for #COATL_UCD_WB_FO
+ * @var COATL_UCD_WB_GAZ
+ *      '**GAZ**', '**Glue_After_Zwj**'
+ * @var COATL_UCD_WB_GLUE_AFTER_ZWJ
+ *      Alias for #COATL_UCD_WB_GAZ
+ * @var COATL_UCD_WB_HL
+ *      '**HL**', '**Hebrew_Letter**'
+ * @var COATL_UCD_WB_HEBREW_LETTER
+ *      Alias for #COATL_UCD_WB_HL
+ * @var COATL_UCD_WB_KA
+ *      '**KA**', '**Katakana**'
+ * @var COATL_UCD_WB_KATAKANA
+ *      Alias for #COATL_UCD_WB_KA
+ * @var COATL_UCD_WB_LE
+ *      '**LE**', '**ALetter**'
+ * @var COATL_UCD_WB_ALETTER
+ *      Alias for #COATL_UCD_WB_LE
+ * @var COATL_UCD_WB_LF
+ *      '**LF**'
+ * @var COATL_UCD_WB_MB
+ *      '**MB**', '**MidNumLet**'
+ * @var COATL_UCD_WB_MIDNUMLET
+ *      Alias for #COATL_UCD_WB_MB
+ * @var COATL_UCD_WB_ML
+ *      '**ML**', '**MidLetter**'
+ * @var COATL_UCD_WB_MIDLETTER
+ *      Alias for #COATL_UCD_WB_ML
+ * @var COATL_UCD_WB_MN
+ *      '**MN**', '**MidNum**'
+ * @var COATL_UCD_WB_MIDNUM
+ *      Alias for #COATL_UCD_WB_MN
+ * @var COATL_UCD_WB_NL
+ *      '**NL**', '**Newline**'
+ * @var COATL_UCD_WB_NEWLINE
+ *      Alias for #COATL_UCD_WB_NL
+ * @var COATL_UCD_WB_NU
+ *      '**NU**', '**Numeric**'
+ * @var COATL_UCD_WB_NUMERIC
+ *      Alias for #COATL_UCD_WB_NU
+ * @var COATL_UCD_WB_RI
+ *      '**RI**', '**Regional_Indicator**'
+ * @var COATL_UCD_WB_REGIONAL_INDICATOR
+ *      Alias for #COATL_UCD_WB_RI
+ * @var COATL_UCD_WB_SQ
+ *      '**SQ**', '**Single_Quote**'
+ * @var COATL_UCD_WB_SINGLE_QUOTE
+ *      Alias for #COATL_UCD_WB_SQ
+ * @var COATL_UCD_WB_XX
+ *      '**XX**', '**Other**'
+ * @var COATL_UCD_WB_OTHER
+ *      Alias for #COATL_UCD_WB_XX
+ * @var COATL_UCD_WB_ZWJ
+ *      '**ZWJ**'
+ */
 typedef enum Coatl_Ucd_WB {
     COATL_UCD_WB_CR=1,
     COATL_UCD_WB_DQ=2,
@@ -3663,36 +5061,35 @@ typedef enum Coatl_Ucd_WB {
 
 } Coatl_Ucd_WB;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_WB_NBVALUES
+/**
+ * Number of values for Unicode character property '*WB*'.
  *
- *      Number of values for Unicode character property '*WB*'.
- *
- * See also:
- *      <Coatl_Ucd_WB>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_WB
+ */
 #define COATL_UCD_WB_NBVALUES        22
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_Ucd_Bpt
- *
- *      Values for Unicode character property '*bpt*'.
+/**
+ * @enum Coatl_Ucd_Bpt
+ *      Values for Unicode character property '**bpt**'.
  *
  *      Names are automatically generated from the UCD file
- *      *PropertyValueAliases.txt*
+ *      `PropertyValueAliases.txt`.
  *
- *  COATL_UCD_BPT_C - '*c*', '*Close*'
- *  COATL_UCD_BPT_CLOSE - Alias for <COATL_UCD_BPT_C>
- *  COATL_UCD_BPT_N - '*n*', '*None*'
- *  COATL_UCD_BPT_NONE - Alias for <COATL_UCD_BPT_N>
- *  COATL_UCD_BPT_O - '*o*', '*Open*'
- *  COATL_UCD_BPT_OPEN - Alias for <COATL_UCD_BPT_O>
+ * @see COATL_UCD_BPT
  *
- * See also:
- *      <COATL_UCD_BPT>
- *---------------------------------------------------------------------------*/
-
+ * @var COATL_UCD_BPT_C
+ *      '**c**', '**Close**'
+ * @var COATL_UCD_BPT_CLOSE
+ *      Alias for #COATL_UCD_BPT_C
+ * @var COATL_UCD_BPT_N
+ *      '**n**', '**None**'
+ * @var COATL_UCD_BPT_NONE
+ *      Alias for #COATL_UCD_BPT_N
+ * @var COATL_UCD_BPT_O
+ *      '**o**', '**Open**'
+ * @var COATL_UCD_BPT_OPEN
+ *      Alias for #COATL_UCD_BPT_O
+ */
 typedef enum Coatl_Ucd_Bpt {
     COATL_UCD_BPT_C=1,
         COATL_UCD_BPT_CLOSE=COATL_UCD_BPT_C,
@@ -3703,15 +5100,15 @@ typedef enum Coatl_Ucd_Bpt {
 
 } Coatl_Ucd_Bpt;
 
-/*---------------------------------------------------------------------------
- * Constant: COATL_UCD_BPT_NBVALUES
+/**
+ * Number of values for Unicode character property '*bpt*'.
  *
- *      Number of values for Unicode character property '*bpt*'.
- *
- * See also:
- *      <Coatl_Ucd_Bpt>
- *---------------------------------------------------------------------------*/
-
+ * @see Coatl_Ucd_Bpt
+ */
 #define COATL_UCD_BPT_NBVALUES       3
+
+/* End of UCD Properties *//*!\}*/
+
+/* End of Unicode Character Database *//*!\}*/
 
 #endif /* _COATL_UCDPROPERTIES */

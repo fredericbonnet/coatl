@@ -1,7 +1,7 @@
-/*
- * Header: coatlNumber.h
+/**
+ * @file coatlNumber.h
  *
- *      This header file defines the number handling facility of CoATL.
+ * This header file defines the number handling facility of CoATL.
  */
 
 #ifndef _COATL_NUMBER
@@ -11,17 +11,20 @@
 
 
 /*
-================================================================================
-Section: Large Integer Words
-================================================================================
+===========================================================================*//*!
+\defgroup numbers Numbers
+\{*//*==========================================================================
 */
 
-/****************************************************************************
- * Group: Large Integer Word Creation
- *
- * Declaration:
- *      <Coatl_NewLargeIntWord>
- ****************************************************************************/
+/*
+===========================================================================*//*!
+\defgroup large_int_words Large Integer Words
+\{*//*==========================================================================
+*/
+
+/***************************************************************************//*!
+ * \name Large Integer Word Creation
+ ***************************************************************************\{*/
 
 #if INTPTR_MAX != INTMAX_MAX
 EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
@@ -29,13 +32,12 @@ EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
 #   define Coatl_NewLargeIntWord        Col_NewIntWord
 #endif /* INTPTR_MAX != INTMAX_MAX */
 
+/* End of Large Integer Word Creation *//*!\}*/
 
-/****************************************************************************
- * Group: Large Integer Word Predicates
- *
- * Declaration:
- *      <Coatl_WordIsLargeInt>
- ****************************************************************************/
+
+/***************************************************************************//*!
+ * \name Large Integer Word Predicates
+ ***************************************************************************\{*/
 
 #if INTPTR_MAX != INTMAX_MAX
 EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
@@ -43,13 +45,12 @@ EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
 #   define Coatl_WordIsLargeInt(word)   (Col_WordType(word) & COL_INT)
 #endif /* INTPTR_MAX != INTMAX_MAX */
 
+/* End of Large Integer Word Predicates *//*!\}*/
 
-/****************************************************************************
- * Group: Large Integer Word Accessors
- *
- * Declaration:
- *      <Coatl_LargeIntWordValue>
- ****************************************************************************/
+
+/***************************************************************************//*!
+ * \name Large Integer Word Accessors
+ ***************************************************************************\{*/
 
 #if INTPTR_MAX != INTMAX_MAX
 EXTERN intmax_t         Coatl_LargeIntWordValue(Col_Word word);
@@ -57,239 +58,255 @@ EXTERN intmax_t         Coatl_LargeIntWordValue(Col_Word word);
 #   define Coatl_LargeIntWordValue      Col_IntWordValue
 #endif /* INTPTR_MAX != INTMAX_MAX */
 
+/* End of Large Integer Word Accessors *//*!\}*/
+
+/* End of Large Integer Words *//*!\}*/
+
 
 /*
-================================================================================
-Section: Multiple Precision Integer Words
-================================================================================
+===========================================================================*//*!
+\defgroup mp_int_words Multiple Precision Integer Words
+\{*//*==========================================================================
 */
 
-/****************************************************************************
- * Group: Multiple Precision Integer Word Predicates
- *
- * Declaration:
- *      <Coatl_WordIsMpInt>
- ****************************************************************************/
+/***************************************************************************//*!
+ * \name Multiple Precision Integer Word Predicates
+ ***************************************************************************\{*/
 
 EXTERN int              Coatl_WordIsMpInt(Col_Word word);
 
+/* End of Multiple Precision Integer Word Predicates *//*!\}*/
+
+/* End of Multiple Precision Integer Words *//*!\}*/
+
 
 /*
-================================================================================
-Section: Multiple Precision Floating Point Words
-================================================================================
+===========================================================================*//*!
+\defgroup mp_float_words Multiple Precision Floating Point Words
+\{*//*==========================================================================
 */
 
-/****************************************************************************
- * Group: Multiple Precision Floating Point Word Predicates
- *
- * Declaration:
- *      <Coatl_WordIsMpFloat>
- ****************************************************************************/
+/***************************************************************************//*!
+ * \name Multiple Precision Floating Point Word Predicates
+ ***************************************************************************\{*/
 
 EXTERN int              Coatl_WordIsMpFloat(Col_Word word);
 
+/* End of Multiple Precision Floating Point Word Predicates *//*!\}*/
+
+/* End of Multiple Precision Floating Point Words *//*!\}*/
+
 
 /*
-================================================================================
-Section: Number Input/Output
-
-Declarations:
-        <Coatl_ReadIntWord>, <Coatl_ReadFloatWord>, <Coatl_WriteIntWord>, 
-        <Coatl_WriteFloatWord>
-================================================================================
+===========================================================================*//*!
+\defgroup number_io Number Input/Output
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Typedef: Coatl_NumReadFormat
+/**
+ * C-style radix character handling.
  *
- *      Number reading format. Fields marked with F are for floating points 
- *      only.
+ * For example, use '`x`' / '`X`' radix characters for base 16 using `"0x"`/`"0X"`
+ * prefix.
  *
- *      Character lists are arrays of Col_Char terminated by a COL_CHAR_INVALID
- *      value, or NULL for empty lists.
- *
- * Fields:
- *      radix           - Default numeric radix (2..62) when no prefix is used.
- *      ignoreChars     - List of ignored characters in the middle of sequence
- *                        (excluding leading or trailing characters).
- *      prefixChars     - List of prefix separator characters.
- *      radixChars      - List of C-style radix characters along with their 
- *                        radix value. To handle C-style octals, use the NUL
- *                        character in last position.
- *      pointChars      - [F] List of accepted radix point characters.
- *      expChars        - [F] List of accepted exponent characters.
- *      expC2Chars      - [F] List of accepted exponent characters for
- *                        C99-style 2-power exponent. Requires radix 16, either
- *                        explicitly or with prefix.
- *
- * See also:
- *      <Coatl_ReadIntWord>, <Coatl_ReadFloatWord>
- *---------------------------------------------------------------------------*/
-
+ * To handle octals, use the `NUL` character.
+ */
 typedef struct Coatl_NumReadFormat_RadixChar {
-    Col_Char c; 
-    unsigned int r;
+    Col_Char c;     /*!< Radix character. */
+    unsigned int r; /*!< Radix value. */
 } Coatl_NumReadFormat_RadixChar;
+
+/**
+ * Number reading format. Fields marked with **[F]** are for floating points
+ * only.
+ *
+ * Character lists are arrays of **Col_Char** terminated by a
+ * **COL_CHAR_INVALID** value, or NULL for empty lists.
+ *
+ * @see Coatl_ReadIntWord
+ * @see Coatl_ReadFloatWord
+ */
 typedef struct Coatl_NumReadFormat {
-    unsigned int radix;
-    const Col_Char *ignoreChars;
-    const Col_Char *prefixChars;
+    unsigned int radix;             /*!< Default numeric radix (2..62) when no
+                                         prefix is used. */
+    const Col_Char *ignoreChars;    /*!< List of ignored characters in the
+                                         middle of sequence (excluding leading
+                                         or trailing characters). */
+    const Col_Char *prefixChars;    /*!< List of prefix separator characters. */
     const Coatl_NumReadFormat_RadixChar *radixChars;
-    const Col_Char *pointChars;
-    const Col_Char *expChars;
-    const Col_Char *exp2Chars;
+                                    /*!< List of C-style radix characters. To
+                                         handle C-style octals, use the `NUL`
+                                         character in last position. */
+    const Col_Char *pointChars;     /*!< **[F]** List of accepted radix point
+                                         characters. */
+    const Col_Char *expChars;       /*!< **[F]** List of accepted exponent
+                                         characters. */
+    const Col_Char *exp2Chars;      /*!< **[F]** List of accepted exponent
+                                         characters for C99-style 2-power
+                                         exponent. Requires radix 16, either
+                                         explicitly or with prefix. */
 } Coatl_NumReadFormat;
 
-/*---------------------------------------------------------------------------
- * Constants: Predefined Number Reading Formats
- *
- *  COATL_NUMREAD_DEFAULT       - Default format (same as NULL).
- *  COATL_INTREAD_C             - C-style integer format.
- *  COATL_FLOATREAD_C           - C-style floating point format (with C99
- *                                floats).
- *
- * See also:
- *      <Coatl_NumReadFormat>
- *---------------------------------------------------------------------------*/
 
+/***************************************************************************//*!
+ * \name Predefined Number Reading Formats
+ *
+ * @see Coatl_NumReadFormat
+ ***************************************************************************\{*/
+
+/** Default format (same as NULL). */
 #define COATL_NUMREAD_DEFAULT   NULL
+
+/** C-style integer format. */
 #define COATL_INTREAD_C         ((const Coatl_NumReadFormat *) 1)
+
+/** C-style floating point format (with C99 floats). */
 #define COATL_FLOATREAD_C       ((const Coatl_NumReadFormat *) 2)
 
-/*---------------------------------------------------------------------------
- * Constants: Number Reading Word Type Flags
- *
- *      Accepted output word types for number reading. OR-able values.
- *
- *  COATL_INTREAD_NATIVE        - Native (Colibri) integer words.
- *  COATL_INTREAD_LARGE         - Large integer words.
- *  COATL_INTREAD_MP            - Multiple precision integer words.
- *  COATL_FLOATREAD_NATIVE      - Native (Colibri) floating point words.
- *  COATL_FLOATREAD_MP          - Multiple precision floating point words.
- *
- * See also:
- *      <Coatl_ReadIntWord>, <Coatl_ReadFloatWord>
- *---------------------------------------------------------------------------*/
+/* End of Predefined Number Reading Formats *//*!\}*/
 
+
+/***************************************************************************//*!
+ * @anchor number_read_flags
+ * \name Number Reading Word Type Flags
+ *
+ * Accepted output word types for number reading. OR-able values.
+ *
+ * @see Coatl_ReadIntWord
+ * @see Coatl_ReadFloatWord
+ ***************************************************************************\{*/
+
+/** Native (Colibri) integer words. */
 #define COATL_INTREAD_NATIVE    1
+
+/** Large integer words. */
 #define COATL_INTREAD_LARGE     2
+
+/** Multiple precision integer words. */
 #define COATL_INTREAD_MP        4
+
+/** Native (Colibri) floating point words. */
 #define COATL_FLOATREAD_NATIVE  1
+
+/** Multiple precision floating point words. */
 #define COATL_FLOATREAD_MP      2
 
-/*---------------------------------------------------------------------------
- * Typedef: Coatl_NumWriteFormat
- *
- *      Number writing format. Fields marked with F are for floating points 
- *      only.
- *
- * Fields:
- *      flags           - OR'ed <Number Write Flags> or zero.
- *      radix           - Numeric radix (2..62).
- *      minWidth        - Minimum number of output characters.
- *      padChar         - Character used to pad field up to *minWidth*.
- *      prefixChar      - Character used for radix prefix, or COL_CHAR_INVALID.
- *      groupSize       - Size of digit groups (zero for no grouping).
- *      groupChar       - Digit grouping character.
- *      minDigits       - Minimum number of output digits. For floating point 
- *                        numbers, this applies to the integral part.
- *      maxDigitsSigd   - [F] Max number of generated significand digits.
- *      minDigitsFrac   - [F] Minimum number of output digits for fractional 
- *                        part.
- *      maxDigitsFrac   - [F] Maximum number of output digits for fractional 
- *                        part.
- *      minDigitsExp    - [F] Minimum number of output digits for exponent.
- *      minFixed        - [F] Minimum exponent value for fixed-point notation.
- *      maxFixed        - [F] Maximum exponent value for fixed-point notation.
- *      pointChar       - [F] Character used for radix point.
- *      expMul          - [F] Multiple for exponent. If zero, this gives a zero 
- *                        integral part (e.g 1230.0 => 0.123e4).
- *      expChar         - [F] Character used for exponent.
- *
- * See also:
- *      <Coatl_WriteIntWord>, <Coatl_WriteFloatWord>, <Number Write Flags>
- *---------------------------------------------------------------------------*/
+/* End of Number Reading Word Type Flags *//*!\}*/
 
+
+/**
+ * Number writing format. Fields marked with **[F]** are for floating points
+ * only.
+ *
+ * @see Coatl_WriteIntWord
+ * @see Coatl_WriteFloatWord
+ * @see @ref number_write_flags "Number Write Flags"
+ */
 typedef struct Coatl_NumWriteFormat {
-    int flags;
-    unsigned int radix;
-    size_t minWidth;
-    Col_Char padChar;
-    Col_Char prefixChar;
-    size_t groupSize;
-    Col_Char groupChar;
-    size_t minDigits;
-    size_t maxDigitsSigd;
-    size_t minDigitsFrac, maxDigitsFrac;
-    size_t minDigitsExp;
-    long minFixed, maxFixed;
-    Col_Char pointChar;
-    unsigned long expMul;
-    Col_Char expChar;
+    int flags;                  /*!< OR'ed @ref number_write_flags 
+                                     "Number Write Flags" or zero. */
+    unsigned int radix;         /*!< Numeric radix (2..62). */
+    size_t minWidth;            /*!< Minimum number of output characters. */
+    Col_Char padChar;           /*!< Character used to pad field up to
+                                 *   **minWidth**. */
+    Col_Char prefixChar;        /*!< Character used for radix prefix, or
+                                 *   **COL_CHAR_INVALID**. */
+    size_t groupSize;           /*!< Size of digit groups (zero for no
+                                     grouping). */
+    Col_Char groupChar;         /*!< Digit grouping character. */
+    size_t minDigits;           /*!< Minimum number of output digits. For
+                                     floating point numbers, this applies to the
+                                     integral part. */
+    size_t maxDigitsSigd;       /*!< **[F]** Max number of generated significand
+                                     digits. */
+    size_t minDigitsFrac;       /*!< **[F]** Minimum number of output digits for
+                                     fractional part. */
+    size_t maxDigitsFrac;       /*!< **[F]** Maximum number of output digits for
+                                     fractional part. */
+    size_t minDigitsExp;        /*!< **[F]** Minimum number of output digits for
+                                     exponent. */
+    long minFixed;              /*!< **[F]** Minimum exponent value for 
+                                     fixed-point notation. */
+    long maxFixed;              /*!< **[F]** Maximum exponent value for 
+                                     fixed-point notation. */
+    Col_Char pointChar;         /*!< **[F]** Character used for radix point. */
+    unsigned long expMul;       /*!< **[F]** Multiple for exponent. If zero, 
+                                     this gives a zero integral part (e.g
+                                     1230.0 => 0.123e4). */
+    Col_Char expChar;           /*!< **[F]** Character used for exponent. */
 } Coatl_NumWriteFormat;
 
-/*---------------------------------------------------------------------------
- * Constants: Number Write Flags
- *
- *      Flags for use in <Coatl_NumWriteFormat> *flags* field. Flags marked 
- *      with F are for floating points only.
- *
- *  COATL_NUMWRITE_PREFIX_C     - Use C-style radix prefix.
- *  COATL_NUMWRITE_PREFIX_0     - Use radix prefix for zero values as well.
- *  COATL_NUMWRITE_L            - Uses lower case letters for radices <= 36.
- *  COATL_NUMWRITE_PAD_0        - Uses 0 instead of padding character to pad 
- *                                field (use with <Coatl_NumWriteFormat> 
- *                                *minWidth* field).
- *  COATL_NUMWRITE_SIGNPAD      - Prefixes non-negative numbers with a padding 
- *                                character.
- *  COATL_NUMWRITE_PLUS         - Prefixes non-negative numbers with a + sign 
- *                                (this includes zero).
- *  COATL_NUMWRITE_POINT        - [F] Always add radix point even with zero 
- *                                fractional digits.
- *  COATL_NUMWRITE_EXP_PLUS     - [F] Prefix non-negative exponents with a + 
- *                                sign.
- *  COATL_NUMWRITE_EXP_C2       - [F] C99-style 2-power exponent. Requires radix
- *                                16 and <COATL_NUMWRITE_PREFIX_C>.
- *---------------------------------------------------------------------------*/
 
+/***************************************************************************//*!
+ * @anchor number_write_flags
+ * \name Number Write Flags
+ *
+ * Flags for use in Coatl_NumWriteFormat **flags** field. Flags marked with 
+ * **[F]** are for floating points only.
+ ***************************************************************************\{*/
+
+/** Use C-style radix prefix. */
 #define COATL_NUMWRITE_PREFIX_C 0x1
+
+/** Use radix prefix for zero values as well. */
 #define COATL_NUMWRITE_PREFIX_0 0x2
+
+/** Uses lower case letters for radices <= 36. */
 #define COATL_NUMWRITE_L        0x4
+
+/** Uses 0 instead of padding character to pad field (use with 
+    Coatl_NumWriteFormat **minWidth** field). */
 #define COATL_NUMWRITE_PAD_0    0x8
+
+/** Prefixes non-negative numbers with a padding character. */
 #define COATL_NUMWRITE_SIGNPAD  0x10
+
+/** Prefixes non-negative numbers with a + sign (this includes zero). */
 #define COATL_NUMWRITE_PLUS     0x20
+
+/** **[F]** Always add radix point even with zero fractional digits. */
 #define COATL_NUMWRITE_POINT    0x40
+
+/** **[F]** Prefix non-negative exponents with a + sign. */
 #define COATL_NUMWRITE_EXP_PLUS 0x80
+
+/** **[F]** C99-style 2-power exponent. Requires radix 16 and 
+    COATL_NUMWRITE_PREFIX_C. */
 #define COATL_NUMWRITE_EXP_C2   0x100
 
-/*---------------------------------------------------------------------------
- * Constants: Predefined Number Writing Formats
- *
- *  COATL_NUMWRITE_DEFAULT      - Default formatting (same as NULL).
- *  COATL_NUMWRITE_C16          - Hexadecimal C-style formatting (with C99
- *                                floats). Negative values use signed format.
- *  COATL_INTWRITE_C8           - Octal C-style integer formatting. Negative 
- *                                values use signed format. Only suitable
- *                                for integer numbers.
- * See also:
- *      <Coatl_NumWriteFormat>
- *---------------------------------------------------------------------------*/
+/* End of Number Write Flags *//*!\}*/
 
+
+/***************************************************************************//*!
+ * \name Predefined Number Writing Formats
+ *
+ * @see Coatl_NumWriteFormat
+ ***************************************************************************\{*/
+
+/** Default formatting (same as NULL). */
 #define COATL_NUMWRITE_DEFAULT  NULL
+
+/** Hexadecimal C-style formatting (with C99 floats). Negative values use signed
+    format. */
 #define COATL_NUMWRITE_C16      ((const Coatl_NumWriteFormat *) 1)
+
+/** Octal C-style integer formatting. Negative values use signed format. Only 
+    suitable for integer numbers. */
 #define COATL_INTWRITE_C8       ((const Coatl_NumWriteFormat *) 2)
+
+/* End of Predefined Number Writing Formats *//*!\}*/
+
 
 /*
  * Remaining declarations.
  */
 
-EXTERN int              Coatl_ReadIntWord(Col_RopeIterator begin, 
-                            Col_RopeIterator end, 
+EXTERN int              Coatl_ReadIntWord(Col_RopeIterator begin,
+                            Col_RopeIterator end,
                             const Coatl_NumReadFormat *format,
                             int types, Col_Word *wordPtr);
-EXTERN int              Coatl_ReadFloatWord(Col_RopeIterator begin, 
-                            Col_RopeIterator end, 
+EXTERN int              Coatl_ReadFloatWord(Col_RopeIterator begin,
+                            Col_RopeIterator end,
                             const Coatl_NumReadFormat *format,
                             int types, Col_Word *wordPtr);
 EXTERN size_t           Coatl_WriteIntWord(Col_Word strbuf, Col_Word word,
@@ -297,21 +314,19 @@ EXTERN size_t           Coatl_WriteIntWord(Col_Word strbuf, Col_Word word,
 EXTERN size_t           Coatl_WriteFloatWord(Col_Word strbuf, Col_Word word,
                             const Coatl_NumWriteFormat *format);
 
+/* End of Number Input/Output *//*!\}*/
+
 
 /*
-================================================================================
-Section: Number Conversion
-
-Declarations:
-        <Coatl_RopeToIntWord>, <Coatl_RopeToFloatWord>, <Coatl_IntWordToRope>, 
-        <Coatl_FloatWordToRope>
-================================================================================
+===========================================================================*//*!
+\defgroup number_conversion Number Conversion
+\{*//*==========================================================================
 */
 
-EXTERN Col_Word         Coatl_RopeToIntWord(Col_Word rope, 
+EXTERN Col_Word         Coatl_RopeToIntWord(Col_Word rope,
                             const Coatl_NumReadFormat *format,
                             int types);
-EXTERN Col_Word         Coatl_RopeToFloatWord(Col_Word rope, 
+EXTERN Col_Word         Coatl_RopeToFloatWord(Col_Word rope,
                             const Coatl_NumReadFormat *format,
                             int types);
 EXTERN Col_Word         Coatl_IntWordToRope(Col_Word word,
@@ -320,5 +335,9 @@ EXTERN Col_Word         Coatl_IntWordToRope(Col_Word word,
 EXTERN Col_Word         Coatl_FloatWordToRope(Col_Word word,
                             Col_StringFormat strFormat,
                             const Coatl_NumWriteFormat *format);
+
+/* End of Number Input/Output *//*!\}*/
+
+/* End of Numbers *//*!\}*/
 
 #endif /* _COATL_NUMBER */

@@ -1,7 +1,7 @@
-/*
- * Header: coatl.h
+/**
+ * @file coatl.h
  *
- *      This header file describes the public API of the CoATL library.
+ * This header file defines the public API of the CoATL library.
  */
 
 #ifndef _COATL
@@ -20,6 +20,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/*! \cond IGNORE */
 
 /*
  * The following definitions set up the proper options for Windows compilers.
@@ -55,10 +57,11 @@ extern "C" {
  * nonempty. To build a static library, the macro COATL_STATIC_BUILD should be
  * defined.
  *
- * Note: when building static but linking dynamically to MSVCRT we must still
- *       correctly decorate the C library imported function.  Use CRTIMPORT
- *       for this purpose.  _DLL is defined by the compiler when linking to
- *       MSVCRT.  
+ * @note
+ *      When building static but linking dynamically to MSVCRT we must still
+ *      correctly decorate the C library imported function.  Use CRTIMPORT
+ *      for this purpose.  _DLL is defined by the compiler when linking to
+ *      MSVCRT.
  */
 
 #if (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || defined(__LCC__) || defined(__WATCOMC__) || (defined(__GNUC__) && defined(__declspec))))
@@ -136,29 +139,28 @@ extern "C" {
 #include "coatlRegexp.h"
 #include "coatlJson.h"
 
+/*! \endcond *//* IGNORE */
+
 
 /*
-================================================================================
-Section: Error Handling
-
-Declarations:
-    <Coatl_GetErrorDomain>
-================================================================================
+===========================================================================*//*!
+\defgroup error Error Handling & Debugging
+\{*//*==========================================================================
 */
 
-/*---------------------------------------------------------------------------
- * Enum: Coatl_ErrorCode
- *
- *      Error codes defined in the CoATL domain.
- *
- * See also: 
- *      <Coatl_GetErrorDomain>
- *---------------------------------------------------------------------------*/
+/***************************************************************************//*!
+ * \name CoATL Error Domain
+ ***************************************************************************\{*/
 
+/**
+ * Error codes defined in the CoATL domain.
+ *
+ * @see Coatl_GetErrorDomain
+ */
 typedef enum Coatl_ErrorCode {
-    COATL_ERROR_ASSERTION,
-    COATL_ERROR_LARGEINT,
-    COATL_ERROR_REGEXP,
+    COATL_ERROR_ASSERTION,  /*!< Assertion failed. */
+    COATL_ERROR_LARGEINT,   /*!< Not a large integer word. */
+    COATL_ERROR_REGEXP,     /*!< Not a regular expression word. */
 } Coatl_ErrorCode;
 
 /*
@@ -166,6 +168,10 @@ typedef enum Coatl_ErrorCode {
  */
 
 EXTERN Col_ErrorDomain  Coatl_GetErrorDomain();
+
+/* End of CoATL Error Domain *//*!\}*/
+
+/* End of Error Handling & Debugging *//*!\}*/
 
 
 /*

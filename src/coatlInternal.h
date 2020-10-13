@@ -1,7 +1,9 @@
-/*
- * Internal Header: coatlInternal.h
+/**
+ * @file coatlInternal.h
  *
- *      This header file defines internal structures and macros.
+ * This header file defines internal structures and macros.
+ *
+ * @beginprivate @cond PRIVATE
  */
 
 #ifndef _COATL_INTERNAL
@@ -16,31 +18,22 @@
 #   define ASSERT(x)
 #endif
 
-/*---------------------------------------------------------------------------
- * Internal Constant: REGEXP_USE_ITERATORS
- *
- *      When defined, the regexp package uses iterators instead of character 
- *      arrays.
- *---------------------------------------------------------------------------*/
-
+/**
+ * When defined, the regexp package uses iterators instead of character arrays.
+ */
 #define REGEXP_USE_ITERATORS
 
 
 /*
-================================================================================
-Internal Section: Error Handling
-================================================================================
+===========================================================================*//*!
+\internal \addtogroup error Error Handling & Debugging
+\{*//*==========================================================================
 */
-
-/*---------------------------------------------------------------------------
- * Internal Variable: CoatlDomain
- *
- *      Error domain used by CoATL.
- *
- * See also:
- *      <Coatl_GetErrorDomain>, <Coatl_ErrorCode>
- *---------------------------------------------------------------------------*/
 
 extern const char * const CoatlDomain[];
 
+/* End of Error Handling & Debugging *//*!\}*/
+
+
 #endif /* _COATL_INTERNAL */
+/*! @endcond @endprivate */
