@@ -52,7 +52,7 @@ extern "C" {
  * Macros used to declare a function to be exported by a DLL. Used by Windows,
  * maps to no-op declarations on non-Windows systems. The default build on
  * windows is for a DLL, which causes the DLLIMPORT and DLLEXPORT macros to be
- * nonempty. To build a static library, the macro STATIC_BUILD should be
+ * nonempty. To build a static library, the macro COATL_STATIC_BUILD should be
  * defined.
  *
  * Note: when building static but linking dynamically to MSVCRT we must still
@@ -63,7 +63,7 @@ extern "C" {
 
 #if (defined(__WIN32__) && (defined(_MSC_VER) || (__BORLANDC__ >= 0x0550) || defined(__LCC__) || defined(__WATCOMC__) || (defined(__GNUC__) && defined(__declspec))))
 #   define HAVE_DECLSPEC 1
-#   ifdef STATIC_BUILD
+#   ifdef COATL_STATIC_BUILD
 #       define DLLIMPORT
 #       define DLLEXPORT
 #       ifdef _DLL
@@ -103,10 +103,14 @@ extern "C" {
  */
 
 #undef COATL_STORAGE_CLASS
-#ifdef BUILD_coatl
-#   define COATL_STORAGE_CLASS DLLEXPORT
+#ifdef COATL_STATIC_BUILD
+#   define COATL_STORAGE_CLASS
 #else
-#   define COATL_STORAGE_CLASS DLLIMPORT
+#   ifdef BUILD_coatl
+#       define COATL_STORAGE_CLASS DLLEXPORT
+#   else
+#       define COATL_STORAGE_CLASS DLLIMPORT
+#   endif
 #endif
 
 /*

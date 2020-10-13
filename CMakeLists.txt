@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.11)
 
 project(coatl LANGUAGES C)
 
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+
 include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST_DIR}/../lib)
 
@@ -10,10 +12,15 @@ find_package(mpir 3.0.0 REQUIRED)
 find_package(PicoTest REQUIRED)
 
 # CoATL library
-add_library(coatl SHARED)
+add_library(coatl)
 target_compile_definitions(coatl
 	PRIVATE BUILD_coatl
 )
+if (NOT BUILD_SHARED_LIBS)
+	target_compile_definitions(coatl
+		PUBLIC COATL_STATIC_BUILD
+	)
+endif()
 target_include_directories(coatl
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
