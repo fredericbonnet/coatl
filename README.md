@@ -18,8 +18,8 @@ https://opensource.org/licenses/BSD-3-Clause
 At present, CoATL provides the following features:
 
 - Full support for the [Unicode Character Database](https://unicode.org/ucd/)
-  (UCD) in its latest version at the time of writing (9.0): all properties but
-  character names and aliases are statically compiled into the library in an
+  (UCD) in its latest version at the time of writing (13.0.0): all properties
+  but character names and aliases are statically compiled into the library in an
   efficient manner (the final library file is around 900kB). This provides
   features such as case mapping and folding of individual characters and
   strings, and UCD property accessors on the full range of Unicode codepoints

@@ -32,17 +32,11 @@ ucdPropertiesGroupBegin
 
 propertiesEnum 
 {/**
- * @enum Coatl_UcdProperty
- *      Unicode character properties.
+ * Unicode character properties.
  *
- *      Names are automatically generated from the UCD file
- *      `PropertyAliases.txt`.
- *${comments} 
+ * Names are automatically generated from the UCD file `PropertyAliases.txt`.
  */
- 
-typedef enum Coatl_UcdProperty {
-${values}
-} Coatl_UcdProperty;
+typedef enum Coatl_UcdProperty {${values}} Coatl_UcdProperty;
 
 /**
  * Number of Unicode character properties.
@@ -55,38 +49,27 @@ ${values}
 propertyAlias
 {'**${alias}**'} 
 
-propertiesEnumValueComment 
-{
- * @var COATL_UCD_${PROPERTY}
- *      ${aliases}}
-
-propertiesEnumAliasComment 
-{
- * @var COATL_UCD_${ALIAS}
- *      Alias for #COATL_UCD_${PROPERTY}}
-
 propertiesEnumValue
-{    COATL_UCD_${PROPERTY}=${number},
+{
+    /** ${aliases} */
+    COATL_UCD_${PROPERTY}=${number},
 }
 
 propertiesEnumAlias
-{        COATL_UCD_${ALIAS}=COATL_UCD_${PROPERTY},
+{        /** Alias for #COATL_UCD_${PROPERTY} */
+        COATL_UCD_${ALIAS}=COATL_UCD_${PROPERTY},
 }
 
 propertyEnum
 {/**
- * @enum Coatl_Ucd_${Property}
- *      Values for Unicode character property '**${property}**'.
+ * Values for Unicode character property '**${property}**'.
  *
- *      Names are automatically generated from the UCD file
- *      `PropertyValueAliases.txt`.
+ * Names are automatically generated from the UCD file 
+ * `PropertyValueAliases.txt`.
  *
  * @see COATL_UCD_${PROPERTY}
- *${comments}
  */
-typedef enum Coatl_Ucd_${Property} {
-${values}
-} Coatl_Ucd_${Property};
+typedef enum Coatl_Ucd_${Property} {${values}} Coatl_Ucd_${Property};
 
 /**
  * Number of values for Unicode character property '*${property}*'.
@@ -99,22 +82,15 @@ ${values}
 propertyValueAlias
 {'**${alias}**'} 
 
-propertyEnumValueComment 
-{
- * @var COATL_UCD_${PROPERTY}_${VALUE}
- *      ${aliases}}
-
-propertyEnumAliasComment 
-{
- * @var COATL_UCD_${PROPERTY}_${ALIAS}
- *      Alias for #COATL_UCD_${PROPERTY}_${VALUE}}
-
 propertyEnumValue
-{    COATL_UCD_${PROPERTY}_${VALUE}=${number},
+{
+    /** ${aliases} */ 
+    COATL_UCD_${PROPERTY}_${VALUE}=${number},
 }
 
 propertyEnumAlias
-{        COATL_UCD_${PROPERTY}_${ALIAS}=COATL_UCD_${PROPERTY}_${VALUE},
+{        /** Alias for #COATL_UCD_${PROPERTY}_${VALUE} */
+        COATL_UCD_${PROPERTY}_${ALIAS}=COATL_UCD_${PROPERTY}_${VALUE},
 }
 
 ucdPropertiesGroupEnd 

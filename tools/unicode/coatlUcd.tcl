@@ -6,6 +6,10 @@ set doSave 1; # True for saving UCD parsing result
 set srcroot "../../src"
 set includeroot "../../include"
 set reroot "../../src/re"
+set version "13.0.0"
+set ucdroot "./ucd$version" 
+set ucdxmlroot "./ucdxml$version" 
+set datafile "./coatlUcd$version.data"
 
 ###############################################################################
 #
@@ -30,7 +34,7 @@ puts $out [subst -nobackslashes -nocommands $templates(ucdPropertiesGroupBegin)]
 
 set propertyAliases [dict create]
 
-set f [open ucd/PropertyAliases.txt]
+set f [open ${ucdroot}/PropertyAliases.txt]
 fconfigure $f -buffering line
 while {![eof $f]} {
     set line [string trim [gets $f]]
@@ -56,7 +60,6 @@ close $f
 # Generate comments & code.
 
 set values ""
-set comments ""
 set number 0
 dict for {property info} $properties {
     if {[dict get $info type] eq "deprecated"} continue
@@ -75,11 +78,9 @@ dict for {property info} $properties {
     }
     set aliases [join $aliases ", "]
     append values [subst -nobackslashes -nocommands $templates(propertiesEnumValue)]
-    append comments [subst -nobackslashes -nocommands $templates(propertiesEnumValueComment)]
     foreach ALIAS $ALIASES {
         if {$ALIAS eq $PROPERTY} continue
         append values [subst -nobackslashes -nocommands $templates(propertiesEnumAlias)]
-        append comments [subst -nobackslashes -nocommands $templates(propertiesEnumAliasComment)]
     }
 }
 puts $out [subst -nobackslashes -nocommands $templates(propertiesEnum)]
@@ -89,7 +90,7 @@ puts $out [subst -nobackslashes -nocommands $templates(propertiesEnum)]
 # Parse PropertyValueAliases.txt and generate values for enumerated properties.
 #
 
-set f [open ucd/PropertyValueAliases.txt]
+set f [open ${ucdroot}/PropertyValueAliases.txt]
 fconfigure $f -buffering line
 while {![eof $f]} {
     set line [gets $f]
@@ -139,7 +140,6 @@ close $f
 # Generate comments & code.
 
 set values ""
-set comments ""
 dict for {property info} $properties {
     if {[dict get $info type] ne "enum"} continue
 
@@ -149,7 +149,6 @@ dict for {property info} $properties {
 
     set number 0
     set values ""
-    set comments ""
     foreach v [dict get $info values] {
         incr number
 
@@ -166,11 +165,9 @@ dict for {property info} $properties {
         set VALUE [lindex $ALIASES 0]
         set aliases [join $aliases ", "]
         append values [subst -nobackslashes -nocommands $templates(propertyEnumValue)]
-        append comments [subst -nobackslashes -nocommands $templates(propertyEnumValueComment)]
         foreach ALIAS $ALIASES {
             if {$ALIAS eq $VALUE} continue
             append values [subst -nobackslashes -nocommands $templates(propertyEnumAlias)]
-            append comments [subst -nobackslashes -nocommands $templates(propertyEnumAliasComment)]
         }
     }
     puts $out [subst -nobackslashes -nocommands $templates(propertyEnum)]
@@ -276,7 +273,7 @@ if {$doParse} {
     # Parse the grouped XML database as it is much faster & less memory intensive 
     # than the flat version.
     package require tdom
-    set f [open ucdxml/ucd.all.grouped.xml]
+    set f [open ${ucdxmlroot}/ucd.all.grouped.xml]
     dom parse -channel $f ucd
     close $f
     puts " Done"
@@ -368,7 +365,7 @@ if {$doParse} {
     }
     if {$doSave} {
         puts -nonewline "Saving data..."; flush stdout
-        set data [open coatlUcd.data w]
+        set data [open $datafile w]
         puts $data "array set propertyValues {"
         foreach {key value} [array get propertyValues] {
             puts $data "\t${key} [list $value]"
@@ -380,7 +377,7 @@ if {$doParse} {
     }
     puts "Done parsing"
 } else {
-    source coatlUcd.data
+    source $datafile
 }
 
 # At this point we have per-property ranges of values, now output C file.

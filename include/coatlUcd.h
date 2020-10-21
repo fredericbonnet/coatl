@@ -22,19 +22,57 @@
  * \name UCD Property Accessors 
  ***************************************************************************\{*/
 
-EXTERN Coatl_Ucd_Age    Coatl_GetUcdProperty_Age(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_AHex(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_Alpha(Col_Char c);
-EXTERN Coatl_Ucd_Bc     Coatl_GetUcdProperty_Bc(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_Bidi_C(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_Bidi_M(Col_Char c);
-EXTERN Coatl_Ucd_Blk    Coatl_GetUcdProperty_Blk(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Bmg(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_Cased(Col_Char c);
-EXTERN Coatl_Ucd_Ccc    Coatl_GetUcdProperty_Ccc(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_CE(Col_Char c);
+EXTERN const char *     Coatl_GetUcdProperty_Nv(Col_Char c);
 EXTERN const int *      Coatl_GetUcdProperty_Cf(Col_Char c,
                             size_t *lengthPtr);
+EXTERN const int *      Coatl_GetUcdProperty_Dm(Col_Char c,
+                            size_t *lengthPtr);
+EXTERN const int *      Coatl_GetUcdProperty_Lc(Col_Char c,
+                            size_t *lengthPtr);
+EXTERN const int *      Coatl_GetUcdProperty_NFKC_CF(Col_Char c,
+                            size_t *lengthPtr);
+EXTERN Col_Char         Coatl_GetUcdProperty_Scf(Col_Char c);
+EXTERN Col_Char         Coatl_GetUcdProperty_Slc(Col_Char c);
+EXTERN Col_Char         Coatl_GetUcdProperty_Stc(Col_Char c);
+EXTERN Col_Char         Coatl_GetUcdProperty_Suc(Col_Char c);
+EXTERN const int *      Coatl_GetUcdProperty_Tc(Col_Char c,
+                            size_t *lengthPtr);
+EXTERN const int *      Coatl_GetUcdProperty_Uc(Col_Char c,
+                            size_t *lengthPtr);
+EXTERN Col_Char         Coatl_GetUcdProperty_Bmg(Col_Char c);
+EXTERN Col_Char         Coatl_GetUcdProperty_Bpb(Col_Char c);
+EXTERN const unsigned char * Coatl_GetUcdProperty_Scx(
+                            Col_Char c,size_t *lengthPtr);
+EXTERN Coatl_Ucd_Age    Coatl_GetUcdProperty_Age(Col_Char c);
+EXTERN Coatl_Ucd_Blk    Coatl_GetUcdProperty_Blk(Col_Char c);
+EXTERN Coatl_Ucd_Sc     Coatl_GetUcdProperty_Sc(Col_Char c);
+EXTERN Coatl_Ucd_Bc     Coatl_GetUcdProperty_Bc(Col_Char c);
+EXTERN Coatl_Ucd_Bpt    Coatl_GetUcdProperty_Bpt(Col_Char c);
+EXTERN Coatl_Ucd_Ccc    Coatl_GetUcdProperty_Ccc(Col_Char c);
+EXTERN Coatl_Ucd_Dt     Coatl_GetUcdProperty_Dt(Col_Char c);
+EXTERN Coatl_Ucd_Ea     Coatl_GetUcdProperty_Ea(Col_Char c);
+EXTERN Coatl_Ucd_Gc     Coatl_GetUcdProperty_Gc(Col_Char c);
+EXTERN Coatl_Ucd_GCB    Coatl_GetUcdProperty_GCB(Col_Char c);
+EXTERN Coatl_Ucd_Hst    Coatl_GetUcdProperty_Hst(Col_Char c);
+EXTERN Coatl_Ucd_InPC   Coatl_GetUcdProperty_InPC(Col_Char c);
+EXTERN Coatl_Ucd_InSC   Coatl_GetUcdProperty_InSC(Col_Char c);
+EXTERN Coatl_Ucd_Jg     Coatl_GetUcdProperty_Jg(Col_Char c);
+EXTERN Coatl_Ucd_Jt     Coatl_GetUcdProperty_Jt(Col_Char c);
+EXTERN Coatl_Ucd_Lb     Coatl_GetUcdProperty_Lb(Col_Char c);
+EXTERN Coatl_Ucd_NFC_QC Coatl_GetUcdProperty_NFC_QC(Col_Char c);
+EXTERN Coatl_Ucd_NFD_QC Coatl_GetUcdProperty_NFD_QC(Col_Char c);
+EXTERN Coatl_Ucd_NFKC_QC Coatl_GetUcdProperty_NFKC_QC(Col_Char c);
+EXTERN Coatl_Ucd_NFKD_QC Coatl_GetUcdProperty_NFKD_QC(Col_Char c);
+EXTERN Coatl_Ucd_Nt     Coatl_GetUcdProperty_Nt(Col_Char c);
+EXTERN Coatl_Ucd_SB     Coatl_GetUcdProperty_SB(Col_Char c);
+EXTERN Coatl_Ucd_Vo     Coatl_GetUcdProperty_Vo(Col_Char c);
+EXTERN Coatl_Ucd_WB     Coatl_GetUcdProperty_WB(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_AHex(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_Alpha(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_Bidi_C(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_Bidi_M(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_Cased(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_CE(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_CI(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Comp_Ex(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_CWCF(Col_Char c);
@@ -47,42 +85,26 @@ EXTERN int              Coatl_GetUcdProperty_Dash(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Dep(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_DI(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Dia(Col_Char c);
-EXTERN const int *      Coatl_GetUcdProperty_Dm(Col_Char c,
-                            size_t *lengthPtr);
-EXTERN Coatl_Ucd_Dt     Coatl_GetUcdProperty_Dt(Col_Char c);
-EXTERN Coatl_Ucd_Ea     Coatl_GetUcdProperty_Ea(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_EBase(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_EComp(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_EMod(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_Emoji(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_EPres(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Ext(Col_Char c);
-EXTERN Coatl_Ucd_Gc     Coatl_GetUcdProperty_Gc(Col_Char c);
-EXTERN Coatl_Ucd_GCB    Coatl_GetUcdProperty_GCB(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_ExtPict(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Gr_Base(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Gr_Ext(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Hex(Col_Char c);
-EXTERN Coatl_Ucd_Hst    Coatl_GetUcdProperty_Hst(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_IDC(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Ideo(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_IDS(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_IDSB(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_IDST(Col_Char c);
-EXTERN Coatl_Ucd_InPC   Coatl_GetUcdProperty_InPC(Col_Char c);
-EXTERN Coatl_Ucd_InSC   Coatl_GetUcdProperty_InSC(Col_Char c);
-EXTERN Coatl_Ucd_Jg     Coatl_GetUcdProperty_Jg(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Join_C(Col_Char c);
-EXTERN Coatl_Ucd_Jt     Coatl_GetUcdProperty_Jt(Col_Char c);
-EXTERN Coatl_Ucd_Lb     Coatl_GetUcdProperty_Lb(Col_Char c);
-EXTERN const int *      Coatl_GetUcdProperty_Lc(Col_Char c,
-                            size_t *lengthPtr);
 EXTERN int              Coatl_GetUcdProperty_LOE(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Lower(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Math(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_NChar(Col_Char c);
-EXTERN Coatl_Ucd_NFC_QC Coatl_GetUcdProperty_NFC_QC(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_NFD_QC(Col_Char c);
-EXTERN const int *      Coatl_GetUcdProperty_NFKC_CF(Col_Char c,
-                            size_t *lengthPtr);
-EXTERN Coatl_Ucd_NFKC_QC Coatl_GetUcdProperty_NFKC_QC(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_NFKD_QC(Col_Char c);
-EXTERN Coatl_Ucd_Nt     Coatl_GetUcdProperty_Nt(Col_Char c);
-EXTERN const char *     Coatl_GetUcdProperty_Nv(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_OAlpha(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_ODI(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_OGr_Ext(Col_Char c);
@@ -93,33 +115,589 @@ EXTERN int              Coatl_GetUcdProperty_OMath(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_OUpper(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Pat_Syn(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Pat_WS(Col_Char c);
+EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_QMark(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Radical(Col_Char c);
-EXTERN Coatl_Ucd_SB     Coatl_GetUcdProperty_SB(Col_Char c);
-EXTERN Coatl_Ucd_Sc     Coatl_GetUcdProperty_Sc(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Scf(Col_Char c);
-EXTERN const unsigned char * Coatl_GetUcdProperty_Scx(
-                            Col_Char c,size_t *lengthPtr);
+EXTERN int              Coatl_GetUcdProperty_RI(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_SD(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Slc(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Stc(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_STerm(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Suc(Col_Char c);
-EXTERN const int *      Coatl_GetUcdProperty_Tc(Col_Char c,
-                            size_t *lengthPtr);
 EXTERN int              Coatl_GetUcdProperty_Term(Col_Char c);
-EXTERN const int *      Coatl_GetUcdProperty_Uc(Col_Char c,
-                            size_t *lengthPtr);
 EXTERN int              Coatl_GetUcdProperty_UIdeo(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_Upper(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_VS(Col_Char c);
-EXTERN Coatl_Ucd_WB     Coatl_GetUcdProperty_WB(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_WSpace(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_XIDC(Col_Char c);
 EXTERN int              Coatl_GetUcdProperty_XIDS(Col_Char c);
-EXTERN Col_Char         Coatl_GetUcdProperty_Bpb(Col_Char c);
-EXTERN Coatl_Ucd_Bpt    Coatl_GetUcdProperty_Bpt(Col_Char c);
-EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
+
+/**
+ * Get value of UCD property '**Numeric_Value**' for given codepoint.
+ * Alias for property UCD property accessor '**Nv**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Numeric_Value**'.
+ *
+ * @see COATL_UCD_NV
+ * @see Coatl_GetUcdProperty_Nv
+ * @see COATL_UCD_NUMERIC_VALUE
+ */
+#define Coatl_GetUcdProperty_Numeric_Value(c) \
+    Coatl_GetUcdProperty_Nv(c)
+
+/**
+ * Get value of UCD property '**Case_Folding**' for given codepoint.
+ * Alias for property UCD property accessor '**Cf**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Case_Folding**'.
+ *
+ * @see COATL_UCD_CF
+ * @see Coatl_GetUcdProperty_Cf
+ * @see COATL_UCD_CASE_FOLDING
+ */
+#define Coatl_GetUcdProperty_Case_Folding(c) \
+    Coatl_GetUcdProperty_Cf(c)
+
+/**
+ * Get value of UCD property '**Decomposition_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Dm**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Decomposition_Mapping**'.
+ *
+ * @see COATL_UCD_DM
+ * @see Coatl_GetUcdProperty_Dm
+ * @see COATL_UCD_DECOMPOSITION_MAPPING
+ */
+#define Coatl_GetUcdProperty_Decomposition_Mapping(c) \
+    Coatl_GetUcdProperty_Dm(c)
+
+/**
+ * Get value of UCD property '**Lowercase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Lc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Lowercase_Mapping**'.
+ *
+ * @see COATL_UCD_LC
+ * @see Coatl_GetUcdProperty_Lc
+ * @see COATL_UCD_LOWERCASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Lowercase_Mapping(c) \
+    Coatl_GetUcdProperty_Lc(c)
+
+/**
+ * Get value of UCD property '**NFKC_Casefold**' for given codepoint.
+ * Alias for property UCD property accessor '**NFKC_CF**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**NFKC_Casefold**'.
+ *
+ * @see COATL_UCD_NFKC_CF
+ * @see Coatl_GetUcdProperty_NFKC_CF
+ * @see COATL_UCD_NFKC_CASEFOLD
+ */
+#define Coatl_GetUcdProperty_NFKC_Casefold(c) \
+    Coatl_GetUcdProperty_NFKC_CF(c)
+
+/**
+ * Get value of UCD property '**Simple_Case_Folding**' for given codepoint.
+ * Alias for property UCD property accessor '**Scf**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Simple_Case_Folding**'.
+ *
+ * @see COATL_UCD_SCF
+ * @see Coatl_GetUcdProperty_Scf
+ * @see COATL_UCD_SIMPLE_CASE_FOLDING
+ */
+#define Coatl_GetUcdProperty_Simple_Case_Folding(c) \
+    Coatl_GetUcdProperty_Scf(c)
+
+/**
+ * Get value of UCD property '**sfc**' for given codepoint.
+ * Alias for property UCD property accessor '**Scf**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**sfc**'.
+ *
+ * @see COATL_UCD_SCF
+ * @see Coatl_GetUcdProperty_Scf
+ * @see COATL_UCD_SFC
+ */
+#define Coatl_GetUcdProperty_Sfc(c) \
+    Coatl_GetUcdProperty_Scf(c)
+
+/**
+ * Get value of UCD property '**Simple_Lowercase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Slc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Simple_Lowercase_Mapping**'.
+ *
+ * @see COATL_UCD_SLC
+ * @see Coatl_GetUcdProperty_Slc
+ * @see COATL_UCD_SIMPLE_LOWERCASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Simple_Lowercase_Mapping(c) \
+    Coatl_GetUcdProperty_Slc(c)
+
+/**
+ * Get value of UCD property '**Simple_Titlecase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Stc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Simple_Titlecase_Mapping**'.
+ *
+ * @see COATL_UCD_STC
+ * @see Coatl_GetUcdProperty_Stc
+ * @see COATL_UCD_SIMPLE_TITLECASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) \
+    Coatl_GetUcdProperty_Stc(c)
+
+/**
+ * Get value of UCD property '**Simple_Uppercase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Suc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Simple_Uppercase_Mapping**'.
+ *
+ * @see COATL_UCD_SUC
+ * @see Coatl_GetUcdProperty_Suc
+ * @see COATL_UCD_SIMPLE_UPPERCASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Simple_Uppercase_Mapping(c) \
+    Coatl_GetUcdProperty_Suc(c)
+
+/**
+ * Get value of UCD property '**Titlecase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Tc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Titlecase_Mapping**'.
+ *
+ * @see COATL_UCD_TC
+ * @see Coatl_GetUcdProperty_Tc
+ * @see COATL_UCD_TITLECASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Titlecase_Mapping(c) \
+    Coatl_GetUcdProperty_Tc(c)
+
+/**
+ * Get value of UCD property '**Uppercase_Mapping**' for given codepoint.
+ * Alias for property UCD property accessor '**Uc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Uppercase_Mapping**'.
+ *
+ * @see COATL_UCD_UC
+ * @see Coatl_GetUcdProperty_Uc
+ * @see COATL_UCD_UPPERCASE_MAPPING
+ */
+#define Coatl_GetUcdProperty_Uppercase_Mapping(c) \
+    Coatl_GetUcdProperty_Uc(c)
+
+/**
+ * Get value of UCD property '**Bidi_Mirroring_Glyph**' for given codepoint.
+ * Alias for property UCD property accessor '**Bmg**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Bidi_Mirroring_Glyph**'.
+ *
+ * @see COATL_UCD_BMG
+ * @see Coatl_GetUcdProperty_Bmg
+ * @see COATL_UCD_BIDI_MIRRORING_GLYPH
+ */
+#define Coatl_GetUcdProperty_Bidi_Mirroring_Glyph(c) \
+    Coatl_GetUcdProperty_Bmg(c)
+
+/**
+ * Get value of UCD property '**Bidi_Paired_Bracket**' for given codepoint.
+ * Alias for property UCD property accessor '**Bpb**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Bidi_Paired_Bracket**'.
+ *
+ * @see COATL_UCD_BPB
+ * @see Coatl_GetUcdProperty_Bpb
+ * @see COATL_UCD_BIDI_PAIRED_BRACKET
+ */
+#define Coatl_GetUcdProperty_Bidi_Paired_Bracket(c) \
+    Coatl_GetUcdProperty_Bpb(c)
+
+/**
+ * Get value of UCD property '**Script_Extensions**' for given codepoint.
+ * Alias for property UCD property accessor '**Scx**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Script_Extensions**'.
+ *
+ * @see COATL_UCD_SCX
+ * @see Coatl_GetUcdProperty_Scx
+ * @see COATL_UCD_SCRIPT_EXTENSIONS
+ */
+#define Coatl_GetUcdProperty_Script_Extensions(c) \
+    Coatl_GetUcdProperty_Scx(c)
+
+/**
+ * Get value of UCD property '**Block**' for given codepoint.
+ * Alias for property UCD property accessor '**Blk**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Block**'.
+ *
+ * @see COATL_UCD_BLK
+ * @see Coatl_GetUcdProperty_Blk
+ * @see COATL_UCD_BLOCK
+ */
+#define Coatl_GetUcdProperty_Block(c) \
+    Coatl_GetUcdProperty_Blk(c)
+
+/**
+ * Get value of UCD property '**Script**' for given codepoint.
+ * Alias for property UCD property accessor '**Sc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Script**'.
+ *
+ * @see COATL_UCD_SC
+ * @see Coatl_GetUcdProperty_Sc
+ * @see COATL_UCD_SCRIPT
+ */
+#define Coatl_GetUcdProperty_Script(c) \
+    Coatl_GetUcdProperty_Sc(c)
+
+/**
+ * Get value of UCD property '**Bidi_Class**' for given codepoint.
+ * Alias for property UCD property accessor '**Bc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Bidi_Class**'.
+ *
+ * @see COATL_UCD_BC
+ * @see Coatl_GetUcdProperty_Bc
+ * @see COATL_UCD_BIDI_CLASS
+ */
+#define Coatl_GetUcdProperty_Bidi_Class(c) \
+    Coatl_GetUcdProperty_Bc(c)
+
+/**
+ * Get value of UCD property '**Bidi_Paired_Bracket_Type**' for given codepoint.
+ * Alias for property UCD property accessor '**Bpt**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Bidi_Paired_Bracket_Type**'.
+ *
+ * @see COATL_UCD_BPT
+ * @see Coatl_GetUcdProperty_Bpt
+ * @see COATL_UCD_BIDI_PAIRED_BRACKET_TYPE
+ */
+#define Coatl_GetUcdProperty_Bidi_Paired_Bracket_Type(c) \
+    Coatl_GetUcdProperty_Bpt(c)
+
+/**
+ * Get value of UCD property '**Canonical_Combining_Class**' for given codepoint.
+ * Alias for property UCD property accessor '**Ccc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Canonical_Combining_Class**'.
+ *
+ * @see COATL_UCD_CCC
+ * @see Coatl_GetUcdProperty_Ccc
+ * @see COATL_UCD_CANONICAL_COMBINING_CLASS
+ */
+#define Coatl_GetUcdProperty_Canonical_Combining_Class(c) \
+    Coatl_GetUcdProperty_Ccc(c)
+
+/**
+ * Get value of UCD property '**Decomposition_Type**' for given codepoint.
+ * Alias for property UCD property accessor '**Dt**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Decomposition_Type**'.
+ *
+ * @see COATL_UCD_DT
+ * @see Coatl_GetUcdProperty_Dt
+ * @see COATL_UCD_DECOMPOSITION_TYPE
+ */
+#define Coatl_GetUcdProperty_Decomposition_Type(c) \
+    Coatl_GetUcdProperty_Dt(c)
+
+/**
+ * Get value of UCD property '**East_Asian_Width**' for given codepoint.
+ * Alias for property UCD property accessor '**Ea**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**East_Asian_Width**'.
+ *
+ * @see COATL_UCD_EA
+ * @see Coatl_GetUcdProperty_Ea
+ * @see COATL_UCD_EAST_ASIAN_WIDTH
+ */
+#define Coatl_GetUcdProperty_East_Asian_Width(c) \
+    Coatl_GetUcdProperty_Ea(c)
+
+/**
+ * Get value of UCD property '**General_Category**' for given codepoint.
+ * Alias for property UCD property accessor '**Gc**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**General_Category**'.
+ *
+ * @see COATL_UCD_GC
+ * @see Coatl_GetUcdProperty_Gc
+ * @see COATL_UCD_GENERAL_CATEGORY
+ */
+#define Coatl_GetUcdProperty_General_Category(c) \
+    Coatl_GetUcdProperty_Gc(c)
+
+/**
+ * Get value of UCD property '**Grapheme_Cluster_Break**' for given codepoint.
+ * Alias for property UCD property accessor '**GCB**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Grapheme_Cluster_Break**'.
+ *
+ * @see COATL_UCD_GCB
+ * @see Coatl_GetUcdProperty_GCB
+ * @see COATL_UCD_GRAPHEME_CLUSTER_BREAK
+ */
+#define Coatl_GetUcdProperty_Grapheme_Cluster_Break(c) \
+    Coatl_GetUcdProperty_GCB(c)
+
+/**
+ * Get value of UCD property '**Hangul_Syllable_Type**' for given codepoint.
+ * Alias for property UCD property accessor '**Hst**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Hangul_Syllable_Type**'.
+ *
+ * @see COATL_UCD_HST
+ * @see Coatl_GetUcdProperty_Hst
+ * @see COATL_UCD_HANGUL_SYLLABLE_TYPE
+ */
+#define Coatl_GetUcdProperty_Hangul_Syllable_Type(c) \
+    Coatl_GetUcdProperty_Hst(c)
+
+/**
+ * Get value of UCD property '**Indic_Positional_Category**' for given codepoint.
+ * Alias for property UCD property accessor '**InPC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Indic_Positional_Category**'.
+ *
+ * @see COATL_UCD_INPC
+ * @see Coatl_GetUcdProperty_InPC
+ * @see COATL_UCD_INDIC_POSITIONAL_CATEGORY
+ */
+#define Coatl_GetUcdProperty_Indic_Positional_Category(c) \
+    Coatl_GetUcdProperty_InPC(c)
+
+/**
+ * Get value of UCD property '**Indic_Syllabic_Category**' for given codepoint.
+ * Alias for property UCD property accessor '**InSC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Indic_Syllabic_Category**'.
+ *
+ * @see COATL_UCD_INSC
+ * @see Coatl_GetUcdProperty_InSC
+ * @see COATL_UCD_INDIC_SYLLABIC_CATEGORY
+ */
+#define Coatl_GetUcdProperty_Indic_Syllabic_Category(c) \
+    Coatl_GetUcdProperty_InSC(c)
+
+/**
+ * Get value of UCD property '**Joining_Group**' for given codepoint.
+ * Alias for property UCD property accessor '**Jg**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Joining_Group**'.
+ *
+ * @see COATL_UCD_JG
+ * @see Coatl_GetUcdProperty_Jg
+ * @see COATL_UCD_JOINING_GROUP
+ */
+#define Coatl_GetUcdProperty_Joining_Group(c) \
+    Coatl_GetUcdProperty_Jg(c)
+
+/**
+ * Get value of UCD property '**Joining_Type**' for given codepoint.
+ * Alias for property UCD property accessor '**Jt**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Joining_Type**'.
+ *
+ * @see COATL_UCD_JT
+ * @see Coatl_GetUcdProperty_Jt
+ * @see COATL_UCD_JOINING_TYPE
+ */
+#define Coatl_GetUcdProperty_Joining_Type(c) \
+    Coatl_GetUcdProperty_Jt(c)
+
+/**
+ * Get value of UCD property '**Line_Break**' for given codepoint.
+ * Alias for property UCD property accessor '**Lb**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Line_Break**'.
+ *
+ * @see COATL_UCD_LB
+ * @see Coatl_GetUcdProperty_Lb
+ * @see COATL_UCD_LINE_BREAK
+ */
+#define Coatl_GetUcdProperty_Line_Break(c) \
+    Coatl_GetUcdProperty_Lb(c)
+
+/**
+ * Get value of UCD property '**NFC_Quick_Check**' for given codepoint.
+ * Alias for property UCD property accessor '**NFC_QC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**NFC_Quick_Check**'.
+ *
+ * @see COATL_UCD_NFC_QC
+ * @see Coatl_GetUcdProperty_NFC_QC
+ * @see COATL_UCD_NFC_QUICK_CHECK
+ */
+#define Coatl_GetUcdProperty_NFC_Quick_Check(c) \
+    Coatl_GetUcdProperty_NFC_QC(c)
+
+/**
+ * Get value of UCD property '**NFD_Quick_Check**' for given codepoint.
+ * Alias for property UCD property accessor '**NFD_QC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**NFD_Quick_Check**'.
+ *
+ * @see COATL_UCD_NFD_QC
+ * @see Coatl_GetUcdProperty_NFD_QC
+ * @see COATL_UCD_NFD_QUICK_CHECK
+ */
+#define Coatl_GetUcdProperty_NFD_Quick_Check(c) \
+    Coatl_GetUcdProperty_NFD_QC(c)
+
+/**
+ * Get value of UCD property '**NFKC_Quick_Check**' for given codepoint.
+ * Alias for property UCD property accessor '**NFKC_QC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**NFKC_Quick_Check**'.
+ *
+ * @see COATL_UCD_NFKC_QC
+ * @see Coatl_GetUcdProperty_NFKC_QC
+ * @see COATL_UCD_NFKC_QUICK_CHECK
+ */
+#define Coatl_GetUcdProperty_NFKC_Quick_Check(c) \
+    Coatl_GetUcdProperty_NFKC_QC(c)
+
+/**
+ * Get value of UCD property '**NFKD_Quick_Check**' for given codepoint.
+ * Alias for property UCD property accessor '**NFKD_QC**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**NFKD_Quick_Check**'.
+ *
+ * @see COATL_UCD_NFKD_QC
+ * @see Coatl_GetUcdProperty_NFKD_QC
+ * @see COATL_UCD_NFKD_QUICK_CHECK
+ */
+#define Coatl_GetUcdProperty_NFKD_Quick_Check(c) \
+    Coatl_GetUcdProperty_NFKD_QC(c)
+
+/**
+ * Get value of UCD property '**Numeric_Type**' for given codepoint.
+ * Alias for property UCD property accessor '**Nt**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Numeric_Type**'.
+ *
+ * @see COATL_UCD_NT
+ * @see Coatl_GetUcdProperty_Nt
+ * @see COATL_UCD_NUMERIC_TYPE
+ */
+#define Coatl_GetUcdProperty_Numeric_Type(c) \
+    Coatl_GetUcdProperty_Nt(c)
+
+/**
+ * Get value of UCD property '**Sentence_Break**' for given codepoint.
+ * Alias for property UCD property accessor '**SB**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Sentence_Break**'.
+ *
+ * @see COATL_UCD_SB
+ * @see Coatl_GetUcdProperty_SB
+ * @see COATL_UCD_SENTENCE_BREAK
+ */
+#define Coatl_GetUcdProperty_Sentence_Break(c) \
+    Coatl_GetUcdProperty_SB(c)
+
+/**
+ * Get value of UCD property '**Vertical_Orientation**' for given codepoint.
+ * Alias for property UCD property accessor '**Vo**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Vertical_Orientation**'.
+ *
+ * @see COATL_UCD_VO
+ * @see Coatl_GetUcdProperty_Vo
+ * @see COATL_UCD_VERTICAL_ORIENTATION
+ */
+#define Coatl_GetUcdProperty_Vertical_Orientation(c) \
+    Coatl_GetUcdProperty_Vo(c)
+
+/**
+ * Get value of UCD property '**Word_Break**' for given codepoint.
+ * Alias for property UCD property accessor '**WB**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Word_Break**'.
+ *
+ * @see COATL_UCD_WB
+ * @see Coatl_GetUcdProperty_WB
+ * @see COATL_UCD_WORD_BREAK
+ */
+#define Coatl_GetUcdProperty_Word_Break(c) \
+    Coatl_GetUcdProperty_WB(c)
 
 /**
  * Get value of UCD property '**ASCII_Hex_Digit**' for given codepoint.
@@ -152,21 +730,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_Alpha(c)
 
 /**
- * Get value of UCD property '**Bidi_Class**' for given codepoint.
- * Alias for property UCD property accessor '**Bc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Bidi_Class**'.
- *
- * @see COATL_UCD_BC
- * @see Coatl_GetUcdProperty_Bc
- * @see COATL_UCD_BIDI_CLASS
- */
-#define Coatl_GetUcdProperty_Bidi_Class(c) \
-    Coatl_GetUcdProperty_Bc(c)
-
-/**
  * Get value of UCD property '**Bidi_Control**' for given codepoint.
  * Alias for property UCD property accessor '**Bidi_C**'
  *
@@ -197,51 +760,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_Bidi_M(c)
 
 /**
- * Get value of UCD property '**Block**' for given codepoint.
- * Alias for property UCD property accessor '**Blk**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Block**'.
- *
- * @see COATL_UCD_BLK
- * @see Coatl_GetUcdProperty_Blk
- * @see COATL_UCD_BLOCK
- */
-#define Coatl_GetUcdProperty_Block(c) \
-    Coatl_GetUcdProperty_Blk(c)
-
-/**
- * Get value of UCD property '**Bidi_Mirroring_Glyph**' for given codepoint.
- * Alias for property UCD property accessor '**Bmg**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Bidi_Mirroring_Glyph**'.
- *
- * @see COATL_UCD_BMG
- * @see Coatl_GetUcdProperty_Bmg
- * @see COATL_UCD_BIDI_MIRRORING_GLYPH
- */
-#define Coatl_GetUcdProperty_Bidi_Mirroring_Glyph(c) \
-    Coatl_GetUcdProperty_Bmg(c)
-
-/**
- * Get value of UCD property '**Canonical_Combining_Class**' for given codepoint.
- * Alias for property UCD property accessor '**Ccc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Canonical_Combining_Class**'.
- *
- * @see COATL_UCD_CCC
- * @see Coatl_GetUcdProperty_Ccc
- * @see COATL_UCD_CANONICAL_COMBINING_CLASS
- */
-#define Coatl_GetUcdProperty_Canonical_Combining_Class(c) \
-    Coatl_GetUcdProperty_Ccc(c)
-
-/**
  * Get value of UCD property '**Composition_Exclusion**' for given codepoint.
  * Alias for property UCD property accessor '**CE**'
  *
@@ -255,21 +773,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Composition_Exclusion(c) \
     Coatl_GetUcdProperty_CE(c)
-
-/**
- * Get value of UCD property '**Case_Folding**' for given codepoint.
- * Alias for property UCD property accessor '**Cf**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Case_Folding**'.
- *
- * @see COATL_UCD_CF
- * @see Coatl_GetUcdProperty_Cf
- * @see COATL_UCD_CASE_FOLDING
- */
-#define Coatl_GetUcdProperty_Case_Folding(c) \
-    Coatl_GetUcdProperty_Cf(c)
 
 /**
  * Get value of UCD property '**Case_Ignorable**' for given codepoint.
@@ -437,49 +940,64 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_Dia(c)
 
 /**
- * Get value of UCD property '**Decomposition_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Dm**'
+ * Get value of UCD property '**Emoji_Modifier_Base**' for given codepoint.
+ * Alias for property UCD property accessor '**EBase**'
  *
  * @param c Codepoint to get UCD property value for.
  *
- * @return Value of UCD property '**Decomposition_Mapping**'.
+ * @return Value of UCD property '**Emoji_Modifier_Base**'.
  *
- * @see COATL_UCD_DM
- * @see Coatl_GetUcdProperty_Dm
- * @see COATL_UCD_DECOMPOSITION_MAPPING
+ * @see COATL_UCD_EBASE
+ * @see Coatl_GetUcdProperty_EBase
+ * @see COATL_UCD_EMOJI_MODIFIER_BASE
  */
-#define Coatl_GetUcdProperty_Decomposition_Mapping(c) \
-    Coatl_GetUcdProperty_Dm(c)
+#define Coatl_GetUcdProperty_Emoji_Modifier_Base(c) \
+    Coatl_GetUcdProperty_EBase(c)
 
 /**
- * Get value of UCD property '**Decomposition_Type**' for given codepoint.
- * Alias for property UCD property accessor '**Dt**'
+ * Get value of UCD property '**Emoji_Component**' for given codepoint.
+ * Alias for property UCD property accessor '**EComp**'
  *
  * @param c Codepoint to get UCD property value for.
  *
- * @return Value of UCD property '**Decomposition_Type**'.
+ * @return Value of UCD property '**Emoji_Component**'.
  *
- * @see COATL_UCD_DT
- * @see Coatl_GetUcdProperty_Dt
- * @see COATL_UCD_DECOMPOSITION_TYPE
+ * @see COATL_UCD_ECOMP
+ * @see Coatl_GetUcdProperty_EComp
+ * @see COATL_UCD_EMOJI_COMPONENT
  */
-#define Coatl_GetUcdProperty_Decomposition_Type(c) \
-    Coatl_GetUcdProperty_Dt(c)
+#define Coatl_GetUcdProperty_Emoji_Component(c) \
+    Coatl_GetUcdProperty_EComp(c)
 
 /**
- * Get value of UCD property '**East_Asian_Width**' for given codepoint.
- * Alias for property UCD property accessor '**Ea**'
+ * Get value of UCD property '**Emoji_Modifier**' for given codepoint.
+ * Alias for property UCD property accessor '**EMod**'
  *
  * @param c Codepoint to get UCD property value for.
  *
- * @return Value of UCD property '**East_Asian_Width**'.
+ * @return Value of UCD property '**Emoji_Modifier**'.
  *
- * @see COATL_UCD_EA
- * @see Coatl_GetUcdProperty_Ea
- * @see COATL_UCD_EAST_ASIAN_WIDTH
+ * @see COATL_UCD_EMOD
+ * @see Coatl_GetUcdProperty_EMod
+ * @see COATL_UCD_EMOJI_MODIFIER
  */
-#define Coatl_GetUcdProperty_East_Asian_Width(c) \
-    Coatl_GetUcdProperty_Ea(c)
+#define Coatl_GetUcdProperty_Emoji_Modifier(c) \
+    Coatl_GetUcdProperty_EMod(c)
+
+/**
+ * Get value of UCD property '**Emoji_Presentation**' for given codepoint.
+ * Alias for property UCD property accessor '**EPres**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Emoji_Presentation**'.
+ *
+ * @see COATL_UCD_EPRES
+ * @see Coatl_GetUcdProperty_EPres
+ * @see COATL_UCD_EMOJI_PRESENTATION
+ */
+#define Coatl_GetUcdProperty_Emoji_Presentation(c) \
+    Coatl_GetUcdProperty_EPres(c)
 
 /**
  * Get value of UCD property '**Extender**' for given codepoint.
@@ -497,34 +1015,19 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_Ext(c)
 
 /**
- * Get value of UCD property '**General_Category**' for given codepoint.
- * Alias for property UCD property accessor '**Gc**'
+ * Get value of UCD property '**Extended_Pictographic**' for given codepoint.
+ * Alias for property UCD property accessor '**ExtPict**'
  *
  * @param c Codepoint to get UCD property value for.
  *
- * @return Value of UCD property '**General_Category**'.
+ * @return Value of UCD property '**Extended_Pictographic**'.
  *
- * @see COATL_UCD_GC
- * @see Coatl_GetUcdProperty_Gc
- * @see COATL_UCD_GENERAL_CATEGORY
+ * @see COATL_UCD_EXTPICT
+ * @see Coatl_GetUcdProperty_ExtPict
+ * @see COATL_UCD_EXTENDED_PICTOGRAPHIC
  */
-#define Coatl_GetUcdProperty_General_Category(c) \
-    Coatl_GetUcdProperty_Gc(c)
-
-/**
- * Get value of UCD property '**Grapheme_Cluster_Break**' for given codepoint.
- * Alias for property UCD property accessor '**GCB**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Grapheme_Cluster_Break**'.
- *
- * @see COATL_UCD_GCB
- * @see Coatl_GetUcdProperty_GCB
- * @see COATL_UCD_GRAPHEME_CLUSTER_BREAK
- */
-#define Coatl_GetUcdProperty_Grapheme_Cluster_Break(c) \
-    Coatl_GetUcdProperty_GCB(c)
+#define Coatl_GetUcdProperty_Extended_Pictographic(c) \
+    Coatl_GetUcdProperty_ExtPict(c)
 
 /**
  * Get value of UCD property '**Grapheme_Base**' for given codepoint.
@@ -570,21 +1073,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Hex_Digit(c) \
     Coatl_GetUcdProperty_Hex(c)
-
-/**
- * Get value of UCD property '**Hangul_Syllable_Type**' for given codepoint.
- * Alias for property UCD property accessor '**Hst**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Hangul_Syllable_Type**'.
- *
- * @see COATL_UCD_HST
- * @see Coatl_GetUcdProperty_Hst
- * @see COATL_UCD_HANGUL_SYLLABLE_TYPE
- */
-#define Coatl_GetUcdProperty_Hangul_Syllable_Type(c) \
-    Coatl_GetUcdProperty_Hst(c)
 
 /**
  * Get value of UCD property '**ID_Continue**' for given codepoint.
@@ -662,51 +1150,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_IDST(c)
 
 /**
- * Get value of UCD property '**Indic_Positional_Category**' for given codepoint.
- * Alias for property UCD property accessor '**InPC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Indic_Positional_Category**'.
- *
- * @see COATL_UCD_INPC
- * @see Coatl_GetUcdProperty_InPC
- * @see COATL_UCD_INDIC_POSITIONAL_CATEGORY
- */
-#define Coatl_GetUcdProperty_Indic_Positional_Category(c) \
-    Coatl_GetUcdProperty_InPC(c)
-
-/**
- * Get value of UCD property '**Indic_Syllabic_Category**' for given codepoint.
- * Alias for property UCD property accessor '**InSC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Indic_Syllabic_Category**'.
- *
- * @see COATL_UCD_INSC
- * @see Coatl_GetUcdProperty_InSC
- * @see COATL_UCD_INDIC_SYLLABIC_CATEGORY
- */
-#define Coatl_GetUcdProperty_Indic_Syllabic_Category(c) \
-    Coatl_GetUcdProperty_InSC(c)
-
-/**
- * Get value of UCD property '**Joining_Group**' for given codepoint.
- * Alias for property UCD property accessor '**Jg**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Joining_Group**'.
- *
- * @see COATL_UCD_JG
- * @see Coatl_GetUcdProperty_Jg
- * @see COATL_UCD_JOINING_GROUP
- */
-#define Coatl_GetUcdProperty_Joining_Group(c) \
-    Coatl_GetUcdProperty_Jg(c)
-
-/**
  * Get value of UCD property '**Join_Control**' for given codepoint.
  * Alias for property UCD property accessor '**Join_C**'
  *
@@ -720,51 +1163,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Join_Control(c) \
     Coatl_GetUcdProperty_Join_C(c)
-
-/**
- * Get value of UCD property '**Joining_Type**' for given codepoint.
- * Alias for property UCD property accessor '**Jt**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Joining_Type**'.
- *
- * @see COATL_UCD_JT
- * @see Coatl_GetUcdProperty_Jt
- * @see COATL_UCD_JOINING_TYPE
- */
-#define Coatl_GetUcdProperty_Joining_Type(c) \
-    Coatl_GetUcdProperty_Jt(c)
-
-/**
- * Get value of UCD property '**Line_Break**' for given codepoint.
- * Alias for property UCD property accessor '**Lb**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Line_Break**'.
- *
- * @see COATL_UCD_LB
- * @see Coatl_GetUcdProperty_Lb
- * @see COATL_UCD_LINE_BREAK
- */
-#define Coatl_GetUcdProperty_Line_Break(c) \
-    Coatl_GetUcdProperty_Lb(c)
-
-/**
- * Get value of UCD property '**Lowercase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Lc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Lowercase_Mapping**'.
- *
- * @see COATL_UCD_LC
- * @see Coatl_GetUcdProperty_Lc
- * @see COATL_UCD_LOWERCASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Lowercase_Mapping(c) \
-    Coatl_GetUcdProperty_Lc(c)
 
 /**
  * Get value of UCD property '**Logical_Order_Exception**' for given codepoint.
@@ -810,111 +1208,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Noncharacter_Code_Point(c) \
     Coatl_GetUcdProperty_NChar(c)
-
-/**
- * Get value of UCD property '**NFC_Quick_Check**' for given codepoint.
- * Alias for property UCD property accessor '**NFC_QC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**NFC_Quick_Check**'.
- *
- * @see COATL_UCD_NFC_QC
- * @see Coatl_GetUcdProperty_NFC_QC
- * @see COATL_UCD_NFC_QUICK_CHECK
- */
-#define Coatl_GetUcdProperty_NFC_Quick_Check(c) \
-    Coatl_GetUcdProperty_NFC_QC(c)
-
-/**
- * Get value of UCD property '**NFD_Quick_Check**' for given codepoint.
- * Alias for property UCD property accessor '**NFD_QC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**NFD_Quick_Check**'.
- *
- * @see COATL_UCD_NFD_QC
- * @see Coatl_GetUcdProperty_NFD_QC
- * @see COATL_UCD_NFD_QUICK_CHECK
- */
-#define Coatl_GetUcdProperty_NFD_Quick_Check(c) \
-    Coatl_GetUcdProperty_NFD_QC(c)
-
-/**
- * Get value of UCD property '**NFKC_Casefold**' for given codepoint.
- * Alias for property UCD property accessor '**NFKC_CF**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**NFKC_Casefold**'.
- *
- * @see COATL_UCD_NFKC_CF
- * @see Coatl_GetUcdProperty_NFKC_CF
- * @see COATL_UCD_NFKC_CASEFOLD
- */
-#define Coatl_GetUcdProperty_NFKC_Casefold(c) \
-    Coatl_GetUcdProperty_NFKC_CF(c)
-
-/**
- * Get value of UCD property '**NFKC_Quick_Check**' for given codepoint.
- * Alias for property UCD property accessor '**NFKC_QC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**NFKC_Quick_Check**'.
- *
- * @see COATL_UCD_NFKC_QC
- * @see Coatl_GetUcdProperty_NFKC_QC
- * @see COATL_UCD_NFKC_QUICK_CHECK
- */
-#define Coatl_GetUcdProperty_NFKC_Quick_Check(c) \
-    Coatl_GetUcdProperty_NFKC_QC(c)
-
-/**
- * Get value of UCD property '**NFKD_Quick_Check**' for given codepoint.
- * Alias for property UCD property accessor '**NFKD_QC**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**NFKD_Quick_Check**'.
- *
- * @see COATL_UCD_NFKD_QC
- * @see Coatl_GetUcdProperty_NFKD_QC
- * @see COATL_UCD_NFKD_QUICK_CHECK
- */
-#define Coatl_GetUcdProperty_NFKD_Quick_Check(c) \
-    Coatl_GetUcdProperty_NFKD_QC(c)
-
-/**
- * Get value of UCD property '**Numeric_Type**' for given codepoint.
- * Alias for property UCD property accessor '**Nt**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Numeric_Type**'.
- *
- * @see COATL_UCD_NT
- * @see Coatl_GetUcdProperty_Nt
- * @see COATL_UCD_NUMERIC_TYPE
- */
-#define Coatl_GetUcdProperty_Numeric_Type(c) \
-    Coatl_GetUcdProperty_Nt(c)
-
-/**
- * Get value of UCD property '**Numeric_Value**' for given codepoint.
- * Alias for property UCD property accessor '**Nv**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Numeric_Value**'.
- *
- * @see COATL_UCD_NV
- * @see Coatl_GetUcdProperty_Nv
- * @see COATL_UCD_NUMERIC_VALUE
- */
-#define Coatl_GetUcdProperty_Numeric_Value(c) \
-    Coatl_GetUcdProperty_Nv(c)
 
 /**
  * Get value of UCD property '**Other_Alphabetic**' for given codepoint.
@@ -1067,6 +1360,21 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_Pat_WS(c)
 
 /**
+ * Get value of UCD property '**Prepended_Concatenation_Mark**' for given codepoint.
+ * Alias for property UCD property accessor '**PCM**'
+ *
+ * @param c Codepoint to get UCD property value for.
+ *
+ * @return Value of UCD property '**Prepended_Concatenation_Mark**'.
+ *
+ * @see COATL_UCD_PCM
+ * @see Coatl_GetUcdProperty_PCM
+ * @see COATL_UCD_PREPENDED_CONCATENATION_MARK
+ */
+#define Coatl_GetUcdProperty_Prepended_Concatenation_Mark(c) \
+    Coatl_GetUcdProperty_PCM(c)
+
+/**
  * Get value of UCD property '**Quotation_Mark**' for given codepoint.
  * Alias for property UCD property accessor '**QMark**'
  *
@@ -1082,79 +1390,19 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_QMark(c)
 
 /**
- * Get value of UCD property '**Sentence_Break**' for given codepoint.
- * Alias for property UCD property accessor '**SB**'
+ * Get value of UCD property '**Regional_Indicator**' for given codepoint.
+ * Alias for property UCD property accessor '**RI**'
  *
  * @param c Codepoint to get UCD property value for.
  *
- * @return Value of UCD property '**Sentence_Break**'.
+ * @return Value of UCD property '**Regional_Indicator**'.
  *
- * @see COATL_UCD_SB
- * @see Coatl_GetUcdProperty_SB
- * @see COATL_UCD_SENTENCE_BREAK
+ * @see COATL_UCD_RI
+ * @see Coatl_GetUcdProperty_RI
+ * @see COATL_UCD_REGIONAL_INDICATOR
  */
-#define Coatl_GetUcdProperty_Sentence_Break(c) \
-    Coatl_GetUcdProperty_SB(c)
-
-/**
- * Get value of UCD property '**Script**' for given codepoint.
- * Alias for property UCD property accessor '**Sc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Script**'.
- *
- * @see COATL_UCD_SC
- * @see Coatl_GetUcdProperty_Sc
- * @see COATL_UCD_SCRIPT
- */
-#define Coatl_GetUcdProperty_Script(c) \
-    Coatl_GetUcdProperty_Sc(c)
-
-/**
- * Get value of UCD property '**Simple_Case_Folding**' for given codepoint.
- * Alias for property UCD property accessor '**Scf**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Simple_Case_Folding**'.
- *
- * @see COATL_UCD_SCF
- * @see Coatl_GetUcdProperty_Scf
- * @see COATL_UCD_SIMPLE_CASE_FOLDING
- */
-#define Coatl_GetUcdProperty_Simple_Case_Folding(c) \
-    Coatl_GetUcdProperty_Scf(c)
-
-/**
- * Get value of UCD property '**sfc**' for given codepoint.
- * Alias for property UCD property accessor '**Scf**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**sfc**'.
- *
- * @see COATL_UCD_SCF
- * @see Coatl_GetUcdProperty_Scf
- * @see COATL_UCD_SFC
- */
-#define Coatl_GetUcdProperty_Sfc(c) \
-    Coatl_GetUcdProperty_Scf(c)
-
-/**
- * Get value of UCD property '**Script_Extensions**' for given codepoint.
- * Alias for property UCD property accessor '**Scx**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Script_Extensions**'.
- *
- * @see COATL_UCD_SCX
- * @see Coatl_GetUcdProperty_Scx
- * @see COATL_UCD_SCRIPT_EXTENSIONS
- */
-#define Coatl_GetUcdProperty_Script_Extensions(c) \
-    Coatl_GetUcdProperty_Scx(c)
+#define Coatl_GetUcdProperty_Regional_Indicator(c) \
+    Coatl_GetUcdProperty_RI(c)
 
 /**
  * Get value of UCD property '**Soft_Dotted**' for given codepoint.
@@ -1172,36 +1420,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_SD(c)
 
 /**
- * Get value of UCD property '**Simple_Lowercase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Slc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Simple_Lowercase_Mapping**'.
- *
- * @see COATL_UCD_SLC
- * @see Coatl_GetUcdProperty_Slc
- * @see COATL_UCD_SIMPLE_LOWERCASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Simple_Lowercase_Mapping(c) \
-    Coatl_GetUcdProperty_Slc(c)
-
-/**
- * Get value of UCD property '**Simple_Titlecase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Stc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Simple_Titlecase_Mapping**'.
- *
- * @see COATL_UCD_STC
- * @see Coatl_GetUcdProperty_Stc
- * @see COATL_UCD_SIMPLE_TITLECASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) \
-    Coatl_GetUcdProperty_Stc(c)
-
-/**
  * Get value of UCD property '**Sentence_Terminal**' for given codepoint.
  * Alias for property UCD property accessor '**STerm**'
  *
@@ -1217,36 +1435,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
     Coatl_GetUcdProperty_STerm(c)
 
 /**
- * Get value of UCD property '**Simple_Uppercase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Suc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Simple_Uppercase_Mapping**'.
- *
- * @see COATL_UCD_SUC
- * @see Coatl_GetUcdProperty_Suc
- * @see COATL_UCD_SIMPLE_UPPERCASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Simple_Uppercase_Mapping(c) \
-    Coatl_GetUcdProperty_Suc(c)
-
-/**
- * Get value of UCD property '**Titlecase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Tc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Titlecase_Mapping**'.
- *
- * @see COATL_UCD_TC
- * @see Coatl_GetUcdProperty_Tc
- * @see COATL_UCD_TITLECASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Titlecase_Mapping(c) \
-    Coatl_GetUcdProperty_Tc(c)
-
-/**
  * Get value of UCD property '**Terminal_Punctuation**' for given codepoint.
  * Alias for property UCD property accessor '**Term**'
  *
@@ -1260,21 +1448,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Terminal_Punctuation(c) \
     Coatl_GetUcdProperty_Term(c)
-
-/**
- * Get value of UCD property '**Uppercase_Mapping**' for given codepoint.
- * Alias for property UCD property accessor '**Uc**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Uppercase_Mapping**'.
- *
- * @see COATL_UCD_UC
- * @see Coatl_GetUcdProperty_Uc
- * @see COATL_UCD_UPPERCASE_MAPPING
- */
-#define Coatl_GetUcdProperty_Uppercase_Mapping(c) \
-    Coatl_GetUcdProperty_Uc(c)
 
 /**
  * Get value of UCD property '**Unified_Ideograph**' for given codepoint.
@@ -1320,21 +1493,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_Variation_Selector(c) \
     Coatl_GetUcdProperty_VS(c)
-
-/**
- * Get value of UCD property '**Word_Break**' for given codepoint.
- * Alias for property UCD property accessor '**WB**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Word_Break**'.
- *
- * @see COATL_UCD_WB
- * @see Coatl_GetUcdProperty_WB
- * @see COATL_UCD_WORD_BREAK
- */
-#define Coatl_GetUcdProperty_Word_Break(c) \
-    Coatl_GetUcdProperty_WB(c)
 
 /**
  * Get value of UCD property '**White_Space**' for given codepoint.
@@ -1395,51 +1553,6 @@ EXTERN int              Coatl_GetUcdProperty_PCM(Col_Char c);
  */
 #define Coatl_GetUcdProperty_XID_Start(c) \
     Coatl_GetUcdProperty_XIDS(c)
-
-/**
- * Get value of UCD property '**Bidi_Paired_Bracket**' for given codepoint.
- * Alias for property UCD property accessor '**Bpb**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Bidi_Paired_Bracket**'.
- *
- * @see COATL_UCD_BPB
- * @see Coatl_GetUcdProperty_Bpb
- * @see COATL_UCD_BIDI_PAIRED_BRACKET
- */
-#define Coatl_GetUcdProperty_Bidi_Paired_Bracket(c) \
-    Coatl_GetUcdProperty_Bpb(c)
-
-/**
- * Get value of UCD property '**Bidi_Paired_Bracket_Type**' for given codepoint.
- * Alias for property UCD property accessor '**Bpt**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Bidi_Paired_Bracket_Type**'.
- *
- * @see COATL_UCD_BPT
- * @see Coatl_GetUcdProperty_Bpt
- * @see COATL_UCD_BIDI_PAIRED_BRACKET_TYPE
- */
-#define Coatl_GetUcdProperty_Bidi_Paired_Bracket_Type(c) \
-    Coatl_GetUcdProperty_Bpt(c)
-
-/**
- * Get value of UCD property '**Prepended_Concatenation_Mark**' for given codepoint.
- * Alias for property UCD property accessor '**PCM**'
- *
- * @param c Codepoint to get UCD property value for.
- *
- * @return Value of UCD property '**Prepended_Concatenation_Mark**'.
- *
- * @see COATL_UCD_PCM
- * @see Coatl_GetUcdProperty_PCM
- * @see COATL_UCD_PREPENDED_CONCATENATION_MARK
- */
-#define Coatl_GetUcdProperty_Prepended_Concatenation_Mark(c) \
-    Coatl_GetUcdProperty_PCM(c)
 
 /* End of UCD Property Accessors *//*!\}*/
 
