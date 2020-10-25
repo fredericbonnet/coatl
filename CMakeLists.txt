@@ -96,3 +96,19 @@ enable_testing()
 picotest_discover_tests(test_coatl
 	TEST_LIST_OPTION "-l"
 )
+
+# JSON Parsing Test Suite
+add_executable(test_coatl_json)
+target_sources(test_coatl_json
+	PRIVATE
+		tests/json/main.c
+)
+target_link_libraries(test_coatl_json
+	PRIVATE
+		colibri
+		coatl
+)
+install(TARGETS test_coatl_json EXPORT test_coatl_json
+	RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
+)
+include(tests/json/testJson.cmake)

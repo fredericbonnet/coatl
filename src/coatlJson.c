@@ -509,6 +509,7 @@ ReadJsonObject(
          * Key.
          */
 
+        if (c != '"') return 0;
         if (!ReadJsonString(begin, end, wordPtr?&key:NULL)) return 0;
 
         /*
@@ -1053,8 +1054,8 @@ Coatl_ReadJson(
      * Skip leading whitespace.
      */
 
-    GET_CHAR(c, begin, end) return 1;
-    SKIP_CHARS(whitespace, c, begin, end) return 1;
+    GET_CHAR(c, begin, end) return 0;
+    SKIP_CHARS(whitespace, c, begin, end) return 0;
 
     /*
      * Read value.
