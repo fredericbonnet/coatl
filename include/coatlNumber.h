@@ -19,18 +19,33 @@
 /*
 ===========================================================================*//*!
 \defgroup large_int_words Large Integer Words
+
+Words holding **intmax_t** values.
+
+Colibri integer words support the integer type defined by the C standard as 
+__intptr_t__, whose size matches native pointers and thus varies between 32- and
+64-bit architectures. However the C standard also defines **intmax_t** as the
+largest supported integer type, which is usually 64-bit on both architectures.
+
+CoATL large integer words provide **intmax_t** support on architectures where it
+is larger than **intptr_t**, and are identical to Colibri integer words on
+architectures where both types are identical.
 \{*//*==========================================================================
 */
+
+/** True when CoATL large integers are identical to Colibri integers. */
+#define COATL_NATIVELARGEINT    (INTPTR_MAX == INTMAX_MAX)
+
 
 /***************************************************************************//*!
  * \name Large Integer Word Creation
  ***************************************************************************\{*/
 
-#if INTPTR_MAX != INTMAX_MAX
-EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
-#else
+#if COATL_NATIVELARGEINT
 #   define Coatl_NewLargeIntWord        Col_NewIntWord
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#else
+EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
+#endif /* COATL_NATIVELARGEINT */
 
 /* End of Large Integer Word Creation *//*!\}*/
 
@@ -39,11 +54,11 @@ EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
  * \name Large Integer Word Predicates
  ***************************************************************************\{*/
 
-#if INTPTR_MAX != INTMAX_MAX
-EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
-#else
+#if COATL_NATIVELARGEINT
 #   define Coatl_WordIsLargeInt(word)   (Col_WordType(word) & COL_INT)
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#else
+EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
+#endif /* COATL_NATIVELARGEINT */
 
 /* End of Large Integer Word Predicates *//*!\}*/
 
@@ -52,11 +67,11 @@ EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
  * \name Large Integer Word Accessors
  ***************************************************************************\{*/
 
-#if INTPTR_MAX != INTMAX_MAX
-EXTERN intmax_t         Coatl_LargeIntWordValue(Col_Word word);
-#else
+#if COATL_NATIVELARGEINT
 #   define Coatl_LargeIntWordValue      Col_IntWordValue
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#else
+EXTERN intmax_t         Coatl_LargeIntWordValue(Col_Word word);
+#endif /* COATL_NATIVELARGEINT */
 
 /* End of Large Integer Word Accessors *//*!\}*/
 
@@ -179,7 +194,7 @@ typedef struct Coatl_NumReadFormat {
 /** Native (Colibri) integer words. */
 #define COATL_INTREAD_NATIVE    1
 
-/** Large integer words. */
+/** Large integer words. (note: this includes native) */
 #define COATL_INTREAD_LARGE     2
 
 /** Multiple precision integer words. */
@@ -251,17 +266,17 @@ typedef struct Coatl_NumWriteFormat {
 /** Use radix prefix for zero values as well. */
 #define COATL_NUMWRITE_PREFIX_0 0x2
 
-/** Uses lower case letters for radices <= 36. */
+/** Use lower case letters for radices <= 36. */
 #define COATL_NUMWRITE_L        0x4
 
-/** Uses 0 instead of padding character to pad field (use with 
+/** Use 0 instead of padding character to pad field (use with 
     Coatl_NumWriteFormat **minWidth** field). */
 #define COATL_NUMWRITE_PAD_0    0x8
 
-/** Prefixes non-negative numbers with a padding character. */
+/** Prefix non-negative numbers with a padding character. */
 #define COATL_NUMWRITE_SIGNPAD  0x10
 
-/** Prefixes non-negative numbers with a + sign (this includes zero). */
+/** Prefix non-negative numbers with a + sign (this includes zero). */
 #define COATL_NUMWRITE_PLUS     0x20
 
 /** **[F]** Always add radix point even with zero fractional digits. */

@@ -23,10 +23,10 @@
  */
 
 /*! \cond IGNORE */
-#if INTPTR_MAX != INTMAX_MAX
+#if !COATL_NATIVELARGEINT
 static Col_CustomWordType largeIntWordType;
 static Col_CustomWordSizeProc LargeIntSizeProc;
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#endif /* !COATL_NATIVELARGEINT */
 static Col_CustomWordType mpIntWordType;
 static Col_CustomWordSizeProc MpIntSizeProc;
 static Col_CustomWordFreeProc MpIntFreeProc;
@@ -51,7 +51,7 @@ static int              ReadNumberPrefix(Col_RopeIterator begin,
 \{*//*==========================================================================
 */
 
-#if INTPTR_MAX != INTMAX_MAX
+#if !COATL_NATIVELARGEINT
 
 /***************************************************************************//*!
  * \name Large Integer Word Type
@@ -226,6 +226,14 @@ Coatl_LargeIntWordValue(
 {
     intmax_t *liPtr;
 
+    if (Col_WordType(li) & COL_INT) {
+        /*
+         * Word is a Colibri integer word.
+         */
+
+        return Col_IntWordValue(li);
+    }
+
     /*
      * Check preconditions.
      */
@@ -236,7 +244,7 @@ Coatl_LargeIntWordValue(
     return *liPtr;
 }
 
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#endif /* !COATL_NATIVELARGEINT */
 
 /* End of Large Integer Word Accessors */
 
@@ -512,7 +520,7 @@ ParseUInt(
     const Col_Char *ignored)    /*!< If non-NULL, a COL_CHAR_INVALID-terminated
                                      string of characters to ignore. */
 {
-    size_t nb;
+    size_t nbDigits;
     Col_Char c;
 
     ASSERT(radix >= 2 && radix <= 62);
@@ -523,7 +531,7 @@ ParseUInt(
 
     ASSERT(min <= max);
     ASSERT(max);
-    for (nb = 0; nb < max && Col_RopeIterCompare(begin, end) < 0;
+    for (nbDigits = 0; nbDigits < max && Col_RopeIterCompare(begin, end) < 0;
             Col_RopeIterNext(begin)) {
         c = Col_RopeIterAt(begin);
         if (DIGIT_VALUE(c, radix) >= radix) {
@@ -534,9 +542,9 @@ ParseUInt(
             IF_CHAR_IN(ignored, c) continue;
             break;
         }
-        nb++;
+        nbDigits++;
     }
-    if (nb < min) return 0;
+    if (nbDigits < min) return 0;
     return 1;
 }
 
@@ -556,8 +564,7 @@ ReadUInt(
                                      character to scan). */
     unsigned int radix,         /*!< Numeric radix (2..62). */
     const Col_Char *ignored,    /*!< If non-NULL, a COL_CHAR_INVALID-terminated
-                                     string of */
-                                /*!< characters to ignore. */
+                                     string of characters to ignore. */
 
     /*! [out] Resulting value upon success. */
     uintmax_t *valuePtr)
@@ -565,15 +572,17 @@ ReadUInt(
     uintmax_t v = 0;
     Col_Char c;
     unsigned int d;
+    unsigned int nbDigits;
 
     ASSERT(radix >= 2 && radix <= 62);
 
     /*
-     * Consume hex digits. Assume hex digit codepoints are contiguous (true
-     * in Unicode locale).
+     * Consume digit characters. Assume digit codepoints are contiguous (true in
+     * Unicode locale)
      */
 
-    for (; Col_RopeIterCompare(begin, end) < 0; Col_RopeIterNext(begin)) {
+    for (nbDigits = 0; Col_RopeIterCompare(begin, end) < 0; 
+            Col_RopeIterNext(begin)) {
         c = Col_RopeIterAt(begin);
         d = DIGIT_VALUE(c, radix);
         if (d >= radix) {
@@ -584,6 +593,7 @@ ReadUInt(
             IF_CHAR_IN(ignored, c) continue;
             break;
         }
+        nbDigits++;
         switch (radix) {
         case 2:
             if (v > (UINTMAX_MAX>>1)) return 0;
@@ -615,6 +625,8 @@ ReadUInt(
             v *= radix; v += d; break;
         }
     }
+    if (!nbDigits) return 0;
+
     *valuePtr = v;
     return 1;
 }
@@ -727,7 +739,8 @@ static const Coatl_NumReadFormat intReadC = {
  * - Exponent characters are *'e'*,*'E'*,
  * - C99-style exponent characters are *'p'* and *'P'*.
  *
- * @see COATL_NUMREAD_DEFAULT*/
+ * @see COATL_NUMREAD_DEFAULT
+ */
 /*! \cond IGNORE */
 static const Coatl_NumReadFormat_RadixChar floatReadC_radixChar[] = {
     {'x', 16}, {'X', 16}, {COL_CHAR_INVALID}
@@ -882,6 +895,7 @@ Coatl_ReadIntWord(
     size_t len;
     int neg = 0;
     unsigned int radix = 0;
+    unsigned int nbDigits;
 
     if (!format) format = &numReadDefaut;
     else if (format == COATL_INTREAD_C) format = &intReadC;
@@ -929,13 +943,14 @@ Coatl_ReadIntWord(
          * Consume all suitable characters.
          */
 
-        for (; Col_RopeIterCompare(begin, end) < 0;
+        for (nbDigits = 0; Col_RopeIterCompare(begin, end) < 0;
                 Col_RopeIterNext(begin)) {
             c = Col_RopeIterAt(begin);
-            if (DIGIT_VALUE(c, radix) < radix) continue;
+            if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; continue; }
             IF_CHAR_IN(format->ignoreChars, c) continue;
             break;
         }
+        if (!nbDigits) return 0;
         return 1;
     }
 
@@ -945,13 +960,15 @@ Coatl_ReadIntWord(
 
     len = Col_RopeIterIndex(end) - Col_RopeIterIndex(begin);
     str = (char *) TMP_ALLOC(len+1);
-    for (p = str; Col_RopeIterCompare(begin, end) < 0;
+    for (nbDigits = 0, p = str; Col_RopeIterCompare(begin, end) < 0;
             Col_RopeIterNext(begin)) {
         c = Col_RopeIterAt(begin);
-        if (DIGIT_VALUE(c, radix) < radix) {*p++ = c; continue; }
+        if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; *p++ = c; continue; }
         IF_CHAR_IN(format->ignoreChars, c) continue;
         break;
     }
+    if (!nbDigits) return 0;
+    
     *p = 0;
     *wordPtr = Col_NewCustomWord(&mpIntWordType, sizeof(*data), (void **) &data);
     mpz_init_set_str(*data, str, radix);
@@ -992,6 +1009,7 @@ Coatl_ReadFloatWord(
     int neg = 0, eneg = 0;
     unsigned int radix = 0;
     enum {NO_EXP, EXP, EXP2} exp = NO_EXP;
+    unsigned int nbDigits;
 
     if (!format) format = &numReadDefaut;
     else if (format == COATL_INTREAD_C) return 0;
@@ -1008,13 +1026,16 @@ Coatl_ReadFloatWord(
     if (!wordPtr) {
         /*
          * Consume all suitable characters.
+         * First mantissa.
          */
 
-        for (; Col_RopeIterCompare(begin, end) < 0;
+        for (nbDigits = 0; Col_RopeIterCompare(begin, end) < 0;
                 Col_RopeIterNext(begin)) {
             c = Col_RopeIterAt(begin);
-            if (DIGIT_VALUE(c, radix) < radix) continue;
+            if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; continue; }
             IF_CHAR_IN(format->pointChars, c) continue;
+            IF_CHAR_IN(format->ignoreChars, c) continue;
+            if (!nbDigits) break;
             IF_CHAR_IN(format->expChars, c) {
                 /*
                  * Exponent expressed in same radix as mantissa.
@@ -1043,22 +1064,23 @@ Coatl_ReadFloatWord(
                 }
                 break;
             }
-            IF_CHAR_IN(format->ignoreChars, c) continue;
             break;
         }
+        if (!nbDigits) return 0;
 
         /*
          * Then exponent.
          */
 
         if (exp == EXP) {
-            for (; Col_RopeIterCompare(begin, end) < 0;
+            for (nbDigits = 0; Col_RopeIterCompare(begin, end) < 0;
                     Col_RopeIterNext(begin)) {
                 c = Col_RopeIterAt(begin);
-                if (DIGIT_VALUE(c, radix) < radix) continue;
+                if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; continue; }
                 IF_CHAR_IN(format->ignoreChars, c) continue;
                 break;
             }
+            if (!nbDigits) return 0;
         }
 
         if (exp == EXP2) {
@@ -1087,11 +1109,13 @@ Coatl_ReadFloatWord(
      * First mantissa.
      */
 
-    for (p = str; Col_RopeIterCompare(begin, end) < 0;
+    for (nbDigits = 0, p = str; Col_RopeIterCompare(begin, end) < 0;
             Col_RopeIterNext(begin)) {
         c = Col_RopeIterAt(begin);
-        if (DIGIT_VALUE(c, radix) < radix) {*p++ = c; continue; }
+        if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; *p++ = c; continue; }
         IF_CHAR_IN(format->pointChars, c) {*p++ = '.'; continue; }
+        IF_CHAR_IN(format->ignoreChars, c) continue;
+        if (!nbDigits) break;
         IF_CHAR_IN(format->expChars, c) {
             /*
              * Exponent expressed in same radix as mantissa.
@@ -1124,22 +1148,23 @@ Coatl_ReadFloatWord(
             }
             break;
         }
-        IF_CHAR_IN(format->ignoreChars, c) continue;
         break;
     }
+    if (!nbDigits) return 0;
 
     /*
      * Then exponent.
      */
 
     if (exp == EXP) {
-        for (; Col_RopeIterCompare(begin, end) < 0;
+        for (nbDigits = 0; Col_RopeIterCompare(begin, end) < 0;
                 Col_RopeIterNext(begin)) {
             c = Col_RopeIterAt(begin);
-            if (DIGIT_VALUE(c, radix) < radix) {*p++ = c; continue; }
+            if (DIGIT_VALUE(c, radix) < radix) {nbDigits++; *p++ = c; continue; }
             IF_CHAR_IN(format->ignoreChars, c) continue;
             break;
         }
+        if (!nbDigits) return 0;
     }
 
     *p = 0;
@@ -1603,7 +1628,7 @@ Coatl_WriteIntWord(
     } else if (type & COL_CUSTOM) {
         wt = Col_CustomWordInfo(word, &data);
     }
-#if INTPTR_MAX != INTMAX_MAX
+#if !COATL_NATIVELARGEINT
     if (wt == &largeIntWordType) {
         /*
          * Large integer.
@@ -1611,7 +1636,7 @@ Coatl_WriteIntWord(
 
         v = *(intmax_t *) data;
     }
-#endif /* INTPTR_MAX != INTMAX_MAX */
+#endif /* !COATL_NATIVELARGEINT */
     if (wt == &mpIntWordType) {
         /*
          * Get digit string from multiple precision integer.

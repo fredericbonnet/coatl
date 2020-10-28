@@ -21,6 +21,9 @@
 
 #include "testCoatl.h"
 
+/* Current PicoTest abort handler. */
+void (*ABORT_HANDLER) ();
+
 /* Colibri error proc handler. */
 int test_errorProc(Col_ErrorLevel level, Col_ErrorDomain domain, int code, va_list args) {
     const char *levelString;
@@ -45,7 +48,7 @@ int test_errorProc(Col_ErrorLevel level, Col_ErrorDomain domain, int code, va_li
     vprintf(domain[code], args);
     printf("\n");
 
-    PICOTEST_ABORT();
+    ABORT_HANDLER(); return 0;
 }
 
 /* Test failure log handler. */
@@ -120,8 +123,8 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    printf("Hit return...\n");
-    getc(stdin);
+    // printf("Hit return...\n");
+    // getc(stdin);
 
     if (argc <= 1) {
         /* Execute all tests. */
@@ -135,8 +138,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    printf("Hit return...\n");
-    getc(stdin);
+    // printf("Hit return...\n");
+    // getc(stdin);
     
     exit(fail);
 }

@@ -9,7 +9,7 @@ LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/cmake ${CMAKE_CURRENT_LIST
 
 find_package(colibri REQUIRED)
 find_package(mpir 3.0.0 REQUIRED)
-find_package(PicoTest REQUIRED)
+find_package(PicoTest)
 
 # CoATL library
 add_library(coatl)
@@ -57,45 +57,68 @@ if (WIN32)
 endif()
 
 
-# CoATL unit tests
-add_executable(test_coatl)
-target_sources(test_coatl
-	PRIVATE
-		tests/testCoatl.c
-		tests/testUnicode.c
-		tests/testRegexp.c
-		tests/testNumber.c
-		tests/testJson.c
-)
-target_link_libraries(test_coatl
-	PRIVATE
-		colibri
-		coatl
-		PicoTest
-)
-install(TARGETS test_coatl EXPORT test_coatl
-	RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
-)
-
+enable_testing()
 if (WIN32)
-	# Copy test_coatl dependencies to target dir before running 
-	# picotest_discover_tests
-	add_custom_command(TARGET test_coatl POST_BUILD
+	# Copy test dependencies to target dir before building/running tests
+	add_custom_command(TARGET coatl POST_BUILD
 		COMMAND 
 			${CMAKE_COMMAND} -E copy_if_different
 			$<TARGET_FILE:colibri>
-			$<TARGET_FILE_DIR:test_coatl>
+			$<TARGET_FILE_DIR:coatl>
 		COMMAND 
 			${CMAKE_COMMAND} -E copy_directory
 			${CMAKE_CURRENT_BINARY_DIR}/bin/mpir
-			$<TARGET_FILE_DIR:test_coatl>
+			$<TARGET_FILE_DIR:coatl>
 	)
 endif()
 
-enable_testing()
-picotest_discover_tests(test_coatl
-	TEST_LIST_OPTION "-l"
-)
+# CoATL unit tests
+if (PicoTest_FOUND)
+	# TDD tests
+	add_executable(tdd_coatl)
+	target_sources(tdd_coatl
+		PRIVATE
+			tests/tdd/main.c
+			tests/tdd/json.c
+			tests/tdd/traverse.c
+			tests/tdd/hooks.c
+			tests/tdd/errors.c
+			tests/tdd/testNumbers.c
+	)
+	target_link_libraries(tdd_coatl
+		PRIVATE
+			colibri
+			coatl
+			PicoTest
+	)
+	install(TARGETS tdd_coatl EXPORT tdd_coatl
+		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
+	)
+
+	# Historic tests
+	add_executable(test_coatl)
+	target_sources(test_coatl
+		PRIVATE
+			tests/testCoatl.c
+			tests/testUnicode.c
+			tests/testRegexp.c
+			tests/testNumber.c
+			tests/testJson.c
+	)
+	target_link_libraries(test_coatl
+		PRIVATE
+			colibri
+			coatl
+			PicoTest
+	)
+	install(TARGETS test_coatl EXPORT test_coatl
+		RUNTIME DESTINATION bin/${CMAKE_BUILD_TYPE}
+	)
+
+	picotest_discover_tests(test_coatl
+		TEST_LIST_OPTION "-l"
+	)
+endif()
 
 # JSON Parsing Test Suite
 add_executable(test_coatl_json)

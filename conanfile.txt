@@ -6,6 +6,7 @@ mpir:shared=True
 
 [imports]
 bin, *.dll -> ./bin @ folder=True
+lib, lib*.so* -> ./lib @ folder=True
 
 [generators]
 cmake_find_package
