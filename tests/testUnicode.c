@@ -77,6 +77,5 @@ PICOTEST_CASE(testUnicodeCase, testUnicode) {
 
         ASSERT(Coatl_RopeToLowercase(Col_NewCharWord(*pc), 0) == Col_NewCharWord(*pc), "*pc=U+%x", *pc);
         ASSERT(Coatl_RopeToUppercase(Col_NewCharWord(*pc), 0) == Col_NewCharWord(*pc), "*pc=U+%x", *pc);
-        ASSERT(Coatl_RopeToTitlecase(Col_NewCharWord(*pc), 0) == Col_NewCharWord(*pc), "*pc=U+%x", *pc);
     }
 }

@@ -84,6 +84,7 @@ if (PicoTest_FOUND)
 			tests/tdd/hooks.c
 			tests/tdd/errors.c
 			tests/tdd/testNumbers.c
+			tests/tdd/testUnicode.c
 	)
 	target_link_libraries(tdd_coatl
 		PRIVATE

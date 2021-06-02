@@ -487,8 +487,14 @@ dict for {property info} $properties {
             foreach value $uniqueValues {
                 dict set valueIndices $value $nb
                 incr nb
-                if {[dict get $info type] ne "string" && $value ne "0"} {
-                    incr nb [llength $value]
+                switch [dict get $info type] {
+                    numeric -
+                    string {}
+                    default {
+                        if {$value ne "0"} {
+                            incr nb [llength $value]
+                        }
+                    }
                 }
             }
             set values ""

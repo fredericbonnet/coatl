@@ -98,8 +98,6 @@ accessors.
 EXTERN int              Coatl_CharIsTitlecase(Col_Char c);
 EXTERN int              Coatl_RopeIsLowercase(Col_Word r);
 EXTERN int              Coatl_RopeIsUppercase(Col_Word r);
-EXTERN int              Coatl_RopeIsTitlecase(Col_Word r);
-// TODO EXTERN int              Coatl_RopeIsCasefolded(Col_Word r);
 EXTERN int              Coatl_RopeIsCased(Col_Word r);
 
 /* End of Unicode Case Predicates *//*!\}*/
@@ -180,7 +178,6 @@ EXTERN int              Coatl_RopeIsCased(Col_Word r);
 
 EXTERN Col_Word         Coatl_RopeToLowercase(Col_Word r, int full);
 EXTERN Col_Word         Coatl_RopeToUppercase(Col_Word r, int full);
-EXTERN Col_Word         Coatl_RopeToTitlecase(Col_Word r, int full);
 EXTERN Col_Word         Coatl_RopeToCaseFolded(Col_Word r, int full);
 
 /* End of Unicode Case Transform *//*!\}*/

@@ -40,11 +40,11 @@ Coatl_CharIsTitlecase(
     Col_Char c) /*!< The character to check. */
 {
     return (Coatl_GetUcdProperty_Cased(c) 
-            && Coatl_GetUcdProperty_Simple_Titlecase_Mapping(c) == c);
+            && !Coatl_GetUcdProperty_Changes_When_Titlecased(c));
 }
 
 /**
- * Check whether the rope is lowercase.
+ * Check whether the rope is cased and lowercase.
  *
  * Uses the Unicode Character Database (UCD).
  *
@@ -58,17 +58,21 @@ int
 Coatl_RopeIsLowercase(
     Col_Word r) /*!< The rope to check. */
 {
+    int isCased = 0;
     Col_RopeIterator it;
     for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
             Col_RopeIterNext(it)) {
         Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsLowercase(c)) return 0;
+        if (Coatl_CharIsCased(c)) {
+            isCased = 1;
+            if (!Coatl_CharIsLowercase(c)) return 0;
+        }
     }
-    return 1;
+    return isCased;
 }
 
 /**
- * Check whether the rope is uppercase.
+ * Check whether the rope is cased and uppercase.
  *
  * Uses the Unicode Character Database (UCD).
  *
@@ -82,53 +86,18 @@ int
 Coatl_RopeIsUppercase(
     Col_Word r) /*!< The rope to check. */
 {
+    int isCased = 0;
     Col_RopeIterator it;
     for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
             Col_RopeIterNext(it)) {
         Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsUppercase(c)) return 0;
+        if (Coatl_CharIsCased(c)) {
+            isCased = 1;
+            if (!Coatl_CharIsUppercase(c)) return 0;
+        }
     }
-    return 1;
+    return isCased;
 }
-
-/**
- * Check whether the rope is titlecase.
- *
- * Uses the Unicode Character Database (UCD).
- *
- * @return Whether the rope is titlecase.
- *
- * @see Coatl_CharIsTitlecase
- * @see Coatl_CharIsCased
- * @see Coatl_CharToTitlecase
- */
-int
-Coatl_RopeIsTitlecase(
-    Col_Word r) /*!< The rope to check. */
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-        if (Coatl_CharIsCased(c) && !Coatl_CharIsTitlecase(c)) return 0;
-    }
-    return 1;
-}
-
-/* TODO
-int
-Coatl_RopeIsCasefolded(
-    Col_Word r)
-{
-    Col_RopeIterator it;
-    for (Col_RopeIterFirst(it, r); !Col_RopeIterEnd(it); 
-            Col_RopeIterNext(it)) {
-        Col_Char c = Col_RopeIterAt(it);
-//TODO  if (Coatl_CharIsCased(c) && !Coatl_CharIsCasefolded(c)) return 0;
-    }
-    return 1;
-}
-*/
 
 /**
  * Check whether the rope is cased.
@@ -325,31 +294,6 @@ Coatl_RopeToUppercase(
 {
     return full ? TransformRope(r, Coatl_GetUcdProperty_Uc)
             : MapRope(r, Coatl_GetUcdProperty_Suc);
-}
-
-/**
- * Transform the rope to titlecase.
- *
- * Uses the Unicode Character Database (UCD).
- *
- * Two modes are available:
- * - full mode: cased characters are transformed into character sequences, 
- *   depending on the UCD property '**Titlecase_Mapping**'
- * - simple mode: cased characters are mapped individually, depending on the
- *   UCD property '**Simple_Titlecase_Mapping**'
- *
- * @return The transformed rope.
- *
- * @see Coatl_GetUcdProperty_Tc
- * @see Coatl_GetUcdProperty_Stc
- */
-Col_Word
-Coatl_RopeToTitlecase(
-    Col_Word r, /*!< The rope to transform. */
-    int full)   /*!< Whether to use full or simple mode. */
-{
-    return full ? TransformRope(r, Coatl_GetUcdProperty_Tc)
-            : MapRope(r, Coatl_GetUcdProperty_Stc);
 }
 
 /**
