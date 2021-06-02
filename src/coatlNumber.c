@@ -42,6 +42,12 @@ static int              ReadNumberPrefix(Col_RopeIterator begin,
                             Col_RopeIterator end,
                             const Coatl_NumReadFormat *format, int *negPtr,
                             unsigned int *radixPtr);
+static size_t           WriteInt(Col_Word strbuf, intmax_t v, 
+                            const Coatl_NumWriteFormat *format);
+static size_t           WriteMpInt(Col_Word strbuf, mpz_t *pv,
+                            const Coatl_NumWriteFormat *format);
+static size_t           WriteMpFloat(Col_Word strbuf, mpf_t *pv,
+                            const Coatl_NumWriteFormat *format);
 /*! \endcond *//* IGNORE */
 
 
@@ -1582,102 +1588,47 @@ FormatDigitString(
     }
 }
 
-/** @endcond @endprivate */
-
 /**
- * Write an integer word to a string buffer in the given format.
+ * Write an integer to a string buffer in the given format.
  *
  * @return Number of characters written.
  *
  * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * @see Coatl_NumWriteFormat
+ * @see Coatl_WriteIntWord
  */
-size_t
-Coatl_WriteIntWord(
+static size_t
+WriteInt(
     Col_Word strbuf,                    /*!< Output string buffer. */
-    Col_Word word,                      /*!< Integer word to write. */
+    intmax_t v,                         /*!< Value to write. */
     const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
                                              default). */
 {
-    Col_CustomWordType *wt = NULL;
-    void *data;
-    intmax_t v;
-    char *buf = NULL;
-    size_t bufSize, nbDigits, oldLen;
+    char buf[sizeof(v) * CHAR_BIT+1];
+    size_t nbDigits, oldLen;
     int sign;
-    int type;
 
-    if (!format) format = &numWriteDefaut;
-    else if (format == COATL_INTWRITE_C8) format = &intWriteC8;
-    else if (format == COATL_NUMWRITE_C16) format = &numWriteC16;
+    /*
+     * Get digit string from integer.
+     */
 
-    //TODO error handling
-    if (format->radix < 2 || format->radix > 62) return 0;
-
-    oldLen = Col_StringBufferLength(strbuf);
-
-    type = Col_WordType(word);
-    if (type & COL_INT) {
-        /*
-         * Native integer.
-         */
-
-        v = Col_IntWordValue(word);
-    } else if (type & COL_CUSTOM) {
-        wt = Col_CustomWordInfo(word, &data);
-    }
-#if !COATL_NATIVELARGEINT
-    if (wt == &largeIntWordType) {
-        /*
-         * Large integer.
-         */
-
-        v = *(intmax_t *) data;
-    }
-#endif /* !COATL_NATIVELARGEINT */
-    if (wt == &mpIntWordType) {
-        /*
-         * Get digit string from multiple precision integer.
-         */
-
-        mpz_t *pv = (mpz_t *) data;
-        sign = mpz_cmp_si(*pv, 0);
-        if (sign == 0) {
-            nbDigits = 0;
-        } else {
-            bufSize = mpz_sizeinbase(*pv, format->radix) + 2;
-            buf = (char *) TMP_ALLOC(bufSize);
-            mpz_get_str(buf, ((format->flags & COATL_NUMWRITE_L)
-                    && format->radix <= 36) ? format->radix
-                    : -(int) format->radix, *pv);
-            nbDigits = strlen(buf)-(sign < 0 ? 1 : 0);
-        }
+    if (v == 0) {
+        sign = 0;
+        nbDigits = 0;
     } else {
-        /*
-         * Get digit string from native integer.
-         */
-
-        if (v == 0) {
-            sign = 0;
-            nbDigits = 0;
+        if (v < 0) {
+            sign = -1;
+            nbDigits = UIntToString((uintmax_t) -v, buf,
+                    (format->radix <= 36
+                    && (format->flags & COATL_NUMWRITE_L)
+                    ? -(int) format->radix : format->radix));
         } else {
-            bufSize = sizeof(v) * CHAR_BIT+1;
-            buf = (char *) TMP_ALLOC(bufSize);
-            if (v < 0) {
-                sign = -1;
-                nbDigits = UIntToString((uintmax_t) -v, buf,
-                        (format->radix <= 36
-                        && (format->flags & COATL_NUMWRITE_L)
-                        ? -(int) format->radix : format->radix));
-            } else {
-                sign = 1;
-                nbDigits = UIntToString(v, buf,
-                        (format->radix <= 36
-                        && (format->flags & COATL_NUMWRITE_L)
-                        ? -(int) format->radix : format->radix));
-            }
+            sign = 1;
+            nbDigits = UIntToString(v, buf,
+                    (format->radix <= 36
+                    && (format->flags & COATL_NUMWRITE_L)
+                    ? -(int) format->radix : format->radix));
         }
     }
 
@@ -1685,8 +1636,56 @@ Coatl_WriteIntWord(
      * Output formatted digit string.
      */
 
-    FormatDigitString(strbuf, sign, nbDigits, buf
-            + ((wt == &mpIntWordType && sign < 0) ? 1 : 0), 0, format);
+    oldLen = Col_StringBufferLength(strbuf);
+    FormatDigitString(strbuf, sign, nbDigits, buf, 0, format);
+
+    return Col_StringBufferLength(strbuf) - oldLen;
+}
+
+/**
+ * Write a multiple precision integer to a string buffer in the given format.
+ *
+ * @return Number of characters written.
+ *
+ * @sideeffect
+ *      Characters are appended to the string buffer.
+ *
+ * @see Coatl_WriteIntWord
+ */
+static size_t
+WriteMpInt(
+    Col_Word strbuf,                    /*!< Output string buffer. */
+    mpz_t *pv,                          /*!< Value to write. */
+    const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
+                                             default). */
+{
+    char *buf = NULL;
+    size_t bufSize, nbDigits, oldLen;
+    int sign;
+
+    /*
+     * Get digit string from multiple precision integer.
+     */
+
+    sign = mpz_cmp_si(*pv, 0);
+    if (sign == 0) {
+        nbDigits = 0;
+    } else {
+        bufSize = mpz_sizeinbase(*pv, format->radix) + 2;
+        buf = (char *) TMP_ALLOC(bufSize);
+        mpz_get_str(buf, ((format->flags & COATL_NUMWRITE_L)
+                && format->radix <= 36) ? format->radix
+                : -(int) format->radix, *pv);
+        nbDigits = strlen(buf)-(sign < 0 ? 1 : 0);
+    }
+
+    /*
+     * Output formatted digit string.
+     */
+
+    oldLen = Col_StringBufferLength(strbuf);
+    FormatDigitString(strbuf, sign, nbDigits, buf + ((sign < 0) ? 1 : 0), 0, 
+            format);
 
     if (buf) {
         ASSERT(sign != 0 || format->minDigits > 0);
@@ -1697,23 +1696,22 @@ Coatl_WriteIntWord(
 }
 
 /**
- * Write a floating point word to a string buffer in the given format.
+ * Write a multiple precision float to a string buffer in the given format.
  *
  * @return Number of characters written.
  *
  * @sideeffect
  *      Characters are appended to the string buffer.
  *
- * @see Coatl_NumWriteFormat
+ * @see Coatl_WriteFloatWord
  */
-size_t
-Coatl_WriteFloatWord(
+static size_t
+WriteMpFloat(
     Col_Word strbuf,                    /*!< Output string buffer. */
-    Col_Word word,                      /*!< Floating point word to write. */
+    mpf_t *pv,                          /*!< Value to write. */
     const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
                                              default). */
 {
-    mpf_t v, *pv;
     mp_exp_t exp;
     char *buf = NULL, *p;
     Col_Char c;
@@ -1721,59 +1719,15 @@ Coatl_WriteFloatWord(
             nbLead0Frac, firstTrail0Frac, nbDigitsExp, width, i, oldLen;
     int sign, fixed;
     Coatl_NumWriteFormat intFormat;
-    int type;
-
-    if (!format) format = &numWriteDefaut;
-    else if (format == COATL_INTWRITE_C8) return 0; //TODO error handling
-    else if (format == COATL_NUMWRITE_C16) format = &numWriteC16;
-
-    //TODO error handling
-    if (format->radix < 2 || format->radix > 62) return 0;
 
     oldLen = Col_StringBufferLength(strbuf);
-
-    /*
-     * Get significand digits and exponent. Always rely on multiple precision
-     * library.
-     */
-
-    type = Col_WordType(word);
-    if (type & COL_FLOAT) {
-        /*
-         * Native floating point.
-         */
-
-        double d = Col_FloatWordValue(word);
-        //TODO handle special values (inf, NaN...)
-        if (d == 0) {
-            sign = 0;
-        } else {
-            /*
-             * Convert to multiple precision floating point.
-             */
-
-            sign = (d < 0) ? -1 : 1;
-            mpf_init_set_d(v, d);
-            pv = &v;
-        }
-    } else if (type & COL_CUSTOM) {
-        void *data;
-        Col_CustomWordType *wt = Col_CustomWordInfo(word, &data);
-        if (wt == &mpFloatWordType) {
-            /*
-             * Multiple precision floating point.
-             */
-
-            pv = (mpf_t *) data;
-            sign = mpf_cmp_ui(*pv, 0);
-        } else return 0; //TODO typecheck ?
-    }
 
     /*
      * Convert to string + exponent. MPIR uses an implicitly normalized string,
      * i.e. there is an implicit radix point after the first digit.
      */
 
+    sign = mpf_cmp_ui(*pv, 0);
     if (sign == 0) {
         maxDigitsSigd = 0;
         nbDigitsSigd = 0;
@@ -1793,7 +1747,6 @@ Coatl_WriteFloatWord(
         mpf_get_str(buf, &exp, ((format->flags & COATL_NUMWRITE_L)
                     && format->radix <= 36) ? format->radix
                     : -(int) format->radix, maxDigitsSigd, *pv);
-        if (type & COL_FLOAT) mpf_clear(v);
         nbDigitsSigd = strlen(buf)-(sign < 0 ? 1 : 0);
         ASSERT(nbDigitsSigd <= maxDigitsSigd);
     }
@@ -2055,6 +2008,118 @@ adjustExp:
     }
 
     return Col_StringBufferLength(strbuf) - oldLen;
+}
+
+/** @endcond @endprivate */
+
+/**
+ * Write an integer word to a string buffer in the given format.
+ *
+ * @return Number of characters written.
+ *
+ * @sideeffect
+ *      Characters are appended to the string buffer.
+ *
+ * @see Coatl_NumWriteFormat
+ */
+size_t
+Coatl_WriteIntWord(
+    Col_Word strbuf,                    /*!< Output string buffer. */
+    Col_Word word,                      /*!< Integer word to write. */
+    const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
+                                             default). */
+{
+    int type;
+
+    if (!format) format = &numWriteDefaut;
+    else if (format == COATL_INTWRITE_C8) format = &intWriteC8;
+    else if (format == COATL_NUMWRITE_C16) format = &numWriteC16;
+
+    //TODO error handling
+    if (format->radix < 2 || format->radix > 62) return 0;
+
+    type = Col_WordType(word);
+    if (type & COL_INT) {
+        /*
+         * Native integer.
+         */
+
+        return WriteInt(strbuf, Col_IntWordValue(word), format);
+    }
+#if !COATL_NATIVELARGEINT
+    if (Coatl_WordIsLargeInt(word)) {
+        /*
+         * Large integer.
+         */
+
+        return WriteInt(strbuf, Coatl_LargeIntWordValue(word), format);
+    }
+#endif /* !COATL_NATIVELARGEINT */
+    if (type & COL_CUSTOM) {
+        void *data;
+        Col_CustomWordType *wt = Col_CustomWordInfo(word, &data);
+        if (wt == &mpIntWordType) {
+            /*
+            * Multiple precision integer.
+            */
+
+            return WriteMpInt(strbuf, (mpz_t *) data, format);
+        }
+    }
+    return 0; //TODO typecheck ?
+}
+
+/**
+ * Write a floating point word to a string buffer in the given format.
+ *
+ * @return Number of characters written.
+ *
+ * @sideeffect
+ *      Characters are appended to the string buffer.
+ *
+ * @see Coatl_NumWriteFormat
+ */
+size_t
+Coatl_WriteFloatWord(
+    Col_Word strbuf,                    /*!< Output string buffer. */
+    Col_Word word,                      /*!< Floating point word to write. */
+    const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
+                                             default). */
+{
+    int type;
+
+    if (!format) format = &numWriteDefaut;
+    else if (format == COATL_INTWRITE_C8) return 0; //TODO error handling
+    else if (format == COATL_NUMWRITE_C16) format = &numWriteC16;
+
+    //TODO error handling
+    if (format->radix < 2 || format->radix > 62) return 0;
+
+    type = Col_WordType(word);
+    if (type & COL_FLOAT) {
+        /*
+         * Native floating point. Convert to multiple precision floating point.
+         */
+
+        //TODO handle special values (inf, NaN...)
+        mpf_t v;
+        mpf_init_set_d(v, Col_FloatWordValue(word));
+        const size_t result = WriteMpFloat(strbuf, &v, format);
+        mpf_clear(v);
+        return result;
+    }
+    if (type & COL_CUSTOM) {
+        void *data;
+        Col_CustomWordType *wt = Col_CustomWordInfo(word, &data);
+        if (wt == &mpFloatWordType) {
+            /*
+             * Multiple precision floating point.
+             */
+
+            return WriteMpFloat(strbuf, (mpf_t *) data, format);
+        } 
+    }
+    return 0; //TODO typecheck ?
 }
 
 /* End of Number Input/Output *//*!\}*/
