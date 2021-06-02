@@ -202,8 +202,10 @@ Coatl_WordIsLargeInt(
     Col_Word word)  /*!< The word to test. */
 {
     void *dummy;
-    return ((Col_WordType(word) & COL_CUSTOM)
-            && Col_CustomWordInfo(word, &dummy) == &largeIntWordType);
+    int type = Col_WordType(word);
+    return (   (type & COL_INT)
+            || ((type & COL_CUSTOM)
+                && Col_CustomWordInfo(word, &dummy) == &largeIntWordType));
 }
 
 /* End of Large Integer Word Predicates */

@@ -53,22 +53,21 @@ PICOTEST_CASE(testNewLargeIntWordColibri, colibriFixture) {
 
     Col_Word zero = Coatl_NewLargeIntWord(ZERO);
     PICOTEST_ASSERT(Col_WordType(zero) == COL_INT);
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(zero));
+    PICOTEST_ASSERT(Coatl_WordIsLargeInt(zero));
     PICOTEST_ASSERT(Coatl_LargeIntWordValue(zero) == ZERO);
 
-#if !COATL_NATIVELARGEINT
     Col_Word min = Coatl_NewLargeIntWord(MIN);
     PICOTEST_ASSERT(Col_WordType(min) == COL_INT);
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(min));
+    PICOTEST_ASSERT(Coatl_WordIsLargeInt(min));
     PICOTEST_ASSERT(Coatl_LargeIntWordValue(min) == MIN);
 
     Col_Word max = Coatl_NewLargeIntWord(MAX);
     PICOTEST_ASSERT(Col_WordType(max) == COL_INT);
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(max));
+    PICOTEST_ASSERT(Coatl_WordIsLargeInt(max));
     PICOTEST_ASSERT(Coatl_LargeIntWordValue(max) == MAX);
-#endif
 }
 PICOTEST_CASE(testNewLargeIntWordCoatl, colibriFixture) {
+#if !COATL_NATIVELARGEINT
     intmax_t MIN1 = (intmax_t)INTPTR_MIN - 1, MAX1 = (intmax_t)INTPTR_MAX + 1;
 
     Col_Word min1 = Coatl_NewLargeIntWord(MIN1);
@@ -80,19 +79,15 @@ PICOTEST_CASE(testNewLargeIntWordCoatl, colibriFixture) {
     PICOTEST_ASSERT(Col_WordType(max1) != COL_INT);
     PICOTEST_ASSERT(Coatl_WordIsLargeInt(max1));
     PICOTEST_ASSERT(Coatl_LargeIntWordValue(max1) == MAX1);
+#endif
 }
 
 PICOTEST_SUITE(testLargeIntegerWordPredicates, testWordIsLargeInt);
 PICOTEST_CASE(testWordIsLargeInt, colibriFixture) {
     PICOTEST_ASSERT(!Coatl_WordIsLargeInt(WORD_FALSE));
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(0)));
-#if !COATL_NATIVELARGEINT
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MIN)));
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MAX)));
-#else
+    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(0)));
     PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MIN)));
     PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MAX)));
-#endif
     PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTMAX_MIN)));
     PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTMAX_MAX)));
 }
@@ -219,16 +214,20 @@ PICOTEST_CASE(testReadIntWordNoDigit, colibriFixture) {
 }
 
 PICOTEST_CASE(testReadIntWordNative, colibriFixture) {
-    Col_RopeIterator begin, end;
-    Col_Word value;
-
     checkReadIntWordNative("1", 1, -1, COATL_INTREAD_C);
     checkReadIntWordNative("0x10000000", 0x10000000, -1, COATL_INTREAD_C);
+
+#if !COATL_NATIVELARGEINT
+    Col_RopeIterator begin, end;
+    Col_Word value;
 
     initIterators("0x100000000", begin, end);
     PICOTEST_ASSERT(!Coatl_ReadIntWord(begin, end, COATL_INTREAD_C,
                                        COATL_INTREAD_NATIVE, &value));
     PICOTEST_VERIFY(!Col_RopeIterEnd(begin));
+#else
+    checkReadIntWordNative("0x100000000", 0x100000000, -1, COATL_INTREAD_C);
+#endif
 }
 PICOTEST_CASE(testReadIntWordLarge, colibriFixture) {
     Col_RopeIterator begin, end;
@@ -900,8 +899,8 @@ PICOTEST_SUITE(testWriteIntWord, testWriteIntWordErrors,
 
 PICOTEST_SUITE(testWriteIntWordErrors, testWriteIntWordBadRadix);
 PICOTEST_CASE(testWriteIntWordBadRadix, colibriFixture) {
-    const word = Col_NewIntWord(1);
-    const strbuf = Col_NewStringBuffer(0, COL_UCS1);
+    const Col_Word word = Col_NewIntWord(1);
+    const Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS1);
 
     Coatl_NumWriteFormat format;
     memset(&format, 0, sizeof(format));
@@ -957,8 +956,8 @@ PICOTEST_SUITE(testWriteFloatWord, testWriteFloatWordErrors,
 PICOTEST_SUITE(testWriteFloatWordErrors, testWriteFloatWordBadRadix,
                testWriteFloatWordBadFormat);
 PICOTEST_CASE(testWriteFloatWordBadRadix, colibriFixture) {
-    const word = Col_NewFloatWord(1.25);
-    const strbuf = Col_NewStringBuffer(0, COL_UCS1);
+    const Col_Word word = Col_NewFloatWord(1.25);
+    const Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS1);
 
     Coatl_NumWriteFormat format;
     memset(&format, 0, sizeof(format));
@@ -968,8 +967,8 @@ PICOTEST_CASE(testWriteFloatWordBadRadix, colibriFixture) {
     PICOTEST_ASSERT(Coatl_WriteFloatWord(strbuf, word, &format) == 0);
 }
 PICOTEST_CASE(testWriteFloatWordBadFormat, colibriFixture) {
-    const word = Col_NewFloatWord(1.25);
-    const strbuf = Col_NewStringBuffer(0, COL_UCS1);
+    const Col_Word word = Col_NewFloatWord(1.25);
+    const Col_Word strbuf = Col_NewStringBuffer(0, COL_UCS1);
 
     PICOTEST_ASSERT(Coatl_WriteFloatWord(strbuf, word, COATL_INTWRITE_C8) == 0);
 }
