@@ -391,6 +391,13 @@ ReadJsonString(
 
     for (;;) {
         GET_CHAR(c, begin, end) return 0;
+        if (c < 0x20) {
+            /*
+             * Forbidden characters.
+             */
+
+            return 0;
+        }
         switch (c) {
         case '"':
             /*
@@ -755,19 +762,88 @@ WriteJsonString(
     Col_Word word)      /*!< Word to write. */
 {
     size_t oldLen = Col_StringBufferLength(strbuf);
-    Col_RopeIterator begin, end;
-    size_t pos;
+    Col_RopeIterator firstUnchanged = COL_ROPEITER_NULL;
+    Col_RopeIterator it;
+    Col_Char c;
 
     Col_StringBufferAppendChar(strbuf, '"');
-    for (pos = 0;;) {
-        Col_RopeIterBegin(begin, word, pos);
-        pos = Col_RopeFind(word, '"', pos, SIZE_MAX, 0);
-        Col_RopeIterBegin(end, word, pos);
-        Col_StringBufferAppendSequence(strbuf, begin, end);
-        if (pos == SIZE_MAX) break;
-        Col_StringBufferAppendChar(strbuf, '\\');
-        Col_StringBufferAppendChar(strbuf, '"');
-        pos++;
+    for (Col_RopeIterFirst(it, word); !Col_RopeIterEnd(it); 
+            Col_RopeIterNext(it)) {
+        c = Col_RopeIterAt(it);
+
+        if (c < 0x20 || c == '"' || c == '\\') {
+            /*
+             * Special characters.
+             */
+
+            if (!Col_RopeIterNull(firstUnchanged)) {
+                /*
+                 * Append regular character sequence.
+                 */
+
+                Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
+                Col_RopeIterSetNull(firstUnchanged);
+            }
+            switch (c) {
+            case '\"':
+            case '\\':
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, c);
+                break;
+
+            case '\b': 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 'b');
+                break;
+
+            case '\f': 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 'f');
+                break;
+                
+            case '\n': 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 'n');
+                break;
+                
+            case '\r': 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 'r');
+                break;
+                
+            case '\t': 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 't');
+                break;
+
+            default: 
+                Col_StringBufferAppendChar(strbuf, '\\');
+                Col_StringBufferAppendChar(strbuf, 'u');
+                Col_StringBufferAppendChar(strbuf, '0');
+                Col_StringBufferAppendChar(strbuf, '0');
+                Col_StringBufferAppendChar(strbuf, c < 0x10 ? '0' : '1');
+                Col_StringBufferAppendChar(strbuf, 
+                    ((c & 0xf) < 0xa)
+                    ? ('0' + (c & 0xf))
+                    : ('a' + (c & 0xf) - 0xa)
+                );
+            }
+        } else {
+            /*
+             * Regular character, remember position.
+             */
+
+            if (Col_RopeIterNull(firstUnchanged)) {
+                Col_RopeIterSet(firstUnchanged, it);
+            }
+        }
+    }
+    if (!Col_RopeIterNull(firstUnchanged)) {
+        /*
+            * Append regular character sequence.
+            */
+
+        Col_StringBufferAppendSequence(strbuf, firstUnchanged, it);
     }
     Col_StringBufferAppendChar(strbuf, '"');
 
