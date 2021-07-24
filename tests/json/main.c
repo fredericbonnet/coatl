@@ -30,7 +30,7 @@ int test(const char *filename, int verbose) {
     if (verbose)
         printf("%s ... ", filename);
 
-    FILE *f = fopen(filename, "r");
+    FILE *f = fopen(filename, "rb");
     if (!f) {
         printf("error reading file!\n");
         return 1;
@@ -39,7 +39,7 @@ int test(const char *filename, int verbose) {
     fseek(f, 0, SEEK_END);
     size_t len = ftell(f);
     fseek(f, 0, SEEK_SET);
-    char *data = malloc(len + 1);
+    char *data = (char *)malloc(len + 1);
     memset(data, 0, len + 1);
     fread(data, 1, len, f);
     fclose(f);
