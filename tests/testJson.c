@@ -89,7 +89,7 @@ PICOTEST_CASE(testJsonInt, testJson) {
     Col_RopeIterator begin, end;
 
     /* Native integers. */
-    sprintf(str, "%lld", (intmax_t) INTPTR_MAX);
+    sprintf(str, "%lld", (intptr_t) INTPTR_MAX);
     len = strlen(str);
     Col_RopeIterString(begin, COL_UCS1, str, len);
     Col_RopeIterSet(end, begin); Col_RopeIterForward(end, len);
@@ -98,7 +98,7 @@ PICOTEST_CASE(testJsonInt, testJson) {
     ASSERT(Col_WordType(v) & COL_INT);
     ASSERT(Col_IntWordValue(v) == INTPTR_MAX);
 
-    sprintf(str, "%lld", (intmax_t) INTPTR_MIN);
+    sprintf(str, "%lld", (intptr_t) INTPTR_MIN);
     len = strlen(str);
     Col_RopeIterString(begin, COL_UCS1, str, len);
     Col_RopeIterSet(end, begin); Col_RopeIterForward(end, len);
@@ -106,25 +106,6 @@ PICOTEST_CASE(testJsonInt, testJson) {
     ASSERT(Col_RopeIterCompare(begin, end) == 0);
     ASSERT(Col_WordType(v) & COL_INT);
     ASSERT(Col_IntWordValue(v) == INTPTR_MIN);
-
-    /* Large integers. */
-    sprintf(str, "%lld", INTMAX_MAX);
-    len = strlen(str);
-    Col_RopeIterString(begin, COL_UCS1, str, len);
-    Col_RopeIterSet(end, begin); Col_RopeIterForward(end, len);
-    ASSERT(Coatl_ReadJson(begin, end, &v));
-    ASSERT(Col_RopeIterCompare(begin, end) == 0);
-    ASSERT(Coatl_WordIsLargeInt(v));
-    ASSERT(Coatl_LargeIntWordValue(v) == INTMAX_MAX);
-
-    sprintf(str, "%lld", INTMAX_MIN);
-    len = strlen(str);
-    Col_RopeIterString(begin, COL_UCS1, str, len);
-    Col_RopeIterSet(end, begin); Col_RopeIterForward(end, len);
-    ASSERT(Coatl_ReadJson(begin, end, &v));
-    ASSERT(Col_RopeIterCompare(begin, end) == 0);
-    ASSERT(Coatl_WordIsLargeInt(v));
-    ASSERT(Coatl_LargeIntWordValue(v) == INTMAX_MIN);
 
     /* Multiple precision integers. */
     sprintf(str, "%lld123456", INTMAX_MAX);

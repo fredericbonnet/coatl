@@ -190,8 +190,8 @@ ReadJsonNumber(
     Col_RopeIterator end,   /*!< End of sequence. */
 
     /*! [out] If non-NULL, resulting word upon success. May be a Colibri integer
-        or floating point word, a CoATL large integer word, or a CoATL multiple
-        integer or floating point word.*/
+        or floating point word, or a CoATL multiple precision integer or 
+        floating point word.*/
     Col_Word *wordPtr,
 
     /*! [out] If non-NULL, resulting data upon success. */
@@ -308,7 +308,7 @@ ReadJsonBackslash(
     Col_Char *charPtr)
 {
     Col_Char c;
-    uintmax_t v;
+    uintptr_t v;
 
     ASSERT(Col_RopeIterCompare(begin, end) < 0);
     ASSERT(Col_RopeIterAt(begin) == '\\');
@@ -1071,7 +1071,7 @@ WriteJsonValue(
              */
 
             return WriteJsonObject(strbuf, word, indent, indented);
-        } else if (Coatl_WordIsLargeInt(word) || Coatl_WordIsMpInt(word)) {
+        } else if (Coatl_WordIsMpInt(word)) {
             /*
              * CoATL integer => JSON integer. Use default CoATL formatting.
              */

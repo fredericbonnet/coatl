@@ -18,68 +18,6 @@
 
 /*
 ===========================================================================*//*!
-\defgroup large_int_words Large Integer Words
-
-Words holding **intmax_t** values.
-
-Colibri integer words support the integer type defined by the C standard as 
-__intptr_t__, whose size matches native pointers and thus varies between 32- and
-64-bit architectures. However the C standard also defines **intmax_t** as the
-largest supported integer type, which is usually 64-bit on both architectures.
-
-CoATL large integer words provide **intmax_t** support on architectures where it
-is larger than **intptr_t**, and are identical to Colibri integer words on
-architectures where both types are identical.
-\{*//*==========================================================================
-*/
-
-/** True when CoATL large integers are identical to Colibri integers. */
-#define COATL_NATIVELARGEINT    (INTPTR_MAX == INTMAX_MAX)
-
-
-/***************************************************************************//*!
- * \name Large Integer Word Creation
- ***************************************************************************\{*/
-
-#if COATL_NATIVELARGEINT
-#   define Coatl_NewLargeIntWord        Col_NewIntWord
-#else
-EXTERN Col_Word         Coatl_NewLargeIntWord(intmax_t value);
-#endif /* COATL_NATIVELARGEINT */
-
-/* End of Large Integer Word Creation *//*!\}*/
-
-
-/***************************************************************************//*!
- * \name Large Integer Word Predicates
- ***************************************************************************\{*/
-
-#if COATL_NATIVELARGEINT
-#   define Coatl_WordIsLargeInt(word)   (Col_WordType(word) & COL_INT)
-#else
-EXTERN int              Coatl_WordIsLargeInt(Col_Word word);
-#endif /* COATL_NATIVELARGEINT */
-
-/* End of Large Integer Word Predicates *//*!\}*/
-
-
-/***************************************************************************//*!
- * \name Large Integer Word Accessors
- ***************************************************************************\{*/
-
-#if COATL_NATIVELARGEINT
-#   define Coatl_LargeIntWordValue      Col_IntWordValue
-#else
-EXTERN intmax_t         Coatl_LargeIntWordValue(Col_Word word);
-#endif /* COATL_NATIVELARGEINT */
-
-/* End of Large Integer Word Accessors *//*!\}*/
-
-/* End of Large Integer Words *//*!\}*/
-
-
-/*
-===========================================================================*//*!
 \defgroup mp_int_words Multiple Precision Integer Words
 \{*//*==========================================================================
 */
@@ -194,11 +132,8 @@ typedef struct Coatl_NumReadFormat {
 /** Native (Colibri) integer words. */
 #define COATL_INTREAD_NATIVE    1
 
-/** Large integer words. (note: this includes native) */
-#define COATL_INTREAD_LARGE     2
-
 /** Multiple precision integer words. */
-#define COATL_INTREAD_MP        4
+#define COATL_INTREAD_MP        2
 
 /** Native (Colibri) floating point words. */
 #define COATL_FLOATREAD_NATIVE  1

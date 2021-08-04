@@ -8,102 +8,15 @@
 #define STRINGIZE(s) COL_STRINGIZE(s)
 
 /*
- * Failure test cases (must be defined before test hooks)
- */
-
-#include "failureFixture.h"
-
-#if !COATL_NATIVELARGEINT
-/* Coatl_LargeIntWordValue */
-PICOTEST_CASE(largeIntWordValue_typeCheck, failureFixture, context) {
-    EXPECT_FAILURE(context, COL_TYPECHECK, Coatl_GetErrorDomain(),
-                   COATL_ERROR_LARGEINT);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(WORD_NIL) == 0);
-}
-#endif
-
-/*
  * Numbers
  */
 
 #include "hooks.h"
 #include "colibriFixture.h"
 
-PICOTEST_SUITE(testNumbers, testLargeIntegerWords,
-               testMultiplePrecisionIntegerWords,
+PICOTEST_SUITE(testNumbers, testMultiplePrecisionIntegerWords,
                testMultiplePrecisionFloatingPointWords, testNumberIO,
                testNumberConversion);
-
-/* Large integers */
-PICOTEST_SUITE(testLargeIntegerWords, testLargeIntegerTypeChecks,
-               testLargeIntegerWordCreation, testLargeIntegerWordPredicates,
-               testLargeIntegerWordAccessors);
-
-PICOTEST_CASE(testLargeIntegerTypeChecks, colibriFixture) {
-#if !COATL_NATIVELARGEINT
-    PICOTEST_ASSERT(largeIntWordValue_typeCheck(NULL) == 1);
-#endif
-}
-
-PICOTEST_SUITE(testLargeIntegerWordCreation, testNewLargeIntWord);
-PICOTEST_SUITE(testNewLargeIntWord, testNewLargeIntWordColibri,
-               testNewLargeIntWordCoatl);
-PICOTEST_CASE(testNewLargeIntWordColibri, colibriFixture) {
-    intmax_t ZERO = 0, MIN = INTPTR_MIN, MAX = INTPTR_MAX;
-
-    Col_Word zero = Coatl_NewLargeIntWord(ZERO);
-    PICOTEST_ASSERT(Col_WordType(zero) == COL_INT);
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(zero));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(zero) == ZERO);
-
-    Col_Word min = Coatl_NewLargeIntWord(MIN);
-    PICOTEST_ASSERT(Col_WordType(min) == COL_INT);
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(min));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(min) == MIN);
-
-    Col_Word max = Coatl_NewLargeIntWord(MAX);
-    PICOTEST_ASSERT(Col_WordType(max) == COL_INT);
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(max));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(max) == MAX);
-}
-PICOTEST_CASE(testNewLargeIntWordCoatl, colibriFixture) {
-#if !COATL_NATIVELARGEINT
-    intmax_t MIN1 = (intmax_t)INTPTR_MIN - 1, MAX1 = (intmax_t)INTPTR_MAX + 1;
-
-    Col_Word min1 = Coatl_NewLargeIntWord(MIN1);
-    PICOTEST_ASSERT(Col_WordType(min1) != COL_INT);
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(min1));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(min1) == MIN1);
-
-    Col_Word max1 = Coatl_NewLargeIntWord(MAX1);
-    PICOTEST_ASSERT(Col_WordType(max1) != COL_INT);
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(max1));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(max1) == MAX1);
-#endif
-}
-
-PICOTEST_SUITE(testLargeIntegerWordPredicates, testWordIsLargeInt);
-PICOTEST_CASE(testWordIsLargeInt, colibriFixture) {
-    PICOTEST_ASSERT(!Coatl_WordIsLargeInt(WORD_FALSE));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(0)));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MIN)));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTPTR_MAX)));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTMAX_MIN)));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(Coatl_NewLargeIntWord(INTMAX_MAX)));
-}
-
-PICOTEST_SUITE(testLargeIntegerWordAccessors, testLargeIntWordValue);
-PICOTEST_CASE(testLargeIntWordValue, colibriFixture) {
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(Coatl_NewLargeIntWord(0)) == 0);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(
-                        Coatl_NewLargeIntWord(INTPTR_MIN)) == INTPTR_MIN);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(
-                        Coatl_NewLargeIntWord(INTPTR_MAX)) == INTPTR_MAX);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(
-                        Coatl_NewLargeIntWord(INTMAX_MIN)) == INTMAX_MIN);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(
-                        Coatl_NewLargeIntWord(INTMAX_MAX)) == INTMAX_MAX);
-}
 
 /* Multiple precision integers */
 PICOTEST_SUITE(testMultiplePrecisionIntegerWords,
@@ -139,7 +52,7 @@ static void initIterators(const char *str, Col_RopeIterator begin,
     Col_RopeIterForward(end, len);
 }
 PICOTEST_SUITE(testReadIntWord, testReadIntWordErrors, testReadIntWordNative,
-               testReadIntWordLarge, testReadIntWordMp, testReadIntWordFormat);
+               testReadIntWordMp, testReadIntWordFormat);
 
 static void checkReadIntWord(const char *str, size_t length,
                              const Coatl_NumReadFormat *format, int types,
@@ -154,8 +67,6 @@ static void checkReadIntWord(const char *str, size_t length,
         !types ||
         ((types & COATL_INTREAD_NATIVE) &&
          (Col_WordType(*wordPtr) == COL_INT)) ||
-        ((types & COATL_INTREAD_LARGE) && (Col_WordType(*wordPtr) == COL_INT ||
-                                           Coatl_WordIsLargeInt(*wordPtr))) ||
         ((types & COATL_INTREAD_MP) && Coatl_WordIsMpInt(*wordPtr)));
 
     PICOTEST_ASSERT(Coatl_ReadIntWord(begin2, end, format, types, NULL));
@@ -173,13 +84,6 @@ static void checkReadIntWordNative(const char *str, intptr_t value,
     Col_Word v;
     checkReadIntWord(str, length, format, COATL_INTREAD_NATIVE, &v);
     PICOTEST_ASSERT(Col_IntWordValue(v) == value);
-}
-static void checkReadIntWordLarge(const char *str, intmax_t value,
-                                  size_t length,
-                                  const Coatl_NumReadFormat *format) {
-    Col_Word v;
-    checkReadIntWord(str, length, format, COATL_INTREAD_LARGE, &v);
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(v) == value);
 }
 static void checkReadIntWordMp(const char *str,
                                // mpz_t value, TODO compare value?
@@ -216,32 +120,6 @@ PICOTEST_CASE(testReadIntWordNoDigit, colibriFixture) {
 PICOTEST_CASE(testReadIntWordNative, colibriFixture) {
     checkReadIntWordNative("1", 1, -1, COATL_INTREAD_C);
     checkReadIntWordNative("0x10000000", 0x10000000, -1, COATL_INTREAD_C);
-
-#if !COATL_NATIVELARGEINT
-    Col_RopeIterator begin, end;
-    Col_Word value;
-
-    initIterators("0x100000000", begin, end);
-    PICOTEST_ASSERT(!Coatl_ReadIntWord(begin, end, COATL_INTREAD_C,
-                                       COATL_INTREAD_NATIVE, &value));
-    PICOTEST_VERIFY(!Col_RopeIterEnd(begin));
-#else
-    checkReadIntWordNative("0x100000000", 0x100000000, -1, COATL_INTREAD_C);
-#endif
-}
-PICOTEST_CASE(testReadIntWordLarge, colibriFixture) {
-    Col_RopeIterator begin, end;
-    Col_Word value;
-
-    checkReadIntWordLarge("1", 1, -1, COATL_INTREAD_C);
-    checkReadIntWordLarge("0x10000000", 0x10000000, -1, COATL_INTREAD_C);
-    checkReadIntWordLarge("0x10000000000000", 0x10000000000000L, -1,
-                          COATL_INTREAD_C);
-
-    initIterators("0x10000000000000000", begin, end);
-    PICOTEST_ASSERT(!Coatl_ReadIntWord(begin, end, COATL_INTREAD_C,
-                                       COATL_INTREAD_LARGE, &value));
-    PICOTEST_VERIFY(!Col_RopeIterEnd(begin));
 }
 PICOTEST_CASE(testReadIntWordMp, colibriFixture) {
     checkReadIntWordMp("1", -1, COATL_INTREAD_C);
@@ -255,47 +133,24 @@ PICOTEST_CASE(testReadIntWordMp, colibriFixture) {
 PICOTEST_SUITE(testReadIntWordFormat, testReadIntWordDefault, testReadIntWordC,
                testReadIntWordPrefixChars, testReadIntWordRadixChars);
 
-PICOTEST_SUITE(testReadIntWordDefault, testReadIntWordDefaultNative,
-               testReadIntWordDefaultLarge);
-PICOTEST_CASE(testReadIntWordDefaultNative, colibriFixture) {
+PICOTEST_CASE(testReadIntWordDefault, colibriFixture) {
     checkReadIntWordNative("1234", 1234, -1, NULL);
     checkReadIntWordNative("+1234", 1234, -1, NULL);
     checkReadIntWordNative("-1234", -1234, -1, NULL);
     checkReadIntWordNative("123aBc", 123, 3, NULL);
 }
-PICOTEST_CASE(testReadIntWordDefaultLarge, colibriFixture) {
-    checkReadIntWordNative("1234", 1234, -1, NULL);
-    checkReadIntWordLarge("1234567890123456", 1234567890123456, -1, NULL);
-    checkReadIntWordLarge("+1234567890123456", 1234567890123456, -1, NULL);
-    checkReadIntWordLarge("-1234567890123456", -1234567890123456, -1, NULL);
-    checkReadIntWordLarge("1234567890123456abc", 1234567890123456, 16, NULL);
-}
 
 PICOTEST_SUITE(testReadIntWordC, testReadIntWordCDecimal, testReadIntWordCHex,
                testReadIntWordCOctal);
 
-PICOTEST_SUITE(testReadIntWordCDecimal, testReadIntWordCDecimalNative,
-               testReadIntWordCDecimalLarge);
-PICOTEST_CASE(testReadIntWordCDecimalNative, colibriFixture) {
+PICOTEST_CASE(testReadIntWordCDecimal, colibriFixture) {
     checkReadIntWordNative("1234", 1234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("+1234", 1234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("-1234", -1234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("123aBc", 123, 3, COATL_INTREAD_C);
 }
-PICOTEST_CASE(testReadIntWordCDecimalLarge, colibriFixture) {
-    checkReadIntWordLarge("1234567890123456", 1234567890123456, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("+1234567890123456", 1234567890123456, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("-1234567890123456", -1234567890123456, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("1234567890123456abc", 1234567890123456, 16,
-                          COATL_INTREAD_C);
-}
 
-PICOTEST_SUITE(testReadIntWordCHex, testReadIntWordCHexNative,
-               testReadIntWordCHexLarge);
-PICOTEST_CASE(testReadIntWordCHexNative, colibriFixture) {
+PICOTEST_CASE(testReadIntWordCHex, colibriFixture) {
     checkReadIntWordNative("0x1234", 0x1234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("0X1234", 0x1234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("+0x1234", 0x1234, -1, COATL_INTREAD_C);
@@ -306,36 +161,12 @@ PICOTEST_CASE(testReadIntWordCHexNative, colibriFixture) {
     checkReadIntWordNative("0XaBcDeF", 0xABCDEF, -1, COATL_INTREAD_C);
     checkReadIntWordNative("0xDeFgH", 0xDEF, 5, COATL_INTREAD_C);
 }
-PICOTEST_CASE(testReadIntWordCHexLarge, colibriFixture) {
-    checkReadIntWordLarge("0x123456789AbCdEF", 0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("0X123456789aBcDeF", 0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("+0x123456789ABcdEF", 0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("+0X123456789abCDef", 0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("-0x123456789aBCdEF", -0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("-0x123456789ABcDeF", -0x123456789ABCDEF, -1,
-                          COATL_INTREAD_C);
-}
 
-PICOTEST_SUITE(testReadIntWordCOctal, testReadIntWordCOctalNative,
-               testReadIntWordCOctalLarge);
-PICOTEST_CASE(testReadIntWordCOctalNative, colibriFixture) {
+PICOTEST_CASE(testReadIntWordCOctal, colibriFixture) {
     checkReadIntWordNative("01234", 01234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("+01234", 01234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("-01234", -01234, -1, COATL_INTREAD_C);
     checkReadIntWordNative("05678", 0567, 4, COATL_INTREAD_C);
-}
-PICOTEST_CASE(testReadIntWordCOctalLarge, colibriFixture) {
-    checkReadIntWordLarge("012345670123456", 012345670123456, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("+012345670123456", 012345670123456, -1,
-                          COATL_INTREAD_C);
-    checkReadIntWordLarge("-012345670123456", -012345670123456, -1,
-                          COATL_INTREAD_C);
 }
 
 PICOTEST_CASE(testReadIntWordPrefixChars, colibriFixture) {
@@ -418,9 +249,6 @@ PICOTEST_CASE(testReadIntWordPrefixChars, colibriFixture) {
     checkReadIntWordNative("62RVwXyZ", 472020047, -1, &format);
     checkReadIntWordNative("62rVwXyZ", 472020047, -1, &format);
     checkReadIntWordNative("62rxYz@", 228965, 6, &format);
-
-    /* Base-62 large */
-    checkReadIntWordLarge("62r12345678", 3638023796362, -1, &format);
 }
 
 PICOTEST_CASE(testReadIntWordRadixChars, colibriFixture) {
@@ -459,7 +287,6 @@ PICOTEST_CASE(testReadIntWordRadixChars, colibriFixture) {
     checkReadIntWordNative("+0123", 27, -1, &format);
     checkReadIntWordNative("-0123", -27, -1, &format);
     checkReadIntWordNative("012345", 27, 4, &format);
-    checkReadIntWordLarge("0123123123123123123", 29451204315, -1, &format);
 }
 
 PICOTEST_SUITE(testReadFloatWord, testReadFloatWordErrors,
@@ -923,8 +750,6 @@ PICOTEST_CASE(testWriteIntWordDefault, colibriFixture) {
     checkWriteIntWord(Col_NewIntWord(-1), "-1", NULL);
     checkWriteIntWord(Col_NewIntWord(12345), "12345", NULL);
     checkWriteIntWord(Col_NewIntWord(-12345), "-12345", NULL);
-    checkWriteIntWord(Coatl_NewLargeIntWord(0x100000000), "4294967296", NULL);
-    checkWriteIntWord(Coatl_NewLargeIntWord(-0x100000000), "-4294967296", NULL);
 }
 PICOTEST_CASE(testWriteIntWordC16, colibriFixture) {
     checkWriteIntWord(Col_NewIntWord(0), "0", COATL_NUMWRITE_C16);
@@ -933,10 +758,6 @@ PICOTEST_CASE(testWriteIntWordC16, colibriFixture) {
     checkWriteIntWord(Col_NewIntWord(9), "0x9", COATL_NUMWRITE_C16);
     checkWriteIntWord(Col_NewIntWord(10), "0xa", COATL_NUMWRITE_C16);
     checkWriteIntWord(Col_NewIntWord(16), "0x10", COATL_NUMWRITE_C16);
-    checkWriteIntWord(Coatl_NewLargeIntWord(0x123456789), "0x123456789",
-                      COATL_NUMWRITE_C16);
-    checkWriteIntWord(Coatl_NewLargeIntWord(-0x1AbCdEf0), "-0x1abcdef0",
-                      COATL_NUMWRITE_C16);
 }
 PICOTEST_CASE(testWriteIntWordC8, colibriFixture) {
     checkWriteIntWord(Col_NewIntWord(0), "0", COATL_INTWRITE_C8);
@@ -944,10 +765,6 @@ PICOTEST_CASE(testWriteIntWordC8, colibriFixture) {
     checkWriteIntWord(Col_NewIntWord(-1), "-01", COATL_INTWRITE_C8);
     checkWriteIntWord(Col_NewIntWord(7), "07", COATL_INTWRITE_C8);
     checkWriteIntWord(Col_NewIntWord(8), "010", COATL_INTWRITE_C8);
-    checkWriteIntWord(Coatl_NewLargeIntWord(89755965649), "01234567654321",
-                      COATL_INTWRITE_C8);
-    checkWriteIntWord(Coatl_NewLargeIntWord(-0x100000000), "-040000000000",
-                      COATL_INTWRITE_C8);
 }
 
 PICOTEST_SUITE(testWriteFloatWord, testWriteFloatWordErrors,

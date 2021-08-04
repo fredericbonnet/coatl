@@ -22,11 +22,6 @@
  * Prototypes for functions used only in this file.
  */
 
-/*! \cond IGNORE */
-#if !COATL_NATIVELARGEINT
-static Col_CustomWordType largeIntWordType;
-static Col_CustomWordSizeProc LargeIntSizeProc;
-#endif /* !COATL_NATIVELARGEINT */
 static Col_CustomWordType mpIntWordType;
 static Col_CustomWordSizeProc MpIntSizeProc;
 static Col_CustomWordFreeProc MpIntFreeProc;
@@ -36,227 +31,19 @@ static Col_CustomWordFreeProc MpFloatFreeProc;
 static void             FormatDigitString(Col_Word strbuf, int sign,
                             size_t nbDigits, const char *digits, size_t nbTrail,
                             const Coatl_NumWriteFormat *format);
-static size_t           UIntDigits(uintmax_t value, int radix);
-static size_t           UIntToString(uintmax_t value, char *str, int radix);
+static size_t           UIntDigits(uintptr_t value, int radix);
+static size_t           UIntToString(uintptr_t value, char *str, int radix);
 static int              ReadNumberPrefix(Col_RopeIterator begin,
                             Col_RopeIterator end,
                             const Coatl_NumReadFormat *format, int *negPtr,
                             unsigned int *radixPtr);
-static size_t           WriteInt(Col_Word strbuf, intmax_t v, 
+static size_t           WriteInt(Col_Word strbuf, intptr_t v, 
                             const Coatl_NumWriteFormat *format);
 static size_t           WriteMpInt(Col_Word strbuf, mpz_t *pv,
                             const Coatl_NumWriteFormat *format);
 static size_t           WriteMpFloat(Col_Word strbuf, mpf_t *pv,
                             const Coatl_NumWriteFormat *format);
 /*! \endcond *//* IGNORE */
-
-
-/*
-===========================================================================*//*!
-\weakgroup large_int_words Large Integer Words
-\{*//*==========================================================================
-*/
-
-#if !COATL_NATIVELARGEINT
-
-/***************************************************************************//*!
- * \name Large Integer Word Type
- *
- * Large integers are custom Colibri word types.
- ***************************************************************************\{*/
-
-/** @beginprivate @cond PRIVATE */
-
-/**
- * Custom word type holding an **intmax_t** on systems where it is larger than
- * **intptr_t** supported by basic Colibri types.
- *
- * @see LargeIntSizeProc
- */
-static Col_CustomWordType largeIntWordType = {
-    0,
-    "largeInt",
-    LargeIntSizeProc,
-    NULL, /* freeProc */
-    NULL /* childrenProc */
-};
-
-/**
- * Large integer word type size proc. Follows **Col_CustomWordSizeProc()**
- * signature.
- *
- * @return The custom word size in bytes.
- *
- * @see largeIntWordType
- */
-static size_t
-LargeIntSizeProc(
-    Col_Word word)  /*!< Custom word to get size for. */
-{
-    return sizeof(intmax_t);
-}
-
-/** @endcond @endprivate */
-
-/* End of Large Integer Word Type *//*!\}*/
-
-
-/***************************************************************************//*!
- * \name Large Integer Word Type Checking
- ***************************************************************************\{*/
-
-/** @beginprivate @cond PRIVATE */
-
-/**
- * Type checking macro for large integers.
- *
- * @param word  Checked word.
- *
- * @param[out] liPtr    Variable receiving address of **intmax_t** integer.
- *
- * @typecheck{COATL_ERROR_LARGEINT,word}
- *
- * @see **COL_RUNTIMECHECK**
- * @hideinitializer
- **/
-#ifdef _DEBUG
-#define TYPECHECK_LARGEINT(word, liPtr) \
-    COL_RUNTIMECHECK(((Col_WordType(word) & COL_CUSTOM) \
-            && Col_CustomWordInfo((word), (void **) &(liPtr)) \
-            == &largeIntWordType), COL_TYPECHECK, CoatlDomain, \
-            COATL_ERROR_LARGEINT, (word))
-#else
-#   define TYPECHECK_LARGEINT(word, liPtr) \
-        Col_CustomWordInfo((word), (void **) &(liPtr)); if (0)
-#endif
-
-/** @endcond @endprivate */
-
-/* End of Large Integer Word Type Checking *//*!\}*/
-
-
-/*******************************************************************************
- * Large Integer Word Creation
- ******************************************************************************/
-
-/**
- * Create a new large integer word.
- *
- * If the integer value is sufficiently small, return a Colibri integer.
- *
- * On platforms where the largest supported integer differs from the native
- * word type, large integers store the former whereas Colibri only support
- * the latter. This is the case on 32-bit platforms with 64-bit integer
- * support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
- * Coatl_NewLargeIntWord() is simply an alias of **Col_NewIntWord()**.
- *
- * @return The new large integer word.
- *
- * @sideeffect
- *      Allocates new word or call **Col_NewIntWord()**.
- */
-Col_Word
-Coatl_NewLargeIntWord(
-    intmax_t value) /*!< Large integer value of the word to create. */
-{
-    Col_Word w;
-    intmax_t *data;
-
-    if (value >= INTPTR_MIN && value <= INTPTR_MAX) {
-        /*
-         * Value fits within a native integer, return a Colibri integer word.
-         */
-
-        return Col_NewIntWord((intptr_t) value);
-    }
-
-    w = Col_NewCustomWord(&largeIntWordType, sizeof(*data), (void **) &data);
-    *data = value;
-    return w;
-}
-
-/* End of Large Integer Word Creation */
-
-
-/*******************************************************************************
- * Large Integer Word Predicates
- ******************************************************************************/
-
-/**
- * Test whether word is a large integer word.
- *
- * On platforms where the largest supported integer differs from the native
- * word type, large integers store the former whereas Colibri only support
- * the latter. This is the case on 32-bit platforms with 64-bit integer
- * support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
- * Coatl_WordIsLargeInt() simply tests the result of **Col_WordType()**
- * against **COL_INT**.
- *
- * @retval non-zero     if **word** is a large integer word.
- * @retval zero         otherwise.
- *
- * @see Coatl_NewLargeIntWord
- */
-int
-Coatl_WordIsLargeInt(
-    Col_Word word)  /*!< The word to test. */
-{
-    void *dummy;
-    int type = Col_WordType(word);
-    return (   (type & COL_INT)
-            || ((type & COL_CUSTOM)
-                && Col_CustomWordInfo(word, &dummy) == &largeIntWordType));
-}
-
-/* End of Large Integer Word Predicates */
-
-
-/*******************************************************************************
- * Large Integer Word Accessors
- ******************************************************************************/
-
-/**
- * Get value of large integer word.
- *
- * On platforms where the largest supported integer differs from the native
- * word type, large integers store the former whereas Colibri only support
- * the latter. This is the case on 32-bit platforms with 64-bit integer
- * support (e.g x86). On platforms where sizes are the same (e.g. x86-64),
- * Coatl_LargeIntWordValue() is simply an alias of **Col_IntWordValue()**.
- *
- * @return The large integer value.
- *
- * @see Coatl_NewLargeIntWord
- */
-intmax_t
-Coatl_LargeIntWordValue(
-    Col_Word li)    /*!< The word to get value for. */
-{
-    intmax_t *liPtr;
-
-    if (Col_WordType(li) & COL_INT) {
-        /*
-         * Word is a Colibri integer word.
-         */
-
-        return Col_IntWordValue(li);
-    }
-
-    /*
-     * Check preconditions.
-     */
-
-    /*! @typecheck{COATL_ERROR_LARGEINT,li} */
-    TYPECHECK_LARGEINT(li, liPtr) return 0;
-
-    return *liPtr;
-}
-
-#endif /* !COATL_NATIVELARGEINT */
-
-/* End of Large Integer Word Accessors */
-
-/* End of Large Integer Words *//*!\}*/
 
 
 /*
@@ -559,7 +346,7 @@ ParseUInt(
 /**
  * Read an unsigned integer number from a character sequence.
  *
- * @retval non-zero if value fits within **uintmax_t**.
+ * @retval non-zero if value fits within **uintptr_t**.
  * @retval zero     otherwise.
  *
  * @sideeffect
@@ -575,9 +362,9 @@ ReadUInt(
                                      string of characters to ignore. */
 
     /*! [out] Resulting value upon success. */
-    uintmax_t *valuePtr)
+    uintptr_t *valuePtr)
 {
-    uintmax_t v = 0;
+    uintptr_t v = 0;
     Col_Char c;
     unsigned int d;
     unsigned int nbDigits;
@@ -604,32 +391,32 @@ ReadUInt(
         nbDigits++;
         switch (radix) {
         case 2:
-            if (v > (UINTMAX_MAX>>1)) return 0;
+            if (v > (UINTPTR_MAX>>1)) return 0;
             v <<= 1; v |= d;
             break;
 
         case 4:
-            if (v > (UINTMAX_MAX>>2)) return 0;
+            if (v > (UINTPTR_MAX>>2)) return 0;
             v <<= 2; v |= d;
             break;
 
         case 8:
-            if (v > (UINTMAX_MAX>>3)) return 0;
+            if (v > (UINTPTR_MAX>>3)) return 0;
             v <<= 3; v |= d;
             break;
 
         case 16:
-            if (v > (UINTMAX_MAX>>4)) return 0;
+            if (v > (UINTPTR_MAX>>4)) return 0;
             v <<= 4; v |= d;
             break;
 
         case 32:
-            if (v > (UINTMAX_MAX>>5)) return 0;
+            if (v > (UINTPTR_MAX>>5)) return 0;
             v <<= 5; v |= d;
             break;
 
         default:
-            if (v > (UINTMAX_MAX-d)/radix) return 0;
+            if (v > (UINTPTR_MAX-d)/radix) return 0;
             v *= radix; v += d; break;
         }
     }
@@ -891,12 +678,11 @@ Coatl_ReadIntWord(
     int types,                          /*!< Accepted output word types. */
 
     /*! [out] If non-NULL, resulting word upon success. May be a Colibri integer
-        word, a CoATL large integer word, or a CoATL multiple precision integer
-        word. */
+        word or a CoATL multiple precision integer word. */
     Col_Word *wordPtr)
 {
     mpz_t *data;
-    uintmax_t v;
+    uintptr_t v;
     Col_RopeIterator it;
     Col_Char c;
     char *str, *p;
@@ -909,8 +695,7 @@ Coatl_ReadIntWord(
     else if (format == COATL_INTREAD_C) format = &intReadC;
     else if (format == COATL_FLOATREAD_C) return 0;
 
-    if (!types) types = COATL_INTREAD_NATIVE | COATL_INTREAD_LARGE
-            | COATL_INTREAD_MP;
+    if (!types) types = COATL_INTREAD_NATIVE | COATL_INTREAD_MP;
 
     /*
      * Get sign and radix.
@@ -919,7 +704,7 @@ Coatl_ReadIntWord(
     if (!ReadNumberPrefix(begin, end, format, &neg, &radix)) return 0;
 
     /*
-     * First try large integer scan.
+     * First try native integer scan.
      */
 
     Col_RopeIterSet(it, begin);
@@ -929,11 +714,6 @@ Coatl_ReadIntWord(
                 && (v <= (uintptr_t) INTPTR_MAX+(neg?1:0))) {
             if (wordPtr) *wordPtr = Col_NewIntWord(neg ? -(intptr_t) v
                     : (intptr_t) v);
-            return 1;
-        } else if ((types & COATL_INTREAD_LARGE)
-                && (v <= (uintmax_t) INTMAX_MAX+(neg?1:0))) {
-            if (wordPtr) *wordPtr = Coatl_NewLargeIntWord(neg ? -(intmax_t) v
-                    : (intmax_t) v);
             return 1;
         }
     }
@@ -1096,7 +876,7 @@ Coatl_ReadFloatWord(
              * Scan remainder as 2-power exponent value in decimal.
              */
 
-            uintmax_t e;
+            uintptr_t e;
             if (!ReadUInt(begin, end, 10, format->ignoreChars, &e)
                 || e != (mp_bitcnt_t) e) return 0;
         }
@@ -1185,7 +965,7 @@ Coatl_ReadFloatWord(
          * Scan remainder as 2-power exponent value in decimal.
          */
 
-        uintmax_t e;
+        uintptr_t e;
         if (!ReadUInt(begin, end, 10, format->ignoreChars, &e)
             || e != (mp_bitcnt_t) e) return 0;
         if (eneg) {
@@ -1326,7 +1106,7 @@ static const Coatl_NumWriteFormat intWriteC8 = {
  */
 static size_t
 UIntDigits(
-    uintmax_t value,    /*!< Value. */
+    uintptr_t value,    /*!< Value. */
     int radix)          /*!< Numeric radix, 2..62. */
 {
     size_t nb = 0;
@@ -1355,7 +1135,7 @@ UIntDigits(
  */
 static size_t
 UIntToString(
-    uintmax_t value,    /*!< Value to write. */
+    uintptr_t value,    /*!< Value to write. */
     char *str,          /*!< Character buffer, must be sufficiently large. */
     int radix)          /*!< Numeric radix, 2..62, or -2..-36 for lowercase 
                              letters. */
@@ -1428,10 +1208,10 @@ UIntToString(
 void
 WriteUInt(
     Col_Word strbuf,    /*!< Output string buffer. */
-    uintmax_t value,    /*!< Value to write. */
+    uintptr_t value,    /*!< Value to write. */
     unsigned int radix) /*!< Numeric radix (2..62). */
 {
-    char str[sizeof(uintmax_t)*CHAR_BIT], *p;
+    char str[sizeof(uintptr_t)*CHAR_BIT], *p;
     size_t len;
 
     ASSERT(radix >= 2 && radix <= 62);
@@ -1603,7 +1383,7 @@ FormatDigitString(
 static size_t
 WriteInt(
     Col_Word strbuf,                    /*!< Output string buffer. */
-    intmax_t v,                         /*!< Value to write. */
+    intptr_t v,                         /*!< Value to write. */
     const Coatl_NumWriteFormat *format) /*!< Write format (NULL means
                                              default). */
 {
@@ -1621,7 +1401,7 @@ WriteInt(
     } else {
         if (v < 0) {
             sign = -1;
-            nbDigits = UIntToString((uintmax_t) -v, buf,
+            nbDigits = UIntToString((uintptr_t) -v, buf,
                     (format->radix <= 36
                     && (format->flags & COATL_NUMWRITE_L)
                     ? -(int) format->radix : format->radix));
@@ -2048,15 +1828,6 @@ Coatl_WriteIntWord(
 
         return WriteInt(strbuf, Col_IntWordValue(word), format);
     }
-#if !COATL_NATIVELARGEINT
-    if (Coatl_WordIsLargeInt(word)) {
-        /*
-         * Large integer.
-         */
-
-        return WriteInt(strbuf, Coatl_LargeIntWordValue(word), format);
-    }
-#endif /* !COATL_NATIVELARGEINT */
     if (type & COL_CUSTOM) {
         void *data;
         Col_CustomWordType *wt = Col_CustomWordInfo(word, &data);
@@ -2136,8 +1907,8 @@ Coatl_WriteFloatWord(
 /**
  * Convert a rope to an integer word.
  *
- * @retval word     if successful. May be a Colibri integer word, a CoATL large
- *                  integer word, or a CoATL multiple precision integer word.
+ * @retval word     if successful. May be a Colibri integer word or a CoATL 
+ *                  multiple precision integer word.
  * @retval nil      otherwise.
  *
  * @see Coatl_NumReadFormat

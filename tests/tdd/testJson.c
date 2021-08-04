@@ -151,7 +151,7 @@ PICOTEST_CASE(testReadJsonComplexString, colibriFixture) {
 
 PICOTEST_SUITE(testReadJsonNumber, testReadJsonInteger, testReadJsonReal)
 
-static void checkReadJsonInteger(const char *json, intmax_t expected) {
+static void checkReadJsonInteger(const char *json, intptr_t expected) {
     Col_RopeIterator begin, end;
     Col_Word value;
 
@@ -162,8 +162,8 @@ static void checkReadJsonInteger(const char *json, intmax_t expected) {
     initIterators(json, begin, end);
     PICOTEST_ASSERT(Coatl_ReadJson(begin, end, &value));
     PICOTEST_ASSERT(Col_RopeIterEnd(begin));
-    PICOTEST_ASSERT(Coatl_WordIsLargeInt(value));
-    PICOTEST_ASSERT(Coatl_LargeIntWordValue(value) == expected);
+    PICOTEST_ASSERT(Col_WordType(value) == COL_INT);
+    PICOTEST_ASSERT(Col_IntWordValue(value) == expected);
 }
 PICOTEST_CASE(testReadJsonInteger, colibriFixture) {
     checkReadJsonInteger("0", 0);

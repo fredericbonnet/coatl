@@ -138,6 +138,7 @@ extern "C" {
 #include "coatlUnicode.h"
 #include "coatlRegexp.h"
 #include "coatlJson.h"
+#include "coatlMath.h"
 
 /*! \endcond *//* IGNORE */
 
@@ -159,7 +160,6 @@ extern "C" {
  */
 typedef enum Coatl_ErrorCode {
     COATL_ERROR_ASSERTION,  /*!< Assertion failed. */
-    COATL_ERROR_LARGEINT,   /*!< Not a large integer word. */
     COATL_ERROR_REGEXP,     /*!< Not a regular expression word. */
 } Coatl_ErrorCode;
 

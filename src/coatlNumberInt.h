@@ -4,7 +4,7 @@
  * This header file defines the number handling internals of CoATL.
  *
  * @see coatlNumber.c
- * @see <coatlNumber.h>
+ * @see coatlNumber.h
  *
  * @beginprivate @cond PRIVATE
  */
@@ -24,8 +24,8 @@ int                     ParseUInt(Col_RopeIterator begin, Col_RopeIterator end,
                             const Col_Char *ignored);
 int                     ReadUInt(Col_RopeIterator begin, Col_RopeIterator end,
                             unsigned int radix, const Col_Char *ignored, 
-                            uintmax_t *valuePtr);
-void                    WriteUInt(Col_Word strbuf, uintmax_t value,
+                            uintptr_t *valuePtr);
+void                    WriteUInt(Col_Word strbuf, uintptr_t value,
                             unsigned int radix);
 
 /* End of Number Input/Output *//*!\}*/

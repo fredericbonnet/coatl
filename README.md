@@ -30,8 +30,6 @@ At present, CoATL provides the following features:
   flat character arrays. This provides transparent support for fixed-width
   8/16/32-bit and variable-width UTF-8/16 Unicode strings
 
-- Large integer words on 32-bit systems
-
 - Multiple precision integer and floating point words thanks to the
   [MPIR](http://mpir.org/) library with conversion support to/from Colibri ropes
 
