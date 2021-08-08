@@ -25,6 +25,7 @@
 const char * const CoatlDomain[] = {
     "%s(%d) : assertion failed! (%s)",          // COATL_ERROR_ASSERTION (file, line, expression)
     "%x is not a regexp",                       // COATL_ERROR_REGEXP (word)
+    "%x is not a number",                       // COATL_ERROR_NUMBER (word)
 };
 
 /** @endcond @endprivate */

@@ -161,6 +161,7 @@ extern "C" {
 typedef enum Coatl_ErrorCode {
     COATL_ERROR_ASSERTION,  /*!< Assertion failed. */
     COATL_ERROR_REGEXP,     /*!< Not a regular expression word. */
+    COATL_ERROR_NUMBER,     /*!< Not a number word. */
 } Coatl_ErrorCode;
 
 /*

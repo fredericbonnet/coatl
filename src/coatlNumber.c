@@ -22,6 +22,7 @@
  * Prototypes for functions used only in this file.
  */
 
+/*! \cond IGNORE */
 static Col_CustomWordType mpIntWordType;
 static Col_CustomWordSizeProc MpIntSizeProc;
 static Col_CustomWordFreeProc MpIntFreeProc;
@@ -115,6 +116,31 @@ MpIntFreeProc(
 
 
 /*******************************************************************************
+ * Multiple Precision Integer Word Creation
+ ******************************************************************************/
+
+/** @beginprivate @cond PRIVATE */
+
+/**
+ * Create a new multiple precision integer word.
+ *
+ * @return A new multiple precision integer word.
+ */
+Col_Word
+NewMpIntWord(
+    /*! [out] Points to the allocated MPIR data.*/
+    mpz_t **valuePtr)
+{
+    return Col_NewCustomWord(&mpIntWordType, sizeof(*valuePtr), 
+            (void **) valuePtr);
+}
+
+/** @endcond @endprivate */
+
+/* End of Multiple Precision Integer Word Creation */
+
+
+/*******************************************************************************
  * Multiple Precision Integer Word Predicates
  ******************************************************************************/
 
@@ -204,6 +230,31 @@ MpFloatFreeProc(
 /** @endcond @endprivate */
 
 /* End of Multiple Precision Floating Point Word Type *//*!\}*/
+
+
+/*******************************************************************************
+ * Multiple Precision Floating Point Word Creation
+ ******************************************************************************/
+
+/** @beginprivate @cond PRIVATE */
+
+/**
+ * Create a new multiple precision floating point word.
+ *
+ * @return A new multiple precision floating point word.
+ */
+Col_Word
+NewMpFloatWord(
+    /*! [out] Points to the allocated MPIR data.*/
+    mpf_t **valuePtr)
+{
+    return Col_NewCustomWord(&mpFloatWordType, sizeof(*valuePtr), 
+            (void **) valuePtr);
+}
+
+/** @endcond @endprivate */
+
+/* End of Multiple Precision Floating Point Word Creation */
 
 
 /*******************************************************************************

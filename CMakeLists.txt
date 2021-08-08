@@ -38,6 +38,7 @@ target_sources(coatl
 		src/re/regerror.c
 		src/coatlNumber.c
 		src/coatlJson.c
+		src/coatlMath.c
 )
 target_link_libraries(coatl
 	PUBLIC
@@ -84,6 +85,7 @@ if (PicoTest_FOUND)
 			tests/tdd/testNumbers.c
 			tests/tdd/testUnicode.c
 			tests/tdd/testJson.c
+			tests/tdd/testMath.c
 	)
 	target_link_libraries(tdd_coatl
 		PRIVATE
