@@ -1,0 +1,38 @@
+[2021-08-08 22:39:58] [info] Start Program:
+Path:"build/x64/Debug/tdd_coatl"
+Arguments:tdd 
+Working directory: not set.
+Modules: Selected: * Excluded: 
+Sources: Selected: *coatl Excluded: *re\* 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: html tests/tdd/coverage cobertura covtdd.xml 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2021-08-08 22:39:58] [info] Module: C:\Users\frede\Documents\coatl\build\x64\Debug\tdd_coatl.exe is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\ntdll.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\kernel32.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\KernelBase.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\vcruntime140d.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Users\frede\Documents\coatl\build\x64\Debug\colibri64d.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Users\frede\Documents\coatl\build\x64\Debug\coatl64d.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\ucrtbased.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Users\frede\Documents\coatl\build\x64\Debug\mpir.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\ucrtbase.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\vcruntime140.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:58] [info] Module: C:\Windows\System32\msvcp140.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:59] [info] Module: C:\Windows\System32\kernel.appcore.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:59] [info] Module: C:\Windows\System32\msvcrt.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:59] [info] Module: C:\Windows\System32\rpcrt4.dll is selected because it matches selected pattern: *
+[2021-08-08 22:39:59] [info] ----------------------------------------------------
+[2021-08-08 22:39:59] [info] Coverage generated in Folder C:\Users\frede\Documents\coatl\tests\tdd\coverage
+[2021-08-08 22:39:59] [info] ----------------------------------------------------
+[2021-08-08 22:39:59] [info] ----------------------------------------------------
+[2021-08-08 22:39:59] [info] Cobertura report generated: covtdd.xml
+[2021-08-08 22:39:59] [info] ----------------------------------------------------
